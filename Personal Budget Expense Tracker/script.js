@@ -14,7 +14,7 @@ const CAT_ICONS = {
   Food:'🍔', Transport:'🚗', Rent:'🏠', Shopping:'🛍️', Entertainment:'🎬',
   Utilities:'⚡', Healthcare:'🏥', Education:'📚', Travel:'✈️', Other:'📌',
 };
-const COLORS = ['#6366f1','#10b981','#f59e0b','#ef4444','#06b6d4','#ec4899','#8b5cf6','#14b8a6','#f97316','#84cc16'];
+const COLORS = ['#2e9e6b','#d9a13c','#d05a4e','#4da8a0','#7a9e4d','#c07a94','#5b8db0','#a3763f','#3fae7a','#8b6bb0'];
 
 /* ── State ───────────────────────────────────── */
 let transactions = parse('ft_transactions', []);

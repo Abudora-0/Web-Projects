@@ -2,48 +2,48 @@
    FinTrack  |  style.css
    ══════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=IBM+Plex+Serif:wght@600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 :root {
-  --p:       #6366f1;
-  --p2:      #818cf8;
-  --green:   #10b981;
-  --red:     #ef4444;
-  --amber:   #f59e0b;
-  --cyan:    #06b6d4;
-  --pink:    #ec4899;
+  --p:       #2e9e6b;
+  --p2:      #4dc08a;
+  --green:   #3fae7a;
+  --red:     #d05a4e;
+  --amber:   #d9a13c;
+  --cyan:    #4da8a0;
+  --pink:    #c07a94;
 
-  --bg:      #09090b;
-  --bg2:     #111116;
-  --bg3:     #18181e;
-  --bg4:     #232329;
-  --bg5:     #2e2e36;
-  --text:    #f4f4f5;
-  --text2:   #a1a1aa;
-  --text3:   #52525b;
-  --border:  rgba(255,255,255,.07);
-  --border2: rgba(255,255,255,.12);
-  --radius:  12px;
-  --font:    'Inter', system-ui, sans-serif;
+  --bg:      #0c1410;
+  --bg2:     #121e17;
+  --bg3:     #18261e;
+  --bg4:     #213229;
+  --bg5:     #2b4033;
+  --text:    #e9efe6;
+  --text2:   #98ab9c;
+  --text3:   #536b59;
+  --border:  rgba(63,174,122,.14);
+  --border2: rgba(63,174,122,.24);
+  --radius:  6px;
+  --font:    'Libre Franklin', system-ui, sans-serif;
   --trans:   all .2s cubic-bezier(.4,0,.2,1);
   --shadow:  0 20px 60px rgba(0,0,0,.5);
   --shadow-sm: 0 4px 16px rgba(0,0,0,.3);
 }
 
 body.light {
-  --bg:      #f5f5f7;
-  --bg2:     #ffffff;
-  --bg3:     #f0f0f3;
-  --bg4:     #e8e8ed;
-  --bg5:     #dcdce3;
-  --text:    #18181b;
-  --text2:   #52525b;
-  --text3:   #a1a1aa;
-  --border:  rgba(0,0,0,.07);
-  --border2: rgba(0,0,0,.12);
+  --bg:      #ecefe4;
+  --bg2:     #f9faf2;
+  --bg3:     #e4e8d8;
+  --bg4:     #dde2cf;
+  --bg5:     #cfd6bf;
+  --text:    #1e2b22;
+  --text2:   #52665a;
+  --text3:   #8fa091;
+  --border:  rgba(30,58,42,.14);
+  --border2: rgba(30,58,42,.26);
   --shadow:  0 20px 60px rgba(0,0,0,.12);
   --shadow-sm: 0 4px 16px rgba(0,0,0,.08);
 }
@@ -691,4 +691,45 @@ canvas { max-width: 100%; height: auto !important; display: block; }
 @media (max-width: 400px) {
   .stats-grid { grid-template-columns: 1fr; }
   .currency-select { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════
+   LEDGER OVERRIDES — banker's book aesthetic
+══════════════════════════════════════════════════════ */
+
+/* Serif ledger headings */
+.logo, .card-header h2, .reports-topbar h2, h1 {
+  font-family: 'IBM Plex Serif', Georgia, serif;
+}
+
+/* Every figure set in mono, like a printed ledger column */
+.stat-value,
+.recent-amount,
+.tx-amount,
+.budget-nums,
+.budget-pct,
+.summary-table td:last-child {
+  font-family: 'IBM Plex Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Double-rule under card headers, ledger style */
+.card-header { border-bottom: 3px double var(--border2) !important; }
+
+/* Fix stat-icon tint left from indigo palette */
+.balance-card .stat-icon { background: rgba(46, 158, 107, 0.12); color: var(--p); }
+
+/* Ruled rows for transactions */
+.tx-item, .recent-item { border-bottom: 1px solid var(--border); }
+
+/* Subtle ledger-grid page background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(63, 174, 122, 0.05) 31px 32px);
+  z-index: 0;
 }
