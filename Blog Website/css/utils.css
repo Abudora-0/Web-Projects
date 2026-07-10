@@ -1,32 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap');
 
 :root {
-  --accent:       #bd6418;
-  --accent-light: #d4751e;
-  --accent-dark:  #9e5214;
-  --bg:           #ffffff;
-  --bg2:          #faf9f7;
-  --bg3:          #f3f0eb;
-  --border:       #e8e2d9;
-  --text:         #1a1a1a;
-  --text-2:       #555550;
-  --text-3:       #888880;
-  --nav-bg:       rgba(255,255,255,0.92);
-  --card-bg:      #ffffff;
-  --shadow:       0 2px 12px rgba(0,0,0,0.08);
-  --shadow-hover: 0 8px 32px rgba(0,0,0,0.14);
+  --accent:       #a02c2c;
+  --accent-light: #b84a42;
+  --accent-dark:  #7e2222;
+  --bg:           #f7f4ec;
+  --bg2:          #f1ede2;
+  --bg3:          #e9e4d6;
+  --border:       #c9c2b0;
+  --text:         #191714;
+  --text-2:       #4f4a40;
+  --text-3:       #8a8374;
+  --nav-bg:       rgba(247,244,236,0.95);
+  --card-bg:      #fdfbf5;
+  --shadow:       0 1px 0 var(--border);
+  --shadow-hover: 4px 4px 0 rgba(25,23,20,0.12);
 }
 
 [data-theme="dark"] {
-  --bg:           #141414;
-  --bg2:          #1c1c1c;
-  --bg3:          #242424;
-  --border:       #2e2e2e;
-  --text:         #f0ede8;
+  --bg:           #171512;
+  --bg2:          #1f1c17;
+  --bg3:          #27231d;
+  --border:       #3e3830;
+  --text:         #ece5d3;
   --text-2:       #a8a49e;
   --text-3:       #6e6a64;
-  --nav-bg:       rgba(20,20,20,0.92);
-  --card-bg:      #1c1c1c;
+  --nav-bg:       rgba(23,21,18,0.95);
+  --card-bg:      #1d1a15;
   --shadow:       0 2px 12px rgba(0,0,0,0.3);
   --shadow-hover: 0 8px 32px rgba(0,0,0,0.45);
 }
@@ -34,7 +34,7 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Source Serif 4', Georgia, serif;
   background: var(--bg);
   color: var(--text);
   transition: background 0.3s, color 0.3s;
