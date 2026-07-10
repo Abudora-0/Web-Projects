@@ -39,12 +39,12 @@ const SPECIAL_LIFE   = 7000;   // ms
 
 // ── Color helpers ─────────────────────────────
 const C = {
-  board:   '#0d1117',
-  grid:    'rgba(255,255,255,.03)',
-  food:    '#ef4444',
-  foodGlow:'rgba(239,68,68,.55)',
-  special: '#fbbf24',
-  specGlow:'rgba(251,191,36,.65)',
+  board:   '#9ead86',
+  grid:    'rgba(44,52,35,.08)',
+  food:    '#2c3423',
+  foodGlow:'rgba(44,52,35,.3)',
+  special: '#2c3423',
+  specGlow:'rgba(44,52,35,.4)',
 };
 
 // Pre-computed HSL for snake body (avoids string construction each render)
@@ -52,7 +52,7 @@ function bodyColor(t) {
   // t: 0 (head) → 1 (tail)
   const s = Math.round(70 - t * 22);
   const l = Math.round(42 - t * 18);
-  return `hsl(142,${s}%,${l}%)`;
+  return `hsl(82,${Math.round(18 - t * 6)}%,${Math.round(17 + t * 9)}%)`;
 }
 
 // ── State ─────────────────────────────────────
@@ -295,7 +295,7 @@ function render(now) {
   drawSnake(now);
 
   if (eatFlash > 0) {
-    ctx.fillStyle = `rgba(74,222,128,${eatFlash * 0.011})`;
+    ctx.fillStyle = `rgba(44,52,35,${eatFlash * 0.011})`;
     ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     eatFlash--;
   }
@@ -338,10 +338,10 @@ function drawFood(now) {
   ctx.beginPath(); ctx.arc(cx, cy, CELL * 0.37, 0, Math.PI * 2); ctx.fill();
   ctx.shadowBlur  = 0;
   // Highlight
-  ctx.fillStyle = 'rgba(255,255,255,.32)';
+  ctx.fillStyle = 'rgba(158,173,134,.55)';
   ctx.beginPath(); ctx.arc(cx - CELL*.1, cy - CELL*.1, CELL*.13, 0, Math.PI * 2); ctx.fill();
   // Stem
-  ctx.strokeStyle = '#16a34a'; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+  ctx.strokeStyle = '#2c3423'; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
   ctx.beginPath(); ctx.moveTo(cx + 1, cy - CELL*.37); ctx.lineTo(cx + 3, cy - CELL*.5); ctx.stroke();
   ctx.restore();
 }
@@ -361,7 +361,7 @@ function drawSpecial(now) {
   ctx.beginPath(); ctx.arc(cx, cy, CELL * 0.38, 0, Math.PI * 2); ctx.fill();
   // Rotating spokes
   ctx.shadowBlur  = 0;
-  ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+  ctx.strokeStyle = '#9ead86'; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
   for (let i = 0; i < 4; i++) {
     const a = (i / 4) * Math.PI * 2 + now * 0.0012;
     ctx.beginPath();
@@ -370,10 +370,10 @@ function drawSpecial(now) {
     ctx.stroke();
   }
   // Highlight
-  ctx.fillStyle = 'rgba(255,255,255,.38)';
+  ctx.fillStyle = 'rgba(44,52,35,.5)';
   ctx.beginPath(); ctx.arc(cx - CELL*.1, cy - CELL*.1, CELL*.12, 0, Math.PI * 2); ctx.fill();
   // Countdown arc
-  ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+  ctx.strokeStyle = 'rgba(44,52,35,.55)'; ctx.lineWidth = 2; ctx.lineCap = 'round';
   ctx.beginPath();
   ctx.arc(cx, cy, CELL*.47, -Math.PI/2, -Math.PI/2 + Math.PI*2*remaining);
   ctx.stroke();
@@ -394,10 +394,10 @@ function drawSnake(now) {
     if (i === 0) {
       // Head: linear gradient (position-specific, must be created each frame)
       const g = ctx.createLinearGradient(bx, by, bx + CELL, by + CELL);
-      g.addColorStop(0, '#4ade80');
-      g.addColorStop(1, '#22c55e');
+      g.addColorStop(0, '#333d26');
+      g.addColorStop(1, '#242c1a');
       ctx.fillStyle   = g;
-      ctx.shadowColor = 'rgba(74,222,128,.38)';
+      ctx.shadowColor = 'rgba(44,52,35,.25)';
       ctx.shadowBlur  = 10;
     } else {
       ctx.fillStyle = snakeColors[i]; // pre-computed, no string construction here
@@ -427,10 +427,10 @@ function drawEyes(head) {
   else if (dir.y === -1) { e1={x:bx+c-o*.6,y:by+c-o*.6}; e2={x:bx+c+o*.6,y:by+c-o*.6}; }
   else                   { e1={x:bx+c-o*.6,y:by+c+o*.6}; e2={x:bx+c+o*.6,y:by+c+o*.6}; }
 
-  ctx.fillStyle = '#fff';
+  ctx.fillStyle = '#9ead86';
   ctx.beginPath(); ctx.arc(e1.x, e1.y, er, 0, Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(e2.x, e2.y, er, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#052e16';
+  ctx.fillStyle = '#2c3423';
   ctx.beginPath(); ctx.arc(e1.x, e1.y, pr, 0, Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(e2.x, e2.y, pr, 0, Math.PI*2); ctx.fill();
 }
