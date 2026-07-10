@@ -36,11 +36,11 @@ function getStrength(pw) {
   if (/\d/.test(pw))    s++;
   if (/[^A-Za-z0-9]/.test(pw)) s++;
 
-  if (s <= 2) return { score: s, pct: 20,  label: 'Very Weak', color: '#e74c3c', dot: 'dot-weak' };
-  if (s <= 3) return { score: s, pct: 40,  label: 'Weak',      color: '#e74c3c', dot: 'dot-weak' };
-  if (s <= 4) return { score: s, pct: 60,  label: 'Fair',      color: '#f39c12', dot: 'dot-medium' };
-  if (s <= 5) return { score: s, pct: 80,  label: 'Strong',    color: '#2ecc71', dot: 'dot-strong' };
-  return             { score: s, pct: 100, label: 'Very Strong', color: '#2ecc71', dot: 'dot-strong' };
+  if (s <= 2) return { score: s, pct: 20,  label: 'Very Weak', color: '#c0504a', dot: 'dot-weak' };
+  if (s <= 3) return { score: s, pct: 40,  label: 'Weak',      color: '#c0504a', dot: 'dot-weak' };
+  if (s <= 4) return { score: s, pct: 60,  label: 'Fair',      color: '#c9963f', dot: 'dot-medium' };
+  if (s <= 5) return { score: s, pct: 80,  label: 'Strong',    color: '#6f9e6b', dot: 'dot-strong' };
+  return             { score: s, pct: 100, label: 'Very Strong', color: '#6f9e6b', dot: 'dot-strong' };
 }
 
 function setStrBar(fillId, labelId, pw) {
@@ -454,7 +454,7 @@ function runAudit() {
   }
 
   if (weak.length) {
-    html += `<div class="audit-group-title"><i class="fas fa-circle-xmark" style="color:#e74c3c"></i> Weak Passwords (${weak.length})</div>`;
+    html += `<div class="audit-group-title"><i class="fas fa-circle-xmark" style="color:#c0504a"></i> Weak Passwords (${weak.length})</div>`;
     html += weak.map(e => `
       <div class="audit-item danger">
         <i class="fas fa-triangle-exclamation"></i>
@@ -469,7 +469,7 @@ function runAudit() {
   if (dupes.length) {
     const seen = new Set();
     const uniqueDupes = dupes.filter(e => { const k = e.password; if (seen.has(k)) return false; seen.add(k); return true; });
-    html += `<div class="audit-group-title" style="margin-top:.75rem"><i class="fas fa-clone" style="color:#f39c12"></i> Reused Passwords (${dupes.length})</div>`;
+    html += `<div class="audit-group-title" style="margin-top:.75rem"><i class="fas fa-clone" style="color:#c9963f"></i> Reused Passwords (${dupes.length})</div>`;
     html += uniqueDupes.map(e => {
       const sites = arr.filter(x => x.password === e.password).map(x => x.website).join(', ');
       return `<div class="audit-item warn">
@@ -483,7 +483,7 @@ function runAudit() {
   }
 
   if (fair.length) {
-    html += `<div class="audit-group-title" style="margin-top:.75rem"><i class="fas fa-circle-info" style="color:#6e7de8"></i> Could Be Stronger (${fair.length})</div>`;
+    html += `<div class="audit-group-title" style="margin-top:.75rem"><i class="fas fa-circle-info" style="color:#b08d57"></i> Could Be Stronger (${fair.length})</div>`;
     html += fair.map(e => `
       <div class="audit-item info">
         <i class="fas fa-arrow-up"></i>
@@ -498,7 +498,7 @@ function runAudit() {
   if (old.length) {
     html += `<div class="audit-group-title" style="margin-top:.75rem"><i class="fas fa-clock" style="color:#888"></i> Old Passwords (${old.length})</div>`;
     html += old.map(e => `
-      <div class="audit-item" style="border-color:#2d333b">
+      <div class="audit-item" style="border-color:#3a3f47">
         <i class="fas fa-clock" style="color:#555"></i>
         <div class="audit-item-text">
           <div class="audit-item-site">${esc(e.website)}</div>
