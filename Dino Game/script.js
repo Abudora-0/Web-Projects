@@ -9,8 +9,8 @@ const CW = 800, CH = 290;
 C.width = CW; C.height = CH;
 
 // ── Palette ────────────────────────────────────────────
-const DAY   = { bg:'#f0f0f0', fg:'#535353', gr:'#bbb', cl:'#d8d8d8' };
-const NIGHT = { bg:'#1a1a1a', fg:'#e0e0e0', gr:'#383838', cl:'#272727' };
+const DAY   = { bg:'#f6e7c8', fg:'#5b3a29', gr:'#c9a86b', cl:'#eedcb3' };
+const NIGHT = { bg:'#221735', fg:'#e8d8b0', gr:'#4a3a63', cl:'#332448' };
 let pal = { ...DAY };
 let nightMode = false;
 
@@ -305,8 +305,8 @@ function drawStartScreen() {
   FR(0, 0, CW, CH);
 
   txt('DINO RUN', CW / 2, CH / 2 - 26, 22, pal.fg);
-  txt('PRESS SPACE TO START', CW / 2, CH / 2 + 6, 8, nightMode ? '#666' : '#999');
-  txt('↑ JUMP  ·  ↓ DUCK  ·  COLLECT POWER-UPS', CW / 2, CH / 2 + 28, 6, nightMode ? '#444' : '#bbb');
+  txt('PRESS SPACE TO START', CW / 2, CH / 2 + 6, 8, nightMode ? '#8a76a8' : '#a3825f');
+  txt('↑ JUMP  ·  ↓ DUCK  ·  COLLECT POWER-UPS', CW / 2, CH / 2 + 28, 6, nightMode ? '#5e4d80' : '#c2a077');
 }
 
 // ── Game-over screen ───────────────────────────────────
@@ -316,14 +316,14 @@ function drawDeadScreen() {
 
   txt('GAME OVER', CW / 2, CH / 2 - 44, 18, pal.fg);
 
-  cx.fillStyle = nightMode ? '#333' : '#ccc';
+  cx.fillStyle = nightMode ? '#4a3a63' : '#c9a86b';
   FR(CW / 2 - 120, CH / 2 - 26, 240, 2);
 
   txt(`SCORE  ${fmt(score)}`,    CW / 2, CH / 2 - 6,  10, pal.fg);
   txt(`BEST   ${fmt(hiScore)}`,  CW / 2, CH / 2 + 16, 10, pal.fg);
 
-  txt(`DODGED ${dodgeCount}  ·  TOP SPEED ${maxSpeed.toFixed(1)}`, CW / 2, CH / 2 + 38, 6, nightMode ? '#555' : '#aaa');
-  txt('PRESS SPACE TO RESTART', CW / 2, CH / 2 + 60, 7, nightMode ? '#555' : '#bbb');
+  txt(`DODGED ${dodgeCount}  ·  TOP SPEED ${maxSpeed.toFixed(1)}`, CW / 2, CH / 2 + 38, 6, nightMode ? '#8a76a8' : '#a3825f');
+  txt('PRESS SPACE TO RESTART', CW / 2, CH / 2 + 60, 7, nightMode ? '#8a76a8' : '#c2a077');
 }
 
 // ══════════════════════════════════════════════════════
@@ -532,7 +532,7 @@ function toggleNight() {
 }
 
 function flashScore() {
-  scEl.style.color = '#00c896';
+  scEl.style.color = '#f4a259';
   setTimeout(() => scEl.style.color = '', 500);
 }
 
