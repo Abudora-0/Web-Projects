@@ -171,7 +171,7 @@ function endGame(type, winCombo) {
     oScoreCard.classList.remove('active-o');
     saveScores();
     renderScores(true);
-    launchConfetti(winner === 'X' ? '#818cf8' : '#fb7185');
+    launchConfetti(winner === 'X' ? '#f5f0dc' : '#f2d47f');
   } else {
     scores.draw++;
     resultBanner.className = 'result-banner draw';
@@ -330,7 +330,7 @@ function launchConfetti(primaryColor) {
   confettiCanvas.height = window.innerHeight;
   const ctx = confettiCanvas.getContext('2d');
 
-  const COLORS = [primaryColor, '#fbbf24', '#34d399', '#60a5fa', '#f472b6', '#a78bfa'];
+  const COLORS = [primaryColor, '#f2d47f', '#a8d8b9', '#9fc4e8', '#e8a4b8', '#f5f0dc'];
   const particles = Array.from({ length: 110 }, () => ({
     x: Math.random() * confettiCanvas.width,
     y: -20 - Math.random() * 100,

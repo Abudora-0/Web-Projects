@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DeXO — Tic Tac Toe</title>
+  <title>DeXO — Chalkboard Tic Tac Toe</title>
 
-  <!-- Favicon: X/O split -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2309090b'/%3E%3Cline x1='5' y1='5' x2='14' y2='14' stroke='%23818cf8' stroke-width='3' stroke-linecap='round'/%3E%3Cline x1='14' y1='5' x2='5' y2='14' stroke='%23818cf8' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='23' cy='23' r='6' fill='none' stroke='%23fb7185' stroke-width='3'/%3E%3Cline x1='16' y1='0' x2='16' y2='32' stroke='rgba(255,255,255,0.12)' stroke-width='1'/%3E%3Cline x1='0' y1='16' x2='32' y2='16' stroke='rgba(255,255,255,0.12)' stroke-width='1'/%3E%3C/svg%3E" />
+  <!-- Chalkboard X/O favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%236b4429'/%3E%3Crect x='3' y='3' width='26' height='26' rx='2' fill='%232f4a3d'/%3E%3Cline x1='7' y1='7' x2='14' y2='14' stroke='%23f5f0dc' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='14' y1='7' x2='7' y2='14' stroke='%23f5f0dc' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='21.5' cy='21.5' r='4.5' fill='none' stroke='%23f2d47f' stroke-width='2.5'/%3E%3Cline x1='16' y1='4' x2='16' y2='28' stroke='rgba(245,240,220,0.35)' stroke-width='1.4'/%3E%3Cline x1='4' y1='16' x2='28' y2='16' stroke='rgba(245,240,220,0.35)' stroke-width='1.4'/%3E%3C/svg%3E" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -34,8 +34,8 @@
     <div class="scoreboard">
       <div class="score-card" id="xScoreCard">
         <svg class="score-sym" viewBox="0 0 40 40">
-          <line x1="8" y1="8" x2="32" y2="32" stroke="#818cf8" stroke-width="5" stroke-linecap="round"/>
-          <line x1="32" y1="8" x2="8" y2="32" stroke="#818cf8" stroke-width="5" stroke-linecap="round"/>
+          <line x1="8" y1="8" x2="32" y2="32" stroke="#f5f0dc" stroke-width="5" stroke-linecap="round"/>
+          <line x1="32" y1="8" x2="8" y2="32" stroke="#f5f0dc" stroke-width="5" stroke-linecap="round"/>
         </svg>
         <div class="score-info">
           <div class="score-label">PLAYER X</div>
@@ -48,7 +48,7 @@
       </div>
       <div class="score-card" id="oScoreCard">
         <svg class="score-sym" viewBox="0 0 40 40">
-          <circle cx="20" cy="20" r="13" fill="none" stroke="#fb7185" stroke-width="5"/>
+          <circle cx="20" cy="20" r="13" fill="none" stroke="#f2d47f" stroke-width="5"/>
         </svg>
         <div class="score-info">
           <div class="score-label">PLAYER O</div>
@@ -111,6 +111,6 @@
 
   <script src="script.js"></script>
 <!-- Back to All Projects -->
-<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(7,7,14,0.88);color:#c4b5fd;border:1px solid rgba(167,139,250,0.3);border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(124,58,237,0.25)';this.style.borderColor='rgba(167,139,250,0.55)'" onmouseout="this.style.background='rgba(7,7,14,0.88)';this.style.borderColor='rgba(167,139,250,0.3)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 15px;background:#2f4a3d;color:#f5f0dc;border:2px dashed rgba(245,240,220,0.5);border-radius:999px;font-size:0.95rem;text-decoration:none;font-family:'Patrick Hand',cursive;transition:all .2s;white-space:nowrap;transform:rotate(-1deg);" onmouseover="this.style.borderStyle='solid';this.style.background='#273e33'" onmouseout="this.style.borderStyle='dashed';this.style.background='#2f4a3d'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
 </body>
 </html>
