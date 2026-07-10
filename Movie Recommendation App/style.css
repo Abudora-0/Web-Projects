@@ -2,28 +2,28 @@
    FilmFinder  |  style.css
    ══════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 :root {
-  --p:      #6366f1;
-  --p2:     #818cf8;
-  --pink:   #ec4899;
-  --cyan:   #06b6d4;
+  --p:      #d4a017;
+  --p2:     #e8b64c;
+  --pink:   #b02e3c;
+  --cyan:   #7ba7a0;
   --gold:   #f59e0b;
   --green:  #10b981;
   --red:    #ef4444;
 
-  --bg:     #09090b;
-  --bg2:    #111116;
-  --bg3:    #18181e;
-  --bg4:    #232329;
-  --text:   #f4f4f5;
-  --text2:  #a1a1aa;
-  --text3:  #52525b;
-  --border: rgba(255,255,255,0.07);
+  --bg:     #0d0a08;
+  --bg2:    #16110d;
+  --bg3:    #1e1712;
+  --bg4:    #2b211a;
+  --text:   #f2ead9;
+  --text2:  #b3a68e;
+  --text3:  #6e6250;
+  --border: rgba(212,160,23,0.14);
   --radius: 10px;
   --font:   'Inter', system-ui, sans-serif;
   --trans:  all .22s cubic-bezier(.4,0,.2,1);
@@ -52,7 +52,7 @@ select { font-family: var(--font); }
 ══════════════════════════════════════════════ */
 .navbar {
   position: sticky; top: 0; z-index: 200;
-  background: rgba(9,9,11,.9);
+  background: rgba(13,10,8,.92);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   transition: background .3s;
@@ -706,3 +706,63 @@ main {
 @media (max-width: 400px) {
   .movie-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ══════════════════════════════════════════════
+   CINEMA NOIR OVERRIDES — marquee gold & velvet
+══════════════════════════════════════════════ */
+
+/* Display serif for marquee titles */
+.hero-title,
+.detail-title,
+.section-title,
+.nav-logo span {
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+.section-title { font-weight: 800; }
+
+/* Gold marquee rule under section titles */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 58px;
+  height: 3px;
+  margin-top: 6px;
+  background: linear-gradient(90deg, var(--p), transparent);
+}
+
+/* Velvet vignette + film grain over the hero */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(13, 10, 8, 0.72) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 2;
+}
+
+.hero-body { z-index: 3; }
+
+/* Gold-trimmed poster cards, like framed lobby cards */
+.movie-card {
+  border: 1px solid rgba(212, 160, 23, 0.12);
+}
+
+.movie-card:hover {
+  border-color: rgba(212, 160, 23, 0.45);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(212, 160, 23, 0.1);
+}
+
+/* Primary buttons read as ticket-booth gold */
+.hero-btn-primary,
+.btn-primary {
+  color: #1a1206 !important;
+  font-weight: 700;
+}
+
+/* Nav logo gets marquee glow */
+.nav-logo { color: var(--p); }
+.nav-logo span { text-shadow: 0 0 18px rgba(212, 160, 23, 0.35); }
