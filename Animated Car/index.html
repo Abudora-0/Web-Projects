@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Animated Car</title>
+  <title>Neon Drive — Animated Car</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f97316'/%3E%3Cellipse cx='16' cy='18' rx='13' ry='6' fill='%23c2410c'/%3E%3Cellipse cx='16' cy='15' rx='12' ry='7' fill='%23fb923c'/%3E%3Ccircle cx='9' cy='23' r='3.5' fill='%23111'/%3E%3Ccircle cx='23' cy='23' r='3.5' fill='%23111'/%3E%3Ccircle cx='9' cy='23' r='1.5' fill='%23888'/%3E%3Ccircle cx='23' cy='23' r='1.5' fill='%23888'/%3E%3C/svg%3E" />
+  <!-- Synthwave sun favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23120b2e'/%3E%3Cdefs%3E%3ClinearGradient id='s' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23ffd76f'/%3E%3Cstop offset='1' stop-color='%23ff2e97'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='15' r='10' fill='url(%23s)'/%3E%3Crect x='4' y='16' width='24' height='1.6' fill='%23120b2e'/%3E%3Crect x='4' y='19.5' width='24' height='2.2' fill='%23120b2e'/%3E%3Crect x='4' y='23.5' width='24' height='3' fill='%23120b2e'/%3E%3Crect x='2' y='26' width='28' height='6' fill='%2300e5ff' opacity='0.85'/%3E%3C/svg%3E" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -20,23 +21,20 @@
         <path d="M5 17H3a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h1l2-4h10l2 4h1a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/>
         <circle cx="7.5" cy="17" r="2.5"/><circle cx="16.5" cy="17" r="2.5"/>
       </svg>
-      <span class="header-title">Animated Car</span>
+      <span class="header-title">NEON<em>DRIVE</em></span>
     </div>
 
     <div class="header-right">
-      <!-- Weather -->
       <button class="hdr-btn" id="rainBtn" title="Toggle Rain (R)">
         <svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.5 7a4.5 4.5 0 10-8.95-.8A4 4 0 103 10h13.5a3 3 0 000-3z M7 14l-1 3m3-3l-1 3m3-3l-1 3m3-3l-1 3"/></svg>
         Rain
       </button>
 
-      <!-- Night toggle -->
       <button class="hdr-btn" id="nightBtn" title="Toggle Night (N)">
         <svg id="nightIcon" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
         Night
       </button>
 
-      <!-- Honk -->
       <button class="hdr-btn accent-btn" id="hornBtn" title="Honk! (Space)">
         <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z"/></svg>
         Honk!
@@ -51,22 +49,20 @@
       <span class="speed-unit">km/h</span>
     </div>
     <div class="hud-bar-row">
-      <button class="spd-btn" id="spdDown">−</button>
+      <button class="spd-btn" id="spdDown">&minus;</button>
       <div class="hud-bar"><div class="hud-fill" id="speedFill"></div></div>
       <button class="spd-btn" id="spdUp">+</button>
     </div>
     <div class="hud-labels"><span>Slow</span><span>Fast</span></div>
     <div class="hud-gear" id="gearDisplay">3rd</div>
 
-    <!-- Turbo -->
     <button class="turbo-btn" id="turboBtn" title="Turbo Boost! (T)">
       <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"/></svg>
       Turbo
     </button>
 
-    <!-- Shortcuts hint -->
     <div class="shortcuts">
-      <span>↑↓ Speed</span>
+      <span>&uarr;&darr; Speed</span>
       <span>N Night</span>
       <span>R Rain</span>
       <span>T Turbo</span>
@@ -80,7 +76,10 @@
     <!-- Night overlay -->
     <div class="night-overlay" id="nightOverlay"></div>
 
-    <!-- Scrolling background (trees + hills + sky) -->
+    <!-- Striped retro sun -->
+    <div class="retro-sun" aria-hidden="true"></div>
+
+    <!-- Scrolling mountain / palm silhouettes -->
     <div class="bg-layer" id="bgLayer"></div>
 
     <!-- Stars (night only) -->
@@ -92,7 +91,8 @@
     <!-- Rain container -->
     <div class="rain-container" id="rainContainer"></div>
 
-    <!-- Road markings scrolling -->
+    <!-- Road + scrolling lane dashes -->
+    <div class="road" aria-hidden="true"></div>
     <div class="road-markings" id="roadMarkings"></div>
 
     <!-- Exhaust smoke -->
@@ -101,7 +101,50 @@
     <!-- Car -->
     <div class="car-wrap" id="carWrap">
       <div class="headlight-beam" id="headlightBeam"></div>
-      <img class="car-img" id="carImg" src="car_new.jpg" alt="car" />
+      <svg class="car-img" id="carImg" viewBox="0 0 340 110" xmlns="http://www.w3.org/2000/svg" aria-label="Retro sports car">
+        <defs>
+          <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3b1d6e"/>
+            <stop offset="55%" stop-color="#241245"/>
+            <stop offset="100%" stop-color="#160b2c"/>
+          </linearGradient>
+          <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#7ff0ff"/>
+            <stop offset="100%" stop-color="#1a7a9e"/>
+          </linearGradient>
+        </defs>
+
+        <!-- ground shadow -->
+        <ellipse cx="170" cy="102" rx="150" ry="7" fill="#000" opacity="0.45"/>
+
+        <!-- 80s wedge body -->
+        <path d="M18 78
+                 L24 62 Q26 57 34 55 L92 47
+                 L128 26 Q132 22 140 21 L208 21 Q218 21 226 27 L258 47
+                 L308 52 Q320 54 322 62 L324 74 Q324 80 316 80
+                 L296 80 A26 26 0 0 0 244 80 L102 80 A26 26 0 0 0 50 80 L24 80 Q17 80 18 78 Z"
+              fill="url(#bodyGrad)" stroke="#ff2e97" stroke-width="2.5" stroke-linejoin="round"/>
+
+        <!-- glass canopy -->
+        <path d="M136 27 L206 27 Q213 27 219 31 L244 46 L118 46 Z"
+              fill="url(#glassGrad)" opacity="0.9"/>
+        <line x1="176" y1="27" x2="176" y2="46" stroke="#160b2c" stroke-width="3"/>
+
+        <!-- neon rocker stripe -->
+        <path d="M52 70 L290 70" stroke="#00e5ff" stroke-width="3" stroke-linecap="round" opacity="0.95"/>
+
+        <!-- tail light bar -->
+        <rect x="17" y="63" width="7" height="10" rx="2" fill="#ff2e40"/>
+        <!-- headlight -->
+        <rect x="315" y="60" width="9" height="7" rx="2" fill="#ffe9a8"/>
+
+        <!-- wheel arches -->
+        <circle cx="76" cy="80" r="25" fill="#0b0618"/>
+        <circle cx="270" cy="80" r="25" fill="#0b0618"/>
+        <!-- tyres -->
+        <circle cx="76" cy="80" r="21" fill="#12101c" stroke="#2c2540" stroke-width="2"/>
+        <circle cx="270" cy="80" r="21" fill="#12101c" stroke="#2c2540" stroke-width="2"/>
+      </svg>
       <!-- Spinning wheel overlays -->
       <div class="wheel-overlay back-wheel"  id="backWheel"></div>
       <div class="wheel-overlay front-wheel" id="frontWheel"></div>
@@ -111,6 +154,6 @@
 
   <script src="script.js"></script>
 <!-- Back to All Projects -->
-<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(7,7,14,0.88);color:#c4b5fd;border:1px solid rgba(167,139,250,0.3);border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(124,58,237,0.25)';this.style.borderColor='rgba(167,139,250,0.55)'" onmouseout="this.style.background='rgba(7,7,14,0.88)';this.style.borderColor='rgba(167,139,250,0.3)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(18,11,46,0.9);color:#00e5ff;border:1px solid rgba(0,229,255,0.4);border-radius:4px;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-decoration:none;backdrop-filter:blur(12px);font-family:'Rajdhani',system-ui,sans-serif;text-transform:uppercase;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(255,46,151,0.25)';this.style.borderColor='rgba(255,46,151,0.6)';this.style.color='#ff9ecf'" onmouseout="this.style.background='rgba(18,11,46,0.9)';this.style.borderColor='rgba(0,229,255,0.4)';this.style.color='#00e5ff'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
 </body>
 </html>
