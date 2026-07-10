@@ -3,37 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DeValidator — Email Validator</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Crect x='4' y='9' width='24' height='16' rx='2' fill='none' stroke='%23f0f0f0' stroke-width='1.5'/%3E%3Cpath d='M4 11l12 9 12-9' stroke='%23f0f0f0' stroke-width='1.5' fill='none'/%3E%3Ccircle cx='24' cy='23' r='7' fill='%232ecc71'/%3E%3Cpath d='M21 23l2 2 4-4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <title>The Sorting Office — Email Validator</title>
+  <!-- Airmail envelope favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23ede3d0'/%3E%3Crect x='2' y='2' width='28' height='4' fill='none'/%3E%3Cpath d='M0 0h6l-4 4H0zM10 0h6l-4 4h-6zM20 0h6l-4 4h-6zM30 0h2v2zM0 28h2l-2 2zM6 32l4-4h6l-4 4zM16 32l4-4h6l-4 4zM26 32l4-4h2v2l-2 2z' fill='%23b0413e'/%3E%3Cpath d='M4 0h6L6 4H0zM14 0h6l-4 4h-6zM24 0h6l-4 4h-6zM2 32l4-4h6l-4 4zM12 32l4-4h6l-4 4zM22 32l4-4h6l-4 4z' fill='%232f4c7c'/%3E%3Crect x='5' y='10' width='22' height='14' rx='1.5' fill='%23fdfaf3' stroke='%233a3226' stroke-width='1.2'/%3E%3Cpath d='M5 11.5l11 8 11-8' fill='none' stroke='%233a3226' stroke-width='1.2'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <div class="airmail-border" aria-hidden="true"></div>
 
   <div class="toast" id="toast"></div>
 
   <nav>
     <div class="logo">
       <i class="fas fa-envelope-circle-check logo-icon"></i>
-      <span>DeValidator</span>
+      <span>The Sorting Office</span>
     </div>
+    <span class="nav-motto">first-class email inspection</span>
   </nav>
 
   <main>
 
     <!-- Hero -->
     <div class="hero">
-      <div class="hero-badge"><i class="fas fa-shield-halved"></i> No API key required</div>
-      <h1>Email Validator</h1>
-      <p>Validate format, detect disposable addresses, role accounts, typos &amp; more — instantly.</p>
+      <div class="hero-badge"><i class="fas fa-stamp"></i> No API key required</div>
+      <h1>Every address, inspected.</h1>
+      <p>Format checks, disposable detection, role accounts and typo fixes &mdash;
+         sorted before it ever leaves the office.</p>
     </div>
 
     <!-- Tabs -->
     <div class="tabs">
       <button class="tab active" data-tab="single"><i class="fas fa-envelope"></i> Single</button>
-      <button class="tab" data-tab="batch"><i class="fas fa-list-check"></i> Batch</button>
-      <button class="tab" data-tab="history"><i class="fas fa-clock-rotate-left"></i> History <span class="hist-count" id="histCount"></span></button>
+      <button class="tab" data-tab="batch"><i class="fas fa-boxes-stacked"></i> Batch</button>
+      <button class="tab" data-tab="history"><i class="fas fa-clock-rotate-left"></i> Ledger <span class="hist-count" id="histCount"></span></button>
     </div>
 
     <!-- ── Single Tab ── -->
@@ -43,7 +49,7 @@
           <div class="input-group">
             <div class="input-wrapper">
               <i class="fas fa-envelope input-icon"></i>
-              <input type="text" id="emailInput" placeholder="Enter email address…" spellcheck="false" />
+              <input type="text" id="emailInput" placeholder="Address the envelope&hellip;" spellcheck="false" />
               <div class="rt-dot" id="rtDot"></div>
             </div>
             <button class="btn" type="submit" id="submitBtn">
@@ -59,7 +65,7 @@
             <i class="fas fa-key"></i> Use API key for live SMTP check
           </button>
           <div class="api-key-row hidden" id="apiRow">
-            <input type="text" id="apiKeyInput" placeholder="Paste emailvalidation.io API key…" />
+            <input type="text" id="apiKeyInput" placeholder="Paste emailvalidation.io API key&hellip;" />
             <button class="btn-sm" id="saveApiKey"><i class="fas fa-floppy-disk"></i> Save</button>
           </div>
         </div>
@@ -69,7 +75,7 @@
       <div class="results-card hidden" id="resultCard">
         <div class="results-header" id="resultsHeader"></div>
         <div class="score-wrap" id="scoreWrap">
-          <span class="score-lbl">Score</span>
+          <span class="score-lbl">Deliverability</span>
           <div class="score-track"><div class="score-fill" id="scoreFill"></div></div>
           <span class="score-val" id="scoreVal">0%</span>
         </div>
@@ -90,7 +96,7 @@
           <span class="batch-count" id="batchCount">0 emails</span>
           <div style="display:flex;gap:.5rem">
             <button class="btn-ghost" id="clearBatch"><i class="fas fa-trash"></i> Clear</button>
-            <button class="btn" id="batchBtn"><i class="fas fa-play"></i> Validate All</button>
+            <button class="btn" id="batchBtn"><i class="fas fa-play"></i> Sort the Mailbag</button>
           </div>
         </div>
       </div>
@@ -109,24 +115,24 @@
     <!-- ── History Tab ── -->
     <div class="tab-pane hidden" id="tab-history">
       <div class="hist-top">
-        <span class="hist-sub">Recent validations</span>
+        <span class="hist-sub">The inspection ledger</span>
         <button class="btn-ghost sm" id="clearHist"><i class="fas fa-trash"></i> Clear all</button>
       </div>
       <div id="histList"></div>
       <div class="empty-state hidden" id="histEmpty">
-        <i class="fas fa-clock-rotate-left"></i>
-        <p>No history yet. Validate some emails first!</p>
+        <i class="fas fa-inbox"></i>
+        <p>The ledger is empty. Inspect some envelopes first!</p>
       </div>
     </div>
 
   </main>
 
   <footer>
-    <p>DeValidator &mdash; Client-side + optional <a href="https://emailvalidation.io" target="_blank">EmailValidation.io</a></p>
+    <p>The Sorting Office &mdash; client-side inspection + optional <a href="https://emailvalidation.io" target="_blank">EmailValidation.io</a></p>
   </footer>
 
   <script src="script.js"></script>
 <!-- Back to All Projects -->
-<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(7,7,14,0.88);color:#c4b5fd;border:1px solid rgba(167,139,250,0.3);border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(124,58,237,0.25)';this.style.borderColor='rgba(167,139,250,0.55)'" onmouseout="this.style.background='rgba(7,7,14,0.88)';this.style.borderColor='rgba(167,139,250,0.3)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#fdfaf3;color:#2f4c7c;border:1.5px solid #2f4c7c;border-radius:3px;font-size:0.68rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;font-family:'IBM Plex Mono',monospace;transition:all .2s;white-space:nowrap;box-shadow:3px 3px 0 rgba(47,76,124,0.25);" onmouseover="this.style.background='#2f4c7c';this.style.color='#fdfaf3'" onmouseout="this.style.background='#fdfaf3';this.style.color='#2f4c7c'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
 </body>
 </html>

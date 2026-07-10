@@ -162,7 +162,7 @@ function renderResult(data) {
   const fill = document.getElementById('scoreFill');
   const val  = document.getElementById('scoreVal');
   fill.style.width = '0';
-  const scoreColor = data.score >= 70 ? '#2ecc71' : data.score >= 40 ? '#f39c12' : '#e74c3c';
+  const scoreColor = data.score >= 70 ? '#2e7d4f' : data.score >= 40 ? '#b97f10' : '#b0413e';
   fill.style.background = scoreColor;
   val.textContent = data.score + '%';
   val.style.color = scoreColor;
@@ -225,11 +225,11 @@ function renderHistory() {
   empty.classList.add('hidden');
 
   const stateIcon  = { valid:'fa-circle-check', risky:'fa-triangle-exclamation', invalid:'fa-circle-xmark' };
-  const stateColor = { valid:'#2ecc71', risky:'#f39c12', invalid:'#e74c3c' };
+  const stateColor = { valid:'#2e7d4f', risky:'#b97f10', invalid:'#b0413e' };
 
   list.innerHTML = h.map((x, i) => `
     <div class="hist-item">
-      <i class="fas ${stateIcon[x.state] || 'fa-circle-question'}" style="color:${stateColor[x.state]||'#888'};font-size:.8rem;flex-shrink:0"></i>
+      <i class="fas ${stateIcon[x.state] || 'fa-circle-question'}" style="color:${stateColor[x.state]||'#6f6350'};font-size:.8rem;flex-shrink:0"></i>
       <span class="hist-email">${esc(x.email)}</span>
       <span class="hist-meta">${timeAgo(x.ts)} &middot; ${x.score}%</span>
       <button class="hist-re" data-idx="${i}"><i class="fas fa-rotate-right"></i> Re-check</button>
@@ -299,7 +299,7 @@ function runBatch() {
     <span class="sum-pill sum-invalid"><i class="fas fa-circle-xmark"></i> ${invalid} invalid</span>`;
 
   const stateIcon  = { valid:'fa-circle-check', risky:'fa-triangle-exclamation', invalid:'fa-circle-xmark' };
-  const stateColor = { valid:'#2ecc71', risky:'#f39c12', invalid:'#e74c3c' };
+  const stateColor = { valid:'#2e7d4f', risky:'#b97f10', invalid:'#b0413e' };
 
   document.getElementById('batchBody').innerHTML = _batchResults.map(r => `
     <tr>
@@ -307,8 +307,8 @@ function runBatch() {
       <td><span style="color:${stateColor[r.state]};display:flex;align-items:center;gap:.4rem;font-size:.8rem;font-weight:600">
         <i class="fas ${stateIcon[r.state]}"></i>${r.state}
       </span></td>
-      <td style="font-weight:600;color:${r.score>=70?'#2ecc71':r.score>=40?'#f39c12':'#e74c3c'}">${r.score}%</td>
-      <td style="font-size:.75rem;color:#888">${r.issues.join(', ') || '—'}</td>
+      <td style="font-weight:600;color:${r.score>=70?'#2e7d4f':r.score>=40?'#b97f10':'#b0413e'}">${r.score}%</td>
+      <td style="font-size:.75rem;color:#6f6350">${r.issues.join(', ') || '—'}</td>
     </tr>`).join('');
 
   document.getElementById('batchResults').classList.remove('hidden');
