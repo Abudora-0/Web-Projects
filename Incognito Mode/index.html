@@ -3,39 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New Tab</title>
+  <title>Off the Record — Private Browsing</title>
 
-  <!-- Incognito hat favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23202124'/%3E%3Cellipse cx='16' cy='20' rx='9' ry='6' fill='%23e8eaed'/%3E%3Crect x='9' y='12' width='14' height='8' rx='3' fill='%23e8eaed'/%3E%3Crect x='7' y='11' width='18' height='4' rx='2' fill='%23e8eaed'/%3E%3Ccircle cx='16' cy='10' r='3' fill='%23e8eaed'/%3E%3C/svg%3E" />
+  <!-- Fedora favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23141210'/%3E%3Cellipse cx='16' cy='21' rx='12' ry='3.5' fill='%23d8cbb3'/%3E%3Cpath d='M8 21 Q8 11 16 11 Q24 11 24 21 Z' fill='%23d8cbb3'/%3E%3Crect x='8' y='17.5' width='16' height='3' fill='%23a03c38'/%3E%3C/svg%3E" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Case-file header strip -->
+  <div class="dossier-strip">
+    <span class="strip-item">CASE FILE N° 1942-C</span>
+    <span class="strip-stamp">CLASSIFIED</span>
+    <span class="strip-item">EYES ONLY</span>
+  </div>
+
   <!-- ── SEARCH BAR ──────────────────────────── -->
   <div class="search-section" id="searchSection">
+    <label class="search-label" for="searchInput">Run a discreet inquiry</label>
     <div class="search-bar" id="searchBar">
-      <i class="fas fa-lock search-lock"></i>
-      <input type="text" id="searchInput" placeholder="Search Google or type a URL" autocomplete="off" spellcheck="false" />
+      <i class="fas fa-magnifying-glass search-lock"></i>
+      <input type="text" id="searchInput" placeholder="Type your query… no records kept" autocomplete="off" spellcheck="false" />
       <button class="search-go" id="searchGo" title="Search"><i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
 
-  <!-- ── MAIN INCOGNITO CONTENT ─────────────── -->
+  <!-- ── MAIN CONTENT ─────────────────────────── -->
   <main class="main-content" id="mainContent">
 
     <!-- Icon + Title -->
     <div class="hero" id="hero">
-      <div class="incognito-icon">
-        <img src="img-removebg-preview.png" alt="Incognito" />
+      <div class="incognito-icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="84" height="84">
+          <ellipse cx="32" cy="41" rx="24" ry="6" fill="currentColor"/>
+          <path d="M16 41 Q16 21 32 21 Q48 21 48 41 Z" fill="currentColor"/>
+          <rect x="16" y="34" width="32" height="5" fill="#a03c38"/>
+          <circle cx="24" cy="52" r="4.5" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <circle cx="40" cy="52" r="4.5" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <line x1="28.5" y1="52" x2="35.5" y2="52" stroke="currentColor" stroke-width="2.5"/>
+        </svg>
       </div>
-      <h1 class="title">You've gone incognito</h1>
+      <h1 class="title">You're off the record.</h1>
       <p class="subtitle">
-        Others who use this device won't see your activity, so you can browse more privately.
-        This won't change how data is collected by websites you visit and services they use, including Google.
-        <a href="https://support.google.com/chrome/?p=incognito" target="_blank" class="link">Learn more</a>
+        As far as this machine is concerned, you were never here. No history, no cookies,
+        no paper trail. But remember, detective — the walls outside this office still have
+        <span class="redact">&#9608;&#9608;&#9608;&#9608;&#9608;</span> ears.
+        <a href="https://support.google.com/chrome/?p=incognito" target="_blank" class="link">Read the fine print</a>
       </p>
     </div>
 
@@ -43,23 +62,23 @@
     <div class="info-grid" id="infoGrid">
       <div class="info-col">
         <div class="info-col-header">
-          <i class="fas fa-eye-slash"></i>
-          <span>Chrome won't save:</span>
+          <i class="fas fa-fire"></i>
+          <span>This office burns after reading:</span>
         </div>
         <ul>
           <li>Your browsing history</li>
           <li>Cookies and site data</li>
-          <li>Information entered in forms</li>
+          <li>Anything typed into forms</li>
         </ul>
       </div>
       <div class="info-divider"></div>
       <div class="info-col">
         <div class="info-col-header">
-          <i class="fas fa-eye"></i>
-          <span>Your activity might still be visible to:</span>
+          <i class="fas fa-binoculars"></i>
+          <span>Still watching from across the street:</span>
         </div>
         <ul>
-          <li>Websites you visit</li>
+          <li>The websites you visit</li>
           <li>Your employer or school</li>
           <li>Your Internet service provider</li>
         </ul>
@@ -69,10 +88,10 @@
     <!-- Cookie toggle -->
     <div class="cookie-toggle-card" id="cookieCard">
       <div class="ct-left">
-        <div class="ct-icon"><i class="fas fa-cookie-bite"></i></div>
+        <div class="ct-icon"><i class="fas fa-user-secret"></i></div>
         <div class="ct-text">
-          <div class="ct-title">Block third-party cookies</div>
-          <div class="ct-desc">When on, sites can't use cookies that track you across the web. Some features may break.</div>
+          <div class="ct-title">Block third-party informants</div>
+          <div class="ct-desc">When on, sites can't plant cookies that tail you across the web. Some joints may not let you in.</div>
         </div>
       </div>
       <label class="toggle-switch" id="cookieToggle">
@@ -90,16 +109,16 @@
 
     <!-- Session timer card -->
     <div class="extra-card session-card" id="sessionCard">
-      <div class="ec-icon"><i class="fas fa-user-secret"></i></div>
-      <div class="ec-label">Session Active</div>
+      <div class="ec-icon"><i class="fas fa-stopwatch"></i></div>
+      <div class="ec-label">Time on the Case</div>
       <div class="ec-val" id="sessionTimer">00:00:00</div>
-      <div class="ec-sub">This session isn't saved</div>
+      <div class="ec-sub">this session leaves no trace</div>
     </div>
 
     <!-- Privacy score card -->
     <div class="extra-card score-card" id="scoreCard">
       <div class="ec-icon"><i class="fas fa-shield-halved"></i></div>
-      <div class="ec-label">Privacy Level</div>
+      <div class="ec-label">Cover Integrity</div>
       <div class="score-ring-wrap">
         <svg class="score-ring" viewBox="0 0 60 60">
           <circle class="ring-bg"   cx="30" cy="30" r="24" />
@@ -112,8 +131,8 @@
 
     <!-- Privacy tip card -->
     <div class="extra-card tip-card" id="tipCard">
-      <div class="ec-icon tip-icon"><i class="fas fa-lightbulb"></i></div>
-      <div class="ec-label">Privacy Tip</div>
+      <div class="ec-icon tip-icon"><i class="fas fa-note-sticky"></i></div>
+      <div class="ec-label">Field Notes</div>
       <p class="tip-text" id="tipText">Use a VPN to hide your IP address from websites and your ISP.</p>
       <div class="tip-dots" id="tipDots"></div>
     </div>
@@ -122,17 +141,17 @@
 
   <!-- ── KEYBOARD SHORTCUTS ─────────────────── -->
   <section class="shortcuts-section" id="shortcutsSection">
-    <div class="shortcuts-title"><i class="fas fa-keyboard"></i> Useful shortcuts</div>
+    <div class="shortcuts-title"><i class="fas fa-keyboard"></i> Standard procedure</div>
     <div class="shortcuts-grid">
-      <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd><span>New incognito window</span></div>
-      <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Delete</kbd><span>Clear browsing data</span></div>
-      <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>W</kbd><span>Close current tab</span></div>
-      <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>T</kbd><span>Open new tab</span></div>
+      <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd><span>Open a new safehouse</span></div>
+      <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Delete</kbd><span>Shred the evidence</span></div>
+      <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>W</kbd><span>Close this door</span></div>
+      <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>T</kbd><span>Open a new lead</span></div>
     </div>
   </section>
 
   <script src="script.js"></script>
 <!-- Back to All Projects -->
-<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(7,7,14,0.88);color:#c4b5fd;border:1px solid rgba(167,139,250,0.3);border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(124,58,237,0.25)';this.style.borderColor='rgba(167,139,250,0.55)'" onmouseout="this.style.background='rgba(7,7,14,0.88)';this.style.borderColor='rgba(167,139,250,0.3)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(20,18,16,0.92);color:#d8cbb3;border:1px solid rgba(216,203,179,0.35);border-radius:2px;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-decoration:none;backdrop-filter:blur(12px);font-family:'Courier Prime',monospace;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(160,60,56,0.25)';this.style.borderColor='rgba(216,203,179,0.6)'" onmouseout="this.style.background='rgba(20,18,16,0.92)';this.style.borderColor='rgba(216,203,179,0.35)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>ALL PROJECTS</a>
 </body>
 </html>

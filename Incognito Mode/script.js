@@ -49,7 +49,6 @@ const cookieCard  = document.getElementById('cookieToggle');
 // Restore saved preference
 const savedCookie = localStorage.getItem('incog_cookies_blocked');
 if (savedCookie === 'true') cookieCheck.checked = true;
-updateScore();
 
 cookieCheck.addEventListener('change', () => {
   localStorage.setItem('incog_cookies_blocked', cookieCheck.checked);
@@ -75,10 +74,13 @@ function updateScore() {
   const offset   = CIRCUMFERENCE - (CIRCUMFERENCE * score / 100);
 
   ringFill.style.strokeDashoffset = offset;
-  ringFill.style.stroke = blocked ? '#81c995' : '#8ab4f8';
+  ringFill.style.stroke = blocked ? '#5a7d54' : '#a03c38';
   scoreNum.textContent  = score;
   scoreLabel.textContent = blocked ? 'Enhanced Protection' : 'Standard Protection';
 }
+
+// Initial paint (must run after ringFill/scoreNum consts exist)
+updateScore();
 
 // ── Privacy tips ──────────────────────────────
 const TIPS = [
