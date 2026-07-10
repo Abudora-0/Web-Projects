@@ -2,7 +2,7 @@
    ArcadeHub  |  style.css
    ══════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
@@ -10,16 +10,16 @@ html { scroll-behavior: smooth; font-size: 16px; }
 /* ── Variables ───────────────────────────────── */
 :root {
   --primary:   #00d4ff;
-  --pink:      #ff006e;
+  --pink:      #ff2079;
   --purple:    #8338ec;
-  --bg:        #080c1f;
-  --bg2:       #0f1428;
-  --bg3:       #161c38;
-  --bg4:       #1e2545;
+  --bg:        #0a0518;
+  --bg2:       #130a26;
+  --bg3:       #1d1038;
+  --bg4:       #291850;
   --text:      #f0f4ff;
   --text2:     #8892b0;
   --border:    rgba(255,255,255,0.07);
-  --radius:    14px;
+  --radius:    6px;
   --font:      'Inter', system-ui, sans-serif;
   --glow:      0 0 40px rgba(0,212,255,.15);
   --trans:     all .25s cubic-bezier(.4,0,.2,1);
@@ -727,4 +727,75 @@ body.light .navbar { background: rgba(240,244,255,.9); }
   .hero-stats { gap: 14px; }
   .hs-num { font-size: 1.4rem; }
   .scores-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════════════
+   CRT CABINET OVERRIDES — retro arcade
+══════════════════════════════════════════════════════ */
+
+/* CRT scanlines + subtle screen curvature vignette */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 998;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.12) 3px 4px),
+    radial-gradient(ellipse at center, transparent 62%, rgba(5, 2, 12, 0.5) 100%);
+  opacity: 0.55;
+}
+
+body.light::after { display: none; }
+
+/* Pixel display font for the marquee text */
+.nav-logo, .footer-logo,
+.hero-title, h1,
+.section-header h2, h2 {
+  font-family: 'Press Start 2P', 'Inter', monospace !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.02em;
+}
+
+.hero-title { font-size: clamp(1.3rem, 4.2vw, 2.4rem) !important; }
+.nav-logo, .footer-logo { font-size: 0.95rem !important; }
+h2 { font-size: 1.05rem !important; }
+
+/* neon marquee flicker on the hero title */
+.hero-title {
+  text-shadow:
+    0 0 12px rgba(0, 212, 255, 0.7),
+    0 0 34px rgba(255, 32, 121, 0.4);
+  animation: marqueeFlicker 4.2s linear infinite;
+}
+
+@keyframes marqueeFlicker {
+  0%, 96%, 100% { opacity: 1; }
+  97%           { opacity: 0.75; }
+  98%           { opacity: 0.95; }
+  99%           { opacity: 0.8; }
+}
+
+/* game cards become mini cabinets: neon top marquee stripe */
+.game-card {
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--primary);
+  position: relative;
+}
+
+.game-card:nth-child(3n+2) { border-top-color: var(--pink); }
+.game-card:nth-child(3n)   { border-top-color: var(--purple); }
+
+.game-card:hover {
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 0 30px rgba(0, 212, 255, 0.25),
+    0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* coin-op play button */
+.play-btn {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 0.62rem !important;
+  text-transform: uppercase;
 }
