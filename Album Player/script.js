@@ -24,7 +24,7 @@ const GNX_SONGS = [
 
 const GNX_DEFAULT = {
   id: 'gnx-default', title: 'GNX', artist: 'Kendrick Lamar',
-  year: '2024', genre: 'Hip-Hop', accent: '#1db954',
+  year: '2024', genre: 'Hip-Hop', accent: '#e8933a',
   artUrl: 'covers/1.jpg', bgUrl: 'bg.webp', songs: GNX_SONGS,
 };
 
@@ -331,7 +331,7 @@ document.getElementById('newAlbumBtn').addEventListener('click', function() {
   saveCurrentAlbumFromUI();
   var blank = {
     id: uid(), title: 'New Album', artist: '', year: '', genre: '',
-    accent: '#1db954', artUrl: '', bgUrl: '', songs: [],
+    accent: '#e8933a', artUrl: '', bgUrl: '', songs: [],
   };
   albums.push(blank);
   activeAlbum = blank;
@@ -378,7 +378,7 @@ function loadAlbumIntoStudio(a) {
     return s.dataset.color === a.accent;
   });
   if (match) match.classList.add('active');
-  setAccent(a.accent || '#1db954');
+  setAccent(a.accent || '#e8933a');
 
   renderSongList(a.songs);
 }
@@ -703,7 +703,7 @@ function renderPlayerUI() {
   renderTracklist();
   renderQueue();
   applyBackground();
-  setAccent(a.accent || '#1db954');
+  setAccent(a.accent || '#e8933a');
   updateShuffleBtn();
   updateRepeatBtn();
   updateSpeedBtn();

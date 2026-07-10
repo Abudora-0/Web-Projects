@@ -5,18 +5,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --accent:    #1db954;
-  --accent-d:  #159c3e;
-  --bg:        #0a0a0a;
-  --s1:        #111111;
-  --s2:        #1a1a1a;
-  --s3:        #242424;
-  --s4:        #333333;
-  --text:      #ffffff;
-  --text2:     #b3b3b3;
-  --text3:     #6a6a6a;
-  --border:    rgba(255,255,255,0.08);
-  --radius:    12px;
+  --accent:    #e8933a;
+  --accent-d:  #c77425;
+  --bg:        #171009;
+  --s1:        #1e150d;
+  --s2:        #271b11;
+  --s3:        #322317;
+  --s4:        #45311f;
+  --text:      #f4e8d4;
+  --text2:     #bfa989;
+  --text3:     #7d6a52;
+  --border:    rgba(232,147,58,0.14);
+  --radius:    8px;
   --font:      'Inter', system-ui, sans-serif;
 }
 
@@ -798,3 +798,33 @@ input, textarea, select { font-family: var(--font); }
   .vinyl-disc { width: 160px; height: 160px; }
   .stage-title { font-size: 1.2rem; }
 }
+
+/* ══════════════════════════════════════════════════════
+   HI-FI OVERRIDES — warm analog listening room
+══════════════════════════════════════════════════════ */
+
+/* Serif for album & stage titles, like a record sleeve */
+.stage-title, .stage-title-text,
+.tl-album-name, .topbar-album-name,
+.about-title, .songs-title,
+.studio-brand {
+  font-family: 'DM Serif Display', Georgia, serif;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+/* Wood-grain warmth behind everything */
+body {
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(232, 147, 58, 0.07), transparent 55%),
+    repeating-linear-gradient(90deg, transparent 0 140px, rgba(0, 0, 0, 0.12) 140px 142px);
+}
+
+/* Accent buttons read amber-on-walnut, dark label text */
+.player-controls button[class*="play"],
+button.play-btn, .btn-play {
+  color: #241505;
+}
+
+/* Tracklist rows get a groove divider */
+.track-item { border-bottom: 1px solid rgba(232, 147, 58, 0.08); }
