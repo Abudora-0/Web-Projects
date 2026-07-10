@@ -1,861 +1,468 @@
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-sizing: border-box;
-}
+/* ══════════════════════════════════════════════════════
+   SKYDECK — meteorological instrument panel
+   Cockpit navy, instrument bezels, amber & teal readouts,
+   Chakra Petch avionics type. METAR-style data displays.
+   ══════════════════════════════════════════════════════ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --primary-color: #00d4ff;
-    --secondary-color: #0099cc;
-    --accent-color: #ff6b6b;
-    --dark-bg: #0f1419;
-    --card-bg: #1a2332;
-    --border-color: #2d3e50;
-    --text-primary: #ffffff;
-    --text-secondary: #b0b9c1;
-    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --cockpit:   #0e1520;
+  --panel:     #16202e;
+  --panel-hi:  #1d2a3b;
+  --bezel:     #2c3d52;
+  --teal:      #4dd8c0;
+  --teal-dim:  rgba(77, 216, 192, 0.12);
+  --amber:     #ffb648;
+  --amber-dim: rgba(255, 182, 72, 0.12);
+  --text:      #dbe7f3;
+  --text2:     #7f93ab;
+  --text3:     #46586e;
+  --danger:    #ff6b5e;
+  --font: 'Chakra Petch', 'Segoe UI', sans-serif;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-    background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1f2e 100%);
-    color: var(--text-primary);
-    min-height: 100vh;
-    overflow-x: hidden;
+  font-family: var(--font);
+  background:
+    radial-gradient(ellipse at 50% -20%, #1b2940 0%, var(--cockpit) 55%),
+    var(--cockpit);
+  color: var(--text);
+  min-height: 100vh;
+  font-variant-numeric: tabular-nums;
 }
 
-/* ===== NAVBAR ===== */
+/* ── Navbar — cockpit glareshield ─────────────── */
 .navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: rgba(15, 20, 25, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-    padding: 1rem 0;
-    animation: slideDown 0.5s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: linear-gradient(180deg, var(--panel-hi), var(--panel));
+  border-bottom: 2px solid var(--bezel);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
 
 .nav-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 1.4rem;
 }
 
 .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: var(--gradient-3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
-.nav-logo:hover {
-    transform: scale(1.05);
-}
-
-.nav-logo i {
-    font-size: 1.8rem;
-}
+.nav-logo i { color: var(--amber); text-shadow: 0 0 14px rgba(255, 182, 72, 0.5); }
+.nav-logo span::after { content: " ▸ MET STATION"; font-size: 0.55em; color: var(--text3); letter-spacing: 0.3em; }
 
 .nav-search {
-    flex: 1;
-    max-width: 400px;
-    display: flex;
-    align-items: center;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 25px;
-    padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
-}
-
-.nav-search:focus-within {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  display: flex;
+  flex: 1;
+  max-width: 380px;
+  min-width: 200px;
+  border: 1px solid var(--bezel);
+  border-radius: 4px;
+  background: var(--cockpit);
+  overflow: hidden;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .nav-search input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text-primary);
-    font-size: 0.95rem;
+  flex: 1;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  color: var(--teal);
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.6rem 0.9rem;
+  letter-spacing: 0.06em;
 }
 
-.nav-search input::placeholder {
-    color: var(--text-secondary);
-}
+.nav-search input::placeholder { color: var(--text3); }
 
 .nav-search button {
-    background: transparent;
-    border: none;
-    color: var(--primary-color);
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: transform 0.3s ease;
+  background: var(--bezel);
+  border: none;
+  color: var(--teal);
+  padding: 0 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.nav-search button:hover {
-    transform: scale(1.2);
-}
+.nav-search button:hover { background: #3a4f6a; }
 
-.nav-links {
-    display: flex;
-    gap: 1rem;
-}
+.nav-links { display: flex; gap: 0.4rem; }
 
 .nav-link {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text2);
+  text-decoration: none;
+  border: 1px solid var(--bezel);
+  border-radius: 4px;
+  padding: 0.4rem 0.75rem;
+  transition: all 0.2s;
 }
 
-.nav-link:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+.nav-link:hover { color: var(--text); }
+
+.nav-link.active {
+  color: var(--cockpit);
+  background: var(--teal);
+  border-color: var(--teal);
+  box-shadow: 0 0 14px rgba(77, 216, 192, 0.4);
 }
 
-/* ===== MAIN CONTAINER ===== */
+/* ── Layout ───────────────────────────────────── */
 .main-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
-    animation: fadeIn 0.8s ease-out;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.6rem 1.4rem 4rem;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-/* ===== ERROR CONTAINER ===== */
-.error-container {
-    display: none;
-    margin-bottom: 2rem;
-    animation: slideInDown 0.5s ease-out;
-}
+/* ── Error ────────────────────────────────────── */
+.error-container { display: none; margin-bottom: 1.2rem; }
 
 .error-message {
-    background: rgba(255, 107, 107, 0.1);
-    border: 1px solid #ff6b6b;
-    border-radius: 10px;
-    padding: 1.5rem;
-    color: #ff6b6b;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--danger);
+  border: 1px solid rgba(255, 107, 94, 0.4);
+  border-left: 4px solid var(--danger);
+  border-radius: 4px;
+  background: rgba(255, 107, 94, 0.07);
+  padding: 0.85rem 1.1rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
 }
 
-.error-message i {
-    font-size: 1.5rem;
+/* ── Main instrument card ─────────────────────── */
+.weather-card.main-card {
+  background: linear-gradient(180deg, var(--panel-hi), var(--panel));
+  border: 1px solid var(--bezel);
+  border-radius: 10px;
+  padding: 1.8rem;
+  position: relative;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
-@keyframes slideInDown {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+/* corner screws */
+.weather-card.main-card::before,
+.weather-card.main-card::after {
+  content: "✚";
+  position: absolute;
+  top: 10px;
+  font-size: 0.55rem;
+  color: var(--text3);
 }
-
-/* ===== WEATHER CURRENT ===== */
-.weather-current {
-    margin-bottom: 3rem;
-}
-
-.weather-card {
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 153, 204, 0.05) 100%);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 2.5rem;
-    backdrop-filter: blur(10px);
-    animation: slideUp 0.6s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(30px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.main-card {
-    border: 1px solid rgba(0, 212, 255, 0.3);
-}
+.weather-card.main-card::before { left: 12px; }
+.weather-card.main-card::after  { right: 12px; }
 
 .weather-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.location-info h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    background: var(--gradient-3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.city-name {
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .weather-description {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    text-transform: capitalize;
-    margin-bottom: 0.3rem;
+  color: var(--teal);
+  font-size: 0.95rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
 }
 
 .last-updated {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    opacity: 0.7;
+  color: var(--text3);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  margin-top: 0.35rem;
 }
 
 .weather-icon-main {
-    width: 150px;
-    height: 150px;
-    filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.4));
-    animation: float 3s ease-in-out infinite;
+  width: 86px;
+  height: 86px;
+  filter: drop-shadow(0 0 18px rgba(255, 182, 72, 0.35));
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
+/* temperature — primary gauge readout */
 .temperature-display {
-    display: flex;
-    align-items: baseline;
-    gap: 2rem;
-    margin-bottom: 2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+  margin: 1.4rem 0 1.7rem;
+  padding: 1rem 1.4rem;
+  background: var(--cockpit);
+  border: 1px solid var(--bezel);
+  border-radius: 8px;
+  box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.5);
 }
 
-.temp-value {
-    display: flex;
-    align-items: flex-start;
-}
+.temp-value { display: flex; align-items: baseline; }
 
 .temp {
-    font-size: 4rem;
-    font-weight: 700;
-    background: var(--gradient-3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-size: clamp(3rem, 9vw, 4.6rem);
+  font-weight: 700;
+  color: var(--amber);
+  text-shadow: 0 0 26px rgba(255, 182, 72, 0.4);
+  line-height: 1;
 }
 
-.temp-unit {
-    font-size: 2rem;
-    color: var(--text-secondary);
-    margin-top: 0.5rem;
-}
+.temp-unit { font-size: 1.6rem; color: var(--text2); margin-left: 0.3rem; }
 
-.feels-like {
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-}
+.feels-like { color: var(--text2); font-size: 0.9rem; letter-spacing: 0.06em; }
+.feels-like-temp { color: var(--text); font-weight: 700; }
 
-.feels-like-temp {
-    color: var(--primary-color);
-    font-weight: 600;
-}
-
-/* ===== DETAILS GRID ===== */
+/* details grid — six mini gauges */
 .details-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
 }
 
 .detail-item {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-color);
-    border-radius: 15px;
-    padding: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: var(--cockpit);
+  border: 1px solid var(--bezel);
+  border-radius: 6px;
+  padding: 0.8rem 0.95rem;
+  transition: border-color 0.2s;
 }
 
-.detail-item:hover {
-    background: rgba(0, 212, 255, 0.1);
-    border-color: var(--primary-color);
-    transform: translateY(-5px);
-}
+.detail-item:hover { border-color: var(--teal); }
 
 .detail-icon {
-    width: 50px;
-    height: 50px;
-    background: var(--gradient-3);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-}
-
-.detail-content {
-    flex: 1;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--bezel);
+  color: var(--teal);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  background: radial-gradient(circle at 35% 30%, var(--panel-hi), var(--cockpit));
 }
 
 .detail-label {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
 }
 
-.detail-value {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
+.detail-value { font-size: 1.02rem; font-weight: 700; color: var(--text); }
 
-/* ===== SECTION STYLING ===== */
-.section-title {
-    margin-bottom: 1.5rem;
-}
+/* ── Section titles ───────────────────────────── */
+.section-title { margin: 2.2rem 0 1rem; }
 
 .section-title h2 {
-    font-size: 1.5rem;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.section-title i {
-    color: var(--primary-color);
+.section-title h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--bezel), transparent);
 }
 
-/* ===== HOURLY FORECAST ===== */
-.weather-hourly {
-    margin-bottom: 3rem;
-}
+.section-title i { color: var(--amber); }
 
+/* ── Hourly strip — tape readout ──────────────── */
 .hourly-scroll {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    padding-bottom: 1rem;
-    scroll-behavior: smooth;
-}
-
-.hourly-scroll::-webkit-scrollbar {
-    height: 6px;
-}
-
-.hourly-scroll::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-
-.hourly-scroll::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 10px;
+  display: flex;
+  gap: 0.7rem;
+  overflow-x: auto;
+  padding-bottom: 0.6rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bezel) transparent;
 }
 
 .hourly-item {
-    min-width: 120px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-color);
-    border-radius: 15px;
-    padding: 1.5rem 1rem;
-    text-align: center;
-    transition: all 0.3s ease;
+  min-width: 92px;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--bezel);
+  border-top: 3px solid var(--teal);
+  border-radius: 6px;
+  padding: 0.8rem 0.6rem;
+  transition: transform 0.2s, border-color 0.2s;
 }
 
-.hourly-item:hover {
-    background: rgba(0, 212, 255, 0.15);
-    border-color: var(--primary-color);
-    transform: translateY(-10px);
-}
+.hourly-item:hover { transform: translateY(-3px); }
 
 .hourly-time {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text2);
 }
 
-.hourly-icon {
-    font-size: 2rem;
-    margin: 0.5rem 0;
-}
+.hourly-icon { font-size: 1.3rem; color: var(--amber); margin: 0.55rem 0; }
 
-.hourly-temp {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
+.hourly-temp { font-size: 1.02rem; font-weight: 700; color: var(--teal); }
 
-/* ===== 5-DAY FORECAST ===== */
-.weather-forecast {
-    margin-bottom: 3rem;
-}
-
+/* ── 5-day forecast — instrument row ──────────── */
 .forecast-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.8rem;
 }
 
 .forecast-card {
-    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(245, 87, 108, 0.05) 100%);
-    border: 1px solid var(--border-color);
-    border-radius: 15px;
-    padding: 2rem 1.5rem;
-    text-align: center;
-    transition: all 0.3s ease;
+  text-align: center;
+  background: linear-gradient(180deg, var(--panel-hi), var(--panel));
+  border: 1px solid var(--bezel);
+  border-radius: 8px;
+  padding: 1.1rem 0.8rem;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .forecast-card:hover {
-    border-color: var(--accent-color);
-    transform: translateY(-10px);
-    background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(245, 87, 108, 0.1) 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.4);
 }
 
 .forecast-day {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text2);
 }
 
-.forecast-icon {
-    font-size: 2.5rem;
-    margin: 1rem 0;
-}
+.forecast-icon { font-size: 1.7rem; color: var(--amber); margin: 0.7rem 0; }
 
-.forecast-temp {
-    margin-bottom: 0.5rem;
-}
+.forecast-temp { display: flex; justify-content: center; gap: 0.7rem; align-items: baseline; }
 
-.forecast-max {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.forecast-min {
-    font-size: 1rem;
-    color: var(--text-secondary);
-}
+.forecast-max { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+.forecast-min { font-size: 0.88rem; color: var(--text3); }
 
 .forecast-desc {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-top: 0.8rem;
-    text-transform: capitalize;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-top: 0.5rem;
 }
 
-/* ===== ADDITIONAL INFO ===== */
-.weather-additional {
-    margin-bottom: 3rem;
-}
-
+/* ── Additional info — auxiliary dials ────────── */
 .additional-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.8rem;
 }
 
 .info-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-color);
-    border-radius: 15px;
-    padding: 1.8rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--panel);
+  border: 1px solid var(--bezel);
+  border-radius: 6px;
+  padding: 0.95rem 1.05rem;
+  transition: border-color 0.2s;
 }
 
-.info-card:hover {
-    background: rgba(0, 212, 255, 0.08);
-    border-color: var(--primary-color);
-}
+.info-card:hover { border-color: var(--amber); }
 
 .info-icon {
-    width: 60px;
-    height: 60px;
-    background: var(--gradient-1);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    flex-shrink: 0;
-    color: var(--text-primary);
-}
-
-.info-content {
-    flex: 1;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--bezel);
+  color: var(--amber);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  background: radial-gradient(circle at 35% 30%, var(--panel-hi), var(--cockpit));
 }
 
 .info-label {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
 }
 
-.info-value {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
+.info-value { font-size: 1.05rem; font-weight: 700; }
 
-/* ===== LOADING SPINNER ===== */
+/* ── Loading ──────────────────────────────────── */
 .loading-spinner {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(15, 20, 25, 0.9);
-    backdrop-filter: blur(5px);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1.5rem;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 22, 0.82);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--text2);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
-.loading-spinner.active {
-    display: flex;
-}
+.loading-spinner.show,
+.loading-spinner.active { display: flex; }
 
 .spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid rgba(0, 212, 255, 0.2);
-    border-top: 4px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  width: 46px;
+  height: 46px;
+  border: 3px solid var(--bezel);
+  border-top-color: var(--amber);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.loading-spinner p {
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-}
+.pulse { animation: pulse 1.4s ease infinite; }
+@keyframes pulse { 50% { opacity: 0.55; } }
 
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-    }
-
-    .nav-search {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .nav-links {
-        width: 100%;
-        justify-content: center;
-        gap: 0.8rem;
-    }
-
-    .nav-link {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.9rem;
-    }
-
-    .main-container {
-        padding: 1rem;
-    }
-
-    .weather-card {
-        padding: 1.5rem;
-    }
-
-    .weather-header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .location-info h1 {
-        font-size: 1.8rem;
-    }
-
-    .weather-icon-main {
-        width: 100px;
-        height: 100px;
-    }
-
-    .temperature-display {
-        flex-direction: column;
-        gap: 1rem;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .temp {
-        font-size: 3rem;
-    }
-
-    .details-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    .detail-item {
-        flex-direction: column;
-        text-align: center;
-        padding: 1rem;
-    }
-
-    .forecast-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    .additional-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    .info-card {
-        flex-direction: column;
-        text-align: center;
-        padding: 1.5rem 1rem;
-    }
-
-    .info-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-    }
-
-    .info-label {
-        font-size: 0.85rem;
-    }
-
-    .info-value {
-        font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .details-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .detail-item {
-        flex-direction: row;
-        text-align: left;
-    }
-}
-
-@media (max-width: 480px) {
-    .nav-container {
-        padding: 0.5rem;
-    }
-
-    .nav-logo {
-        font-size: 0.95rem;
-    }
-
-    .nav-logo i {
-        font-size: 1.2rem;
-    }
-
-    .nav-search input {
-        font-size: 0.85rem;
-    }
-
-    .section-title h2 {
-        font-size: 1.1rem;
-    }
-
-    .location-info h1 {
-        font-size: 1.3rem;
-    }
-
-    .weather-card {
-        padding: 1rem;
-    }
-
-    .weather-description {
-        font-size: 1rem;
-    }
-
-    .last-updated {
-        font-size: 0.75rem;
-    }
-
-    .temp {
-        font-size: 2.5rem;
-    }
-
-    .feels-like {
-        font-size: 0.95rem;
-    }
-
-    .weather-icon-main {
-        width: 80px;
-        height: 80px;
-    }
-
-    .details-grid {
-        grid-template-columns: 1fr;
-        gap: 0.8rem;
-    }
-
-    .detail-item {
-        padding: 0.8rem;
-        gap: 0.8rem;
-    }
-
-    .detail-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
-    }
-
-    .detail-label {
-        font-size: 0.8rem;
-    }
-
-    .detail-value {
-        font-size: 1rem;
-    }
-
-    .forecast-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .forecast-card {
-        padding: 1.5rem 1rem;
-    }
-
-    .forecast-icon {
-        font-size: 2rem;
-    }
-
-    .additional-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .info-card {
-        padding: 1.2rem;
-        gap: 1rem;
-    }
-
-    .info-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
-    }
-
-    .info-label {
-        font-size: 0.8rem;
-    }
-
-    .info-value {
-        font-size: 1rem;
-    }
-
-    .hourly-scroll {
-        gap: 0.6rem;
-        padding-bottom: 0.8rem;
-    }
-
-    .hourly-item {
-        min-width: 90px;
-        padding: 0.8rem 0.5rem;
-    }
-
-    .hourly-time {
-        font-size: 0.8rem;
-    }
-
-    .hourly-icon {
-        font-size: 1.5rem;
-    }
-
-    .hourly-temp {
-        font-size: 1rem;
-    }
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-}
-
-.pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    text-align: left;
-    margin-left: 10px;
-    font-size: 14px;
-    margin-top: 10px;
-    display: none;
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 640px) {
+  .nav-container { justify-content: center; }
+  .weather-header { flex-direction: column; align-items: center; text-align: center; }
+  .temperature-display { justify-content: center; }
+  .nav-logo span::after { display: none; }
 }
