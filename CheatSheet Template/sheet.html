@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Stacks — reference sheet</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23f7f1de'/%3E%3Crect x='1' y='1' width='30' height='30' rx='3' fill='none' stroke='%232b2416' stroke-width='2'/%3E%3Cline x1='5' y1='9' x2='27' y2='9' stroke='%23a93b2a' stroke-width='2'/%3E%3Cline x1='5' y1='15' x2='27' y2='15' stroke='%238fa8b8' stroke-width='1.4'/%3E%3Cline x1='5' y1='20' x2='22' y2='20' stroke='%238fa8b8' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='26' r='1.8' fill='%232b2416'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="prism.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="read-progress" id="progress"></div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <a class="back-btn" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Catalog
+    </a>
+    <div class="crumb">
+      <span>The Stacks</span><span class="sep">›</span>
+      <span class="here" id="crumbName">…</span>
+      <span class="crumb-call" id="crumbCall"></span>
+    </div>
+    <div class="topbar-right">
+      <div class="sheet-filter">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="sheetFilter" type="text" placeholder="Filter this sheet…" autocomplete="off" spellcheck="false" />
+      </div>
+      <button class="palette-btn" data-open-palette type="button" title="Search the whole catalog (Ctrl K)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <kbd>Ctrl K</kbd>
+      </button>
+      <button class="theme-btn" id="themeToggle" type="button" title="Toggle light / dark theme">
+        <span class="lamp-dot"></span>
+        <span id="themeLabel">Reading room</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Layout -->
+  <div class="sheet-layout">
+    <aside class="sheet-toc">
+      <div class="toc-header">On this card</div>
+      <nav id="toc"></nav>
+      <div class="toc-foot" id="tocFoot"></div>
+    </aside>
+    <main class="sheet-main">
+      <div class="sheet-head" id="sheetHead"></div>
+      <div id="sections"></div>
+      <nav class="sheet-nav" id="sheetNav"></nav>
+    </main>
+  </div>
+
+  <footer class="sheet-footer">The Stacks — return cards to the front desk when finished</footer>
+
+  <!-- Command palette -->
+  <div class="palette-overlay" id="paletteOverlay">
+    <div class="palette" role="dialog" aria-label="Search the catalog">
+      <div class="palette-input-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="paletteInput" type="text" placeholder="Search every card in the catalog…" autocomplete="off" spellcheck="false" />
+        <kbd>esc</kbd>
+      </div>
+      <div class="palette-results" id="paletteResults"></div>
+      <div class="palette-foot">
+        <span><b>↑↓</b> browse</span><span><b>↵</b> open</span><span><b>esc</b> close</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="prism.js"></script>
+  <script src="data/html.js"></script>
+  <script src="data/css.js"></script>
+  <script src="data/js.js"></script>
+  <script src="data/ts.js"></script>
+  <script src="data/python.js"></script>
+  <script src="data/java.js"></script>
+  <script src="data/c.js"></script>
+  <script src="data/cpp.js"></script>
+  <script src="data/go.js"></script>
+  <script src="data/rust.js"></script>
+  <script src="data/sql.js"></script>
+  <script src="data/bash.js"></script>
+  <script src="data/git.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(location.search);
+      const sheet = Stacks.get(params.get('lang')) || Stacks.all()[0];
+      if (!sheet) return;
+      window.SHEET_ID = sheet.id;
+      document.title = sheet.name + ' — The Stacks';
+
+      // ── Head ──
+      document.getElementById('crumbName').textContent = sheet.name;
+      document.getElementById('crumbCall').textContent = sheet.call;
+      const n = Stacks.snippetCount(sheet);
+      document.getElementById('sheetHead').innerHTML =
+        '<div class="head-stamp">Copy freely<br>· no late fees ·</div>'
+        + '<h1>' + escapeHtml(sheet.name) + '</h1>'
+        + '<p class="sheet-sub">' + escapeHtml(sheet.desc) + '</p>'
+        + '<div class="sheet-meta"><span>' + escapeHtml(sheet.call) + '</span>'
+        + '<span>' + escapeHtml(sheet.tag) + '</span>'
+        + '<span>' + sheet.sections.length + ' sections</span>'
+        + '<span>' + n + ' cards</span></div>';
+
+      // ── Sections + snippets ──
+      const wrap = document.getElementById('sections');
+      sheet.sections.forEach((sec, si) => {
+        const secEl = document.createElement('section');
+        secEl.className = 'sheet-section';
+        secEl.id = 'sec-' + si;
+        const num = String(si + 1).padStart(2, '0');
+        secEl.innerHTML = '<div class="section-title"><span class="sec-num">§ ' + num + '</span>'
+          + '<h2>' + escapeHtml(sec.title) + '</h2>'
+          + '<span class="sec-count">' + sec.snippets.length + ' cards</span></div>'
+          + '<div class="snip-grid"></div>';
+        const grid = secEl.querySelector('.snip-grid');
+
+        sec.snippets.forEach((sn, ni) => {
+          const id = sheet.id + '-' + si + '-' + ni;
+          const card = document.createElement('article');
+          card.className = 'snip';
+          card.id = id;
+          card.innerHTML = '<div class="snip-head">'
+            + '<span class="snip-label">' + escapeHtml(sn.label) + '</span>'
+            + '<button class="bm-btn" type="button" title="Bookmark this card">' + svgIcon('star') + '</button>'
+            + '<button class="copy-btn" type="button">' + svgIcon('copy') + 'Copy</button>'
+            + '</div>'
+            + (sn.desc ? '<p class="snip-desc">' + escapeHtml(sn.desc) + '</p>' : '')
+            + '<pre class="snip-code"><code class="language-' + sheet.prism + '"></code></pre>'
+            + '<span class="stamp-mark">Copied</span>';
+          card.querySelector('code').textContent = sn.code;
+          wireCopy(card.querySelector('.copy-btn'), card, sn.code);
+
+          const bm = card.querySelector('.bm-btn');
+          bm.classList.toggle('on', Bookmarks.has(id));
+          bm.addEventListener('click', () => {
+            const on = Bookmarks.toggle({ id, lang: sheet.id, langName: sheet.name, label: sn.label });
+            bm.classList.toggle('on', on);
+          });
+
+          grid.appendChild(card);
+        });
+        wrap.appendChild(secEl);
+      });
+      Prism.highlightAll();
+
+      // ── TOC ──
+      document.getElementById('toc').innerHTML = sheet.sections.map((sec, si) =>
+        '<a class="toc-link" href="#sec-' + si + '" data-sec="' + si + '">'
+        + '<span class="toc-num">' + String(si + 1).padStart(2, '0') + '</span>'
+        + escapeHtml(sec.title) + '</a>').join('');
+
+      // prev / next in the TOC footer + bottom nav
+      const all = Stacks.all();
+      const i = all.indexOf(sheet);
+      const prev = all[(i - 1 + all.length) % all.length];
+      const next = all[(i + 1) % all.length];
+      document.getElementById('tocFoot').innerHTML =
+        '<a href="sheet.html?lang=' + prev.id + '">' + svgIcon('back') + ' ' + escapeHtml(prev.name) + '</a>'
+        + '<a href="sheet.html?lang=' + next.id + '">' + svgIcon('arrow') + ' ' + escapeHtml(next.name) + '</a>';
+      document.getElementById('sheetNav').innerHTML =
+        '<a class="prev" href="sheet.html?lang=' + prev.id + '"><span class="nav-dir">← Previous drawer</span><span class="nav-name">' + escapeHtml(prev.name) + '</span></a>'
+        + '<a class="next" href="sheet.html?lang=' + next.id + '"><span class="nav-dir">Next drawer →</span><span class="nav-name">' + escapeHtml(next.name) + '</span></a>';
+
+      // ── Scrollspy ──
+      const links = [...document.querySelectorAll('.toc-link')];
+      const spy = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.toggle('active', l.dataset.sec === en.target.id.slice(4)));
+          }
+        });
+      }, { rootMargin: '-15% 0px -70% 0px' });
+      document.querySelectorAll('.sheet-section').forEach(s => spy.observe(s));
+
+      // ── Progress bar ──
+      const bar = document.getElementById('progress');
+      addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const max = h.scrollHeight - h.clientHeight;
+        bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+      }, { passive: true });
+
+      // ── In-sheet filter ──
+      document.getElementById('sheetFilter').addEventListener('input', function () {
+        const q = this.value.toLowerCase().trim();
+        document.querySelectorAll('.sheet-section').forEach(secEl => {
+          let visible = 0;
+          secEl.querySelectorAll('.snip').forEach(card => {
+            const hit = !q || card.textContent.toLowerCase().includes(q);
+            card.style.display = hit ? '' : 'none';
+            if (hit) visible++;
+          });
+          secEl.style.display = visible ? '' : 'none';
+        });
+      });
+
+      // ── Deep-link flash ──
+      flashHash();
+      addEventListener('hashchange', flashHash);
+    });
+  </script>
+
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>

@@ -1,229 +1,155 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>man codereference — Developer Cheatsheets</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23100c06'/%3E%3Crect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23ffb000' stroke-width='1.5'/%3E%3Cpath d='M10 11l-4 5 4 5M22 11l4 5-4 5' stroke='%23ffb000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='16' r='1.5' fill='%23ff7847'/%3E%3C/svg%3E" />
+  <title>The Stacks — a reference desk for developers</title>
+  <meta name="description" content="The Stacks: card-catalog style cheatsheets for 13 languages. 200+ copy-ready snippets with global search and bookmarks." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23f7f1de'/%3E%3Crect x='1' y='1' width='30' height='30' rx='3' fill='none' stroke='%232b2416' stroke-width='2'/%3E%3Cline x1='5' y1='9' x2='27' y2='9' stroke='%23a93b2a' stroke-width='2'/%3E%3Cline x1='5' y1='15' x2='27' y2='15' stroke='%238fa8b8' stroke-width='1.4'/%3E%3Cline x1='5' y1='20' x2='22' y2='20' stroke='%238fa8b8' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='26' r='1.8' fill='%232b2416'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="prism.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <!-- Top bar -->
   <header class="topbar">
-    <div class="site-logo">
-      <div class="logo-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="16 18 22 12 16 6"/>
-          <polyline points="8 6 2 12 8 18"/>
+    <a class="site-logo" href="index.html">
+      <span class="logo-mark">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+          <rect x="3" y="3" width="26" height="26"/>
+          <line x1="3" y1="16" x2="29" y2="16"/>
+          <rect x="11" y="7" width="10" height="4" stroke-width="1.6"/>
+          <circle cx="16" cy="23" r="1.4" fill="currentColor" stroke="none"/>
+          <line x1="12" y1="23" x2="14" y2="23" stroke-width="1.6"/>
+          <line x1="18" y1="23" x2="20" y2="23" stroke-width="1.6"/>
         </svg>
-      </div>
-      Code Reference
-    </div>
+      </span>
+      The Stacks
+      <span class="logo-sub">Ref. Desk</span>
+    </a>
     <div class="topbar-right">
-      <span class="theme-label" id="themeLabel">Dark</span>
-      <button class="theme-pill" id="darkToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+      <button class="palette-btn" data-open-palette type="button" title="Search the catalog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span class="pb-text">Search the catalog</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+      <button class="theme-btn" id="themeToggle" type="button" title="Toggle light / dark theme">
+        <span class="lamp-dot"></span>
+        <span id="themeLabel">Reading room</span>
+      </button>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-eyebrow">
-      <span></span>
-      Developer Quick Reference
-    </div>
-    <h1>Syntax you forget.<br><em>Found in seconds.</em></h1>
-    <p class="hero-sub">Clean, organized code references for the languages you use every day. No fluff — just the snippets you need, copy-ready.</p>
-    <div class="search-bar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <input id="heroSearch" type="text" placeholder="Search a language or topic…" autocomplete="off" />
-      <kbd>/ to focus</kbd>
-    </div>
+  <!-- Masthead -->
+  <section class="masthead">
+    <div class="masthead-stamp">Reference only<br>· do not reshelve ·</div>
+    <div class="masthead-rule">Est. 2026 · Open reference collection</div>
+    <h1>The <span class="amp">Stacks</span></h1>
+    <p class="masthead-tag">A reference desk for working developers. Every card is a snippet you already half-remember — typed up, filed by language, ready to copy.</p>
+    <button class="desk-search" data-open-palette type="button" aria-label="Search all cheatsheets">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span class="desk-hint">Search 13 languages — try “flexbox”, “goroutine”, “join”…</span>
+      <kbd>/ or Ctrl K</kbd>
+    </button>
   </section>
 
-  <!-- Stats -->
-  <div class="stats-row">
-    <div class="stat"><span class="stat-val">6</span><span class="stat-key">languages</span></div>
-    <div class="stat"><span class="stat-val">200+</span><span class="stat-key">snippets</span></div>
-    <div class="stat"><span class="stat-val">1-click</span><span class="stat-key">copy</span></div>
-    <div class="stat"><span class="stat-val">offline</span><span class="stat-key">ready</span></div>
-  </div>
+  <!-- Tally -->
+  <div class="tally-row" id="tallyRow"></div>
 
-  <div class="section-line"></div>
-
-  <!-- Language grid -->
-  <section class="lang-section">
-    <div class="section-header">
-      <h2>All Languages</h2>
-    </div>
-
-    <div class="lang-grid" id="langGrid">
-
-      <!-- HTML -->
-      <a href="html.html" class="lang-card" style="--lang-color:#e44d26" data-search="html markup web structure">
-        <div class="card-top">
-          <div class="lang-icon-wrap">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5" />
-          </div>
-          <span class="card-badge" style="--lang-color:#e44d26">Markup</span>
-        </div>
-        <div class="card-body">
-          <h3>HTML</h3>
-          <p>Document structure, forms, tables, semantic elements, media embedding, and meta tags.</p>
-        </div>
-        <div class="card-footer">
-          <span class="card-count">9 sections · 18 snippets</span>
-          <div class="card-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-
-      <!-- CSS -->
-      <a href="css.html" class="lang-card" style="--lang-color:#2965f1" data-search="css styling layout flexbox grid animations">
-        <div class="card-top">
-          <div class="lang-icon-wrap">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3" />
-          </div>
-          <span class="card-badge" style="--lang-color:#2965f1">Styling</span>
-        </div>
-        <div class="card-body">
-          <h3>CSS</h3>
-          <p>Selectors, Flexbox, Grid, transitions, animations, variables, and responsive design.</p>
-        </div>
-        <div class="card-footer">
-          <span class="card-count">10 sections · 20 snippets</span>
-          <div class="card-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-
-      <!-- JavaScript -->
-      <a href="js.html" class="lang-card" style="--lang-color:#f0bf00" data-search="javascript js es6 dom async promises frontend">
-        <div class="card-top">
-          <div class="lang-icon-wrap">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript" />
-          </div>
-          <span class="card-badge" style="--lang-color:#f0bf00">Scripting</span>
-        </div>
-        <div class="card-body">
-          <h3>JavaScript</h3>
-          <p>Variables, functions, arrays, DOM manipulation, events, async/await, and ES6+ syntax.</p>
-        </div>
-        <div class="card-footer">
-          <span class="card-count">11 sections · 22 snippets</span>
-          <div class="card-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-
-      <!-- Python -->
-      <a href="python.html" class="lang-card" style="--lang-color:#3572a5" data-search="python scripting backend data science oop">
-        <div class="card-top">
-          <div class="lang-icon-wrap">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python" />
-          </div>
-          <span class="card-badge" style="--lang-color:#3572a5">General</span>
-        </div>
-        <div class="card-body">
-          <h3>Python</h3>
-          <p>Syntax, lists, dicts, OOP, file I/O, comprehensions, exceptions, and built-in functions.</p>
-        </div>
-        <div class="card-footer">
-          <span class="card-count">11 sections · 22 snippets</span>
-          <div class="card-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-
-      <!-- Java -->
-      <a href="java.html" class="lang-card" style="--lang-color:#f89820" data-search="java oop backend classes collections enterprise">
-        <div class="card-top">
-          <div class="lang-icon-wrap">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" alt="Java" />
-          </div>
-          <span class="card-badge" style="--lang-color:#f89820">OOP</span>
-        </div>
-        <div class="card-body">
-          <h3>Java</h3>
-          <p>Data types, OOP, classes, inheritance, collections, exceptions, and Java syntax.</p>
-        </div>
-        <div class="card-footer">
-          <span class="card-count">8 sections · 16 snippets</span>
-          <div class="card-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-
-      <!-- C -->
-      <a href="c.html" class="lang-card" style="--lang-color:#a8b9cc" data-search="c systems pointers memory structs low-level">
-        <div class="card-top">
-          <div class="lang-icon-wrap">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" alt="C" />
-          </div>
-          <span class="card-badge" style="--lang-color:#a8b9cc">Systems</span>
-        </div>
-        <div class="card-body">
-          <h3>C Language</h3>
-          <p>Syntax, pointers, arrays, structs, file I/O, dynamic memory allocation, and strings.</p>
-        </div>
-        <div class="card-footer">
-          <span class="card-count">9 sections · 18 snippets</span>
-          <div class="card-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-
-    </div>
+  <!-- Bookmarks shelf -->
+  <section class="shelf" id="shelf" hidden>
+    <div class="shelf-title">Your borrowed cards</div>
+    <div class="shelf-list" id="shelfList"></div>
   </section>
+
+  <!-- Catalog -->
+  <main class="catalog" id="catalog"></main>
 
   <footer class="site-footer">
-    Code Reference — made for developers &nbsp;·&nbsp; Open source
+    <span>The Stacks — filed with care for forgetful programmers</span>
+    <span class="foot-stamp">Open source</span>
   </footer>
 
+  <!-- Command palette -->
+  <div class="palette-overlay" id="paletteOverlay">
+    <div class="palette" role="dialog" aria-label="Search the catalog">
+      <div class="palette-input-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="paletteInput" type="text" placeholder="Search every card in the catalog…" autocomplete="off" spellcheck="false" />
+        <kbd>esc</kbd>
+      </div>
+      <div class="palette-results" id="paletteResults"></div>
+      <div class="palette-foot">
+        <span><b>↑↓</b> browse</span><span><b>↵</b> open</span><span><b>esc</b> close</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/html.js"></script>
+  <script src="data/css.js"></script>
+  <script src="data/js.js"></script>
+  <script src="data/ts.js"></script>
+  <script src="data/python.js"></script>
+  <script src="data/java.js"></script>
+  <script src="data/c.js"></script>
+  <script src="data/cpp.js"></script>
+  <script src="data/go.js"></script>
+  <script src="data/rust.js"></script>
+  <script src="data/sql.js"></script>
+  <script src="data/bash.js"></script>
+  <script src="data/git.js"></script>
+  <script src="app.js"></script>
   <script>
-    // Restore theme
-    const saved = localStorage.getItem('cs-theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', saved);
-    updateThemeLabel(saved);
+    document.addEventListener('DOMContentLoaded', () => {
+      // ── Tally ──
+      const t = Stacks.totals();
+      document.getElementById('tallyRow').innerHTML = [
+        [t.sheets, 'languages'],
+        [t.sections, 'sections'],
+        [t.snippets, 'cards on file'],
+        ['1-click', 'copy'],
+      ].map(([v, k]) => '<div class="tally"><span class="tally-val">' + v + '</span><span class="tally-key">' + k + '</span></div>').join('');
 
-    function updateThemeLabel(t) {
-      document.getElementById('themeLabel').textContent = t === 'dark' ? 'Dark' : 'Light';
-    }
+      // ── Catalog drawers ──
+      const drawers = [
+        { key: 'web',  name: 'Web Foundations',       range: 'Class 005.7 – 006.7' },
+        { key: 'core', name: 'General Purpose',        range: 'Class 005.13' },
+        { key: 'data', name: 'Data & Command Line',    range: 'Class 005.4 – 005.75' },
+      ];
+      const cat = document.getElementById('catalog');
+      cat.innerHTML = drawers.map(d => {
+        const sheets = Stacks.all().filter(s => s.shelf === d.key);
+        if (!sheets.length) return '';
+        return '<section class="drawer">'
+          + '<div class="drawer-label"><span class="drawer-name">' + d.name + '</span><span class="drawer-range">' + d.range + '</span></div>'
+          + '<div class="card-grid">'
+          + sheets.map(s => {
+              const n = Stacks.snippetCount(s);
+              return '<a class="index-card" href="sheet.html?lang=' + s.id + '">'
+                + '<div class="ic-top"><span class="ic-call">' + escapeHtml(s.call) + '\n' + escapeHtml(s.tag) + '</span>'
+                + '<span class="ic-monogram">' + escapeHtml(s.mono) + '</span></div>'
+                + '<div class="ic-title">' + escapeHtml(s.name) + '</div>'
+                + '<p class="ic-desc">' + escapeHtml(s.desc) + '</p>'
+                + '<div class="ic-foot"><span>' + s.sections.length + ' sections · ' + n + ' cards</span>'
+                + '<span class="go">Open ' + svgIcon('arrow') + '</span></div>'
+                + '</a>';
+            }).join('')
+          + '</div></section>';
+      }).join('');
 
-    document.getElementById('darkToggle').addEventListener('click', () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      const next = isDark ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('cs-theme', next);
-      updateThemeLabel(next);
-    });
-
-    // Search
-    document.getElementById('heroSearch').addEventListener('input', function() {
-      const q = this.value.toLowerCase().trim();
-      document.querySelectorAll('.lang-card').forEach(card => {
-        const searchText = card.dataset.search + ' ' + card.textContent.toLowerCase();
-        card.style.display = !q || searchText.includes(q) ? '' : 'none';
-      });
-    });
-
-    // Keyboard shortcut — / to focus search
-    document.addEventListener('keydown', e => {
-      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
-        e.preventDefault();
-        document.getElementById('heroSearch').focus();
+      // ── Bookmarks shelf ──
+      const bms = Bookmarks.load();
+      if (bms.length) {
+        document.getElementById('shelf').hidden = false;
+        document.getElementById('shelfList').innerHTML = bms.map(b =>
+          '<a class="shelf-chip" href="sheet.html?lang=' + b.lang + '#' + b.id + '">'
+          + '<span class="chip-lang">' + escapeHtml(b.langName) + '</span>'
+          + escapeHtml(b.label) + '</a>').join('');
       }
     });
   </script>
+
 <!-- Back to All Projects -->
-<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(16,12,6,0.92);color:#ffb000;border:1px solid rgba(255,176,0,0.35);border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(255,176,0,0.15)';this.style.borderColor='rgba(255,176,0,0.6)'" onmouseout="this.style.background='rgba(16,12,6,0.92)';this.style.borderColor='rgba(255,176,0,0.35)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+<a id="back-to-all" href="../index.html"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
 </body>
 </html>
