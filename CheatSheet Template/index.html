@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Stacks — a reference desk for developers</title>
-  <meta name="description" content="The Stacks: card-catalog style cheatsheets for 13 languages. 200+ copy-ready snippets with global search and bookmarks." />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23f7f1de'/%3E%3Crect x='1' y='1' width='30' height='30' rx='3' fill='none' stroke='%232b2416' stroke-width='2'/%3E%3Cline x1='5' y1='9' x2='27' y2='9' stroke='%23a93b2a' stroke-width='2'/%3E%3Cline x1='5' y1='15' x2='27' y2='15' stroke='%238fa8b8' stroke-width='1.4'/%3E%3Cline x1='5' y1='20' x2='22' y2='20' stroke='%238fa8b8' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='26' r='1.8' fill='%232b2416'/%3E%3C/svg%3E" />
+  <title>Constellation — a star atlas of code</title>
+  <meta name="description" content="Constellation: a star atlas of programming. 13 languages charted as constellations, 220 copy-ready snippets with global search and pinned stars." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070f'/%3E%3Cline x1='8' y1='23' x2='14' y2='13' stroke='%23e3c27b' stroke-width='1.3' opacity='.65'/%3E%3Cline x1='14' y1='13' x2='21' y2='18' stroke='%23e3c27b' stroke-width='1.3' opacity='.65'/%3E%3Cline x1='21' y1='18' x2='25' y2='9' stroke='%23e3c27b' stroke-width='1.3' opacity='.65'/%3E%3Ccircle cx='8' cy='23' r='1.5' fill='%23e3c27b'/%3E%3Ccircle cx='14' cy='13' r='2.1' fill='%23f4dfae'/%3E%3Ccircle cx='21' cy='18' r='1.4' fill='%23e3c27b'/%3E%3Ccircle cx='25' cy='9' r='1.6' fill='%23e3c27b'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="prism.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -15,40 +15,41 @@
   <header class="topbar">
     <a class="site-logo" href="index.html">
       <span class="logo-mark">
-        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
-          <rect x="3" y="3" width="26" height="26"/>
-          <line x1="3" y1="16" x2="29" y2="16"/>
-          <rect x="11" y="7" width="10" height="4" stroke-width="1.6"/>
-          <circle cx="16" cy="23" r="1.4" fill="currentColor" stroke="none"/>
-          <line x1="12" y1="23" x2="14" y2="23" stroke-width="1.6"/>
-          <line x1="18" y1="23" x2="20" y2="23" stroke-width="1.6"/>
+        <svg viewBox="0 0 32 32" fill="none">
+          <line x1="6" y1="24" x2="13" y2="12" stroke="currentColor" stroke-width="1.3" opacity="0.6"/>
+          <line x1="13" y1="12" x2="21" y2="18" stroke="currentColor" stroke-width="1.3" opacity="0.6"/>
+          <line x1="21" y1="18" x2="26" y2="7" stroke="currentColor" stroke-width="1.3" opacity="0.6"/>
+          <circle cx="6" cy="24" r="1.6" fill="currentColor"/>
+          <circle cx="13" cy="12" r="2.3" fill="currentColor"/>
+          <circle cx="21" cy="18" r="1.5" fill="currentColor"/>
+          <circle cx="26" cy="7" r="1.8" fill="currentColor"/>
         </svg>
       </span>
-      The Stacks
-      <span class="logo-sub">Ref. Desk</span>
+      Constellation
+      <span class="logo-sub">Star Atlas</span>
     </a>
     <div class="topbar-right">
-      <button class="palette-btn" data-open-palette type="button" title="Search the catalog">
+      <button class="palette-btn" data-open-palette type="button" title="Search the whole sky">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <span class="pb-text">Search the catalog</span>
+        <span class="pb-text">Search the sky</span>
         <kbd>Ctrl K</kbd>
       </button>
       <button class="theme-btn" id="themeToggle" type="button" title="Toggle light / dark theme">
         <span class="lamp-dot"></span>
-        <span id="themeLabel">Reading room</span>
+        <span id="themeLabel">Night sky</span>
       </button>
     </div>
   </header>
 
   <!-- Masthead -->
   <section class="masthead">
-    <div class="masthead-stamp">Reference only<br>· do not reshelve ·</div>
-    <div class="masthead-rule">Est. 2026 · Open reference collection</div>
-    <h1>The <span class="amp">Stacks</span></h1>
-    <p class="masthead-tag">A reference desk for working developers. Every card is a snippet you already half-remember — typed up, filed by language, ready to copy.</p>
+    <div class="masthead-rule">A star atlas · 13 constellations charted</div>
+    <h1>Every language,<br><span class="amp">its own sky</span>.</h1>
+    <p class="masthead-tag">Snippets you half-remember, plotted like stars and joined into constellations — one chart per language, ready to copy the moment you find it.</p>
+    <div class="sky-map" id="skyMap" aria-label="All languages"></div>
     <button class="desk-search" data-open-palette type="button" aria-label="Search all cheatsheets">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <span class="desk-hint">Search 13 languages — try “flexbox”, “goroutine”, “join”…</span>
+      <span class="desk-hint">Search 13 skies — try “flexbox”, “goroutine”, “join”…</span>
       <kbd>/ or Ctrl K</kbd>
     </button>
   </section>
@@ -58,24 +59,24 @@
 
   <!-- Bookmarks shelf -->
   <section class="shelf" id="shelf" hidden>
-    <div class="shelf-title">Your borrowed cards</div>
+    <div class="shelf-title">Pinned stars</div>
     <div class="shelf-list" id="shelfList"></div>
   </section>
 
-  <!-- Catalog -->
+  <!-- Charts -->
   <main class="catalog" id="catalog"></main>
 
   <footer class="site-footer">
-    <span>The Stacks — filed with care for forgetful programmers</span>
+    <span>Constellation — charted for forgetful programmers</span>
     <span class="foot-stamp">Open source</span>
   </footer>
 
   <!-- Command palette -->
   <div class="palette-overlay" id="paletteOverlay">
-    <div class="palette" role="dialog" aria-label="Search the catalog">
+    <div class="palette" role="dialog" aria-label="Search all snippets">
       <div class="palette-input-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="paletteInput" type="text" placeholder="Search every card in the catalog…" autocomplete="off" spellcheck="false" />
+        <input id="paletteInput" type="text" placeholder="Search every star in the atlas…" autocomplete="off" spellcheck="false" />
         <kbd>esc</kbd>
       </div>
       <div class="palette-results" id="paletteResults"></div>
@@ -101,43 +102,53 @@
   <script src="app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const groupVar = { web: 'var(--g-web)', core: 'var(--g-core)', data: 'var(--g-data)' };
+
+      // ── Sky map (hero medallions) ──
+      document.getElementById('skyMap').innerHTML = Stacks.all().map(s =>
+        '<a class="sky-dot" style="--g:' + groupVar[s.shelf] + '" href="sheet.html?lang=' + s.id + '" title="' + escapeHtml(s.name) + '">'
+        + '<span class="sd-star">' + escapeHtml(designationFor(s)) + '</span>'
+        + '<span class="sd-name">' + escapeHtml(s.mono) + '</span>'
+        + '</a>').join('');
+
       // ── Tally ──
       const t = Stacks.totals();
       document.getElementById('tallyRow').innerHTML = [
-        [t.sheets, 'languages'],
-        [t.sections, 'sections'],
-        [t.snippets, 'cards on file'],
+        [t.sheets, 'constellations'],
+        [t.sections, 'charted regions'],
+        [t.snippets, 'stars logged'],
         ['1-click', 'copy'],
       ].map(([v, k]) => '<div class="tally"><span class="tally-val">' + v + '</span><span class="tally-key">' + k + '</span></div>').join('');
 
-      // ── Catalog drawers ──
-      const drawers = [
-        { key: 'web',  name: 'Web Foundations',       range: 'Class 005.7 – 006.7' },
-        { key: 'core', name: 'General Purpose',        range: 'Class 005.13' },
-        { key: 'data', name: 'Data & Command Line',    range: 'Class 005.4 – 005.75' },
+      // ── Sky regions of constellation charts ──
+      const groups = [
+        { key: 'web',  name: 'Northern Sky',    range: 'Web foundations' },
+        { key: 'core', name: 'Equatorial Belt', range: 'General purpose' },
+        { key: 'data', name: 'Southern Sky',    range: 'Data & command line' },
       ];
-      const cat = document.getElementById('catalog');
-      cat.innerHTML = drawers.map(d => {
-        const sheets = Stacks.all().filter(s => s.shelf === d.key);
+      document.getElementById('catalog').innerHTML = groups.map(g => {
+        const sheets = Stacks.all().filter(s => s.shelf === g.key);
         if (!sheets.length) return '';
-        return '<section class="drawer">'
-          + '<div class="drawer-label"><span class="drawer-name">' + d.name + '</span><span class="drawer-range">' + d.range + '</span></div>'
+        return '<section class="drawer" style="--g:' + groupVar[g.key] + '">'
+          + '<div class="drawer-label"><span class="drawer-name">' + g.name + '</span><span class="drawer-range">' + g.range + '</span></div>'
           + '<div class="card-grid">'
           + sheets.map(s => {
               const n = Stacks.snippetCount(s);
-              return '<a class="index-card" href="sheet.html?lang=' + s.id + '">'
-                + '<div class="ic-top"><span class="ic-call">' + escapeHtml(s.call) + '\n' + escapeHtml(s.tag) + '</span>'
-                + '<span class="ic-monogram">' + escapeHtml(s.mono) + '</span></div>'
-                + '<div class="ic-title">' + escapeHtml(s.name) + '</div>'
-                + '<p class="ic-desc">' + escapeHtml(s.desc) + '</p>'
-                + '<div class="ic-foot"><span>' + s.sections.length + ' sections · ' + n + ' cards</span>'
-                + '<span class="go">Open ' + svgIcon('arrow') + '</span></div>'
+              const star = constellationSVG(s.id, { w: 220, h: 96, stars: Math.min(9, Math.max(5, s.sections.length)) });
+              return '<a class="const-card" style="--g:' + groupVar[s.shelf] + '" href="sheet.html?lang=' + s.id + '">'
+                + '<span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>'
+                + '<div class="cc-row"><span class="cc-desig">' + escapeHtml(designationFor(s)) + '</span><span>' + escapeHtml(s.tag) + '</span></div>'
+                + '<div class="cc-sky">' + star + '</div>'
+                + '<div class="cc-name">' + escapeHtml(s.name) + '</div>'
+                + '<p class="cc-desc">' + escapeHtml(s.desc) + '</p>'
+                + '<div class="cc-foot"><span>' + s.sections.length + ' regions · ' + n + ' stars</span>'
+                + '<span class="go">Chart ' + svgIcon('arrow') + '</span></div>'
                 + '</a>';
             }).join('')
           + '</div></section>';
       }).join('');
 
-      // ── Bookmarks shelf ──
+      // ── Pinned stars ──
       const bms = Bookmarks.load();
       if (bms.length) {
         document.getElementById('shelf').hidden = false;

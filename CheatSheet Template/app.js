@@ -1,6 +1,6 @@
 /* ════════════════════════════════════════════════════════════
-   THE STACKS — shared app logic
-   (theme · bookmarks · command palette · rendering helpers)
+   CONSTELLATION — shared app logic
+   (theme · bookmarks · command palette · star-chart helpers)
 ════════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -24,17 +24,24 @@ const Stacks = {
   },
 };
 
+/* ── Bayer-style designations (α, β, γ …) ───────────────── */
+const GREEK = ['α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 'θ', 'ι', 'κ', 'λ', 'μ', 'ν', 'ξ', 'ο', 'π'];
+function designationFor(sheet) {
+  const i = Stacks.all().indexOf(sheet);
+  return GREEK[i] || GREEK[i % GREEK.length];
+}
+
 /* ── Theme ─────────────────────────────────────────────── */
-const THEME_KEY = 'stacks-theme';
+const THEME_KEY = 'constellation-theme';
 
 function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   const label = document.getElementById('themeLabel');
-  if (label) label.textContent = t === 'dark' ? 'After hours' : 'Reading room';
+  if (label) label.textContent = t === 'dark' ? 'Night sky' : 'Dawn chart';
 }
 
 function initTheme() {
-  applyTheme(localStorage.getItem(THEME_KEY) || 'light');
+  applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
   const btn = document.getElementById('themeToggle');
   if (btn) btn.addEventListener('click', () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -44,7 +51,7 @@ function initTheme() {
 }
 
 /* ── Bookmarks ─────────────────────────────────────────── */
-const BM_KEY = 'stacks-bookmarks';
+const BM_KEY = 'constellation-pins';
 
 const Bookmarks = {
   load() {
@@ -76,6 +83,70 @@ function copyText(text) {
   document.execCommand('copy');
   ta.remove();
   return Promise.resolve();
+}
+
+/* ── Star-chart generator ────────────────────────────────
+   Deterministic per language: same id always draws the same
+   constellation. Star count follows how many sections that
+   language actually has, so bigger sheets look busier. ── */
+function seededRandom(seed) {
+  let h = 1779033703 ^ seed.length;
+  for (let i = 0; i < seed.length; i++) {
+    h = Math.imul(h ^ seed.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  return function () {
+    h = Math.imul(h ^ (h >>> 16), 2246822519);
+    h = Math.imul(h ^ (h >>> 13), 3266489917);
+    h = (h ^= h >>> 16) >>> 0;
+    return h / 4294967296;
+  };
+}
+
+function constellationSVG(seed, opts) {
+  opts = opts || {};
+  const w = opts.w || 220, h = opts.h || 100;
+  const n = Math.max(4, Math.min(9, opts.stars || 6));
+  const rand = seededRandom(seed);
+  const pad = Math.min(w, h) * 0.14;
+
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    pts.push({
+      x: pad + rand() * (w - pad * 2),
+      y: pad + rand() * (h - pad * 2),
+      r: 1.3 + rand() * 2,
+    });
+  }
+  pts.sort((a, b) => a.x - b.x);
+  // biggest star = the "primary" of the constellation
+  let maxI = 0;
+  pts.forEach((p, i) => { if (p.r > pts[maxI].r) maxI = i; });
+  pts[maxI].r += 1.1;
+
+  const lines = [];
+  for (let i = 0; i < pts.length - 1; i++) lines.push([i, i + 1]);
+  const extra = pts.length > 5 ? 1 : 0;
+  for (let i = 0; i < extra; i++) {
+    const a = Math.floor(rand() * pts.length);
+    const b = Math.floor(rand() * pts.length);
+    if (a !== b) lines.push([a, b]);
+  }
+
+  const lineSvg = lines.map(([a, b]) =>
+    '<line x1="' + pts[a].x.toFixed(1) + '" y1="' + pts[a].y.toFixed(1) + '" '
+    + 'x2="' + pts[b].x.toFixed(1) + '" y2="' + pts[b].y.toFixed(1) + '" '
+    + 'stroke="var(--g)" stroke-width="0.6" opacity="0.4"/>'
+  ).join('');
+
+  const starSvg = pts.map((p, i) => {
+    const glow = p.r > 2.6
+      ? '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + (p.r * 2.6).toFixed(1) + '" fill="var(--g)" opacity="0.13"/>'
+      : '';
+    return glow + '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + p.r.toFixed(1) + '" fill="var(--g)" opacity="' + (i === maxI ? 1 : 0.82) + '"/>';
+  }).join('');
+
+  return '<svg viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' + lineSvg + starSvg + '</svg>';
 }
 
 /* ── Command palette (global search) ───────────────────── */
@@ -127,26 +198,26 @@ const Palette = (() => {
     items = search(q);
     selIdx = 0;
     if (!q.trim()) {
-      results.innerHTML = '<div class="pal-empty">Type to search every card in the catalog —<br>snippet names, descriptions, even the code itself.</div>';
+      results.innerHTML = '<div class="pal-empty">Type to search the whole sky —<br>snippet names, descriptions, even the code itself.</div>';
       return;
     }
     if (!items.length) {
-      results.innerHTML = '<div class="pal-empty">Nothing filed under “' + escapeHtml(q) + '”.</div>';
+      results.innerHTML = '<div class="pal-empty">No star charted for “' + escapeHtml(q) + '”.</div>';
       return;
     }
     let html = '', lastGroup = '';
     items.forEach((it, i) => {
-      const group = it.type === 'sheet' ? 'Sheets' : it.sheet.name;
+      const group = it.type === 'sheet' ? 'Constellations' : it.sheet.name;
       if (group !== lastGroup) { html += '<div class="pal-group">' + escapeHtml(group) + '</div>'; lastGroup = group; }
       if (it.type === 'sheet') {
         html += '<div class="pal-item' + (i === selIdx ? ' sel' : '') + '" data-i="' + i + '">'
-          + '<span class="pal-mono">' + escapeHtml(it.sheet.mono) + '</span>'
-          + '<span class="pal-text"><span class="pal-label">' + escapeHtml(it.sheet.name) + ' — full sheet</span>'
-          + '<span class="pal-sub">' + escapeHtml(it.sheet.call) + ' · ' + it.sheet.sections.length + ' sections</span></span>'
+          + '<span class="pal-mono">' + escapeHtml(designationFor(it.sheet)) + '</span>'
+          + '<span class="pal-text"><span class="pal-label">' + escapeHtml(it.sheet.name) + ' — full chart</span>'
+          + '<span class="pal-sub">' + escapeHtml(it.sheet.tag) + ' · ' + it.sheet.sections.length + ' regions</span></span>'
           + '<span class="pal-jump">open ↵</span></div>';
       } else {
         html += '<div class="pal-item' + (i === selIdx ? ' sel' : '') + '" data-i="' + i + '">'
-          + '<span class="pal-mono">' + escapeHtml(it.sheet.mono) + '</span>'
+          + '<span class="pal-mono">' + escapeHtml(designationFor(it.sheet)) + '</span>'
           + '<span class="pal-text"><span class="pal-label">' + escapeHtml(it.sn.label) + '</span>'
           + '<span class="pal-sub">' + escapeHtml(it.sec.title) + '</span></span>'
           + '<span class="pal-jump">jump ↵</span></div>';
@@ -232,7 +303,7 @@ function svgIcon(name) {
   return icons[name] || '';
 }
 
-/* copy + stamp animation on a snippet card */
+/* copy + confirmation chip on a snippet card */
 function wireCopy(btn, card, code) {
   btn.addEventListener('click', () => {
     copyText(code).then(() => {

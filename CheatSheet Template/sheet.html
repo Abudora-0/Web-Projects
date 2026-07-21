@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Stacks — reference sheet</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23f7f1de'/%3E%3Crect x='1' y='1' width='30' height='30' rx='3' fill='none' stroke='%232b2416' stroke-width='2'/%3E%3Cline x1='5' y1='9' x2='27' y2='9' stroke='%23a93b2a' stroke-width='2'/%3E%3Cline x1='5' y1='15' x2='27' y2='15' stroke='%238fa8b8' stroke-width='1.4'/%3E%3Cline x1='5' y1='20' x2='22' y2='20' stroke='%238fa8b8' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='26' r='1.8' fill='%232b2416'/%3E%3C/svg%3E" />
+  <title>Constellation — star chart</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070f'/%3E%3Cline x1='8' y1='23' x2='14' y2='13' stroke='%23e3c27b' stroke-width='1.3' opacity='.65'/%3E%3Cline x1='14' y1='13' x2='21' y2='18' stroke='%23e3c27b' stroke-width='1.3' opacity='.65'/%3E%3Cline x1='21' y1='18' x2='25' y2='9' stroke='%23e3c27b' stroke-width='1.3' opacity='.65'/%3E%3Ccircle cx='8' cy='23' r='1.5' fill='%23e3c27b'/%3E%3Ccircle cx='14' cy='13' r='2.1' fill='%23f4dfae'/%3E%3Ccircle cx='21' cy='18' r='1.4' fill='%23e3c27b'/%3E%3Ccircle cx='25' cy='9' r='1.6' fill='%23e3c27b'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="prism.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -16,25 +16,25 @@
   <header class="topbar">
     <a class="back-btn" href="index.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Catalog
+      Atlas
     </a>
     <div class="crumb">
-      <span>The Stacks</span><span class="sep">›</span>
+      <span>Constellation</span><span class="sep">›</span>
       <span class="here" id="crumbName">…</span>
       <span class="crumb-call" id="crumbCall"></span>
     </div>
     <div class="topbar-right">
       <div class="sheet-filter">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="sheetFilter" type="text" placeholder="Filter this sheet…" autocomplete="off" spellcheck="false" />
+        <input id="sheetFilter" type="text" placeholder="Filter this chart…" autocomplete="off" spellcheck="false" />
       </div>
-      <button class="palette-btn" data-open-palette type="button" title="Search the whole catalog (Ctrl K)">
+      <button class="palette-btn" data-open-palette type="button" title="Search the whole sky (Ctrl K)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <kbd>Ctrl K</kbd>
       </button>
       <button class="theme-btn" id="themeToggle" type="button" title="Toggle light / dark theme">
         <span class="lamp-dot"></span>
-        <span id="themeLabel">Reading room</span>
+        <span id="themeLabel">Night sky</span>
       </button>
     </div>
   </header>
@@ -42,7 +42,7 @@
   <!-- Layout -->
   <div class="sheet-layout">
     <aside class="sheet-toc">
-      <div class="toc-header">On this card</div>
+      <div class="toc-header">On this chart</div>
       <nav id="toc"></nav>
       <div class="toc-foot" id="tocFoot"></div>
     </aside>
@@ -53,14 +53,14 @@
     </main>
   </div>
 
-  <footer class="sheet-footer">The Stacks — return cards to the front desk when finished</footer>
+  <footer class="sheet-footer">Constellation — a star atlas of code, one chart per language</footer>
 
   <!-- Command palette -->
   <div class="palette-overlay" id="paletteOverlay">
-    <div class="palette" role="dialog" aria-label="Search the catalog">
+    <div class="palette" role="dialog" aria-label="Search all snippets">
       <div class="palette-input-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="paletteInput" type="text" placeholder="Search every card in the catalog…" autocomplete="off" spellcheck="false" />
+        <input id="paletteInput" type="text" placeholder="Search every star in the atlas…" autocomplete="off" spellcheck="false" />
         <kbd>esc</kbd>
       </div>
       <div class="palette-results" id="paletteResults"></div>
@@ -91,20 +91,25 @@
       const sheet = Stacks.get(params.get('lang')) || Stacks.all()[0];
       if (!sheet) return;
       window.SHEET_ID = sheet.id;
-      document.title = sheet.name + ' — The Stacks';
+      document.title = sheet.name + ' — Constellation';
+
+      // group color for this whole page
+      document.body.style.setProperty('--g', 'var(--g-' + sheet.shelf + ')');
+
+      const desig = designationFor(sheet);
+      const n = Stacks.snippetCount(sheet);
 
       // ── Head ──
       document.getElementById('crumbName').textContent = sheet.name;
-      document.getElementById('crumbCall').textContent = sheet.call;
-      const n = Stacks.snippetCount(sheet);
+      document.getElementById('crumbCall').textContent = desig + ' ' + sheet.mono;
+      const headStar = constellationSVG(sheet.id, { w: 170, h: 110, stars: Math.min(9, Math.max(5, sheet.sections.length)) });
       document.getElementById('sheetHead').innerHTML =
-        '<div class="head-stamp">Copy freely<br>· no late fees ·</div>'
-        + '<h1>' + escapeHtml(sheet.name) + '</h1>'
+        '<div class="head-sky" style="--g:var(--g-' + sheet.shelf + ')">' + headStar + '</div>'
+        + '<div><h1><span class="desig">' + escapeHtml(desig) + '</span>' + escapeHtml(sheet.name) + '</h1>'
         + '<p class="sheet-sub">' + escapeHtml(sheet.desc) + '</p>'
-        + '<div class="sheet-meta"><span>' + escapeHtml(sheet.call) + '</span>'
-        + '<span>' + escapeHtml(sheet.tag) + '</span>'
-        + '<span>' + sheet.sections.length + ' sections</span>'
-        + '<span>' + n + ' cards</span></div>';
+        + '<div class="sheet-meta"><span>' + escapeHtml(sheet.tag) + '</span>'
+        + '<span>' + sheet.sections.length + ' regions</span>'
+        + '<span>' + n + ' stars</span></div></div>';
 
       // ── Sections + snippets ──
       const wrap = document.getElementById('sections');
@@ -112,10 +117,10 @@
         const secEl = document.createElement('section');
         secEl.className = 'sheet-section';
         secEl.id = 'sec-' + si;
-        const num = String(si + 1).padStart(2, '0');
-        secEl.innerHTML = '<div class="section-title"><span class="sec-num">§ ' + num + '</span>'
+        const sn2 = String(si + 1).padStart(2, '0');
+        secEl.innerHTML = '<div class="section-title"><span class="sec-num">' + sn2 + '</span>'
           + '<h2>' + escapeHtml(sec.title) + '</h2>'
-          + '<span class="sec-count">' + sec.snippets.length + ' cards</span></div>'
+          + '<span class="sec-count">' + sec.snippets.length + ' stars</span></div>'
           + '<div class="snip-grid"></div>';
         const grid = secEl.querySelector('.snip-grid');
 
@@ -126,12 +131,12 @@
           card.id = id;
           card.innerHTML = '<div class="snip-head">'
             + '<span class="snip-label">' + escapeHtml(sn.label) + '</span>'
-            + '<button class="bm-btn" type="button" title="Bookmark this card">' + svgIcon('star') + '</button>'
+            + '<button class="bm-btn" type="button" title="Pin this star">' + svgIcon('star') + '</button>'
             + '<button class="copy-btn" type="button">' + svgIcon('copy') + 'Copy</button>'
             + '</div>'
             + (sn.desc ? '<p class="snip-desc">' + escapeHtml(sn.desc) + '</p>' : '')
             + '<pre class="snip-code"><code class="language-' + sheet.prism + '"></code></pre>'
-            + '<span class="stamp-mark">Copied</span>';
+            + '<span class="stamp-mark">Charted ✓</span>';
           card.querySelector('code').textContent = sn.code;
           wireCopy(card.querySelector('.copy-btn'), card, sn.code);
 
@@ -163,8 +168,8 @@
         '<a href="sheet.html?lang=' + prev.id + '">' + svgIcon('back') + ' ' + escapeHtml(prev.name) + '</a>'
         + '<a href="sheet.html?lang=' + next.id + '">' + svgIcon('arrow') + ' ' + escapeHtml(next.name) + '</a>';
       document.getElementById('sheetNav').innerHTML =
-        '<a class="prev" href="sheet.html?lang=' + prev.id + '"><span class="nav-dir">← Previous drawer</span><span class="nav-name">' + escapeHtml(prev.name) + '</span></a>'
-        + '<a class="next" href="sheet.html?lang=' + next.id + '"><span class="nav-dir">Next drawer →</span><span class="nav-name">' + escapeHtml(next.name) + '</span></a>';
+        '<a class="prev" href="sheet.html?lang=' + prev.id + '"><span class="nav-dir">← Previous sky</span><span class="nav-name">' + escapeHtml(prev.name) + '</span></a>'
+        + '<a class="next" href="sheet.html?lang=' + next.id + '"><span class="nav-dir">Next sky →</span><span class="nav-name">' + escapeHtml(next.name) + '</span></a>';
 
       // ── Scrollspy ──
       const links = [...document.querySelectorAll('.toc-link')];
