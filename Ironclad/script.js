@@ -517,6 +517,39 @@ document.getElementById('copyPlan').addEventListener('click', () => {
     });
 });
 
+// ── Number steppers (brutalist counter) ──────────────
+(function () {
+  document.querySelectorAll('.bmi-inputs input[type="number"]').forEach(input => {
+    const labelText = (input.closest('.bmi-field')?.querySelector('label')?.textContent || 'value').trim();
+    input.style.marginTop = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'num-stepper';
+    input.parentNode.insertBefore(wrap, input);
+
+    const btn = (glyph, dir) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'num-btn';
+      b.textContent = glyph;
+      b.tabIndex = -1;
+      b.setAttribute('aria-label', (dir < 0 ? 'Decrease ' : 'Increase ') + labelText);
+      b.addEventListener('click', () => {
+        const step = +(input.step) || 1;
+        const min = input.min !== '' ? +input.min : -Infinity;
+        const max = input.max !== '' ? +input.max : Infinity;
+        const base = input.value === '' ? +(input.placeholder) || 0 : +input.value;
+        input.value = Math.min(max, Math.max(min, Math.round((base + dir * step) * 100) / 100));
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+      return b;
+    };
+
+    wrap.appendChild(btn('−', -1));
+    wrap.appendChild(input);
+    wrap.appendChild(btn('+', 1));
+  });
+})();
+
 // ── BMI Calculator ────────────────────────────────────
 const metricBtn   = document.getElementById('metricBtn');
 const imperialBtn = document.getElementById('imperialBtn');
