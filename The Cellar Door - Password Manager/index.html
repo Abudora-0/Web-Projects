@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Cellar Door - What's the word?</title>
+  <meta name="description" content="A speakeasy for your secrets. AES-256 encrypted password ledger that never leaves your browser." />
+
+  <!-- Peephole-hatch favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2317110d'/%3E%3Crect x='6' y='5' width='20' height='22' rx='1.5' fill='none' stroke='%23c9a227' stroke-width='1.6'/%3E%3Crect x='9.5' y='13' width='13' height='6' fill='none' stroke='%23c9a227' stroke-width='1.6'/%3E%3Crect x='16' y='14' width='6.5' height='4' fill='%23c9a227'/%3E%3Ccircle cx='12.5' cy='16' r='1.5' fill='%23c9a227'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ════════════════ THE DOOR ════════════════ -->
+  <div id="door">
+    <div class="door-half door-l"></div>
+    <div class="door-half door-r"></div>
+
+    <div class="door-content">
+      <svg class="door-fan" viewBox="0 0 240 110" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 108 A100 100 0 0 1 220 108" />
+          <path d="M44 108 A76 76 0 0 1 196 108" opacity=".65"/>
+          <path d="M68 108 A52 52 0 0 1 172 108" opacity=".45"/>
+        </g>
+        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="120" y1="104" x2="120" y2="14"/>
+          <line x1="120" y1="104" x2="72"  y2="22"/>
+          <line x1="120" y1="104" x2="168" y2="22"/>
+          <line x1="120" y1="104" x2="38"  y2="52"/>
+          <line x1="120" y1="104" x2="202" y2="52"/>
+        </g>
+      </svg>
+
+      <div class="peephole" id="peephole"><span class="peephole-slot"></span></div>
+
+      <p class="door-over">· you didn't hear about this place from us ·</p>
+      <h1 class="door-title"><span class="door-title-the">the</span>Cellar&nbsp;Door</h1>
+      <p class="door-est">EST. 1926 &nbsp;◆&nbsp; MEMBERS ONLY</p>
+
+      <p class="door-msg" id="doorMsg">What's the word?</p>
+
+      <!-- first visit: choose the house word -->
+      <form class="door-form hidden" id="doorCreate" autocomplete="off">
+        <p class="door-plain">This is your <b>master password</b>. It encrypts everything you save here - nobody, including us, can see or reset it.</p>
+        <input type="password" id="createPw" class="door-input" placeholder="choose the house word…" autocomplete="new-password" />
+        <input type="password" id="createPw2" class="door-input" placeholder="say it again…" autocomplete="new-password" />
+        <p class="door-note" id="migrateNote"></p>
+        <button type="submit" class="btn-gold door-btn">Seal the Ledger</button>
+        <p class="door-warning">There is no "forgot password" link and no recovery. If this password is lost, everything saved here is lost with it.</p>
+      </form>
+
+      <!-- returning: knock -->
+      <form class="door-form hidden" id="doorUnlock" autocomplete="off">
+        <p class="door-plain">Enter your master password to unlock your saved passwords.</p>
+        <input type="password" id="unlockPw" class="door-input" placeholder="speak easy…" autocomplete="current-password" />
+        <button type="submit" class="btn-gold door-btn">Knock Twice</button>
+        <button type="button" class="door-lost" id="lostLink">forgot your password? (no recovery)</button>
+      </form>
+
+      <p class="door-hint">AES-256 · sealed in your browser · nothing leaves the premises</p>
+    </div>
+  </div>
+
+  <!-- ════════════════ THE BAR ════════════════ -->
+  <div id="app" class="hidden">
+
+    <header id="topbar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <rect x="5" y="6" width="38" height="36" rx="2" fill="none" stroke="currentColor" stroke-width="2.4"/>
+          <rect x="11" y="19" width="26" height="11" fill="none" stroke="currentColor" stroke-width="2.4"/>
+          <rect x="24" y="20.6" width="12.4" height="7.8" fill="currentColor"/>
+          <circle cx="17" cy="24.5" r="2.6" fill="currentColor"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">Cellar Door</span>
+          <span class="brand-sub">est. 1926 ◆ members only</span>
+        </div>
+      </div>
+
+      <div class="top-search">
+        <svg viewBox="0 0 24 24" class="ico"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="who are you looking for?  (ctrl+K)" autocomplete="off" />
+      </div>
+
+      <div class="top-actions">
+        <span class="member-count"><b id="memberCount">0</b> on the books</span>
+        <button class="icon-btn" id="backOfficeBtn" title="Back Office (settings, backups)">
+          <svg viewBox="0 0 24 24" class="ico"><path d="M12 8.5A3.5 3.5 0 1 0 12 15.5 3.5 3.5 0 0 0 12 8.5Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn-gold btn-sm" id="lockBtn" title="Lock the vault (ctrl+L)">
+          <svg viewBox="0 0 24 24" class="ico"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          Close Up
+        </button>
+      </div>
+    </header>
+
+    <nav class="rail">
+      <button class="rtab active" data-pane="ledger">The Ledger<small>your saved passwords</small></button>
+      <span class="rail-diamond">◆</span>
+      <button class="rtab" data-pane="mixer">The Mixologist<small>password generator</small></button>
+      <span class="rail-diamond">◆</span>
+      <button class="rtab" data-pane="inspect">House Inspection<small>security check</small></button>
+    </nav>
+
+    <main>
+
+      <!-- ── THE LEDGER ─────────────────────────── -->
+      <section class="pane" id="pane-ledger">
+        <div class="ledger-bar">
+          <div class="chips" id="catChips">
+            <button class="chip on" data-cat="all">Everyone</button>
+            <button class="chip" data-cat="personal">Personal</button>
+            <button class="chip" data-cat="work">Work</button>
+            <button class="chip" data-cat="social">Social</button>
+            <button class="chip" data-cat="banking">Banking</button>
+            <button class="chip" data-cat="note">Notes</button>
+            <button class="chip" data-cat="other">Other</button>
+          </div>
+          <div class="ledger-tools">
+            <label class="ledger-sort">
+              <span>Order</span>
+              <select id="sortSel" class="cd-select" aria-label="Sort the ledger">
+                <option value="name">by name</option>
+                <option value="recent">newest first</option>
+                <option value="weak">weakest first</option>
+                <option value="reused">most reused</option>
+              </select>
+            </label>
+            <button class="btn-line btn-select" id="selectModeBtn" title="Select several at once">Round up</button>
+            <button class="btn-gold" id="addBtn" title="Add a new saved password">
+              <svg viewBox="0 0 24 24" class="ico"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+              New Member
+            </button>
+          </div>
+        </div>
+
+        <div class="bulk-bar hidden" id="bulkBar">
+          <span class="bulk-count"><b id="bulkCount">0</b> rounded up</span>
+          <div class="bulk-acts">
+            <label class="bulk-move">
+              <span>Move to</span>
+              <select id="bulkCatSel" class="cd-select" aria-label="Move selected to room">
+                <option value="">…</option>
+                <option value="personal">Personal</option>
+                <option value="work">Work</option>
+                <option value="social">Social</option>
+                <option value="banking">Banking</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <button class="btn-danger btn-sm" id="bulkDel">Strike selected</button>
+            <button class="btn-line btn-sm" id="bulkCancel">Done</button>
+          </div>
+        </div>
+
+        <div class="card-grid" id="cardGrid"></div>
+      </section>
+
+      <!-- ── THE MIXOLOGIST ─────────────────────── -->
+      <section class="pane hidden" id="pane-mixer">
+        <div class="deco-card mixer">
+          <div class="deco-card-head">
+            <h2>The Mixologist</h2>
+            <p>Every pour is measured with <span class="gold">crypto-grade randomness</span>. Nothing from the well.</p>
+          </div>
+
+          <div class="mix-modes">
+            <button class="mix-mode on" id="modeChars">Bathtub Gin <small>random characters</small></button>
+            <button class="mix-mode" id="modeWords">House Special <small>word passphrase</small></button>
+          </div>
+
+          <div class="mix-glass">
+            <output class="mix-output" id="mixOutput">press mix</output>
+            <div class="mix-glass-btns">
+              <button class="icon-btn" id="mixCopy" title="Copy (burns in 20s)">
+                <svg viewBox="0 0 24 24" class="ico"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+              <button class="icon-btn" id="mixAgain" title="Mix another">
+                <svg viewBox="0 0 24 24" class="ico"><path d="M20 12a8 8 0 1 1-2.34-5.66" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 3v4h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="proof-row">
+            <div class="proof-track"><div class="proof-fill" id="mixProofFill"></div></div>
+            <span class="proof-label" id="mixProofLabel">-</span>
+          </div>
+
+          <!-- character recipe -->
+          <div class="mix-recipe" id="recipeChars">
+            <div class="mix-len">
+              <label for="optLen">Measure the pour</label>
+              <div class="stepper-row">
+                <div class="cd-stepper" data-for="optLen"></div>
+                <input type="range" id="optLen" min="8" max="64" value="18" />
+              </div>
+            </div>
+            <div class="mix-toggles">
+              <label class="tgl"><input type="checkbox" id="optUp" checked /><span>A-Z <em>top shelf</em></span></label>
+              <label class="tgl"><input type="checkbox" id="optLo" checked /><span>a-z <em>well pour</em></span></label>
+              <label class="tgl"><input type="checkbox" id="optNum" checked /><span>0-9 <em>a dash</em></span></label>
+              <label class="tgl"><input type="checkbox" id="optSym" checked /><span>#$! <em>bitters</em></span></label>
+              <label class="tgl"><input type="checkbox" id="optAmb" /><span>strain the pulp <em>no 0 O l 1 I</em></span></label>
+            </div>
+          </div>
+
+          <!-- passphrase recipe -->
+          <div class="mix-recipe hidden" id="recipeWords">
+            <div class="mix-len">
+              <label for="optWords">Recipe of words</label>
+              <div class="stepper-row">
+                <div class="cd-stepper" data-for="optWords"></div>
+                <input type="range" id="optWords" min="3" max="8" value="5" />
+              </div>
+            </div>
+            <div class="mix-toggles">
+              <label class="tgl sep-tgl"><span>garnish with</span>
+                <select id="optSep" class="cd-select" aria-label="Word separator">
+                  <option value="-">- dash</option>
+                  <option value=".">. dot</option>
+                  <option value="_">_ under</option>
+                  <option value=" ">space</option>
+                </select>
+              </label>
+              <label class="tgl"><input type="checkbox" id="optCaps" checked /><span>Capitalize <em>one word</em></span></label>
+              <label class="tgl"><input type="checkbox" id="optNumSuffix" checked /><span>Number <em>on the tab</em></span></label>
+            </div>
+          </div>
+
+          <div class="mix-actions">
+            <button class="btn-gold" id="mixBtn">
+              <svg viewBox="0 0 24 24" class="ico"><path d="M5 3h14l-6 8v6l3 2v2H8v-2l3-2v-6L5 3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              Mix One
+            </button>
+            <button class="btn-line" id="mixUse">Pour into a new card →</button>
+          </div>
+
+          <div class="mix-history hidden" id="mixHistory">
+            <div class="mix-history-head">Last call</div>
+            <ul id="mixHistoryList"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── HOUSE INSPECTION ───────────────────── -->
+      <section class="pane hidden" id="pane-inspect">
+        <div class="deco-card inspect">
+          <div class="deco-card-head">
+            <h2>House Inspection</h2>
+            <p>The management walks the floor: weak pours, double pours, bottles past their prime.</p>
+          </div>
+
+          <div class="house-ledger" id="houseLedger"></div>
+
+          <div class="inspect-actions">
+            <button class="btn-gold" id="inspectRun" title="Run a security check on your saved passwords">Walk the Floor</button>
+            <button class="btn-line" id="breachBtn" title="Checks each password against the haveibeenpwned breach corpus using k-anonymity - only 5 hash characters ever leave your browser">Ask Around Town <small>breach check</small></button>
+          </div>
+          <div id="houseScore"></div>
+          <div id="inspectResults">
+            <div class="inspect-empty">
+              <p>◆</p>
+              <p>The floor hasn't been walked tonight.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer id="basement">
+      <span>◆ everything is encrypted with your house word and stays behind this door - no servers, no syncing, no snitching ◆</span>
+    </footer>
+  </div>
+
+  <!-- ════════════════ MODALS ════════════════ -->
+
+  <!-- member add / edit -->
+  <div class="overlay hidden" id="memberModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="memberTitle">New Member</h3>
+        <button class="icon-btn modal-x" data-close="memberModal">✕</button>
+      </div>
+
+      <div class="kind-toggle" role="group" aria-label="What kind of record">
+        <button type="button" class="kind-opt on" data-kind="login">A Login <small>site, name, word</small></button>
+        <button type="button" class="kind-opt" data-kind="note">A Secret <small>card, PIN, wifi, key</small></button>
+      </div>
+
+      <form id="memberForm" data-kind="login" autocomplete="off">
+        <div class="fgrid">
+          <div class="fgroup">
+            <label for="fSite"><span class="lbl-login">Establishment <i>(website)</i></span><span class="lbl-note">Name it</span></label>
+            <input type="text" id="fSite" placeholder="github.com" required />
+          </div>
+          <div class="fgroup">
+            <label for="fCat">Room <i>(category)</i></label>
+            <select id="fCat" class="cd-select">
+              <option value="personal">Personal</option>
+              <option value="work">Work</option>
+              <option value="social">Social</option>
+              <option value="banking">Banking</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fgroup login-only">
+          <label for="fUser">Goes by <i>(username or email)</i></label>
+          <input type="text" id="fUser" placeholder="name or email at the door" />
+        </div>
+
+        <div class="fgroup">
+          <label for="fPw"><span class="lbl-login">The word <i>(password)</i></span><span class="lbl-note">The secret <i>(kept hidden)</i></span></label>
+          <div class="pw-wrap">
+            <input type="password" id="fPw" placeholder="type it or let the Mixologist pour one" />
+            <button type="button" class="icon-btn pw-eye" id="fPwToggle" aria-label="Show / hide">
+              <svg viewBox="0 0 24 24" class="ico"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            </button>
+          </div>
+          <div class="proof-row slim login-only">
+            <div class="proof-track"><div class="proof-fill" id="fProofFill"></div></div>
+            <span class="proof-label" id="fProofLabel"></span>
+          </div>
+        </div>
+
+        <div class="fgroup login-only">
+          <label for="fTotp">One-time code <i>(2FA secret, optional)</i></label>
+          <input type="text" id="fTotp" placeholder="paste the setup key, e.g. JBSWY3DPEHPK3PXP" autocomplete="off" spellcheck="false" />
+          <p class="fnote" id="fTotpNote"></p>
+        </div>
+
+        <div class="fgroup login-only">
+          <label for="fRotate">Review this word</label>
+          <select id="fRotate" class="cd-select">
+            <option value="0">when I feel like it</option>
+            <option value="3">every 3 months</option>
+            <option value="6">every 6 months</option>
+            <option value="12">once a year</option>
+          </select>
+        </div>
+
+        <div class="fgroup">
+          <label for="fNotes"><span class="lbl-login">House notes <i>(optional)</i></span><span class="lbl-note">The details</span></label>
+          <textarea id="fNotes" rows="2" placeholder="security questions, PINs, tabs owed…"></textarea>
+        </div>
+
+        <div class="pw-history hidden" id="pwHistory">
+          <div class="pw-history-head">Words used before</div>
+          <ul id="pwHistoryList"></ul>
+        </div>
+
+        <div class="modal-foot">
+          <button type="button" class="btn-line login-only" id="fFromMixer">☞ ask the Mixologist</button>
+          <button type="submit" class="btn-gold" id="memberSubmit">Add to the Books</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- generic confirm -->
+  <div class="overlay hidden" id="confirmModal">
+    <div class="modal modal-sm">
+      <div class="modal-head">
+        <h3 id="confirmTitle">Are you sure?</h3>
+        <button class="icon-btn modal-x" data-close="confirmModal">✕</button>
+      </div>
+      <p class="confirm-text" id="confirmText"></p>
+      <div class="modal-foot">
+        <button class="btn-line" id="confirmNo">Never mind</button>
+        <button class="btn-danger" id="confirmYes">Do it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- back office -->
+  <div class="overlay hidden" id="officeModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>The Back Office</h3>
+        <button class="icon-btn modal-x" data-close="officeModal">✕</button>
+      </div>
+
+      <div class="office-block">
+        <h4>Doors close on their own</h4>
+        <p>Step away and the house locks up behind you.</p>
+        <select id="setAutolock" class="cd-select">
+          <option value="1">after 1 minute</option>
+          <option value="5">after 5 minutes</option>
+          <option value="15">after 15 minutes</option>
+          <option value="60">after 1 hour</option>
+          <option value="0">never (living dangerously)</option>
+        </select>
+      </div>
+
+      <div class="office-block">
+        <h4>Change the house word <i>(master password)</i></h4>
+        <p>This is the password you use to unlock the vault.</p>
+        <form id="changeForm" autocomplete="off">
+          <input type="password" id="chOld" placeholder="current word" autocomplete="current-password" required />
+          <input type="password" id="chNew" placeholder="new word" autocomplete="new-password" required />
+          <input type="password" id="chNew2" placeholder="new word, again" autocomplete="new-password" required />
+          <button type="submit" class="btn-line">Re-seal the ledger</button>
+        </form>
+      </div>
+
+      <div class="office-block">
+        <h4>Ledger in and out the side door</h4>
+        <div class="office-row">
+          <button class="btn-line" id="expSealed">Export sealed backup</button>
+          <label class="btn-line file-btn">Import backup or CSV<input type="file" id="impFile" accept=".json,.csv,application/json,text/csv" hidden /></label>
+          <button class="btn-line" id="expCsv">Export plain CSV…</button>
+        </div>
+        <p class="office-fine">Sealed backups stay encrypted - they open only with the house word they were sealed under. A CSV import reads site / username / password columns from Chrome, Bitwarden and most others.</p>
+      </div>
+
+      <div class="office-block danger-block">
+        <h4>Burn the ledger</h4>
+        <p>Permanently deletes every saved password and your master password. This cannot be undone.</p>
+        <button class="btn-danger" id="burnBtn">Strike the match</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- import unlock -->
+  <div class="overlay hidden" id="importModal">
+    <div class="modal modal-sm">
+      <div class="modal-head">
+        <h3>Backup at the door</h3>
+        <button class="icon-btn modal-x" data-close="importModal">✕</button>
+      </div>
+      <p class="confirm-text">This sealed backup needs the house word it was sealed under.</p>
+      <form id="importForm" autocomplete="off">
+        <input type="password" id="impPw" class="door-input" placeholder="its house word…" required />
+        <div class="modal-foot">
+          <button type="button" class="btn-line" data-close="importModal">Cancel</button>
+          <button type="submit" class="btn-gold">Unseal &amp; merge</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- toast : ticket stub -->
+  <div id="toast"><span id="toastMsg"></span><div id="toastBar"></div></div>
+
+  <script src="script.js"></script>
+
+  <!-- Back to All Projects -->
+  <a id="back-to-all" href="../index.html"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>
