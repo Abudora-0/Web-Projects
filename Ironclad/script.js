@@ -97,53 +97,84 @@ document.querySelectorAll('.faq-item').forEach(item => {
 
 // ── Testimonial Slider ────────────────────────────────
 (function () {
-  const track  = document.getElementById('testiTrack');
-  const cards  = track.querySelectorAll('.testi-card');
-  const dots   = document.getElementById('testiDots');
-  const prev   = document.getElementById('testiPrev');
-  const next   = document.getElementById('testiNext');
-  let idx      = 0;
+  const track = document.getElementById('testiTrack');
+  const dotsBox = document.getElementById('testiDots');
+  const prev = document.getElementById('testiPrev');
+  const next = document.getElementById('testiNext');
+  if (!track || !dotsBox) return;
+  const cards = [...track.querySelectorAll('.testi-card')];
+  if (!cards.length) return;
 
-  function visibleCount() {
-    const w = track.offsetWidth;
-    if (w < 500) return 1;
-    if (w < 800) return 2;
-    return 3;
-  }
-  function maxIdx() { return Math.max(0, cards.length - visibleCount()); }
+  // the old build moved the track with translateX; clear any stale inline styles
+  track.style.transform = '';
+  track.style.transition = '';
 
-  // Build dots
-  function buildDots() {
-    dots.innerHTML = '';
-    const count = maxIdx() + 1;
-    for (let i = 0; i < count; i++) {
-      const d = document.createElement('div');
-      d.className = 'testi-dot' + (i === idx ? ' active' : '');
-      d.addEventListener('click', () => go(i));
-      dots.appendChild(d);
+  let idx = 0;
+
+  const perView = () => {
+    const w = track.clientWidth;
+    return w < 520 ? 1 : w < 820 ? 2 : 3;
+  };
+  const maxIdx = () => Math.max(0, cards.length - perView());
+  const cardX = (i) => cards[i].offsetLeft - cards[0].offsetLeft; // distance from card 0
+
+  const nearestIdx = () => {
+    let best = 0, bestDist = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(cardX(i) - track.scrollLeft);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return Math.min(best, maxIdx());
+  };
+
+  const syncDots = () => {
+    [...dotsBox.children].forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+
+  const goTo = (i, smooth = true) => {
+    idx = Math.max(0, Math.min(i, maxIdx()));
+    track.scrollTo({ left: cardX(idx), behavior: smooth ? 'smooth' : 'auto' });
+    syncDots();
+  };
+
+  const buildDots = () => {
+    dotsBox.innerHTML = '';
+    for (let i = 0; i <= maxIdx(); i++) {
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.className = 'testi-dot';
+      d.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
+      d.addEventListener('click', () => goTo(i));
+      dotsBox.appendChild(d);
     }
-  }
+    syncDots();
+  };
 
-  function go(to) {
-    idx = Math.max(0, Math.min(to, maxIdx()));
-    const cardW = cards[0].offsetWidth + 16; // gap 1rem = 16px
-    track.style.transform = `translateX(-${idx * cardW}px)`;
-    track.style.transition = 'transform .4s ease';
-    dots.querySelectorAll('.testi-dot').forEach((d, i) =>
-      d.classList.toggle('active', i === idx)
-    );
-  }
+  prev.addEventListener('click', () => goTo(idx - 1));
+  next.addEventListener('click', () => goTo(idx + 1));
 
-  prev.addEventListener('click', () => go(idx - 1));
-  next.addEventListener('click', () => go(idx + 1));
+  // keep idx in sync when the user drags/swipes the track directly
+  let scrollT;
+  track.addEventListener('scroll', () => {
+    clearTimeout(scrollT);
+    scrollT = setTimeout(() => { idx = nearestIdx(); syncDots(); }, 100);
+  }, { passive: true });
 
-  // Auto-advance
-  let auto = setInterval(() => go(idx + 1 > maxIdx() ? 0 : idx + 1), 5000);
-  track.addEventListener('mouseenter', () => clearInterval(auto));
-  track.addEventListener('mouseleave', () => { auto = setInterval(() => go(idx + 1 > maxIdx() ? 0 : idx + 1), 5000); });
+  let auto;
+  const startAuto = () => { stopAuto(); auto = setInterval(() => goTo(idx >= maxIdx() ? 0 : idx + 1), 5000); };
+  function stopAuto() { clearInterval(auto); }
+  track.addEventListener('mouseenter', stopAuto);
+  track.addEventListener('mouseleave', startAuto);
+  track.addEventListener('focusin', stopAuto);
 
-  window.addEventListener('resize', () => { idx = 0; go(0); buildDots(); });
+  let rt;
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { buildDots(); goTo(Math.min(idx, maxIdx()), false); }, 150);
+  });
+
   buildDots();
+  startAuto();
 })();
 
 // ── AI Workout Planner ────────────────────────────────
