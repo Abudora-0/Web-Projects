@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoundRoom - Records &amp; Hi-Fi</title>
+  <!-- Favicon: vinyl record, no backing shape -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%231b140c' stroke='%233c2c1a' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%232a1f13' stroke-width='0.9'/%3E%3Ccircle cx='16' cy='16' r='9.4' fill='none' stroke='%232a1f13' stroke-width='0.9'/%3E%3Ccircle cx='16' cy='16' r='6.8' fill='none' stroke='%232a1f13' stroke-width='0.9'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23e8933a'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%233c2c1a' stroke-width='0.6'/%3E%3Ccircle cx='16' cy='16' r='1.4' fill='%231b140c'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </noscript>
+</head>
+<body>
+
+<!-- warm lamp glow over the whole room -->
+<div class="room-light" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════════════════════
+     THE CRATE  (browse / press records)
+════════════════════════════════════════════════ -->
+<div id="studioView">
+
+  <!-- Shop fascia -->
+  <header class="studio-header">
+    <div class="studio-brand">
+      <svg class="brand-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2"/>
+        <circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <circle cx="16" cy="16" r="4.2" fill="currentColor"/>
+        <circle cx="16" cy="16" r="1.2" fill="var(--room, #171009)"/>
+      </svg>
+      <span class="brand-word">Sound<em>Room</em></span>
+      <span class="brand-motto">records &amp; hi-fi - est. 2026</span>
+    </div>
+    <button class="new-album-btn" id="newAlbumBtn">
+      <i class="fa-solid fa-plus"></i> Press a Record
+    </button>
+  </header>
+
+  <!-- The crate itself -->
+  <div class="crate-section">
+    <div class="crate-label"><span>&#9670;</span> flip through the crate <span>&#9670;</span></div>
+    <div class="crate">
+      <div class="studio-album-tabs" id="albumTabs">
+        <!-- sleeves populated by JS -->
+      </div>
+      <div class="crate-front" aria-hidden="true">
+        <span class="crate-stencil">SOUNDROOM &middot; USED &amp; NEW</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pressing station -->
+  <div class="studio-body">
+
+    <!-- ── LEFT: the sleeve on the workbench ──── -->
+    <div class="studio-left">
+      <div class="station-title">Pressing Station</div>
+
+      <!-- Album art upload = blank sleeve -->
+      <div class="art-zone" id="artZone">
+        <div class="art-zone-inner" id="artZoneInner">
+          <img id="artPreview" class="art-preview hidden" src="" alt="Album Art" />
+          <div class="art-placeholder" id="artPlaceholder">
+            <i class="fa-solid fa-record-vinyl"></i>
+            <span>Blank Sleeve</span>
+            <small>Click or drop the cover art</small>
+          </div>
+        </div>
+        <input type="file" id="artInput" accept="image/*" style="display:none" />
+      </div>
+
+      <!-- Background image upload -->
+      <div class="bg-upload-row">
+        <div class="bg-mini-zone" id="bgZone">
+          <img id="bgPreview" class="bg-preview hidden" src="" alt="bg" />
+          <span id="bgLabel"><i class="fa-solid fa-panorama"></i> Room backdrop</span>
+        </div>
+        <input type="file" id="bgInput" accept="image/*" style="display:none" />
+        <div class="bg-hint">Backdrop behind the deck (optional)</div>
+      </div>
+
+      <!-- Label copy -->
+      <div class="meta-form">
+        <div class="meta-legend">Center-label copy</div>
+        <input class="meta-input" type="text"   id="inputTitle"  placeholder="Album title"  maxlength="60" />
+        <input class="meta-input" type="text"   id="inputArtist" placeholder="Artist"       maxlength="60" />
+        <div class="meta-row-2">
+          <div class="num-stepper">
+            <button type="button" class="num-btn" data-step="-1" aria-label="Year down" tabindex="-1">&minus;</button>
+            <input class="meta-input" type="number" id="inputYear" placeholder="Year" min="1900" max="2099" />
+            <button type="button" class="num-btn" data-step="1" aria-label="Year up" tabindex="-1">+</button>
+          </div>
+          <input class="meta-input" type="text"   id="inputGenre"  placeholder="Genre" maxlength="30" />
+        </div>
+        <textarea class="meta-input meta-notes" id="inputNotes" rows="3"
+                  placeholder="Sleeve notes - a line or two about the record" maxlength="600"></textarea>
+      </div>
+
+      <!-- Vinyl colour -->
+      <div class="color-section">
+        <div class="color-label">Vinyl colour</div>
+        <div class="color-swatches" id="colorSwatches">
+          <div class="swatch active" data-color="#e8933a" style="background:#e8933a"></div>
+          <div class="swatch" data-color="#8b5cf6" style="background:#8b5cf6"></div>
+          <div class="swatch" data-color="#ef4444" style="background:#ef4444"></div>
+          <div class="swatch" data-color="#f59e0b" style="background:#f59e0b"></div>
+          <div class="swatch" data-color="#3b82f6" style="background:#3b82f6"></div>
+          <div class="swatch" data-color="#ec4899" style="background:#ec4899"></div>
+          <div class="swatch" data-color="#14b8a6" style="background:#14b8a6"></div>
+          <div class="swatch custom-swatch" data-color="" title="Custom colour">
+            <i class="fa-solid fa-eyedropper"></i>
+            <input type="color" id="customColor" value="#e8933a" />
+          </div>
+        </div>
+      </div>
+
+      <!-- To the deck -->
+      <button class="launch-btn" id="launchBtn">
+        <i class="fa-solid fa-play"></i>
+        Put It On the Deck
+      </button>
+    </div>
+
+    <!-- ── RIGHT: liner-notes builder ─────────── -->
+    <div class="studio-right">
+
+      <div class="songs-header">
+        <h2 class="songs-title">Liner Notes <span id="songCount" class="song-count-badge">0</span></h2>
+        <div class="songs-actions">
+          <button class="songs-action-btn" id="clearAllBtn" title="Clear all tracks">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Song drop zone -->
+      <div class="song-drop-zone" id="songDropZone">
+        <i class="fa-solid fa-compact-disc"></i>
+        <p>Drop the masters here</p>
+        <span>MP3 files - or click to browse</span>
+        <input type="file" id="songInput" accept="audio/*" multiple style="display:none" />
+      </div>
+
+      <!-- Song list -->
+      <div class="song-builder-list" id="songBuilderList">
+        <!-- song builder rows populated by JS -->
+      </div>
+
+      <!-- Add more -->
+      <button class="add-more-btn" id="addMoreBtn">
+        <i class="fa-solid fa-plus"></i> Add More Tracks
+        <input type="file" id="addMoreInput" accept="audio/*" multiple style="display:none" />
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     THE DECK  (turntable player)
+════════════════════════════════════════════════ -->
+<div id="playerView" class="hidden">
+
+  <!-- Dynamic blurred backdrop -->
+  <div class="player-bg" id="playerBg"></div>
+  <div class="player-bg-overlay" id="playerBgOverlay"></div>
+
+  <!-- Top bar -->
+  <div class="player-topbar">
+    <button class="topbar-back" id="backBtn">
+      <i class="fa-solid fa-chevron-left"></i> The Crate
+    </button>
+    <div class="topbar-album">
+      <span class="topbar-album-name" id="topbarAlbumName">-</span>
+      <span class="topbar-dot">&middot;</span>
+      <span class="topbar-artist" id="topbarArtist">-</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="topbar-btn" id="btnLyrics" title="Lyric booklet">
+        <i class="fa-solid fa-book-open"></i>
+      </button>
+      <button class="topbar-btn" id="btnFullscreen" title="Fullscreen">
+        <i class="fa-solid fa-expand"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Player main layout -->
+  <div class="player-layout">
+
+    <!-- ── LEFT: back-of-sleeve liner notes ──── -->
+    <div class="tracklist-panel">
+      <div class="tracklist-album-info">
+        <div class="tl-cover" id="tlCover">
+          <img id="tlCoverImg" src="" alt="" />
+        </div>
+        <div class="tl-meta">
+          <div class="tl-album-name" id="tlAlbumName">-</div>
+          <div class="tl-artist" id="tlArtist">-</div>
+          <div class="tl-year-genre" id="tlYearGenre">-</div>
+        </div>
+      </div>
+
+      <div class="tracklist" id="tracklistEl">
+        <!-- populated by JS (with Side A / Side B dividers) -->
+      </div>
+
+      <div class="sleeve-footnote" aria-hidden="true">
+        &#8471; SoundRoom Pressing &middot; 33&#8531; RPM &middot; Stereo
+      </div>
+    </div>
+
+    <!-- ── CENTER: the turntable ─────────────── -->
+    <div class="player-stage">
+
+      <!-- Deck plinth -->
+      <div class="deck" id="deck">
+        <div class="vinyl-wrap" id="vinylWrap">
+          <!-- Platter -->
+          <div class="platter" aria-hidden="true"></div>
+
+          <!-- Record -->
+          <div class="vinyl-disc" id="vinylDisc">
+            <div class="vinyl-sheen" aria-hidden="true"></div>
+            <div class="vinyl-label">
+              <img id="vinylArtImg" src="" alt="cover" onerror="this.style.display='none'" />
+            </div>
+            <div class="vinyl-center-hole"></div>
+          </div>
+
+          <!-- Glow ring -->
+          <div class="vinyl-glow" id="vinylGlow"></div>
+
+          <!-- Tonearm assembly -->
+          <div class="tonearm" id="tonearm">
+            <div class="ta-base"></div>
+            <div class="ta-counterweight"></div>
+            <div class="ta-arm"></div>
+            <div class="ta-headshell"></div>
+          </div>
+
+          <!-- Speed switch dressing -->
+          <div class="deck-switch" aria-hidden="true">
+            <span class="ds-dot"></span> 33&#8531;
+          </div>
+        </div>
+      </div>
+
+      <!-- Now spinning -->
+      <div class="stage-song-info">
+        <div class="stage-kicker">now spinning</div>
+        <div class="stage-title-wrap">
+          <h2 class="stage-title marquee-wrap">
+            <span class="stage-title-text" id="stageTitle">-</span>
+          </h2>
+        </div>
+        <p class="stage-artist" id="stageArtist">-</p>
+      </div>
+
+      <!-- VU bank -->
+      <div class="visualizer" id="visualizer">
+        <!-- bars populated by JS -->
+      </div>
+
+      <!-- Transport controls -->
+      <div class="player-controls">
+        <button class="ctrl-sm" id="ctrlShuffle" title="Shuffle">
+          <i class="fa-solid fa-shuffle"></i>
+        </button>
+        <button class="ctrl-sm" id="ctrlPrev" title="Previous">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button class="ctrl-play" id="ctrlPlay" title="Play / Pause">
+          <i class="fa-solid fa-play" id="playIco"></i>
+        </button>
+        <button class="ctrl-sm" id="ctrlNext" title="Next">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+        <button class="ctrl-sm" id="ctrlRepeat" title="Repeat">
+          <i class="fa-solid fa-repeat"></i>
+        </button>
+      </div>
+
+      <!-- Groove progress -->
+      <div class="seek-row">
+        <span class="seek-time" id="timeNow">0:00</span>
+        <div class="seek-track" id="seekTrack">
+          <div class="seek-fill" id="seekFill"></div>
+          <div class="seek-thumb" id="seekThumb"></div>
+        </div>
+        <span class="seek-time" id="timeTotal">0:00</span>
+      </div>
+
+      <!-- Fader row -->
+      <div class="bottom-row">
+        <button class="like-btn" id="likeBtn" title="Like">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+        <div class="vol-row">
+          <button class="vol-icon-btn" id="volIconBtn">
+            <i class="fa-solid fa-volume-high" id="volIco"></i>
+          </button>
+          <div class="vol-track" id="volTrack">
+            <div class="vol-fill" id="volFill"></div>
+            <div class="vol-thumb" id="volThumb"></div>
+          </div>
+        </div>
+        <div class="speed-wrap">
+          <button class="speed-btn" id="speedBtn" title="Playback speed">1&times;</button>
+        </div>
+      </div>
+
+      <!-- Amp row: surface noise + tone -->
+      <div class="amp-row">
+        <button class="crackle-btn" id="crackleBtn" aria-pressed="false" title="Vinyl surface noise">
+          <i class="fa-solid fa-record-vinyl"></i> <span>Crackle</span>
+        </button>
+        <div class="tone-group">
+          <label class="tone-ctl">
+            <span>Bass</span>
+            <input type="range" class="tone-slider" id="bassSlider" min="-12" max="12" step="1" value="0" />
+          </label>
+          <label class="tone-ctl">
+            <span>Treble</span>
+            <input type="range" class="tone-slider" id="trebleSlider" min="-12" max="12" step="1" value="0" />
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT: lyric booklet ──────────────── -->
+    <div class="info-panel" id="infoPanel">
+      <div class="panel-tabs">
+        <button class="panel-tab active" data-tab="lyrics">Lyrics</button>
+        <button class="panel-tab" data-tab="info">Sleeve</button>
+        <button class="panel-tab" data-tab="queue">Up Next</button>
+      </div>
+
+      <div class="panel-content" id="panelContent">
+
+        <div class="tab-pane active" id="tabLyrics">
+          <div class="lyrics-display" id="lyricsDisplay">
+            <div class="lyrics-empty">
+              <i class="fa-solid fa-book-open"></i>
+              <p>This pressing shipped without a lyric sheet</p>
+              <button class="lyrics-edit-btn" id="lyricsEditBtn">Add lyrics at the station</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tabInfo">
+          <div class="about-panel" id="aboutPanel">
+            <!-- populated by JS -->
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tabQueue">
+          <div class="queue-list" id="queueList">
+            <!-- populated by JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Lyrics editor modal ─────────────────────── -->
+<div class="modal-overlay hidden" id="lyricsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Lyric Sheet</h3>
+      <button class="modal-close" id="lyricsModalClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-song-sel">
+      <label id="lyricsSongLbl">Track:</label>
+      <div class="cs" id="lyricsSongCs">
+        <button type="button" class="cs-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lyricsSongLbl">
+          <span class="cs-value">-</span><i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <ul class="cs-panel" id="lyricsSongPanel" role="listbox"></ul>
+      </div>
+      <select id="lyricsSongSel" class="cs-native" aria-hidden="true" tabindex="-1"></select>
+    </div>
+    <textarea class="lyrics-textarea" id="lyricsTextarea" placeholder="Paste or type the lyrics&hellip;"></textarea>
+    <div class="modal-footer">
+      <button class="modal-save" id="lyricsSave">Save to the Booklet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ──────────────────────────────────── -->
+<div id="toastWrap"></div>
+
+<script src="script.js"></script>
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#241a10;color:#e8d9c0;border:1px solid #6b4a28;border-radius:3px;font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;font-family:'Space Grotesk',system-ui,sans-serif;box-shadow:0 4px 12px rgba(0,0,0,0.45),inset 0 1px 0 rgba(232,147,58,0.2);transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='#3a2a18';this.style.borderColor='#e8933a'" onmouseout="this.style.background='#241a10';this.style.borderColor='#6b4a28'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>

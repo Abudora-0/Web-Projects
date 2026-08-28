@@ -1,5 +1,6 @@
 /* ══════════════════════════════════════════════
-   Album Studio + Player  |  script.js
+   SoundRoom - records & hi-fi  |  script.js
+   (crate + pressing station + turntable deck)
    ══════════════════════════════════════════════ */
 
 'use strict';
@@ -30,7 +31,7 @@ const GNX_DEFAULT = {
 
 function sp(folder, file, title, artist) {
   return { title, artist, file: SP + folder + '/' + file,
-           cover: SP + folder + '/cover.jpg', duration: '—', lyrics: '' };
+           cover: SP + folder + '/cover.jpg', duration: '-', lyrics: '' };
 }
 
 const PRESET_ALBUMS = [
@@ -203,11 +204,116 @@ let playbackSpeed = 1;
 let likedSongs    = {};
 let seekDragging  = false;
 let volDragging   = false;
+let currentSyncedLyrics = null;
+let activeLyricsLine    = -1;
+let lyricsReadyPromise  = Promise.resolve();
+let playIntentId        = 0;
+
+/* Never makes playback wait more than this long on a slow/failed lyrics lookup. */
+function withTimeout(promise, ms) {
+  return Promise.race([
+    Promise.resolve(promise),
+    new Promise(function(resolve) { setTimeout(resolve, ms); }),
+  ]);
+}
 
 const SPEEDS  = [0.5, 0.75, 1, 1.25, 1.5, 2];
 let speedIdx  = 2;
 
 const audio = new Audio();
+
+/* ══════════════════════════════════════════════
+   AUDIO ENGINE  (real VU meters + surface noise + tone)
+══════════════════════════════════════════════ */
+const ampSettings = Object.assign(
+  { bass: 0, treble: 0, crackle: false },
+  (function () { try { return JSON.parse(localStorage.getItem('soundroom_amp')) || {}; } catch (e) { return {}; } })()
+);
+function saveAmp() { try { localStorage.setItem('soundroom_amp', JSON.stringify(ampSettings)); } catch (e) {} }
+
+let AC = null, srcNode = null, bassNode = null, trebleNode = null, analyser = null, freqData = null;
+let noiseSrc = null, noiseGain = null, vuRaf = null, audioEngineFailed = false;
+
+function initAudioEngine() {
+  if (AC || audioEngineFailed) return;
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) { audioEngineFailed = true; return; }
+    AC = new Ctx();
+    srcNode    = AC.createMediaElementSource(audio);
+    bassNode   = AC.createBiquadFilter();  bassNode.type   = 'lowshelf';  bassNode.frequency.value = 200;
+    trebleNode = AC.createBiquadFilter();  trebleNode.type = 'highshelf'; trebleNode.frequency.value = 3200;
+    analyser   = AC.createAnalyser();      analyser.fftSize = 128; analyser.smoothingTimeConstant = 0.82;
+    freqData   = new Uint8Array(analyser.frequencyBinCount);
+
+    srcNode.connect(bassNode);
+    bassNode.connect(trebleNode);
+    trebleNode.connect(analyser);
+    analyser.connect(AC.destination);
+
+    noiseGain = AC.createGain();
+    noiseGain.gain.value = 0;
+    noiseGain.connect(AC.destination);
+    noiseSrc = AC.createBufferSource();
+    noiseSrc.buffer = makeCrackleBuffer();
+    noiseSrc.loop = true;
+    noiseSrc.connect(noiseGain);
+    noiseSrc.start();
+
+    bassNode.gain.value   = ampSettings.bass;
+    trebleNode.gain.value = ampSettings.treble;
+    startVU();
+  } catch (e) {
+    audioEngineFailed = true;
+    AC = null; srcNode = null; analyser = null;
+  }
+}
+
+function resumeAC() { if (AC && AC.state === 'suspended') AC.resume().catch(function () {}); }
+
+/* 4s of steady groove hiss with occasional dust pops */
+function makeCrackleBuffer() {
+  const len = Math.floor(AC.sampleRate * 4);
+  const buf = AC.createBuffer(1, len, AC.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * 0.045;
+  for (let p = 0; p < len; p++) {
+    if (Math.random() < 0.0009) {
+      const amp = Math.random() * 0.45 + 0.25;
+      for (let j = 0; j < 80 && p + j < len; j++) {
+        d[p + j] += amp * Math.exp(-j / 10) * (Math.random() * 2 - 1);
+      }
+    }
+  }
+  return buf;
+}
+
+/* crackle is only audible while the record actually turns */
+function updateCrackleGain() {
+  if (!noiseGain || !AC) return;
+  const target = (ampSettings.crackle && isPlaying) ? 0.28 : 0;
+  noiseGain.gain.setTargetAtTime(target, AC.currentTime, 0.15);
+}
+
+function startVU() {
+  const viz = document.getElementById('visualizer');
+  viz.classList.add('live');
+  const bars = viz.querySelectorAll('.viz-bar');
+  const n = bars.length;
+  cancelAnimationFrame(vuRaf);
+  (function frame() {
+    vuRaf = requestAnimationFrame(frame);
+    if (!analyser) return;
+    analyser.getByteFrequencyData(freqData);
+    const usable = Math.floor(freqData.length * 0.72);
+    for (let i = 0; i < n; i++) {
+      const src = Math.floor((i / n) * usable);
+      let v = freqData[src] / 255;
+      if (!isPlaying) v = 0.05 + 0.03 * Math.sin(performance.now() / 380 + i * 0.7);
+      bars[i].style.transform = 'scaleY(' + Math.max(0.06, v).toFixed(3) + ')';
+    }
+  })();
+}
 
 /* ── Persistence ─────────────────────────────── */
 function saveAlbums() {
@@ -216,6 +322,7 @@ function saveAlbums() {
     songs: a.songs.map(s => ({
       title: s.title, artist: s.artist,
       duration: s.duration, lyrics: s.lyrics,
+      syncedLyrics: s.syncedLyrics || null,
       filePath: s.filePath || null,
       coverPath: s.coverPath || null,
     })),
@@ -247,6 +354,33 @@ function uid() { return Math.random().toString(36).slice(2, 9); }
 
 function cloneAlbum(src) { return JSON.parse(JSON.stringify(src)); }
 
+/* ── Spins (play count per album) ── */
+function loadSpins() { try { return JSON.parse(localStorage.getItem('soundroom_spins')) || {}; } catch (e) { return {}; } }
+function getSpins(id) { return loadSpins()[id] || 0; }
+function bumpSpins(id) {
+  var all = loadSpins();
+  all[id] = (all[id] || 0) + 1;
+  try { localStorage.setItem('soundroom_spins', JSON.stringify(all)); } catch (e) {}
+}
+
+/* ── Runtime helpers ── */
+function durToSec(str) {
+  if (!str) return 0;
+  var p = String(str).split(':').map(Number);
+  if (p.length === 2 && !isNaN(p[0]) && !isNaN(p[1])) return p[0] * 60 + p[1];
+  if (p.length === 3 && p.every(function (n) { return !isNaN(n); })) return p[0] * 3600 + p[1] * 60 + p[2];
+  return 0;
+}
+function fmtDur(sec) {
+  var m = Math.floor(sec / 60), s = Math.round(sec % 60);
+  return m + ':' + (s < 10 ? '0' : '') + s;
+}
+function albumRuntime(a) {
+  var total = 0, unknown = false;
+  a.songs.forEach(function (s) { var d = durToSec(s.duration); if (d) total += d; else unknown = true; });
+  return total ? fmtDur(total) + (unknown ? '+' : '') : '';
+}
+
 /* ══════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════ */
@@ -257,9 +391,105 @@ document.addEventListener('DOMContentLoaded', () => {
   bindStudioEvents();
   bindPlayerEvents();
   bindAudio();
+  bindAmpControls();
+  bindNumStepper();
+  bindTrackDropdown();
   buildAlbumTabs();
   loadAlbumIntoStudio(activeAlbum);
 });
+
+/* ── Amp controls: crackle toggle + tone sliders ── */
+function bindAmpControls() {
+  var crk = document.getElementById('crackleBtn');
+  var bs  = document.getElementById('bassSlider');
+  var ts  = document.getElementById('trebleSlider');
+
+  crk.setAttribute('aria-pressed', String(!!ampSettings.crackle));
+  bs.value = ampSettings.bass;
+  ts.value = ampSettings.treble;
+
+  crk.addEventListener('click', function () {
+    ampSettings.crackle = !ampSettings.crackle;
+    crk.setAttribute('aria-pressed', String(ampSettings.crackle));
+    saveAmp();
+    initAudioEngine();
+    resumeAC();
+    updateCrackleGain();
+    if (ampSettings.crackle && audioEngineFailed) toast('Surface noise needs Web Audio - not available here');
+  });
+
+  function tone(slider, node, key) {
+    slider.addEventListener('input', function () {
+      ampSettings[key] = parseInt(slider.value, 10) || 0;
+      saveAmp();
+      initAudioEngine();
+      resumeAC();
+      if (node()) node().gain.setTargetAtTime(ampSettings[key], AC.currentTime, 0.02);
+    });
+  }
+  tone(bs, function () { return bassNode; },   'bass');
+  tone(ts, function () { return trebleNode; }, 'treble');
+}
+
+/* ── Brass number stepper (year) ── */
+function bindNumStepper() {
+  document.querySelectorAll('.num-stepper').forEach(function (wrap) {
+    var input = wrap.querySelector('input[type="number"]');
+    wrap.querySelectorAll('.num-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var step = parseInt(btn.dataset.step, 10) || 0;
+        var min  = input.min !== '' ? +input.min : -Infinity;
+        var max  = input.max !== '' ? +input.max : Infinity;
+        var cur  = parseInt(input.value, 10);
+        if (isNaN(cur)) cur = step > 0 ? min !== -Infinity ? min : new Date().getFullYear()
+                                       : max !== Infinity ? max : new Date().getFullYear();
+        else cur += step;
+        input.value = Math.max(min, Math.min(max, cur));
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+    });
+  });
+}
+
+/* ── Custom track dropdown for the lyric sheet ── */
+function bindTrackDropdown() {
+  var cs      = document.getElementById('lyricsSongCs');
+  var trigger = cs.querySelector('.cs-trigger');
+  var panel   = document.getElementById('lyricsSongPanel');
+  var native  = document.getElementById('lyricsSongSel');
+
+  trigger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    cs.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', String(cs.classList.contains('open')));
+  });
+  document.addEventListener('click', function (e) {
+    if (!cs.contains(e.target)) { cs.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); }
+  });
+  panel.addEventListener('click', function (e) {
+    var opt = e.target.closest('.cs-opt');
+    if (!opt) return;
+    native.value = opt.dataset.value;
+    native.dispatchEvent(new Event('change', { bubbles: true }));
+    syncTrackDropdown();
+    cs.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+  });
+}
+
+/* rebuild the custom panel from the (hidden) native select */
+function syncTrackDropdown() {
+  var native  = document.getElementById('lyricsSongSel');
+  var panel   = document.getElementById('lyricsSongPanel');
+  var valueEl = document.querySelector('#lyricsSongCs .cs-value');
+  var opts = Array.prototype.map.call(native.options, function (o) {
+    return '<li class="cs-opt' + (o.value === native.value ? ' active' : '') +
+           '" role="option" data-value="' + o.value + '">' + esc(o.textContent) + '</li>';
+  }).join('');
+  panel.innerHTML = opts;
+  var sel = native.options[native.selectedIndex];
+  valueEl.textContent = sel ? sel.textContent : '-';
+}
 
 function initAlbums() {
   const stored = loadStoredAlbums();
@@ -290,7 +520,7 @@ function initAlbums() {
 }
 
 /* ══════════════════════════════════════════════
-   STUDIO — album tabs
+   STUDIO - album tabs
 ══════════════════════════════════════════════ */
 function buildAlbumTabs() {
   const tabs = document.getElementById('albumTabs');
@@ -299,6 +529,10 @@ function buildAlbumTabs() {
     var btn = document.createElement('button');
     btn.className = 'album-tab' + (a.id === activeAlbum.id ? ' active' : '');
     btn.dataset.id = a.id;
+    btn.style.setProperty('--wear', Math.min(1, getSpins(a.id) / 16).toFixed(2));
+    var sp = getSpins(a.id);
+    btn.title = a.title || 'Untitled';
+    if (sp) btn.title += ' - ' + sp + (sp === 1 ? ' spin' : ' spins');
     btn.innerHTML = esc(a.title || 'Untitled') + ' <span class="tab-del" data-del="' + a.id + '">✕</span>';
     tabs.appendChild(btn);
   });
@@ -342,7 +576,7 @@ document.getElementById('newAlbumBtn').addEventListener('click', function() {
 });
 
 /* ══════════════════════════════════════════════
-   STUDIO — load album into UI
+   STUDIO - load album into UI
 ══════════════════════════════════════════════ */
 function loadAlbumIntoStudio(a) {
   var preview     = document.getElementById('artPreview');
@@ -372,6 +606,7 @@ function loadAlbumIntoStudio(a) {
   document.getElementById('inputArtist').value = a.artist || '';
   document.getElementById('inputYear').value   = a.year   || '';
   document.getElementById('inputGenre').value  = a.genre  || '';
+  document.getElementById('inputNotes').value  = a.notes  || '';
 
   document.querySelectorAll('.swatch[data-color]').forEach(function(s) { s.classList.remove('active'); });
   var match = Array.from(document.querySelectorAll('.swatch[data-color]')).find(function(s) {
@@ -379,12 +614,13 @@ function loadAlbumIntoStudio(a) {
   });
   if (match) match.classList.add('active');
   setAccent(a.accent || '#e8933a');
+  applyAutoAccentFromArt(a, a.artUrl);
 
   renderSongList(a.songs);
 }
 
 /* ══════════════════════════════════════════════
-   STUDIO — bind events
+   STUDIO - bind events
 ══════════════════════════════════════════════ */
 function bindStudioEvents() {
   var artZone  = document.getElementById('artZone');
@@ -403,7 +639,7 @@ function bindStudioEvents() {
   bgZone.addEventListener('click', function() { bgInput.click(); });
   bgInput.addEventListener('change', function(e) { handleBgFile(e.target.files[0]); });
 
-  ['inputTitle','inputArtist','inputYear','inputGenre'].forEach(function(id) {
+  ['inputTitle','inputArtist','inputYear','inputGenre','inputNotes'].forEach(function(id) {
     document.getElementById(id).addEventListener('input', saveCurrentAlbumFromUI);
   });
 
@@ -413,7 +649,8 @@ function bindStudioEvents() {
     document.querySelectorAll('.swatch').forEach(function(s) { s.classList.remove('active'); });
     sw.classList.add('active');
     var color = sw.dataset.color || document.getElementById('customColor').value;
-    activeAlbum.accent = color;
+    activeAlbum.accent     = color;
+    activeAlbum.accentAuto = false; // user's manual pick wins over the cover-derived colour
     setAccent(color);
     saveAlbums();
   });
@@ -423,7 +660,8 @@ function bindStudioEvents() {
     var sw    = e.target.closest('.swatch');
     document.querySelectorAll('.swatch').forEach(function(s) { s.classList.remove('active'); });
     if (sw) { sw.classList.add('active'); sw.dataset.color = color; }
-    activeAlbum.accent = color;
+    activeAlbum.accent     = color;
+    activeAlbum.accentAuto = false; // user's manual pick wins over the cover-derived colour
     setAccent(color);
     saveAlbums();
   });
@@ -468,9 +706,13 @@ function handleArtFile(file) {
   if (!file || !file.type.startsWith('image/')) return;
   var url = URL.createObjectURL(file);
   activeAlbum.artUrl = url;
+  // a freshly chosen cover always gets to re-theme the room, even if an
+  // older cover's colour had been manually overridden
+  activeAlbum.accentAuto = true;
   document.getElementById('artPreview').src = url;
   document.getElementById('artPreview').classList.remove('hidden');
   document.getElementById('artPlaceholder').classList.add('hidden');
+  applyAutoAccentFromArt(activeAlbum, url);
   saveAlbums();
 }
 
@@ -490,6 +732,7 @@ function saveCurrentAlbumFromUI() {
   activeAlbum.artist = document.getElementById('inputArtist').value;
   activeAlbum.year   = document.getElementById('inputYear').value;
   activeAlbum.genre  = document.getElementById('inputGenre').value;
+  activeAlbum.notes  = document.getElementById('inputNotes').value;
   saveAlbums();
   var tab = document.querySelector('.album-tab[data-id="' + activeAlbum.id + '"]');
   if (tab) tab.firstChild.textContent = (activeAlbum.title || 'Untitled') + ' ';
@@ -505,7 +748,7 @@ function addSongFiles(files) {
     var name = f.name.replace(/\.[^.]+$/, '').replace(/^\d+[-_. ]+/, '');
     var song = {
       title: name, artist: activeAlbum.artist || 'Unknown Artist',
-      file: url, cover: '', duration: '—', lyrics: '',
+      file: url, cover: '', duration: '-', lyrics: '',
     };
     activeAlbum.songs.push(song);
     var idx = activeAlbum.songs.length - 1;
@@ -535,7 +778,7 @@ function updateRowDuration(idx) {
   var row = document.querySelector('.song-build-row[data-idx="' + idx + '"]');
   if (row) {
     var dur = row.querySelector('.sbr-duration');
-    if (dur && activeAlbum.songs[idx]) dur.textContent = activeAlbum.songs[idx].duration || '—';
+    if (dur && activeAlbum.songs[idx]) dur.textContent = activeAlbum.songs[idx].duration || '-';
   }
 }
 
@@ -575,7 +818,7 @@ function songRowHTML(s, i) {
     '<button class="sbr-lyrics-btn ' + (s.lyrics ? 'has-lyrics' : '') + '" data-lyrics="' + i + '" title="Edit lyrics">' +
       '<i class="fa-solid fa-align-left"></i>' +
     '</button>' +
-    '<span class="sbr-duration">' + (s.duration || '—') + '</span>' +
+    '<span class="sbr-duration">' + (s.duration || '-') + '</span>' +
     '<button class="sbr-del" data-del="' + i + '" title="Remove"><i class="fa-solid fa-xmark"></i></button>' +
   '</div>';
 }
@@ -648,6 +891,8 @@ function openLyricsModal(songIdx) {
   sel.innerHTML = activeAlbum.songs.map(function(s, i) {
     return '<option value="' + i + '"' + (i === songIdx ? ' selected' : '') + '>' + esc(s.title || ('Track ' + (i + 1))) + '</option>';
   }).join('');
+  sel.value = String(songIdx);
+  syncTrackDropdown();
   document.getElementById('lyricsTextarea').value = (activeAlbum.songs[songIdx] && activeAlbum.songs[songIdx].lyrics) || '';
   document.getElementById('lyricsModal').classList.remove('hidden');
 }
@@ -661,6 +906,7 @@ function saveLyricsFromModal() {
   var text = document.getElementById('lyricsTextarea').value;
   if (activeAlbum.songs[idx]) {
     activeAlbum.songs[idx].lyrics = text;
+    activeAlbum.songs[idx].syncedLyrics = null;
     saveAlbums();
     renderSongList(activeAlbum.songs);
     toast('Lyrics saved');
@@ -669,11 +915,11 @@ function saveLyricsFromModal() {
 }
 
 /* ══════════════════════════════════════════════
-   PLAYER — launch
+   PLAYER - launch
 ══════════════════════════════════════════════ */
 function launchPlayer() {
   saveCurrentAlbumFromUI();
-  if (!activeAlbum.songs.length) { toast('Add at least one song first'); return; }
+  if (!activeAlbum.songs.length) { toast('Press at least one track before it goes on the deck'); return; }
 
   playerAlbum  = activeAlbum;
   currentIndex = 0;
@@ -681,6 +927,8 @@ function launchPlayer() {
   repeatMode   = 0;
   speedIdx     = 2;
   playbackSpeed= 1;
+
+  bumpSpins(playerAlbum.id);
 
   document.getElementById('studioView').classList.add('hidden');
   document.getElementById('playerView').classList.remove('hidden');
@@ -695,7 +943,7 @@ function renderPlayerUI() {
   document.getElementById('topbarArtist').textContent    = a.artist || 'Unknown';
   document.getElementById('tlAlbumName').textContent     = a.title  || 'Untitled';
   document.getElementById('tlArtist').textContent        = a.artist || 'Unknown';
-  document.getElementById('tlYearGenre').textContent     = [a.year, a.genre].filter(Boolean).join(' · ') || '—';
+  document.getElementById('tlYearGenre').textContent     = [a.year, a.genre].filter(Boolean).join(' · ') || '-';
   var tlImg = document.getElementById('tlCoverImg');
   tlImg.src = a.artUrl || (a.songs[0] ? a.songs[0].cover : '') || '';
 
@@ -747,12 +995,19 @@ function loadTrack(idx, autoplay) {
   document.getElementById('timeTotal').textContent = song.duration || '0:00';
 
   updateLikeBtn();
-  renderLyricsPanel(currentIndex);
+  setPlayState(false);
+
+  var trackAtRequest = currentIndex;
+  var myIntent        = ++playIntentId;
+  lyricsReadyPromise = withTimeout(renderLyricsPanel(currentIndex), 4000);
 
   if (autoplay) {
-    audio.play().then(function() { setPlayState(true); }).catch(function() { setPlayState(false); });
-  } else {
-    setPlayState(false);
+    initAudioEngine();
+    resumeAC();
+    lyricsReadyPromise.then(function() {
+      if (currentIndex !== trackAtRequest || myIntent !== playIntentId) return;
+      audio.play().then(function() { setPlayState(true); }).catch(function() { setPlayState(false); });
+    });
   }
 }
 
@@ -767,6 +1022,8 @@ function setPlayState(playing) {
   document.querySelectorAll('.viz-bar').forEach(function(b) { b.classList.toggle('playing', playing); });
   var bars = document.querySelector('.track-item[data-idx="' + currentIndex + '"] .ti-playing');
   if (bars) bars.classList.toggle('paused', !playing);
+  if (playing) resumeAC();
+  updateCrackleGain();
 }
 
 function setSeekFill(pct) {
@@ -791,9 +1048,25 @@ function fmtTime(s) {
 /* ── Tracklist / Queue / About ────────────────── */
 function renderTracklist() {
   var list = document.getElementById('tracklistEl');
+  // Side B starts halfway through, like a real pressing
+  var sideBStart = playerAlbum.songs.length >= 4
+    ? Math.ceil(playerAlbum.songs.length / 2)
+    : -1;
+  function sideMeta(from, to) {
+    var arr = playerAlbum.songs.slice(from, to);
+    var sec = arr.reduce(function (t, s) { return t + durToSec(s.duration); }, 0);
+    return arr.length + (arr.length === 1 ? ' track' : ' tracks') + (sec ? ' · ' + fmtDur(sec) : '');
+  }
+  function sideTag(name, from, to) {
+    return '<div class="side-divider">' + name + '<span class="sd-meta">' + sideMeta(from, to) + '</span></div>';
+  }
+  renderTracklist._sideBStart = sideBStart;
   list.innerHTML = playerAlbum.songs.map(function(s, i) {
     var cover = s.cover || playerAlbum.artUrl || '';
-    return '<div class="track-item" data-idx="' + i + '">' +
+    var divider = '';
+    if (i === 0 && sideBStart !== -1) divider = sideTag('Side A', 0, sideBStart);
+    else if (i === sideBStart)        divider = sideTag('Side B', sideBStart, playerAlbum.songs.length);
+    return divider + '<div class="track-item" data-idx="' + i + '">' +
       '<span class="ti-num">' + (i + 1) + '</span>' +
       '<div class="ti-cover"><img src="' + esc(cover) + '" alt="" onerror="this.src=\'\'" /></div>' +
       '<div class="ti-info">' +
@@ -803,13 +1076,28 @@ function renderTracklist() {
       '<div class="ti-playing' + (i !== currentIndex ? ' hidden' : '') + '">' +
         '<div class="ti-bar"></div><div class="ti-bar"></div><div class="ti-bar"></div><div class="ti-bar"></div>' +
       '</div>' +
-      '<span class="ti-dur">' + (s.duration || '—') + '</span>' +
+      '<span class="ti-dur">' + (s.duration || '-') + '</span>' +
     '</div>';
   }).join('');
 
   list.querySelectorAll('.track-item').forEach(function(row) {
     row.addEventListener('click', function() { loadTrack(parseInt(row.dataset.idx), true); });
   });
+}
+
+/* refresh just the Side A/B counts+timing without rebuilding the list */
+function renderTracklistMeta() {
+  var start = renderTracklist._sideBStart;
+  if (start === undefined || !playerAlbum) return;
+  var metas = document.querySelectorAll('#tracklistEl .side-divider .sd-meta');
+  if (metas.length < 1) return;
+  function meta(from, to) {
+    var arr = playerAlbum.songs.slice(from, to);
+    var sec = arr.reduce(function (t, s) { return t + durToSec(s.duration); }, 0);
+    return arr.length + (arr.length === 1 ? ' track' : ' tracks') + (sec ? ' · ' + fmtDur(sec) : '');
+  }
+  metas[0].textContent = meta(0, start === -1 ? playerAlbum.songs.length : start);
+  if (metas[1] && start !== -1) metas[1].textContent = meta(start, playerAlbum.songs.length);
 }
 
 function renderQueue() {
@@ -820,7 +1108,7 @@ function renderQueue() {
       '<div class="qi-cover"><img src="' + esc(cover) + '" alt="" onerror="this.src=\'\'" /></div>' +
       '<div><div class="qi-title">' + esc(s.title || ('Track ' + (i + 1))) + '</div>' +
       '<div class="qi-artist">' + esc(s.artist || playerAlbum.artist || '') + '</div></div>' +
-      '<span class="qi-dur">' + (s.duration || '—') + '</span>' +
+      '<span class="qi-dur">' + (s.duration || '-') + '</span>' +
     '</div>';
   }).join('');
   qlist.querySelectorAll('.queue-item').forEach(function(row) {
@@ -830,36 +1118,195 @@ function renderQueue() {
 
 function renderAbout() {
   var a = playerAlbum;
+  var runtime = albumRuntime(a);
+  var spins = getSpins(a.id);
   document.getElementById('aboutPanel').innerHTML =
     '<div class="about-cover"><img src="' + esc(a.artUrl || '') + '" alt="" onerror="this.src=\'\'" /></div>' +
     '<div class="about-title">' + esc(a.title || 'Untitled') + '</div>' +
     '<div class="about-artist">' + esc(a.artist || 'Unknown Artist') + '</div>' +
     '<div class="about-stats">' +
-      '<div class="stat-row"><span class="stat-label">Year</span><span class="stat-value">' + esc(a.year || '—') + '</span></div>' +
-      '<div class="stat-row"><span class="stat-label">Genre</span><span class="stat-value">' + esc(a.genre || '—') + '</span></div>' +
+      '<div class="stat-row"><span class="stat-label">Year</span><span class="stat-value">' + esc(a.year || '-') + '</span></div>' +
+      '<div class="stat-row"><span class="stat-label">Genre</span><span class="stat-value">' + esc(a.genre || '-') + '</span></div>' +
       '<div class="stat-row"><span class="stat-label">Tracks</span><span class="stat-value">' + a.songs.length + '</span></div>' +
-    '</div>';
+      (runtime ? '<div class="stat-row"><span class="stat-label">Runtime</span><span class="stat-value">' + runtime + '</span></div>' : '') +
+      '<div class="stat-row"><span class="stat-label">Spins</span><span class="stat-value">' + spins + '</span></div>' +
+    '</div>' +
+    (a.notes ? '<div class="about-notes">' + esc(a.notes) + '</div>' : '');
 }
 
 function renderLyricsPanel(idx) {
-  var song   = playerAlbum && playerAlbum.songs && playerAlbum.songs[idx];
+  var song = playerAlbum && playerAlbum.songs && playerAlbum.songs[idx];
+  currentSyncedLyrics = null;
+  activeLyricsLine    = -1;
+  var disp = document.getElementById('lyricsDisplay');
+
+  if (song && song.syncedLyrics && song.syncedLyrics.length) {
+    currentSyncedLyrics = song.syncedLyrics;
+    renderSyncedLyrics(song.syncedLyrics);
+    updateSyncedLyricsHighlight();
+    return Promise.resolve();
+  }
+
   var lyrics = song && song.lyrics && song.lyrics.trim();
-  var disp   = document.getElementById('lyricsDisplay');
   if (lyrics) {
     disp.innerHTML = '<div class="lyrics-text">' + escLines(lyrics) + '</div>';
-  } else {
+    return Promise.resolve();
+  } else if (song && song.title && song.artist) {
     disp.innerHTML =
       '<div class="lyrics-empty">' +
-        '<i class="fa-solid fa-align-left"></i>' +
-        '<p>No lyrics added</p>' +
-        '<button class="lyrics-edit-btn" id="lyricsEditBtn">Add in Studio</button>' +
+        '<i class="fa-solid fa-spinner fa-spin"></i>' +
+        '<p>Looking up lyrics&hellip;</p>' +
       '</div>';
-    var eb = document.getElementById('lyricsEditBtn');
-    if (eb) eb.addEventListener('click', function() {
-      backToStudio();
-      setTimeout(function() { openLyricsModal(currentIndex); }, 300);
-    });
+    return fetchLyricsOnline(song, idx);
+  } else {
+    renderLyricsEmpty(idx, false);
+    return Promise.resolve();
   }
+}
+
+/* karaoke-style line-synced lyrics */
+function renderSyncedLyrics(lines) {
+  var disp = document.getElementById('lyricsDisplay');
+  disp.innerHTML =
+    '<div class="lyrics-synced" id="syncedLyricsWrap">' +
+      '<p class="lyrics-line lyrics-pad" aria-hidden="true">&nbsp;</p>' +
+      lines.map(function(l) {
+        return '<p class="lyrics-line" data-time="' + l.time + '">' + (esc(l.text) || '&nbsp;') + '</p>';
+      }).join('') +
+      '<p class="lyrics-line lyrics-pad" aria-hidden="true">&nbsp;</p>' +
+    '</div>';
+}
+
+function updateSyncedLyricsHighlight() {
+  if (!currentSyncedLyrics || !currentSyncedLyrics.length) return;
+  var t   = audio.currentTime;
+  var idx = -1;
+  for (var i = 0; i < currentSyncedLyrics.length; i++) {
+    if (currentSyncedLyrics[i].time <= t) idx = i; else break;
+  }
+  if (idx === activeLyricsLine) return;
+  activeLyricsLine = idx;
+
+  var wrap = document.getElementById('syncedLyricsWrap');
+  if (!wrap) return;
+  var lines = wrap.querySelectorAll('.lyrics-line:not(.lyrics-pad)');
+  lines.forEach(function(el, i) {
+    el.classList.toggle('active', i === idx);
+    el.classList.toggle('sung', i < idx);
+  });
+  if (idx >= 0 && lines[idx]) {
+    scrollLyricLineIntoView(lines[idx]);
+  }
+}
+
+/* Scrolls only the lyrics booklet itself - never scrollIntoView(), which
+   walks every scrollable ancestor (including the page) and visibly
+   shifts the whole layout when a new karaoke line becomes active. */
+function scrollLyricLineIntoView(el) {
+  var container = document.getElementById('tabLyrics');
+  if (!container) return;
+  var elRect   = el.getBoundingClientRect();
+  var contRect = container.getBoundingClientRect();
+  var delta    = (elRect.top - contRect.top) - (container.clientHeight / 2) + (elRect.height / 2);
+  container.scrollTo({ top: container.scrollTop + delta, behavior: 'smooth' });
+}
+
+function renderLyricsEmpty(idx, failed) {
+  if (currentIndex !== idx) return;
+  var disp = document.getElementById('lyricsDisplay');
+  disp.innerHTML =
+    '<div class="lyrics-empty">' +
+      '<i class="fa-solid fa-align-left"></i>' +
+      '<p>' + (failed ? 'Couldn&rsquo;t find lyrics online' : 'No lyrics added') + '</p>' +
+      '<button class="lyrics-edit-btn" id="lyricsEditBtn">Add manually</button>' +
+    '</div>';
+  var eb = document.getElementById('lyricsEditBtn');
+  if (eb) eb.addEventListener('click', function() {
+    backToStudio();
+    setTimeout(function() { openLyricsModal(idx); }, 300);
+  });
+}
+
+/* Free, key-less, CORS-open lyrics lookup - personal-use convenience only.
+   Tries lrclib.net first for line-synced (karaoke) lyrics, falls back to
+   plain unsynced lyrics from lyrics.ovh if no synced match is found. */
+function fetchLyricsOnline(song, idx) {
+  return fetchSyncedLyrics(song)
+    .then(function(result) {
+      if (currentIndex !== idx) return;
+      if (result && result.synced && result.synced.length) {
+        song.syncedLyrics = result.synced;
+        if (result.plain) song.lyrics = result.plain;
+        saveAlbums();
+        return renderLyricsPanel(idx);
+      }
+      if (result && result.plain) {
+        song.lyrics = result.plain;
+        saveAlbums();
+        document.getElementById('lyricsDisplay').innerHTML = '<div class="lyrics-text">' + escLines(result.plain) + '</div>';
+        return;
+      }
+      return fetchPlainLyricsFallback(song, idx);
+    })
+    .catch(function() { return fetchPlainLyricsFallback(song, idx); });
+}
+
+function fetchSyncedLyrics(song) {
+  var qs = 'track_name=' + encodeURIComponent(song.title) + '&artist_name=' + encodeURIComponent(song.artist);
+  return fetch('https://lrclib.net/api/get?' + qs)
+    .then(function(res) { return res.ok ? res.json() : null; })
+    .then(function(data) {
+      if (data && (data.syncedLyrics || data.plainLyrics)) {
+        return { synced: data.syncedLyrics ? parseLRC(data.syncedLyrics) : null, plain: data.plainLyrics || null };
+      }
+      return fetch('https://lrclib.net/api/search?' + qs)
+        .then(function(res) { return res.ok ? res.json() : []; })
+        .then(function(list) {
+          var hit = Array.isArray(list) ? list.find(function(r) { return r.syncedLyrics || r.plainLyrics; }) : null;
+          if (!hit) return null;
+          return { synced: hit.syncedLyrics ? parseLRC(hit.syncedLyrics) : null, plain: hit.plainLyrics || null };
+        });
+    })
+    .catch(function() { return null; });
+}
+
+function fetchPlainLyricsFallback(song, idx) {
+  var url = 'https://api.lyrics.ovh/v1/' + encodeURIComponent(song.artist) + '/' + encodeURIComponent(song.title);
+  return fetch(url)
+    .then(function(res) { return res.ok ? res.json() : null; })
+    .then(function(data) {
+      if (currentIndex !== idx) return;
+      var text = data && data.lyrics ? data.lyrics.replace(/\r\n/g, '\n').trim() : '';
+      if (text) {
+        song.lyrics = text;
+        saveAlbums();
+        document.getElementById('lyricsDisplay').innerHTML = '<div class="lyrics-text">' + escLines(text) + '</div>';
+      } else {
+        renderLyricsEmpty(idx, true);
+      }
+    })
+    .catch(function() { renderLyricsEmpty(idx, true); });
+}
+
+/* Parses standard .lrc timestamp lines: [mm:ss.xx]text (multiple stamps per line allowed) */
+function parseLRC(lrc) {
+  var re  = /\[(\d{1,2}):(\d{2})(?:\.(\d{1,3}))?\]/g;
+  var out = [];
+  lrc.split('\n').forEach(function(line) {
+    var stamps = [];
+    var m;
+    re.lastIndex = 0;
+    while ((m = re.exec(line))) {
+      var min  = parseInt(m[1], 10);
+      var sec  = parseInt(m[2], 10);
+      var frac = m[3] ? parseFloat('0.' + m[3]) : 0;
+      stamps.push(min * 60 + sec + frac);
+    }
+    var text = line.replace(re, '').trim();
+    stamps.forEach(function(t) { out.push({ time: t, text: text }); });
+  });
+  out.sort(function(a, b) { return a.time - b.time; });
+  return out;
 }
 
 /* ── Panel tabs ──────────────────────────────── */
@@ -878,22 +1325,46 @@ document.querySelectorAll('.panel-tab').forEach(function(tab) {
 function buildVisualizer() {
   var viz = document.getElementById('visualizer');
   viz.innerHTML = '';
-  for (var i = 0; i < 32; i++) {
+  for (var i = 0; i < 28; i++) {
     var bar = document.createElement('div');
     bar.className = 'viz-bar';
-    var h   = 8 + Math.random() * 32;
+    // full-height bar; the analyser scales it down each frame (with a
+    // fallback CSS bounce until the audio engine is running)
     var dur = (0.3 + Math.random() * 0.6).toFixed(2);
     var del = (Math.random() * 0.5).toFixed(2);
-    bar.style.cssText = '--h:' + h + 'px; --dur:' + dur + 's; animation-delay:' + del + 's; height:' + h + 'px;';
+    bar.style.cssText = 'height:36px; --dur:' + dur + 's; animation-delay:' + del + 's;';
     viz.appendChild(bar);
   }
+  if (analyser) startVU();
 }
 
 /* ── Accent ──────────────────────────────────── */
 function setAccent(color) {
-  document.documentElement.style.setProperty('--accent', color);
-  document.documentElement.style.setProperty('--accent-d', darken(color, 0.8));
-  document.documentElement.style.setProperty('--glow', hex2rgba(color, 0.25));
+  var root = document.documentElement.style;
+  root.setProperty('--accent', color);
+  root.setProperty('--accent-d', darken(color, 0.8));
+  root.setProperty('--glow', hex2rgba(color, 0.25));
+
+  // The room itself takes on the vinyl colour: the walls get a
+  // dark hue-preserving tint, the lamp glow gets a soft wash.
+  if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(color)) {
+    root.setProperty('--room',      roomTint(color, 24));
+    root.setProperty('--room-2',    roomTint(color, 38));
+    root.setProperty('--glow-soft', hex2rgba(color, 0.12));
+  }
+}
+
+/* Dark wall tint that keeps the accent's hue: scales the colour so
+   its brightest channel sits near `peak` (0-255), plus a warm floor
+   so even cold blues never go pitch black. */
+function roomTint(hex, peak) {
+  var c = hexToRgb(hex);
+  var max = Math.max(c[0], c[1], c[2], 1);
+  var f = peak / max;
+  return 'rgb(' +
+    Math.round(c[0] * f + 8) + ',' +
+    Math.round(c[1] * f + 6) + ',' +
+    Math.round(c[2] * f + 4) + ')';
 }
 
 function hexToRgb(hex) {
@@ -913,8 +1384,92 @@ function hex2rgba(hex, a) {
   return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')';
 }
 
+function rgbToHex(r, g, b) {
+  function h(v) { return Math.max(0, Math.min(255, v)).toString(16).padStart(2, '0'); }
+  return '#' + h(r) + h(g) + h(b);
+}
+
+/* Samples a small canvas of the cover art and picks the most "vivid"
+   colour (saturated, mid-lightness) rather than a flat average, so
+   the room tint matches the artwork's character instead of going muddy. */
+function extractAccentFromImage(url) {
+  return new Promise(function(resolve) {
+    if (!url) { resolve(null); return; }
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+      try {
+        var size   = 48;
+        var canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, size, size);
+        var data = ctx.getImageData(0, 0, size, size).data;
+
+        var buckets = {};
+        for (var i = 0; i < data.length; i += 4) {
+          var r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+          if (a < 128) continue;
+          var max = Math.max(r, g, b), min = Math.min(r, g, b);
+          var lightness = (max + min) / 2;
+          if (lightness < 20 || lightness > 235) continue; // skip near-black / near-white
+          var sat = max === min ? 0 : (max - min) / (255 - Math.abs(max + min - 255));
+          var key    = (r >> 4) + ',' + (g >> 4) + ',' + (b >> 4);
+          var bucket = buckets[key] || (buckets[key] = { r: 0, g: 0, b: 0, count: 0, weight: 0 });
+          bucket.r += r; bucket.g += g; bucket.b += b;
+          bucket.count++;
+          // saturation dominates the score (a small vivid patch should beat a large
+          // dull backdrop); population only breaks ties between similarly-vivid buckets
+          bucket.weight += Math.pow(sat, 2.2) + 0.02;
+        }
+
+        var best = null;
+        for (var key2 in buckets) {
+          var cand = buckets[key2];
+          if (!best || cand.weight > best.weight) best = cand;
+        }
+        if (!best) { resolve(null); return; }
+        resolve(rgbToHex(
+          Math.round(best.r / best.count),
+          Math.round(best.g / best.count),
+          Math.round(best.b / best.count)
+        ));
+      } catch (e) {
+        resolve(null); // tainted canvas (cross-origin) or decode failure
+      }
+    };
+    img.onerror = function() { resolve(null); };
+    img.src = url;
+  });
+}
+
+/* Auto-themes an album from its cover art, unless the user has picked a
+   swatch manually (album.accentAuto === false). Applies live to whichever
+   view (studio/player) currently has this album open. */
+function applyAutoAccentFromArt(album, url) {
+  if (!url || !album) return;
+  if (album.accentAuto === false) return;
+  if (album.accentSourceUrl === url) return; // already derived for this art
+
+  extractAccentFromImage(url).then(function(hex) {
+    if (!hex || album.accentAuto === false) return;
+    album.accent          = hex;
+    album.accentSourceUrl = url;
+    saveAlbums();
+
+    if (activeAlbum === album) {
+      setAccent(hex);
+      document.querySelectorAll('.swatch[data-color]').forEach(function(s) { s.classList.remove('active'); });
+      var customInput = document.getElementById('customColor');
+      if (customInput) customInput.value = hex;
+    } else if (playerAlbum === album) {
+      setAccent(hex);
+    }
+  });
+}
+
 /* ══════════════════════════════════════════════
-   PLAYER — controls
+   PLAYER - controls
 ══════════════════════════════════════════════ */
 function bindPlayerEvents() {
   document.getElementById('backBtn').addEventListener('click', backToStudio);
@@ -991,11 +1546,18 @@ function setVol(e, track) {
 
 function togglePlay() {
   if (!audio.src) return;
+  initAudioEngine();
+  resumeAC();
   if (isPlaying) {
+    playIntentId++; // invalidate any pending "start once lyrics are ready" wait
     audio.pause();
     setPlayState(false);
   } else {
-    audio.play().then(function() { setPlayState(true); }).catch(function() {});
+    var myIntent = ++playIntentId;
+    lyricsReadyPromise.then(function() {
+      if (myIntent !== playIntentId) return;
+      audio.play().then(function() { setPlayState(true); }).catch(function() {});
+    });
   }
 }
 
@@ -1031,7 +1593,7 @@ function toggleLike() {
   likedSongs[key] = !likedSongs[key];
   saveLiked();
   updateLikeBtn();
-  toast(likedSongs[key] ? '❤ Added to liked songs' : 'Removed from liked songs');
+  toast(likedSongs[key] ? '❤ Filed under favourites' : 'Taken out of favourites');
 }
 
 function updateLikeBtn() {
@@ -1079,12 +1641,22 @@ function bindAudio() {
     setSeekFill(pct);
     document.getElementById('timeNow').textContent   = fmtTime(audio.currentTime);
     document.getElementById('timeTotal').textContent = fmtTime(audio.duration);
+    updateSyncedLyricsHighlight();
   });
 
   audio.addEventListener('loadedmetadata', function() {
     document.getElementById('timeTotal').textContent = fmtTime(audio.duration);
     if (playerAlbum && playerAlbum.songs && playerAlbum.songs[currentIndex]) {
-      playerAlbum.songs[currentIndex].duration = fmtTime(audio.duration);
+      var song = playerAlbum.songs[currentIndex];
+      var had = song.duration;
+      song.duration = fmtTime(audio.duration);
+      if (had !== song.duration) {
+        var row = document.querySelector('.track-item[data-idx="' + currentIndex + '"] .ti-dur');
+        if (row) row.textContent = song.duration;
+        renderAbout();
+        var dividers = document.querySelectorAll('.side-divider .sd-meta');
+        if (dividers.length) renderTracklistMeta();
+      }
     }
   });
 

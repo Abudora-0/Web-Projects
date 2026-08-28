@@ -44,7 +44,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 |---|---|---|
 | [Budget Tracker](Personal%20Budget%20Expense%20Tracker/) | Banker's ledger | Charts, budgets, insights, CSV export |
 | [The Flatbed](The%20Flatbed/) | Editing bench: lightbox, sprocket rails & grease pencil | TMDB API, recommendations from your bins, where to watch, in-page trailers, filter rig, cast filmographies, watched log |
-| [SoundRoom](SoundRoom/) | Record shop: crate, pressing station & turntable | Custom audio engine, album builder, tonearm deck, lyric booklet |
+| [SoundRoom](SoundRoom%20-%20An%20Album%20Player/) | Record shop: crate, pressing station & turntable | Web Audio VU meters + vinyl crackle + tone controls, album builder, tonearm deck, lyric booklet, spins & runtime |
 | [Halcyon](Halcyon/) | The page *is* the sky - living gradient, real sun/moon | Sentence-form conditions, scrub-the-day, rain nowcast, pollen, installable PWA |
 | [Xchange](Xchange/) | Split-flap airport departure board | 166 currencies, history charts, favourites, rate ticker |
 | [The Cellar Door](The%20Cellar%20Door/) | Prohibition-era speakeasy - the password gets you in | AES-256 encrypted vault, passphrase mixologist, breach check, clipboard burn |
