@@ -43,7 +43,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | Project | Design identity | Highlights |
 |---|---|---|
 | [Budget Tracker](Personal%20Budget%20Expense%20Tracker/) | Banker's ledger | Charts, budgets, insights, CSV export |
-| [The Cutting Room](Movie%20Recommendation%20App/) | Editing bay: lightbox, sprocket rails & grease pencil | TMDB API, in-page trailers, filter rig, cast filmographies, watched log with your own ratings |
+| [The Flatbed](The%20Flatbed/) | Editing bench: lightbox, sprocket rails & grease pencil | TMDB API, recommendations from your bins, where to watch, in-page trailers, filter rig, cast filmographies, watched log |
 | [SoundRoom](SoundRoom/) | Record shop: crate, pressing station & turntable | Custom audio engine, album builder, tonearm deck, lyric booklet |
 | [Halcyon](Halcyon/) | The page *is* the sky - living gradient, real sun/moon | Sentence-form conditions, scrub-the-day, rain nowcast, pollen, installable PWA |
 | [Xchange](Xchange/) | Split-flap airport departure board | 166 currencies, history charts, favourites, rate ticker |
@@ -109,8 +109,8 @@ npx serve .        # then open http://localhost:3000
 You can also open any project's `index.html` directly, but a local server is
 recommended (a few projects `fetch()` local files, which browsers block on `file://`).
 
-> **API projects** (Halcyon, The Cutting Room, Xchange) need an internet
-> connection; The Cutting Room needs a valid API key in its `script.js`.
+> **API projects** (Halcyon, The Flatbed, Xchange) need an internet
+> connection; The Flatbed needs a valid API key in its `script.js`.
 
 <details>
 <summary><strong>🎵 Adding songs locally (Spotify Clone & SoundRoom)</strong></summary>
@@ -145,7 +145,7 @@ web-projects/
 ├── index.html                        ← the live project gallery
 ├── README.md
 ├── LICENSE
-├── Analog Clock/        ├── Movie Recommendation App/
+├── Analog Clock/        ├── The Flatbed/
 ├── Animated Car/        ├── Myntra Clone/
 ├── Arcade Hub/          ├── Netflix Clone/
 ├── Blog Website/        ├── The Cellar Door/
