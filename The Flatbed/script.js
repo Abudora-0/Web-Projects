@@ -1214,6 +1214,8 @@ function initModals() {
 }
 
 function openModal(id) {
+  // opening anything on top of the detail sheet kills its trailer
+  if (id !== 'detailModal') stopTrailer();
   $(id).classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 }
@@ -1223,6 +1225,12 @@ function closeModal(id) {
   if (id === 'detailModal') $('detailBody').innerHTML = '';   // stop any playing trailer
   const anyOpen = ['detailModal', 'personModal', 'binsModal'].some(m => !$(m).classList.contains('hidden'));
   if (!anyOpen) document.body.style.overflow = '';
+}
+
+/* Pull the trailer iframe so audio stops the instant you navigate away. */
+function stopTrailer() {
+  const frame = $('detailBody')?.querySelector('iframe');
+  if (frame) frame.remove();
 }
 
 function topModal() {
