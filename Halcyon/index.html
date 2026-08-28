@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halcyon - a window on the sky</title>
+    <meta name="description" content="Halcyon - a weather app where the page becomes the sky. Live conditions rendered as a full-screen scene.">
+    <!-- Sun-over-horizon favicon: one color, one sun, one line -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23212a4a'/%3E%3Ccircle cx='16' cy='14' r='5.5' fill='%23ffe8c2'/%3E%3Crect x='6' y='22.5' width='20' height='2' rx='1' fill='%23ffe8c2'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="icon-180.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#212a4a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Halcyon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ── The sky itself ─────────────────────────── -->
+    <div id="sky" aria-hidden="true">
+        <div id="stars"></div>
+        <div id="celestial"></div>
+        <div id="clouds"></div>
+        <div id="precip"></div>
+        <div id="flash"></div>
+        <div class="grain"></div>
+        <div class="scrim"></div>
+    </div>
+
+    <!-- ── Header ─────────────────────────────────── -->
+    <header class="top">
+        <a class="mark" href="#" title="Halcyon">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+                <circle cx="16" cy="13.5" r="6.5" fill="currentColor"/>
+                <rect x="3" y="23" width="26" height="2" rx="1" fill="currentColor" opacity="0.9"/>
+            </svg>
+            <span>halcyon</span>
+        </a>
+
+        <div class="search" id="search">
+            <input type="text" id="placeInput" placeholder="somewhere on earth…" spellcheck="false" autocomplete="off" aria-label="Search a place">
+            <button id="geoBtn" title="Use my location" aria-label="Use my location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="7.5"/><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/><line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/></svg>
+            </button>
+            <div class="suggestions" id="suggestions"></div>
+        </div>
+
+        <div class="units">
+            <button class="u-btn" data-unit="C">°c</button><span>/</span><button class="u-btn" data-unit="F">°f</button>
+        </div>
+    </header>
+
+    <!-- ── Hero ───────────────────────────────────── -->
+    <main class="stage">
+
+        <div class="loading" id="loading" hidden>
+            <span class="pulse"></span> listening to the sky…
+        </div>
+
+        <section class="hero" id="hero" hidden>
+            <p class="kicker"><span id="kickerDate">—</span> · <span id="kickerClock">--:--</span> local</p>
+            <h1 class="big-temp" id="bigTemp">--°</h1>
+            <p class="phrase" id="phrase">—</p>
+            <p class="subline">
+                feels like <b id="feels">--°</b> · high <b id="hi">--°</b> low <b id="lo">--°</b> · <b id="rain">--%</b> chance of rain
+            </p>
+            <p class="advisory" id="nowcastLine" hidden></p>
+            <p class="advisory" id="wearLine" hidden></p>
+            <p class="compare" id="compareLine"></p>
+            <p class="compare" id="windowLine"></p>
+            <p class="compare" id="historyLine"></p>
+            <button class="keep" id="keepBtn"><span id="keepStar">☆</span> <span id="keepText">keep this place</span></button>
+            <div class="kept" id="keptRow"></div>
+        </section>
+
+        <!-- ── The deck ───────────────────────────── -->
+        <section class="deck" id="deck" hidden>
+
+            <div class="hours">
+                <p class="deck-label">the next 24 hours <span id="scrubTime" class="scrub-time"></span></p>
+                <div class="curve-scroll">
+                    <svg id="hourCurve" viewBox="0 0 800 150"></svg>
+                </div>
+                <p class="scrub-hint" id="scrubHint">drag across to move the sky through the day</p>
+            </div>
+
+            <div class="deck-grid">
+                <div class="week">
+                    <p class="deck-label">the week ahead</p>
+                    <div id="weekList"></div>
+                </div>
+
+                <div class="details">
+                    <p class="deck-label">the fine print</p>
+                    <dl id="detailList"></dl>
+                </div>
+
+                <div class="sun-air">
+                    <p class="deck-label">sun &amp; air</p>
+                    <div class="sun-line">
+                        <span id="sunriseT">--:--</span>
+                        <svg id="sunPath" viewBox="0 0 160 54"></svg>
+                        <span id="sunsetT">--:--</span>
+                    </div>
+                    <p class="sun-extra" id="sunExtra"></p>
+                    <p class="air-line">the air is <b id="airWord">—</b><span id="airDetail"></span></p>
+                    <p class="pollen-line" id="pollenLine" hidden></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="toast" id="toast" hidden>—</div>
+    </main>
+
+    <footer class="foot">
+        <span>halcyon · the sky, framed · data by open-meteo</span>
+    </footer>
+
+    <script src="script.js"></script>
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:rgba(12,16,28,0.55);color:#fff6e9;border:1px solid rgba(255,246,233,0.35);border-radius:999px;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:lowercase;text-decoration:none;font-family:'Sora',system-ui,sans-serif;backdrop-filter:blur(8px);transition:all .2s;white-space:nowrap;" onmouseover="this.style.borderColor='#fff6e9'" onmouseout="this.style.borderColor='rgba(255,246,233,0.35)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>all projects</a>
+</body>
+</html>
