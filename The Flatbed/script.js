@@ -832,9 +832,28 @@ function renderDetail(m) {
   // Trailer - the iframe only mounts on click, so nothing loads from
   // YouTube unless the viewer asks for it.
   if (trailer) {
+    const ytWatch = `https://www.youtube.com/watch?v=${trailer.key}`;
     $('dPlay').addEventListener('click', () => {
-      $('dStage').innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${trailer.key}?autoplay=1&rel=0"
-        title="${esc(m.title)} trailer" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+      const stage = $('dStage');
+
+      // YouTube's embedded player rejects a file:// origin (error 153),
+      // so from a local file we hand off to youtube.com instead.
+      if (location.protocol === 'file:') {
+        stage.innerHTML = `<a class="d-yt-fallback" href="${ytWatch}" target="_blank" rel="noopener">
+          ${iPlay()} <span class="d-yt-fallback-t">Watch the trailer on YouTube</span>
+          <span class="d-yt-fallback-s">Trailers embed once the site is served over http.</span>
+        </a>`;
+        return;
+      }
+
+      const p = new URLSearchParams({
+        autoplay: '1', rel: '0', modestbranding: '1', playsinline: '1',
+        origin: location.origin,
+      });
+      stage.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${trailer.key}?${p}"
+        title="${esc(m.title)} trailer"
+        allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <a class="d-yt-link" href="${ytWatch}" target="_blank" rel="noopener">Not playing? Watch on YouTube ↗</a>`;
     });
   }
 

@@ -928,6 +928,36 @@ main { max-width: 1480px; margin: 0 auto; padding: 30px 20px 60px; }
 }
 .d-stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
+/* trailer fall-throughs to youtube.com */
+.d-yt-link {
+  position: absolute;
+  bottom: 8px; right: 10px;
+  z-index: 3;
+  font-family: var(--f-mono);
+  font-size: .56rem;
+  letter-spacing: .03em;
+  color: rgba(232, 241, 247, .7);
+  text-decoration: none;
+  background: rgba(14, 15, 18, .62);
+  padding: 3px 7px;
+  border-radius: 3px;
+}
+.d-yt-link:hover { color: var(--pencil); }
+.d-yt-fallback {
+  position: absolute; inset: 0;
+  z-index: 3;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 7px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink);
+}
+.d-yt-fallback svg { width: 22px; height: 22px; }
+.d-yt-fallback-t { font-family: var(--f-disp); font-size: 1.05rem; letter-spacing: .02em; }
+.d-yt-fallback-s { font-family: var(--f-mono); font-size: .6rem; color: var(--ink-3); }
+.d-yt-fallback:hover .d-yt-fallback-t { color: var(--pencil); }
+
 /* play button on the stage */
 .d-play {
   position: absolute;
