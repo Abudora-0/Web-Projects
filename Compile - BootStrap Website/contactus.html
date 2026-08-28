@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About — Peu'Coders</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2316181d'/%3E%3Cpath d='M10 11l-4 5 4 5M22 11l4 5-4 5M18 9l-4 14' stroke='%23a4e22e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <title>Contact - Compile</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2316181d'/%3E%3Cpath d='M10 10l7 6-7 6' stroke='%23a4e22e' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M19 22h7' stroke='%23a4e22e' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
@@ -17,20 +17,20 @@
       <a class="navbar-brand" href="index.html">
         <div class="brand-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="19" y1="12" x2="5" y2="12" opacity="0.5"/>
+            <polyline points="6 6 12 12 6 18"/><line x1="14" y1="18" x2="20" y2="18"/>
           </svg>
         </div>
-        Peu'Coders
+        Compile
       </a>
       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarMain">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle"></i>About</a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Topics</a>
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="bi bi-grid"></i>Topics</a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#"><i class="bi bi-cpu me-2"></i>Technology</a></li>
               <li><a class="dropdown-item" href="#"><i class="bi bi-code-slash me-2"></i>Web Development</a></li>
@@ -39,7 +39,7 @@
               <li><a class="dropdown-item" href="#"><i class="bi bi-heart me-2"></i>Support Us</a></li>
             </ul>
           </li>
-          <li class="nav-item"><a class="nav-link" href="contactus.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link active" href="contactus.html"><i class="bi bi-envelope"></i>Contact</a></li>
         </ul>
         <div class="d-flex align-items-center gap-2">
           <button class="btn-dark-toggle" id="darkToggle" title="Toggle dark mode">
@@ -52,107 +52,91 @@
     </div>
   </nav>
 
-  <!-- About Hero -->
-  <section class="about-hero text-center">
+  <!-- Contact Hero -->
+  <section class="contact-hero text-center">
     <div class="container">
-      <p class="text-uppercase fw-bold small letter-spacing mb-2" style="color:var(--pc-primary);opacity:0.8">Our Story</p>
-      <h1>Built by Developers,<br>for Developers</h1>
-      <p class="mt-3 mb-4">Peu'Coders is a tech publication dedicated to web development, software engineering, and the future of technology. We write for curious minds — beginners and veterans alike.</p>
-      <a href="contactus.html" class="btn btn-signup px-5">Get In Touch</a>
+      <p class="text-uppercase fw-bold small letter-spacing mb-2">Say Hello</p>
+      <h1>Get In Touch</h1>
+      <p class="mt-3">Have a question, a story idea, or want to collaborate? We'd love to hear from you.</p>
     </div>
   </section>
 
-  <!-- Stats -->
+  <!-- Contact Content -->
   <div class="container my-5">
-    <div class="row g-4 text-center">
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-number">50+</div>
-          <div class="stat-label">Articles Published</div>
-        </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-number">12K+</div>
-          <div class="stat-label">Monthly Readers</div>
-        </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-number">8+</div>
-          <div class="stat-label">Topics Covered</div>
-        </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-number">100%</div>
-          <div class="stat-label">Free to Read</div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <div class="row g-5 align-items-start">
 
-  <!-- Mission section -->
-  <div class="container my-5">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-6">
-        <p class="text-uppercase fw-bold small letter-spacing mb-2" style="color:var(--pc-primary);opacity:0.8">What We Do</p>
-        <h2 class="featurette-heading">Our Mission Is to Make Tech Accessible</h2>
-        <p class="mt-3">We started Peu'Coders because we believed that great technical writing shouldn't be locked behind paywalls or buried in documentation. Every article is crafted to teach something real — whether you're building your first website or architecting your tenth system.</p>
-        <p>We cover the full stack: front-end design, back-end engineering, DevOps, AI tooling, career advice, and everything in between.</p>
-      </div>
-      <div class="col-lg-6 text-center">
-        <div style="background: linear-gradient(135deg, rgba(79,70,229,0.1) 0%, rgba(225,29,72,0.08) 100%); border-radius: 24px; padding: 3rem; font-size: 5rem; line-height:1">
-          💻
+      <!-- Info sidebar -->
+      <div class="col-lg-4">
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="bi bi-envelope-fill"></i></div>
+          <div>
+            <p class="fw-semibold mb-0">Email Us</p>
+            <p class="text-muted small mb-0">hello@compile.dev</p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="bi bi-pencil-fill"></i></div>
+          <div>
+            <p class="fw-semibold mb-0">Write for Us</p>
+            <p class="text-muted small mb-0">Pitch your article idea to us</p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="bi bi-twitter-x"></i></div>
+          <div>
+            <p class="fw-semibold mb-0">Twitter / X</p>
+            <p class="text-muted small mb-0">@compile</p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="bi bi-github"></i></div>
+          <div>
+            <p class="fw-semibold mb-0">GitHub</p>
+            <p class="text-muted small mb-0">github.com/compile</p>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Values -->
-  <div class="container my-5">
-    <div class="text-center mb-4">
-      <h2 class="section-title">What We Stand For</h2>
-      <div class="section-divider mx-auto"></div>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-3">
-        <div class="featurette-section text-center">
-          <div class="featurette-icon">🎯</div>
-          <h5>Accuracy First</h5>
-          <p class="text-muted small">Every technical article is fact-checked and tested. We don't publish code we haven't run.</p>
+      <!-- Form card -->
+      <div class="col-lg-8">
+        <div class="contact-card">
+          <h4 class="mb-4 fw-bold">Send Us a Message</h4>
+          <form id="contactForm" onsubmit="handleContact(event)">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label fw-medium">Your Name</label>
+                <input type="text" class="form-control" placeholder="John Doe" required />
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label fw-medium">Email Address</label>
+                <input type="email" class="form-control" placeholder="you@example.com" required />
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-medium">Subject</label>
+                <select class="form-select">
+                  <option value="" selected disabled>Select a topic…</option>
+                  <option>General Question</option>
+                  <option>Write for Us</option>
+                  <option>Sponsorship / Partnership</option>
+                  <option>Bug Report</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-medium">Message</label>
+                <textarea class="form-control" rows="5" placeholder="Tell us what's on your mind…" required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-signup px-5 py-2" id="submitBtn">Send Message</button>
+                <div id="formSuccess" class="mt-3 text-success fw-medium" style="display:none">
+                  <i class="bi bi-check-circle-fill me-1"></i> Message sent! We'll get back to you soon.
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="featurette-section text-center">
-          <div class="featurette-icon">🌍</div>
-          <h5>Open &amp; Free</h5>
-          <p class="text-muted small">All our content is free. No paywalls, no subscriptions — just knowledge for everyone.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="featurette-section text-center">
-          <div class="featurette-icon">🚀</div>
-          <h5>Always Current</h5>
-          <p class="text-muted small">Technology moves fast. We update our articles to stay relevant and accurate.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="featurette-section text-center">
-          <div class="featurette-icon">🤝</div>
-          <h5>Community Driven</h5>
-          <p class="text-muted small">We welcome guest writers. If you have something to teach, we want to publish you.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- CTA -->
-  <div class="container my-5">
-    <div class="newsletter-section text-center px-4">
-      <h3 class="mb-2">Want to Write for Us?</h3>
-      <p class="mb-4">Share your knowledge with 12,000+ developers. We're always looking for experienced contributors.</p>
-      <a href="contactus.html" class="btn btn-light fw-semibold px-5" style="border-radius:10px">Reach Out →</a>
     </div>
   </div>
 
@@ -164,49 +148,49 @@
           <a href="index.html" class="footer-brand">
             <div class="brand-icon" style="width:30px;height:30px">
               <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px">
-                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                <polyline points="6 6 12 12 6 18"/><line x1="14" y1="18" x2="20" y2="18"/>
               </svg>
             </div>
-            Peu'Coders
+            Compile
           </a>
-          <p class="footer-desc">Technology news, web development tutorials, and coding trends — all in one place.</p>
+          <p class="footer-desc">Technology news, web development tutorials, and coding trends - all in one place.</p>
         </div>
         <div class="col-6 col-lg-2">
           <p class="footer-heading">Pages</p>
           <ul class="footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contactus.html">Contact</a></li>
+            <li><a href="index.html"><i class="bi bi-chevron-right"></i>Home</a></li>
+            <li><a href="about.html"><i class="bi bi-chevron-right"></i>About</a></li>
+            <li><a href="contactus.html"><i class="bi bi-chevron-right"></i>Contact</a></li>
           </ul>
         </div>
         <div class="col-6 col-lg-2">
           <p class="footer-heading">Topics</p>
           <ul class="footer-links">
-            <li><a href="#">Technology</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Design</a></li>
-            <li><a href="#">Career</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Technology</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Web Development</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Design</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Career</a></li>
           </ul>
         </div>
         <div class="col-6 col-lg-2">
           <p class="footer-heading">Community</p>
           <ul class="footer-links">
-            <li><a href="#">Write for Us</a></li>
-            <li><a href="#">Newsletter</a></li>
-            <li><a href="#">Support Us</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Write for Us</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Newsletter</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Support Us</a></li>
           </ul>
         </div>
         <div class="col-6 col-lg-2">
           <p class="footer-heading">Legal</p>
           <ul class="footer-links">
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Privacy Policy</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Terms of Use</a></li>
           </ul>
         </div>
       </div>
       <hr class="footer-divider" />
       <div class="d-flex flex-wrap justify-content-between align-items-center footer-bottom gap-2">
-        <span>© 2025 Peu'Coders. All rights reserved.</span>
+        <span>© 2025 Compile. All rights reserved.</span>
         <div class="d-flex gap-3">
           <a href="#"><i class="bi bi-twitter-x"></i></a>
           <a href="#"><i class="bi bi-github"></i></a>
@@ -221,7 +205,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Welcome Back 👋</h5>
+          <h5 class="modal-title"><i class="bi bi-emoji-smile me-1"></i>Welcome Back</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -246,7 +230,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Create an Account 🚀</h5>
+          <h5 class="modal-title"><i class="bi bi-rocket-takeoff me-1"></i>Create an Account</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -271,7 +255,9 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="controls.js"></script>
   <script>
+    // Dark mode
     const darkToggle = document.getElementById('darkToggle');
     const themeIcon  = document.getElementById('themeIcon');
     darkToggle.addEventListener('click', () => {
@@ -282,6 +268,19 @@
         ? '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>'
         : '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
     });
+
+    // Contact form
+    function handleContact(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      setTimeout(() => {
+        document.getElementById('formSuccess').style.display = 'block';
+        btn.textContent = '✓ Sent';
+        btn.classList.add('btn-success');
+      }, 800);
+    }
   </script>
 </body>
 </html>

@@ -1,10 +1,11 @@
 /* ══════════════════════════════════════════════════════
-   PEU'CODERS — underground dev zine on Bootstrap 5
-   Paper + ink + acid green. Syne display, Space Mono
-   meta, hashtag code-comment tags, hard 2px borders.
+   COMPILE - underground dev zine on Bootstrap 5
+   Paper + ink + acid green, hashtag code-comment tags,
+   hard 2px borders. Poppins throughout; the logo keeps
+   its own monospace voice (JetBrains Mono).
    ══════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700;800&display=swap');
 
 :root {
   --pc-ink:     #16181d;
@@ -15,8 +16,9 @@
   --pc-violet:  #7048e8;
   --pc-gray:    #6b7280;
   --pc-line:    #d8d4c8;
-  --pc-mono: 'Space Mono', monospace;
-  --pc-display: 'Syne', sans-serif;
+  --pc-mono: 'Poppins', sans-serif;
+  --pc-display: 'Poppins', sans-serif;
+  --pc-logo: 'JetBrains Mono', 'Poppins', monospace;
 }
 
 [data-bs-theme="dark"] {
@@ -31,12 +33,29 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   background: var(--pc-paper) !important;
   color: var(--pc-ink);
 }
 
-/* ── Navbar — zine masthead ─────────────────────── */
+/* ── Scrollbars - blocky ink runner on paper ────── */
+* { scrollbar-width: thin; scrollbar-color: var(--pc-ink) var(--pc-paper); }
+::-webkit-scrollbar { width: 13px; height: 13px; }
+::-webkit-scrollbar-track {
+  background: var(--pc-paper);
+  border-left: 2px solid var(--pc-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--pc-ink);
+  border: 3px solid var(--pc-paper);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover  { background: var(--pc-acid-dk); }
+::-webkit-scrollbar-thumb:active { background: var(--pc-violet); }
+::-webkit-scrollbar-corner { background: var(--pc-paper); }
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: var(--pc-acid); }
+
+/* ── Navbar - zine masthead ─────────────────────── */
 .navbar {
   padding: 0.75rem 1rem;
   position: sticky;
@@ -51,10 +70,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--pc-display);
-  font-size: 1.3rem;
+  font-family: var(--pc-logo);
+  font-size: 1.25rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--pc-ink) !important;
   text-decoration: none;
 }
@@ -86,7 +105,7 @@ body {
   color: var(--pc-gray);
 }
 
-.navbar-nav .nav-link::before { content: "./"; opacity: 0.4; }
+.navbar-nav .nav-link i { margin-right: 0.4rem; font-size: 0.85em; opacity: 0.6; }
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
@@ -187,7 +206,7 @@ body {
 
 .input-group .btn-outline-secondary:hover { background: var(--pc-acid); color: #16181d; }
 
-/* ── Trending bar — acid tape ───────────────────── */
+/* ── Trending bar - acid tape ───────────────────── */
 .trending-bar {
   background: var(--pc-acid);
   color: #16181d;
@@ -223,11 +242,11 @@ body {
   white-space: nowrap;
 }
 
-.ticker-inner span::before { content: ">> "; opacity: 0.55; }
+.ticker-inner span i { opacity: 0.7; margin-right: 0.35rem; font-size: 0.85em; }
 
 @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* ── Carousel — cover story ─────────────────────── */
+/* ── Carousel - cover story ─────────────────────── */
 .carousel { position: relative; border-bottom: 2px solid var(--pc-ink); }
 
 .carousel-item img {
@@ -239,13 +258,14 @@ body {
 .carousel-caption {
   bottom: 12%;
   text-align: left;
-  left: 8%;
+  left: 10%;
   right: auto;
   max-width: 600px;
   background: rgba(16, 18, 22, 0.88);
   border: 2px solid var(--pc-acid);
   padding: 1.6rem 1.8rem;
   box-shadow: 8px 8px 0 rgba(164, 226, 46, 0.55);
+  z-index: 2;
 }
 
 .carousel-caption h2 {
@@ -287,7 +307,7 @@ body {
   border: none;
 }
 
-.carousel-tag::before { content: "#"; }
+.carousel-tag i { margin-right: 0.3em; font-size: 0.85em; }
 
 .tag-tech    { background: #ff5f45; color: #16181d; }
 .tag-webdev  { background: #58a6ff; color: #16181d; }
@@ -313,7 +333,7 @@ body {
   margin-bottom: 0.25rem;
 }
 
-.section-title::before { content: "// "; color: var(--pc-acid-dk); font-family: var(--pc-mono); font-size: 0.8em; }
+.section-title i { color: var(--pc-acid-dk); font-size: 0.75em; margin-right: 0.5rem; vertical-align: 2px; }
 
 .section-divider {
   width: 64px;
@@ -324,7 +344,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* ── Article cards — zine clippings ─────────────── */
+/* ── Article cards - zine clippings ─────────────── */
 .article-card {
   border: 2px solid var(--pc-ink);
   border-radius: 0;
@@ -371,7 +391,7 @@ body {
   background: transparent !important;
 }
 
-.article-tag-badge::before { content: "#"; }
+.article-tag-badge i { margin-right: 0.25em; font-size: 0.9em; }
 
 .tag-world  { color: #2f6fce; }
 .tag-design { color: #0e8a63; }
@@ -428,7 +448,7 @@ body {
 
 .read-link:hover { gap: 0.5rem; color: var(--pc-ink); }
 
-/* ── Newsletter — acid block ────────────────────── */
+/* ── Newsletter - acid block ────────────────────── */
 .newsletter-section {
   background: var(--pc-ink);
   padding: 3.5rem 1rem;
@@ -447,7 +467,7 @@ body {
   color: #faf8f2;
 }
 
-.newsletter-section h3::before { content: "$ "; color: var(--pc-acid); font-family: var(--pc-mono); }
+.newsletter-section h3 i { color: var(--pc-acid); margin-right: 0.5rem; font-size: 0.85em; }
 
 .newsletter-section p { color: rgba(250, 248, 242, 0.65); }
 
@@ -473,9 +493,10 @@ body {
 [data-bs-theme="dark"] .site-footer { background: #000; color: rgba(236, 234, 223, 0.7); }
 
 .footer-brand {
-  font-family: var(--pc-display);
-  font-size: 1.4rem;
+  font-family: var(--pc-logo);
+  font-size: 1.3rem;
   font-weight: 800;
+  letter-spacing: -0.03em;
   color: #faf8f2;
   display: flex;
   align-items: center;
@@ -508,9 +529,15 @@ body {
   transition: color 0.2s;
 }
 
-.footer-links a::before { content: "> "; color: var(--pc-acid); opacity: 0; transition: opacity 0.15s; }
+.footer-links a i {
+  color: var(--pc-acid);
+  opacity: 0;
+  margin-right: 0.35rem;
+  font-size: 0.75em;
+  transition: opacity 0.15s;
+}
 .footer-links a:hover { color: var(--pc-acid); }
-.footer-links a:hover::before { opacity: 1; }
+.footer-links a:hover i { opacity: 1; }
 
 .footer-divider { border-color: rgba(250, 248, 242, 0.1); margin: 2rem 0 1rem; }
 .footer-bottom { font-family: var(--pc-mono); font-size: 0.72rem; color: rgba(250, 248, 242, 0.35); }
@@ -539,7 +566,7 @@ body {
 }
 
 /* ── About page ─────────────────────────────────── */
-.about-hero, .contact-hero {
+.about-hero {
   background:
     radial-gradient(rgba(164, 226, 46, 0.35) 1.5px, transparent 1.5px);
   background-size: 20px 20px;
@@ -548,7 +575,28 @@ body {
   border-bottom: 2px solid var(--pc-ink);
 }
 
-.contact-hero { padding: 4rem 0; text-align: center; }
+.mission-photo {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 2px solid var(--pc-ink);
+  box-shadow: 8px 8px 0 var(--pc-acid);
+  filter: grayscale(0.25) contrast(1.05);
+}
+
+/* ── Contact page ───────────────────────────────── */
+.contact-hero {
+  padding: 5rem 0;
+  text-align: center;
+  border-bottom: 2px solid var(--pc-ink);
+  background:
+    linear-gradient(rgba(16, 18, 22, 0.82), rgba(16, 18, 22, 0.82)),
+    url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=70') center/cover no-repeat;
+}
+
+.contact-hero .letter-spacing { color: var(--pc-acid) !important; opacity: 1 !important; }
+.contact-hero p:not(.letter-spacing) { color: rgba(250, 248, 242, 0.85); }
 
 .about-hero h1, .contact-hero h1 {
   font-family: var(--pc-display);
@@ -648,11 +696,213 @@ body {
 
 .contact-info-icon svg { width: 16px; height: 16px; }
 
+/* ── Form controls - zine-fied ──────────────────── */
+/* the native <select> pop-up ignores the palette (system blue on
+   white); it is rebuilt in controls.js from ink, paper and acid.
+   The real <select> stays hidden as the value store. */
+.cs { position: relative; }
+.cs-native { display: none; }
+
+.cs-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  background: var(--pc-card);
+  border: 2px solid var(--pc-ink);
+  border-radius: 0;
+  font-family: var(--pc-mono);
+  font-size: 0.8rem;
+  color: var(--pc-ink);
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+  text-align: left;
+  transition: box-shadow 0.12s, border-color 0.12s;
+}
+.cs-trigger::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--pc-ink);
+  border-bottom: 2px solid var(--pc-ink);
+  transform: rotate(45deg) translate(-2px, -2px);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.cs.cs-open .cs-trigger::after { transform: rotate(-135deg) translate(-1px, -1px); }
+.cs.cs-open .cs-trigger,
+.cs-trigger:focus-visible {
+  outline: none;
+  box-shadow: 3px 3px 0 var(--pc-acid);
+}
+.cs-trigger.cs-placeholder .cs-label { color: var(--pc-gray); }
+
+.cs-panel {
+  position: absolute;
+  z-index: 1050;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--pc-card);
+  border: 2px solid var(--pc-ink);
+  box-shadow: 4px 4px 0 var(--pc-ink);
+  padding: 0.35rem;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.12s, transform 0.14s;
+}
+.cs.cs-open .cs-panel { opacity: 1; transform: none; pointer-events: auto; }
+.cs.cs-flip .cs-panel {
+  top: auto;
+  bottom: calc(100% + 4px);
+  transform: translateY(4px);
+}
+.cs.cs-flip.cs-open .cs-panel { transform: none; }
+
+.cs-opt {
+  font-family: var(--pc-mono);
+  font-size: 0.8rem;
+  color: var(--pc-ink);
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+.cs-opt:hover,
+.cs-opt.cs-active { background: var(--pc-acid); color: #16181d; }
+.cs-opt[aria-selected="true"] { font-weight: 700; box-shadow: inset 3px 0 0 var(--pc-acid-dk); }
+
+/* number fields: no OS spinner */
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* date field: tint the picker glyph toward acid */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+input[type="date"]:hover::-webkit-calendar-picker-indicator { opacity: 1; }
+
 /* ── Utilities / responsive ─────────────────────── */
 .letter-spacing { letter-spacing: 0.08em; }
 
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE - below the Bootstrap lg breakpoint
+   ══════════════════════════════════════════════════════ */
+@media (max-width: 991.98px) {
+
+  body { overflow-x: hidden; }
+
+  /* ── Hamburger: an ink block with acid bars that snap to an X ── */
+  .navbar { padding: 0.6rem 0; }
+  .navbar-toggler {
+    width: 44px;
+    height: 40px;
+    padding: 0 !important;
+    border: 2px solid var(--pc-ink) !important;
+    border-radius: 0 !important;
+    background: var(--pc-acid);
+    box-shadow: 3px 3px 0 var(--pc-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  [data-bs-theme="dark"] .navbar-toggler { background: var(--pc-acid); }
+  .navbar-toggler:focus,
+  .navbar-toggler:focus-visible { outline: none; box-shadow: 3px 3px 0 var(--pc-ink); }
+  .navbar-toggler:active { transform: translate(3px, 3px); box-shadow: none; }
+
+  .navbar-toggler-icon {
+    width: 20px;
+    height: 2.5px;
+    background-image: none !important;
+    background-color: #16181d;
+    position: relative;
+    transition: background-color 0.1s;
+  }
+  .navbar-toggler-icon::before,
+  .navbar-toggler-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 2.5px;
+    background: #16181d;
+    transition: transform 0.18s ease, top 0.18s ease;
+  }
+  .navbar-toggler-icon::before { top: -6px; }
+  .navbar-toggler-icon::after  { top: 6px; }
+  /* Bootstrap sets aria-expanded="true" on the button while the menu is open */
+  .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon { background-color: transparent; }
+  .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before { top: 0; transform: rotate(45deg); }
+  .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after  { top: 0; transform: rotate(-45deg); }
+
+  /* ── The expanded menu: a bordered drop panel ── */
+  #navbarMain {
+    margin-top: 0.7rem;
+    padding: 0.6rem;
+    border: 2px solid var(--pc-ink);
+    box-shadow: 5px 5px 0 var(--pc-acid);
+    background: var(--pc-card);
+  }
+  .navbar-nav { margin-left: 0 !important; margin-bottom: 0 !important; width: 100%; }
+  .navbar-nav .nav-link {
+    padding: 0.65rem 0.75rem !important;
+    border-bottom: 1.5px dashed var(--pc-line);
+  }
+  .navbar-nav .nav-item:last-child .nav-link { border-bottom: none; }
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active { box-shadow: none; }
+
+  /* nested "Topics" dropdown - flatten it inside the panel */
+  .navbar-nav .dropdown-menu {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 0.15rem 0 0.15rem 1.4rem;
+  }
+  .navbar-nav .dropdown-item { padding: 0.5rem 0.5rem; }
+  .navbar-nav .dropdown-divider { margin: 0.3rem 0; }
+
+  /* ── Actions: search full-width, buttons share a row ── */
+  #navbarMain > .d-flex {
+    flex-wrap: wrap;
+    gap: 0.6rem !important;
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 2px dashed var(--pc-line);
+  }
+  #navbarMain form[role="search"],
+  #navbarMain form[role="search"] .input-group { width: 100%; }
+  #navbarMain form[role="search"] .form-control {
+    min-width: 0 !important;
+    flex: 1 1 auto;
+  }
+  #navbarMain .btn-dark-toggle { flex: 0 0 auto; order: 3; }
+  #navbarMain .btn-login  { flex: 1 1 40%; order: 1; padding: 0.5rem 0.5rem; }
+  #navbarMain .btn-signup { flex: 1 1 40%; order: 2; padding: 0.5rem 0.5rem; white-space: nowrap; }
+
+  /* ── Big offset shadows shrink so they don't crowd the edges ── */
+  .newsletter-section,
+  .about-hero h1, .contact-hero h1 { box-shadow: 5px 5px 0 var(--pc-acid); }
+  .contact-card, .stat-card { box-shadow: 4px 4px 0 var(--pc-acid); }
+}
+
 @media (max-width: 768px) {
-  .carousel-item img { height: 360px; }
-  .carousel-caption { left: 5%; right: 5%; bottom: 8%; padding: 1rem 1.2rem; }
+  .carousel-item img { height: 340px; }
+  .carousel-caption {
+    left: 4%; right: 4%; bottom: 6%;
+    max-width: none;
+    padding: 1rem 1.1rem;
+    box-shadow: 5px 5px 0 rgba(164, 226, 46, 0.55);
+  }
   .carousel-caption h2 { font-size: 1.3rem; }
+  .carousel-caption p { font-size: 0.85rem; margin-bottom: 0.8rem; }
+  .article-card:hover { transform: none; box-shadow: 4px 4px 0 var(--pc-acid), 4px 4px 0 2px var(--pc-ink); }
+  .newsletter-section { padding: 2.5rem 1.2rem; }
+  .trending-ticker { margin-left: 0.5rem; }
 }
