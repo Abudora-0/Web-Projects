@@ -62,7 +62,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Windows 11 UI Clone](WIndow%2011%20UI%20Clone/) | Desktop with taskbar, start menu & apps | HTML · CSS · JS |
 | [Bootstrap Website](BootStrap%20Website/) | Tech-news zine on Bootstrap 5, restyled as an acid dev-zine | Bootstrap 5 |
 | [Ephemeris](Ephemeris%20-%20CheatSheet%20Template/) | Star atlas of programming - 13 constellations, 220 snippets, global search | Prism.js |
-| [Incognito Mode](Incognito%20Mode/) | "Off the Record" - private browsing as detective noir | HTML · CSS · JS |
+| [Off the Record](Off%20the%20Record%20-%20Incognito%20Mode%20Clone/) | Chrome incognito page as detective noir - live browser-fingerprint dossier, shred-the-evidence | HTML · CSS · JS |
 
 ## 🌐 Websites
 
@@ -156,7 +156,7 @@ web-projects/
 ├── Email Validator/     ├── Spotify Clone/
 ├── Ember & Anvil/       ├── The Apiary/
 ├── Cinder & Salt/       ├── The Drop/
-├── Incognito Mode/      ├── The Locked Room/
+├── Off the Record/      ├── The Locked Room/
 ├── Ironclad/            ├── The Order Window/
 ├── Umbral/              ├── The Perfumer's Atelier/
 ├── Thread & Rail/       ├── The Terminal/
