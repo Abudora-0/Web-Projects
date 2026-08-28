@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Expeditions - Field Trips to the Rarest Light in the Sky</title>
+<meta name="description" content="Nova Expeditions charters small-group journeys to total solar eclipses, meteor storms, and aurora displays around the world.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2305070d'/%3E%3Cellipse cx='32' cy='32' rx='24' ry='10' fill='none' stroke='%23ff7a33' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23f5f7fa'/%3E%3Ccircle cx='54' cy='32' r='2.4' fill='%23ff7a33'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+</noscript>
+</head>
+<body>
+
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <ellipse cx="20" cy="20" rx="16" ry="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="20" cy="20" r="3.4" fill="currentColor"/>
+        <circle cx="35" cy="20" r="1.6" fill="var(--accent)"/>
+      </svg>
+      <span>Nova&nbsp;Expeditions</span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="#expeditions">Expeditions</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#simulator">Sky Simulator</a>
+      <a href="#join">Join the Manifest</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1900&q=70" alt="" loading="eager" fetchpriority="high">
+    </div>
+    <div class="hero-orbits" aria-hidden="true">
+      <svg viewBox="0 0 900 900" class="orbit-svg">
+        <ellipse cx="450" cy="450" rx="420" ry="170" class="orbit-ring orbit-ring--1"/>
+        <ellipse cx="450" cy="450" rx="320" ry="320" class="orbit-ring orbit-ring--2"/>
+        <ellipse cx="450" cy="450" rx="260" ry="110" class="orbit-ring orbit-ring--3"/>
+        <circle r="3.6" class="orbit-dot orbit-dot--accent">
+          <animateMotion dur="26s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path1"/>
+          </animateMotion>
+        </circle>
+        <circle r="2.6" class="orbit-dot">
+          <animateMotion dur="19s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path2"/>
+          </animateMotion>
+        </circle>
+        <circle r="2.2" class="orbit-dot orbit-dot--dim">
+          <animateMotion dur="33s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path3"/>
+          </animateMotion>
+        </circle>
+        <path id="path1" d="M 30 450 A 420 170 0 1 1 870 450 A 420 170 0 1 1 30 450" fill="none"/>
+        <path id="path2" d="M 130 450 A 320 320 0 1 1 770 450 A 320 320 0 1 1 130 450" fill="none"/>
+        <path id="path3" d="M 190 450 A 260 110 0 1 1 710 450 A 260 110 0 1 1 190 450" fill="none"/>
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <p class="eyebrow">Est. 2015 &middot; Small-group astro-tourism</p>
+      <h1>Chase totality.<br>Stand under a sky that only happens once.</h1>
+      <p class="hero-lede">Nova Expeditions plans, charters, and guides journeys to the rarest events the sky performs - total solar eclipses, meteor storms, and aurora displays - with astronomers on hand to explain exactly what you're watching.</p>
+
+      <div class="countdown-panel" aria-live="polite">
+        <p class="countdown-label">Next departure &mdash; Geminid Base Camp: Atacama</p>
+        <div class="countdown" id="heroCountdown">
+          <div class="countdown-unit"><span class="countdown-num" id="cd-d">00</span><span class="countdown-tag">days</span></div>
+          <div class="countdown-unit"><span class="countdown-num" id="cd-h">00</span><span class="countdown-tag">hrs</span></div>
+          <div class="countdown-unit"><span class="countdown-num" id="cd-m">00</span><span class="countdown-tag">min</span></div>
+          <div class="countdown-unit"><span class="countdown-num" id="cd-s">00</span><span class="countdown-tag">sec</span></div>
+        </div>
+        <p class="countdown-sub" id="countdownSub">Counting down to the Geminid peak over the Atacama Desert, 14 December 2026.</p>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#expeditions" class="btn btn-primary">View Expeditions</a>
+        <a href="#simulator" class="btn btn-ghost">Try the Sky Simulator</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPEDITIONS ============ -->
+  <section class="expeditions" id="expeditions">
+    <div class="section-head reveal">
+      <p class="section-kicker">The Manifest</p>
+      <h2>Upcoming Expeditions</h2>
+      <p class="section-sub">Four departures, each built around a single celestial event and a dark-sky location chosen for it. Every trip includes pre-flight briefings from a staff astronomer and small groups capped at 24 travelers.</p>
+    </div>
+
+    <div class="expedition-grid">
+
+      <article class="expedition-card reveal" data-date="2026-12-14T02:00:00" data-name="Geminid Base Camp: Atacama">
+        <div class="expedition-photo">
+          <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=900&q=70" alt="The Milky Way arching over a high desert mountain" loading="lazy">
+          <span class="expedition-type">Meteor Shower Peak</span>
+        </div>
+        <div class="expedition-body">
+          <h3>Geminid Base Camp: Atacama</h3>
+          <p class="expedition-meta">13&ndash;14 December 2026 &middot; Atacama Desert, Chile</p>
+          <p class="expedition-desc">The year's most reliable shower, from the driest desert on the planet alongside the observatories that chose it for the same reason.</p>
+          <p class="expedition-countdown">T&minus;<span class="days-left"></span> days</p>
+          <button class="expedition-open" type="button">View expedition brief</button>
+        </div>
+        <script type="application/json" class="expedition-data">
+        {"seeing":"100–120 slow, bright Geminids an hour, many leaving trains. The radiant is up almost all night, so the rate holds from dusk to dawn.","odds":91,"oddsNote":"Atacama, December — near-zero cloud","price":"from $4,600","seats":"18 of 24 seats open","itinerary":["Calama — transfer to San Pedro de Atacama","Altiplano lagoons and salt flats by day","Two nights at a private dark site east of town","Peak night watch; dawn count tally with the group","Optional ALMA / Paranal observatory day tour"]}
+        </script>
+      </article>
+
+      <article class="expedition-card reveal" data-date="2027-02-18T21:00:00" data-name="Aurora Week: Central Iceland">
+        <div class="expedition-photo">
+          <img src="https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=900&q=70" alt="Green aurora over an Icelandic lake and mountains" loading="lazy">
+          <span class="expedition-type">Aurora Season</span>
+        </div>
+        <div class="expedition-body">
+          <h3>Aurora Week: Central Iceland</h3>
+          <p class="expedition-meta">18&ndash;24 February 2027 &middot; Kj&ouml;lur highland route, Iceland</p>
+          <p class="expedition-desc">A week camped away from the coast road on the dark highland plateau, timed to the equinox-approach activity peak.</p>
+          <p class="expedition-countdown">T&minus;<span class="days-left"></span> days</p>
+          <button class="expedition-open" type="button">View expedition brief</button>
+        </div>
+        <script type="application/json" class="expedition-data">
+        {"seeing":"Seven nights inside the auroral oval. Even a quiet Kp 2 puts a green arch overhead here; an active night fills the sky with moving curtains and the occasional red upper edge.","odds":58,"oddsNote":"Highland Iceland, February — clear-night odds","price":"from $5,200","seats":"9 of 24 seats open","itinerary":["Reykjavík — cold-weather kit issue and briefing","Drive the Kjölur route onto the highland plateau","Base camp between Langjökull and Hofsjökull","Nightly aurora watch; daytime glacier and hot-spring stops","Two nights held in reserve for the clearest forecast windows","Return to Reykjavík; image review and farewell dinner"]}
+        </script>
+      </article>
+
+      <article class="expedition-card reveal" data-date="2027-08-02T10:07:00" data-name="Umbra One: Nile Valley Totality">
+        <div class="expedition-photo">
+          <img src="https://images.unsplash.com/photo-1522030299830-16b8d3d049fe?auto=format&fit=crop&w=900&q=70" alt="The Sun's corona around a total solar eclipse" loading="lazy">
+          <span class="expedition-type">Total Solar Eclipse</span>
+        </div>
+        <div class="expedition-body">
+          <h3>Umbra One: Nile Valley Totality</h3>
+          <p class="expedition-meta">2 August 2027 &middot; Luxor &amp; the Nile Valley, Egypt</p>
+          <p class="expedition-desc">Over six minutes of totality &mdash; among the longest of the century &mdash; from the west bank of the Nile near Luxor.</p>
+          <p class="expedition-countdown">T&minus;<span class="days-left"></span> days</p>
+          <button class="expedition-open" type="button">View expedition brief</button>
+        </div>
+        <script type="application/json" class="expedition-data">
+        {"seeing":"6 min 23 s of totality with the Sun high overhead — long enough to watch the corona properly, look for planets, and still take photographs without rushing.","odds":95,"oddsNote":"Nile Valley, August — famously clear","price":"from $7,200","seats":"21 of 24 seats open","itinerary":["Luxor — arrival, Karnak temple complex","Valley of the Kings and the west-bank necropolis","Viewing-site scout; equipment and filter check","Eclipse day — guided countdown, 6+ minutes of totality","Felucca debrief on the Nile at sunset"]}
+        </script>
+      </article>
+
+      <article class="expedition-card reveal" data-date="2027-08-12T21:00:00" data-name="Perseid Watch: Hanle">
+        <div class="expedition-photo">
+          <img src="https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?auto=format&fit=crop&w=900&q=70" alt="Star trails wheeling over a dark mountain ridge" loading="lazy">
+          <span class="expedition-type">Meteor Shower Peak</span>
+        </div>
+        <div class="expedition-body">
+          <h3>Perseid Watch: Hanle</h3>
+          <p class="expedition-meta">12&ndash;13 August 2027 &middot; Hanle Dark Sky Reserve, Ladakh, India</p>
+          <p class="expedition-desc">Camp above 4,300 metres in one of the darkest, driest skies on Earth for the Perseids' peak night.</p>
+          <p class="expedition-countdown">T&minus;<span class="days-left"></span> days</p>
+          <button class="expedition-open" type="button">View expedition brief</button>
+        </div>
+        <script type="application/json" class="expedition-data">
+        {"seeing":"Up to 90 meteors an hour under a moonless Bortle 1 sky, with the Milky Way core sitting almost straight overhead through the peak window.","odds":84,"oddsNote":"High-altitude desert, monsoon shadow","price":"from $3,900","seats":"12 of 24 seats open","itinerary":["Leh — two nights to acclimatise to 3,500 m","Road to Hanle across the Indus valley (4,300 m)","Dark Sky Reserve — camp set-up, red-light protocol","Peak night — all-night watch in heated reclining chairs","Indian Astronomical Observatory tour before the return drive"]}
+        </script>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="section-head reveal">
+      <p class="section-kicker">What's Included</p>
+      <h2>How an Expedition Comes Together</h2>
+      <p class="section-sub">Every departure follows the same field-tested arc, from booking to the moment you're standing in the shadow itself.</p>
+    </div>
+
+    <div class="timeline" id="timeline">
+      <div class="timeline-track" aria-hidden="true"><div class="timeline-fill" id="timelineFill"></div></div>
+
+      <div class="step reveal" data-step="1">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">01</span>
+          <span class="step-title">Reserve Your Seat</span>
+          <span class="step-caret" aria-hidden="true">+</span>
+        </button>
+        <div class="step-body">
+          <p>Pick an expedition and hold one of 24 seats with a fully refundable deposit. You'll get a packing list built for the specific site &mdash; altitude, temperature swings, and all.</p>
+        </div>
+      </div>
+
+      <div class="step reveal" data-step="2">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">02</span>
+          <span class="step-title">Pre-Flight Briefing</span>
+          <span class="step-caret" aria-hidden="true">+</span>
+        </button>
+        <div class="step-body">
+          <p>Three weeks out, our staff astronomer runs a live video briefing on the mechanics of the event, what to expect minute by minute, and how to photograph it without missing it with your own eyes.</p>
+        </div>
+      </div>
+
+      <div class="step reveal" data-step="3">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">03</span>
+          <span class="step-title">Travel &amp; Acclimation</span>
+          <span class="step-caret" aria-hidden="true">+</span>
+        </button>
+        <div class="step-body">
+          <p>We build in buffer days before the event for jet lag, altitude, and weather contingency &mdash; plus a backup viewing site scouted in advance in case cloud cover moves in.</p>
+        </div>
+      </div>
+
+      <div class="step reveal" data-step="4">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">04</span>
+          <span class="step-title">Witness &amp; Document</span>
+          <span class="step-caret" aria-hidden="true">+</span>
+        </button>
+        <div class="step-body">
+          <p>On event day, telescopes, solar filters, and a guided countdown are provided on site. Afterward, the group reconvenes to trade photos and talk through what everyone just saw.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FIELD NOTES ============ -->
+  <section class="fieldnotes" id="fieldnotes">
+    <div class="fieldnotes-inner">
+      <div class="fieldnotes-media reveal">
+        <img src="https://images.unsplash.com/photo-1608178398319-48f814d0750c?auto=format&fit=crop&w=1100&q=70" alt="A telescope set up under a deep, star-filled sky" loading="lazy">
+      </div>
+      <div class="fieldnotes-text reveal">
+        <p class="section-kicker">What a Night Looks Like</p>
+        <h2>Kit on the ground, and someone to point it</h2>
+        <p class="section-sub">Every expedition travels with a working observing setup and the person who knows how to run it. You're not handed a checklist and left to it.</p>
+        <ul class="fieldnotes-list">
+          <li><strong>Optics provided.</strong> Solar filters and a hydrogen-alpha scope for eclipse days; wide-field binoculars and a tracked camera mount for meteor and aurora nights.</li>
+          <li><strong>Guided countdown.</strong> A staff astronomer calls the sequence out loud &mdash; first contact, shadow bands, diamond ring &mdash; so nobody spends totality looking at a screen.</li>
+          <li><strong>Small groups.</strong> Capped at 24 travellers, so there's a scope free when you want one and room at the eyepiece.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKY SIMULATOR ============ -->
+  <section class="simulator" id="simulator">
+    <div class="section-head reveal">
+      <p class="section-kicker">Try It Yourself</p>
+      <h2>Scrub Through the Sky</h2>
+      <p class="section-sub">Three things a Nova expedition is built around. Switch between them, then drag the slider and watch what changes &mdash; the same progressions you'll see live on the ground.</p>
+    </div>
+
+    <div class="sim-tabs reveal" role="tablist" aria-label="Simulator mode">
+      <button class="sim-tab is-active" role="tab" aria-selected="true" data-mode="eclipse">Solar Eclipse</button>
+      <button class="sim-tab" role="tab" aria-selected="false" data-mode="meteor">Meteor Shower</button>
+      <button class="sim-tab" role="tab" aria-selected="false" data-mode="aurora">Aurora</button>
+    </div>
+
+    <div class="simulator-panel reveal">
+      <div class="simulator-stage">
+        <!-- ECLIPSE -->
+        <svg viewBox="0 0 400 400" id="eclipseSvg" class="sim-stage-svg" aria-hidden="true" data-mode="eclipse">
+          <defs>
+            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff6da"/>
+              <stop offset="55%" stop-color="#ffcf70"/>
+              <stop offset="100%" stop-color="var(--accent)"/>
+            </radialGradient>
+            <radialGradient id="coronaGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(245,247,250,0.9)"/>
+              <stop offset="45%" stop-color="rgba(245,247,250,0.35)"/>
+              <stop offset="100%" stop-color="rgba(245,247,250,0)"/>
+            </radialGradient>
+          </defs>
+          <circle id="corona" cx="200" cy="200" r="130" fill="url(#coronaGrad)" opacity="0"/>
+          <circle id="sunDisc" cx="200" cy="200" r="80" fill="url(#sunGrad)"/>
+          <circle id="moonDisc" cx="440" cy="200" r="82" fill="#0a0e1a" stroke="#1c2233" stroke-width="1"/>
+        </svg>
+
+        <!-- METEOR -->
+        <svg viewBox="0 0 400 400" id="meteorSvg" class="sim-stage-svg is-hidden" aria-hidden="true" data-mode="meteor">
+          <rect x="0" y="0" width="400" height="400" fill="#060912"/>
+          <g id="meteorStars"></g>
+          <line id="horizonLine" x1="0" y1="330" x2="400" y2="330" stroke="#1c2233" stroke-width="1"/>
+          <path id="horizonFill" d="M0 330 H400 V400 H0 Z" fill="#0a0e1a"/>
+          <circle id="radiantDot" cx="285" cy="120" r="4" fill="var(--accent)"/>
+          <text id="radiantLabel" x="285" y="104" text-anchor="middle" fill="var(--accent-soft)" font-size="11" font-family="monospace">radiant</text>
+          <g id="meteorStreaks"></g>
+        </svg>
+
+        <!-- AURORA -->
+        <svg viewBox="0 0 400 400" id="auroraSvg" class="sim-stage-svg is-hidden" aria-hidden="true" data-mode="aurora">
+          <defs>
+            <linearGradient id="curtainGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6bff9e" stop-opacity="0"/>
+              <stop offset="35%" stop-color="#6bff9e" stop-opacity="0.75"/>
+              <stop offset="70%" stop-color="#3ad1ff" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#3ad1ff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="400" height="400" fill="#060912"/>
+          <g id="auroraStars"></g>
+          <path id="ridge" d="M0 330 L60 312 L120 326 L190 300 L260 322 L330 308 L400 324 V400 H0 Z" fill="#0a0e1a"/>
+          <g id="auroraCurtains" opacity="0">
+            <path class="curtain" d="M40 40 C 90 140, 60 220, 110 320 L 150 320 C 110 220, 150 140, 100 40 Z" fill="url(#curtainGrad)"/>
+            <path class="curtain" d="M150 30 C 210 150, 170 240, 220 320 L 258 320 C 220 240, 262 150, 205 30 Z" fill="url(#curtainGrad)"/>
+            <path class="curtain" d="M260 45 C 315 150, 285 230, 330 320 L 366 320 C 322 230, 360 150, 312 45 Z" fill="url(#curtainGrad)"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="simulator-controls">
+        <label class="simulator-label" for="simSlider" id="simSliderLabel">First contact &rarr; totality &rarr; last contact</label>
+        <input type="range" id="simSlider" min="0" max="100" value="0" step="1" aria-describedby="simReadout" aria-labelledby="simSliderLabel">
+        <div class="simulator-readout" id="simReadout">
+          <p class="readout-phase" id="readoutPhase">Phase: First Contact</p>
+          <p class="readout-detail" id="readoutDetail">Coverage: 0% &mdash; the Moon has just touched the Sun's edge.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIGNUP ============ -->
+  <section class="signup" id="join">
+    <div class="signup-panel reveal">
+      <div class="signup-orbit" aria-hidden="true">
+        <svg viewBox="0 0 200 200"><ellipse cx="100" cy="100" rx="90" ry="38" class="mini-orbit"/><circle r="2.6" class="orbit-dot orbit-dot--accent"><animateMotion dur="14s" repeatCount="indefinite" rotate="auto"><mpath href="#signupPath"/></animateMotion></circle><path id="signupPath" d="M 10 100 A 90 38 0 1 1 190 100 A 90 38 0 1 1 10 100" fill="none"/></svg>
+      </div>
+      <p class="section-kicker">Join the Manifest</p>
+      <h2>Get first call on new departures</h2>
+      <p class="section-sub">We announce each expedition to the waitlist before it opens publicly. No spam &mdash; just eclipse and meteor shower dates as we lock them in.</p>
+
+      <form id="signupForm" class="signup-form" novalidate>
+        <div class="signup-field">
+          <label for="emailInput" class="sr-only">Email address</label>
+          <input type="email" id="emailInput" name="email" placeholder="you@example.com" autocomplete="email" required>
+          <button type="submit" class="btn btn-primary">Reserve My Seat</button>
+        </div>
+        <p class="signup-feedback" id="signupFeedback" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ EXPEDITION DETAIL MODAL ============ -->
+  <div class="exp-modal" id="expeditionModal" hidden>
+    <div class="exp-modal-backdrop" data-close></div>
+    <div class="exp-modal-card" role="dialog" aria-modal="true" aria-labelledby="expModalTitle">
+      <button class="exp-modal-close" type="button" data-close aria-label="Close">&times;</button>
+      <div class="exp-modal-hero">
+        <img id="expModalImg" src="" alt="">
+        <div class="exp-modal-hero-text">
+          <p class="expedition-type" id="expModalType">Total Solar Eclipse</p>
+          <h3 id="expModalTitle">Expedition</h3>
+          <p class="expedition-meta" id="expModalMeta"></p>
+        </div>
+      </div>
+      <div class="exp-modal-body">
+        <div class="exp-modal-main">
+          <h4>What you'll see</h4>
+          <p id="expModalSeeing"></p>
+          <h4>Itinerary</h4>
+          <ol id="expModalItinerary"></ol>
+        </div>
+        <aside class="exp-modal-side">
+          <div class="exp-stat">
+            <span class="exp-stat-label">Clear-sky odds</span>
+            <div class="odds-meter"><span id="expModalOddsBar"></span></div>
+            <span class="exp-stat-value"><span id="expModalOdds"></span>% &middot; <span id="expModalOddsNote"></span></span>
+          </div>
+          <div class="exp-stat">
+            <span class="exp-stat-label">Departs in</span>
+            <span class="exp-stat-value" id="expModalCountdown"></span>
+          </div>
+          <div class="exp-stat">
+            <span class="exp-stat-label">Price</span>
+            <span class="exp-stat-value" id="expModalPrice"></span>
+          </div>
+          <div class="exp-stat">
+            <span class="exp-stat-label">Availability</span>
+            <span class="exp-stat-value" id="expModalSeats"></span>
+          </div>
+          <a href="#join" class="btn btn-primary exp-modal-cta" data-close>Reserve a seat</a>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href="#top">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <ellipse cx="20" cy="20" rx="16" ry="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="20" cy="20" r="3.4" fill="currentColor"/>
+          <circle cx="35" cy="20" r="1.6" fill="var(--accent)"/>
+        </svg>
+        <span>Nova&nbsp;Expeditions</span>
+      </a>
+      <p>Field-tested itineraries for the rarest light in the sky.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Company</h4>
+      <p>Nova Expeditions Ltd.</p>
+      <p>14 Observatory Row<br>Flagstaff, AZ 86001</p>
+      <p>Founded 2015</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p><a href="mailto:manifest@novaexpeditions.example">manifest@novaexpeditions.example</a></p>
+      <p>+1 (555) 019&ndash;2026</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <p><a href="#expeditions">Expeditions</a></p>
+      <p><a href="#how-it-works">How It Works</a></p>
+      <p><a href="#simulator">Sky Simulator</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; <span id="footerYear"></span> Nova Expeditions Ltd. Trips are weather-dependent by nature; we plan around it, we can't control it.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
