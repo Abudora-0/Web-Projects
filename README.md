@@ -45,7 +45,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Budget Tracker](Personal%20Budget%20Expense%20Tracker/) | Banker's ledger | Charts, budgets, insights, CSV export |
 | [The Cutting Room](Movie%20Recommendation%20App/) | Editing bay: lightbox, sprocket rails & grease pencil | TMDB API, in-page trailers, filter rig, cast filmographies, watched log with your own ratings |
 | [SoundRoom](SoundRoom/) | Record shop: crate, pressing station & turntable | Custom audio engine, album builder, tonearm deck, lyric booklet |
-| [Weather App](Wheather%20App/) | "Skydeck" avionics instrument panel | Live weather, hourly tape, 5-day forecast |
+| [Halcyon](Halcyon/) | The page *is* the sky - living gradient, real sun/moon | Sentence-form conditions, scrub-the-day, rain nowcast, pollen, installable PWA |
 | [Xchange](Xchange/) | Split-flap airport departure board | 166 currencies, history charts, favourites, rate ticker |
 | [The Cellar Door](The%20Cellar%20Door/) | Prohibition-era speakeasy - the password gets you in | AES-256 encrypted vault, passphrase mixologist, breach check, clipboard burn |
 | [To Do List](To%20Do%20List/) | Stationery legal pad + clipboard | Priorities, categories, drag & drop, undo |
@@ -91,7 +91,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 - **Structure** - semantic HTML5, inline SVG icons & artwork, data-URI favicons
 - **Styling** - modern CSS: custom properties, grid/flexbox, animations, `mask`, `clip-path`
 - **Logic** - vanilla ES6+: Canvas, Web Audio, IntersectionObserver, localStorage, drag & drop
-- **APIs** - TMDB (movies), OpenWeatherMap (weather), open.er-api.com (currency)
+- **APIs** - TMDB (movies), Open-Meteo (weather, no key), open.er-api.com (currency)
 - **Libraries** - used sparingly, only where they earn their place: Chart.js, Prism.js, Bootstrap 5, Tailwind
 
 ---
@@ -109,8 +109,8 @@ npx serve .        # then open http://localhost:3000
 You can also open any project's `index.html` directly, but a local server is
 recommended (a few projects `fetch()` local files, which browsers block on `file://`).
 
-> **API projects** (Weather App, The Cutting Room, Xchange) need an internet
-> connection and may need a valid API key in their `script.js`.
+> **API projects** (Halcyon, The Cutting Room, Xchange) need an internet
+> connection; The Cutting Room needs a valid API key in its `script.js`.
 
 <details>
 <summary><strong>🎵 Adding songs locally (Spotify Clone & SoundRoom)</strong></summary>
@@ -161,7 +161,7 @@ web-projects/
 ├── Nova Expeditions/    ├── The Perfumer's Atelier/
 ├── Thread & Rail/       ├── The Terminal/
 ├── Tic Tac Toe/         ├── To Do List/
-├── Wheather App/        ├── WIndow 11 UI Clone/
+├── Halcyon/             ├── WIndow 11 UI Clone/
 ├── X & Twitter Clone/   └── Xchange/
 ```
 
