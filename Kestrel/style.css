@@ -391,6 +391,8 @@ a { color: inherit; }
   transition: color var(--t), border-color var(--t);
 }
 .link-underline:hover { color: var(--clay); border-color: var(--clay); }
+.link-inline { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+.link-inline:hover { color: var(--clay); }
 
 /* ── About ───────────────────────────────────────── */
 .about-strip { background: var(--paper); border-block: 1px solid var(--line); padding: 5rem 1.75rem; }
@@ -624,6 +626,62 @@ a { color: inherit; }
 .bag-checkout { width: 100%; text-align: center; margin: 1.2rem 0 .8rem; }
 .bag-cont { display: block; text-align: center; font-size: .78rem; color: var(--ink-soft); text-decoration: underline; }
 .bag-note { font-size: .72rem; color: var(--muted); margin-top: 1rem; line-height: 1.5; }
+
+/* ══════════════════════════════════════════════════
+   INFO PAGES  (size guide, care)
+══════════════════════════════════════════════════ */
+.info-page { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.75rem 5rem; }
+.info-head { border-bottom: 1px solid var(--line); padding-bottom: 1.75rem; margin-bottom: 2.5rem; }
+.info-head h1 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 400; margin-top: .3rem; }
+.info-head p { color: var(--ink-soft); font-size: .95rem; line-height: 1.75; margin-top: .8rem; max-width: 58ch; }
+
+.info-toggle { display: inline-flex; border: 1px solid var(--line); margin-bottom: 2.5rem; }
+.info-toggle button {
+  background: transparent; border: none; cursor: pointer;
+  padding: .55rem 1.2rem;
+  font-family: var(--sans); font-size: .68rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: var(--t);
+}
+.info-toggle button + button { border-left: 1px solid var(--line); }
+.info-toggle button.on { background: var(--ink); color: var(--bone); }
+
+.info-section { margin-bottom: 3.25rem; }
+.info-section > h2 {
+  font-size: 1.35rem; font-weight: 400;
+  padding-bottom: .7rem; border-bottom: 1px solid var(--line);
+  margin-bottom: 1.1rem;
+}
+.info-section h3 { font-family: var(--serif); font-size: 1.02rem; font-weight: 500; margin: 1.6rem 0 .4rem; }
+.info-section p { color: var(--ink-soft); font-size: .92rem; line-height: 1.8; margin-bottom: .9rem; max-width: 62ch; }
+.info-section p em { color: var(--muted); font-style: italic; }
+
+.size-table-wrap { overflow-x: auto; margin: 1rem 0 .6rem; }
+.size-table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 460px; }
+.size-table th, .size-table td { text-align: left; padding: .75rem .9rem; border-bottom: 1px solid var(--line); }
+.size-table thead th {
+  font-family: var(--sans); font-size: .62rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.size-table tbody th { font-family: var(--serif); font-weight: 500; white-space: nowrap; }
+.size-table tbody tr:hover td, .size-table tbody tr:hover th { background: var(--paper); }
+
+.measure-list { list-style: none; margin: 1.1rem 0; }
+.measure-list li {
+  padding: .75rem 0; border-bottom: 1px solid var(--line-soft);
+  font-size: .9rem; color: var(--ink-soft); line-height: 1.6;
+}
+.measure-list li strong { color: var(--ink); font-family: var(--serif); font-weight: 500; }
+
+.care-quick { background: var(--paper); border: 1px solid var(--line); padding: 1.5rem 1.6rem; margin-bottom: 3rem; }
+.care-quick h3 { font-family: var(--serif); font-size: 1rem; font-weight: 500; margin-bottom: .8rem; }
+.care-quick ul { list-style: none; }
+.care-quick li { position: relative; padding: .35rem 0 .35rem 1.4rem; font-size: .9rem; color: var(--ink-soft); line-height: 1.6; }
+.care-quick li::before { content: '\2014'; position: absolute; left: 0; color: var(--clay); }
+
+.info-cta { border-top: 1px solid var(--line); padding-top: 2rem; }
+.info-cta p { font-size: .92rem; color: var(--ink-soft); }
 
 /* ── Reduced motion ──────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

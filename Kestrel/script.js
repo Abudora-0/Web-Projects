@@ -18,7 +18,7 @@ function renderProducts(filter = 'all') {
     <article class="prod-card" data-id="${p.id}">
       <a class="prod-img-wrap" href="${productHref(p.id)}">
         <img src="${p.img}" alt="${p.name} in ${p.colour}" loading="lazy"
-             onerror="this.src='${FALLBACK_IMG}'" />
+             onerror="this.onerror=null;this.src='${fallbackImg(p.id)}'" />
         ${onSale ? `<span class="prod-badge">Archive &minus;${off}%</span>` : ''}
         <div class="prod-hover-actions"><span class="prod-view">View product</span></div>
       </a>

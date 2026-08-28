@@ -23,7 +23,7 @@ function render() {
     return `
       <div class="bag-line" data-id="${l.id}" data-size="${l.size}">
         <a class="bag-line-img" href="${productHref(p.id)}">
-          <img src="${p.img}" alt="${p.name}" onerror="this.src='${FALLBACK_IMG}'">
+          <img src="${p.img}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackImg(p.id)}'">
         </a>
         <div class="bag-line-body">
           <div class="bag-line-top">

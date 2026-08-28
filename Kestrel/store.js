@@ -7,7 +7,8 @@
 const U = (id, w = 800, q = 70) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=${q}`;
 
-const FALLBACK_IMG = 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=800&q=60';
+// per-product fallback so a partial CDN hiccup doesn't make every card identical
+const fallbackImg = pid => `https://picsum.photos/seed/kestrel${pid || 'x'}/600/800`;
 
 const PRODUCTS = [
   { id: 1,  name: 'The Camden Overshirt',        cat: 'outerwear',   img: U('photo-1602810318383-e386cc2a3ccf'), price: 8900,  was: 0,     colour: 'Tobacco',
@@ -150,7 +151,7 @@ function miniCardHTML(p) {
   return `
   <a class="mini" href="${productHref(p.id)}">
     <div class="mini-img"><img src="${p.img}" alt="${p.name}" loading="lazy"
-      onerror="this.src='${FALLBACK_IMG}'"></div>
+      onerror="this.onerror=null;this.src='${fallbackImg(p.id)}'"></div>
     <div class="mini-name">${p.name}</div>
     <div class="mini-price">${fmtPrice(p.price)}</div>
   </a>`;

@@ -42,7 +42,7 @@ function render() {
     <div class="pdp-grid">
       <div class="pdp-media">
         <img src="${p.img.replace('w=800', 'w=1100')}" alt="${p.name} in ${p.colour}"
-             onerror="this.src='${FALLBACK_IMG}'" />
+             onerror="this.onerror=null;this.src='${fallbackImg(p.id)}'" />
       </div>
 
       <div class="pdp-info">
@@ -58,7 +58,7 @@ function render() {
         <div class="pdp-sizes">
           <div class="pdp-sizes-head">
             <span class="pdp-label">Size</span>
-            <a href="#" class="pdp-guide">Size guide</a>
+            <a href="size-guide.html" class="pdp-guide">Size guide</a>
           </div>
           <div class="size-row" id="sizeRow">
             ${SIZES.map(s => `<button type="button" class="size-btn" data-size="${s}">${s}</button>`).join('')}
@@ -75,7 +75,7 @@ function render() {
 
         <dl class="pdp-details">
           <div><dt>Fabric</dt><dd>${p.fabric}</dd></div>
-          <div><dt>Care</dt><dd>${p.care}</dd></div>
+          <div><dt>Care</dt><dd>${p.care} <a class="link-inline" href="care.html">Full care guide</a></dd></div>
           <div><dt>Shipping</dt><dd>Free over Rs 12,000, otherwise Rs 500. Ships in 2&ndash;4 days.</dd></div>
           <div><dt>Returns</dt><dd>30 days, unworn with tags. Repairs free for the first year.</dd></div>
         </dl>
