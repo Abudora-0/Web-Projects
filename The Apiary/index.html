@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Willowcomb - Raw Honey, Built Cell by Cell</title>
+<meta name="description" content="Willowcomb: raw, unheated honey from twelve hives along Willow Creek. Comb-built, hand-jarred, never rushed.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M4 32c9-3 9-16 18-16s8 13 18 11' fill='none' stroke='%23c8860d' stroke-width='2.4' stroke-linecap='round' stroke-dasharray='0.1 6'/%3E%3Cellipse cx='24' cy='21' rx='7.5' ry='9.5' fill='%233a2a12'/%3E%3Cpath d='M17.5 17.5h13M18 24.5h12' stroke='%23e6a92c' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="scroll-dipper" id="scrollDipper" aria-hidden="true" title="Scroll progress">
+  <svg viewBox="0 0 32 64">
+    <defs>
+      <clipPath id="dipperClip">
+        <circle cx="16" cy="16" r="11"/>
+      </clipPath>
+    </defs>
+    <rect class="dip-fill" id="dipFill" x="5" y="5" width="22" height="22" clip-path="url(#dipperClip)"></rect>
+    <circle class="dip-outline" cx="16" cy="16" r="11"></circle>
+    <path class="dip-outline" d="M16 5v6M8.5 16h15M16 21v6M16 27v30M16 57c0 4 5 4 5 7"></path>
+  </svg>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a class="brand" href="#hero" aria-label="Willowcomb, home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48">
+          <path class="bm-path" d="M4 32c9-3 9-16 18-16s8 13 18 11" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 6"/>
+          <ellipse class="bm-body" cx="24" cy="21" rx="7.5" ry="9.5"/>
+          <path class="bm-stripe" d="M17.5 17.5h13M18 24.5h12" stroke-width="2.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-text">Willowcomb</span>
+    </a>
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <a href="#honeycomb">The&nbsp;Comb</a>
+      <a href="#harvest">Harvest</a>
+      <a href="#hives">The&nbsp;Hives</a>
+      <a href="#build-a-box">Build&nbsp;a&nbsp;Box</a>
+      <a href="#hive-club">Hive&nbsp;Club</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section id="hero" class="hero">
+    <div class="hero-sky" aria-hidden="true"></div>
+
+    <div class="bee-flight" aria-hidden="true" id="beeFlight">
+      <svg class="bee bee-1" viewBox="-14 -10 28 20" width="34" height="24">
+        <ellipse class="bee-wing bee-wing-l" cx="-3" cy="-6" rx="6" ry="4"></ellipse>
+        <ellipse class="bee-wing bee-wing-r" cx="3" cy="-6" rx="6" ry="4"></ellipse>
+        <g class="bee-body">
+          <ellipse cx="0" cy="0" rx="11" ry="7" fill="#2b1c10"></ellipse>
+          <path d="M -9 -3 A 11 7 0 0 0 -9 3 Z" fill="#f4c542"></path>
+          <path d="M -1 -6.3 A 11 7 0 0 0 -1 6.3 Z" fill="#f4c542"></path>
+          <path d="M 7 -4.6 A 11 7 0 0 0 7 4.6 Z" fill="#f4c542"></path>
+          <circle cx="10.5" cy="0" r="2.4" fill="#1a1108"></circle>
+        </g>
+      </svg>
+      <svg class="bee bee-2" viewBox="-14 -10 28 20" width="24" height="17">
+        <ellipse class="bee-wing bee-wing-l" cx="-3" cy="-6" rx="6" ry="4"></ellipse>
+        <ellipse class="bee-wing bee-wing-r" cx="3" cy="-6" rx="6" ry="4"></ellipse>
+        <g class="bee-body">
+          <ellipse cx="0" cy="0" rx="11" ry="7" fill="#2b1c10"></ellipse>
+          <path d="M -9 -3 A 11 7 0 0 0 -9 3 Z" fill="#f4c542"></path>
+          <path d="M -1 -6.3 A 11 7 0 0 0 -1 6.3 Z" fill="#f4c542"></path>
+          <path d="M 7 -4.6 A 11 7 0 0 0 7 4.6 Z" fill="#f4c542"></path>
+          <circle cx="10.5" cy="0" r="2.4" fill="#1a1108"></circle>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <p class="eyebrow">Twelve hives. Slow honey. Est. 2014.</p>
+      <h1>Honey, built<br>cell by cell.</h1>
+      <p class="hero-lede">Willowcomb is a family-run beeyard on the wildflower meadows of Willow Creek.
+        Every jar is raw, unheated, and never rushed - filled by hand the week it comes off the comb.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#honeycomb">Explore the Comb</a>
+        <a class="btn btn-ghost" href="#build-a-box">Build a Box</a>
+      </div>
+    </div>
+
+    <svg class="hero-divider" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,32 C150,60 350,0 600,28 C850,56 1050,4 1200,30 L1200,60 L0,60 Z"></path>
+    </svg>
+  </section>
+
+  <!-- ============ HONEYCOMB ============ -->
+  <section id="honeycomb" class="honeycomb-section section">
+    <div class="section-head">
+      <p class="kicker">The Signature Comb</p>
+      <h2>Every cell tells a story</h2>
+      <p class="section-lede">Tap a cell to break its seal. Some hold a jar from our current harvest,
+        others hold a little hive wisdom.</p>
+    </div>
+
+    <div class="comb-filter" role="group" aria-label="Filter the comb">
+      <div class="field">
+        <label for="tasteSort">Show</label>
+        <div class="sel" data-sel>
+          <button type="button" class="sel-trigger" aria-haspopup="listbox" aria-expanded="false">
+            <span class="sel-value">Everything</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul class="sel-panel" role="listbox" tabindex="-1"></ul>
+        </div>
+        <select id="tasteSort" class="sel-native" aria-label="Show">
+          <option value="all">Everything</option>
+          <option value="jars">Jars only</option>
+          <option value="wisdom">Hive wisdom only</option>
+          <option value="delicate">Delicate honeys</option>
+          <option value="balanced">Balanced honeys</option>
+          <option value="robust">Robust honeys</option>
+        </select>
+      </div>
+      <p class="comb-count" id="combCount" aria-live="polite">9 cells</p>
+    </div>
+
+    <div class="comb-wrap">
+      <div class="honeycomb" id="honeycombGrid" role="list">
+        <div class="hex-row">
+          <button class="hex" type="button" data-cell="wildflower" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c3 4 6 7 6 11a6 6 0 1 1-12 0c0-4 3-7 6-11z"/></svg>
+              <span class="hex-label">Wildflower</span>
+            </span>
+          </button>
+          <button class="hex" type="button" data-cell="waggle" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M12 18v4M4 12H2M22 12h-2M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/><circle cx="12" cy="12" r="3.4"/></svg>
+              <span class="hex-label">Waggle&nbsp;Dance</span>
+            </span>
+          </button>
+          <button class="hex" type="button" data-cell="lavender" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c3 4 6 7 6 11a6 6 0 1 1-12 0c0-4 3-7 6-11z"/></svg>
+              <span class="hex-label">Lavender</span>
+            </span>
+          </button>
+        </div>
+        <div class="hex-row hex-row-offset">
+          <button class="hex" type="button" data-cell="queen" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2 3 3-1-1 3 3 2-3 2 1 3-3-1-2 3-2-3-3 1 1-3-3-2 3-2-1-3 3 1 2-3z"/></svg>
+              <span class="hex-label">Queen for Life</span>
+            </span>
+          </button>
+          <button class="hex" type="button" data-cell="buckwheat" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c3 4 6 7 6 11a6 6 0 1 1-12 0c0-4 3-7 6-11z"/></svg>
+              <span class="hex-label">Buckwheat</span>
+            </span>
+          </button>
+          <button class="hex" type="button" data-cell="pollinator" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.6-9.4-9A5.4 5.4 0 0112 6a5.4 5.4 0 019.4 6c-2.4 4.4-9.4 9-9.4 9z"/></svg>
+              <span class="hex-label">One in Three Bites</span>
+            </span>
+          </button>
+        </div>
+        <div class="hex-row">
+          <button class="hex" type="button" data-cell="orange" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c3 4 6 7 6 11a6 6 0 1 1-12 0c0-4 3-7 6-11z"/></svg>
+              <span class="hex-label">Orange&nbsp;Blossom</span>
+            </span>
+          </button>
+          <button class="hex" type="button" data-cell="comb" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c3 4 6 7 6 11a6 6 0 1 1-12 0c0-4 3-7 6-11z"/></svg>
+              <span class="hex-label">Raw Comb Cut</span>
+            </span>
+          </button>
+          <button class="hex" type="button" data-cell="clover" role="listitem" aria-expanded="false">
+            <span class="hex-inner">
+              <svg class="hex-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c3 4 6 7 6 11a6 6 0 1 1-12 0c0-4 3-7 6-11z"/></svg>
+              <span class="hex-label">Clover</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="comb-panel" id="combPanel" aria-live="polite">
+        <div class="comb-panel-empty" id="combPanelEmpty">
+          <span class="wax-seal" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><polygon points="24,4 42,14 42,34 24,44 6,34 6,14"/><path d="M24 15c4 5 6 8 6 12a6 6 0 0 1-12 0c0-4 2-7 6-12z"/></svg>
+          </span>
+          <p class="cpe-fact" id="cpeFact">Tap a cell to break its seal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="drip-divider" aria-hidden="true"></div>
+
+  <!-- ============ HARVEST CALENDAR ============ -->
+  <section id="harvest" class="harvest-section section">
+    <div class="section-head">
+      <p class="kicker">In Season Now</p>
+      <h2>The harvest calendar</h2>
+      <p class="section-lede">Raw honey follows the bloom. Here is what the bees are working, month by
+        month - and what is ready to jar.</p>
+    </div>
+
+    <div class="calendar" id="calendar">
+      <div class="cal-months" id="calMonths" role="tablist" aria-label="Month"></div>
+      <div class="cal-readout" id="calReadout" role="tabpanel">
+        <p class="cal-month-name" id="calMonthName">-</p>
+        <p class="cal-bloom" id="calBloom">-</p>
+        <ul class="cal-jars" id="calJars"></ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="drip-divider" aria-hidden="true"></div>
+
+  <!-- ============ PROCESS ============ -->
+  <section id="process" class="process-section section">
+    <div class="section-head">
+      <p class="kicker">Our Craft</p>
+      <h2>From hive to jar</h2>
+      <p class="section-lede">Five unhurried steps, the same way our grandparents did it - just with
+        better boots.</p>
+    </div>
+
+    <ol class="process-list">
+      <li class="process-step">
+        <span class="step-num">01</span>
+        <div class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3 3 8v13h18V8z"/><path d="M9 21v-7h6v7"/></svg>
+        </div>
+        <h3>Tend the hives</h3>
+        <p>Our beekeepers walk the meadow weekly, checking brood patterns and making sure every queen
+          is thriving before a single frame is touched.</p>
+      </li>
+      <li class="process-step">
+        <span class="step-num">02</span>
+        <div class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg>
+        </div>
+        <h3>Harvest the frames</h3>
+        <p>When the comb is capped in wax, the honey is ripe. Frames are lifted gently, by hand, never
+          rushed and never over-taken from the colony.</p>
+      </li>
+      <li class="process-step">
+        <span class="step-num">03</span>
+        <div class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+        </div>
+        <h3>Uncap &amp; spin</h3>
+        <p>Wax caps are sliced away and frames spun in a hand-cranked centrifuge that coaxes the honey
+          free without a single degree of heat.</p>
+      </li>
+      <li class="process-step">
+        <span class="step-num">04</span>
+        <div class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M6 3h12l-1 6-4 3 4 3-1 6H6l-1-6 4-3-4-3z"/></svg>
+        </div>
+        <h3>Strain &amp; settle</h3>
+        <p>Raw honey rests in settling tanks, filtered just enough to remove wax - nothing else. No
+          pasteurizing, no additives, ever.</p>
+      </li>
+      <li class="process-step">
+        <span class="step-num">05</span>
+        <div class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 2h8l1 4H7z"/><path d="M6 6h12v16H6z"/></svg>
+        </div>
+        <h3>Jar &amp; label</h3>
+        <p>Each jar is hand-filled and labeled with its harvest date and hive number, then set aside
+          for a home on your table.</p>
+      </li>
+    </ol>
+  </section>
+
+  <div class="drip-divider" aria-hidden="true"></div>
+
+  <!-- ============ THE HIVES ============ -->
+  <section id="hives" class="hives-section section">
+    <div class="section-head">
+      <p class="kicker">The Beeyard</p>
+      <h2>Meet the twelve hives</h2>
+      <p class="section-lede">Every jar carries a hive number. These are the colonies behind them -
+        and a live look at how the yard is doing today.</p>
+    </div>
+
+    <div class="hive-dash" id="hiveDash">
+      <div class="dash-stat">
+        <span class="dash-num" data-count="486" data-suffix=" kg">0</span>
+        <span class="dash-label">Comb weight across the yard</span>
+      </div>
+      <div class="dash-stat">
+        <span class="dash-num" data-count="34.6" data-decimals="1" data-suffix="&deg;C">0</span>
+        <span class="dash-label">Average brood-nest temperature</span>
+      </div>
+      <div class="dash-stat">
+        <span class="dash-num" id="foragersOut" data-count="9200" data-live="1">0</span>
+        <span class="dash-label">Foragers out right now</span>
+      </div>
+      <div class="dash-stat">
+        <span class="dash-num" data-count="78" data-suffix="%">0</span>
+        <span class="dash-label">Winter stores laid down</span>
+      </div>
+    </div>
+
+    <div class="hive-roster" id="hiveRoster"></div>
+  </section>
+
+  <div class="drip-divider" aria-hidden="true"></div>
+
+  <!-- ============ BUILD A BOX ============ -->
+  <section id="build-a-box" class="box-section section">
+    <div class="section-head">
+      <p class="kicker">Make It Yours</p>
+      <h2>Build a box</h2>
+      <p class="section-lede">Mix any jars you like. Three or more and the box ships free, with a comb
+        cut tucked in on us.</p>
+    </div>
+
+    <div class="box-layout">
+      <div class="box-controls">
+        <div class="field box-size-field">
+          <label for="jarSize">Jar size</label>
+          <div class="sel" data-sel>
+            <button type="button" class="sel-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="sel-value">12 oz</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="sel-panel" role="listbox" tabindex="-1"></ul>
+          </div>
+          <select id="jarSize" class="sel-native" aria-label="Jar size">
+            <option value="8">8 oz</option>
+            <option value="12" selected>12 oz</option>
+            <option value="16">1 lb</option>
+          </select>
+        </div>
+
+        <ul class="jar-list" id="jarList"></ul>
+      </div>
+
+      <aside class="box-summary" id="boxSummary" aria-label="Your box">
+        <h3>Your box</h3>
+        <ul class="summary-lines" id="summaryLines">
+          <li class="summary-empty">No jars yet. Add a few from the list.</li>
+        </ul>
+        <dl class="summary-totals" id="summaryTotals" hidden>
+          <div><dt>Jars</dt><dd id="sumJars">0</dd></div>
+          <div><dt>Subtotal</dt><dd id="sumSubtotal">$0.00</dd></div>
+          <div class="summary-perk" id="sumPerk" hidden><dt>Free comb cut</dt><dd>added</dd></div>
+          <div class="summary-grand"><dt>Total</dt><dd id="sumGrand">$0.00</dd></div>
+        </dl>
+        <button class="btn btn-primary" id="reserveBtn" type="button" disabled>Reserve this box</button>
+        <p class="summary-note" id="summaryNote">A jar or two makes a fine start.</p>
+      </aside>
+    </div>
+  </section>
+
+  <div class="drip-divider" aria-hidden="true"></div>
+
+  <!-- ============ ADOPT A HIVE ============ -->
+  <section id="adopt" class="adopt-section section">
+    <div class="section-head">
+      <p class="kicker">Hive Club</p>
+      <h2>Adopt a hive for a year</h2>
+      <p class="section-lede">Put your name on a colony. You get its honey as it is harvested, plus
+        dispatches from the frame all season.</p>
+    </div>
+
+    <div class="tier-grid" id="tierGrid"></div>
+  </section>
+
+  <div class="drip-divider" aria-hidden="true"></div>
+
+  <!-- ============ HIVE CLUB SIGNUP ============ -->
+  <section id="hive-club" class="hive-club-section section">
+    <div class="hive-club-card">
+      <div class="hive-club-copy">
+        <p class="kicker">One Email a Month</p>
+        <h2>Get first taste of every harvest</h2>
+        <p>Join the Hive Club for early access to seasonal varietals, small-batch releases, and the
+          occasional dispatch from the meadow. Never more than one email a month.</p>
+      </div>
+
+      <form class="hive-form" id="hiveForm" novalidate>
+        <label class="visually-hidden" for="hiveEmail">Email address</label>
+        <div class="hive-form-row">
+          <input type="email" id="hiveEmail" name="email" placeholder="you@example.com"
+                 autocomplete="email" inputmode="email" required>
+          <button class="btn btn-primary" type="submit">Join the Hive</button>
+        </div>
+        <p class="hive-form-msg" id="hiveFormMsg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48">
+          <path class="bm-path" d="M4 32c9-3 9-16 18-16s8 13 18 11" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 6"/>
+          <ellipse class="bm-body" cx="24" cy="21" rx="7.5" ry="9.5"/>
+          <path class="bm-stripe" d="M17.5 17.5h13M18 24.5h12" stroke-width="2.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-text">Willowcomb</span>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Visit the Beeyard</h4>
+        <p>212 Meadowbrook Lane<br>Willow Creek, OR 97401</p>
+      </div>
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <p>Sat and Sun, 9am to 2pm<br>Or by honeycomb appointment</p>
+      </div>
+      <div class="footer-col">
+        <h4>Say Hello</h4>
+        <p>hello@willowcomb.example<br>(541) 555-0148</p>
+      </div>
+    </div>
+    <div class="footer-social" aria-label="Social links">
+      <a href="#" aria-label="Willowcomb on Instagram">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      </a>
+      <a href="#" aria-label="Willowcomb on Facebook">
+        <svg viewBox="0 0 24 24"><path d="M15 3h-2a5 5 0 0 0-5 5v2H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+    </div>
+  </div>
+  <p class="footer-fine">&copy; <span id="year"></span> Willowcomb Honey Co. Raised, raided (gently), and jarred in Willow Creek.</p>
+</footer>
+
+<div id="toastWrap" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

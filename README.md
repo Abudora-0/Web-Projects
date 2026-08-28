@@ -82,7 +82,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Umbral](Umbral/) | Astro-tourism expedition company | Starfield parallax, live countdowns, expedition briefs, 3-mode sky simulator (eclipse/meteor/aurora) |
 | [Ember & Anvil](Ember%20%26%20Anvil/) | Artisan blacksmith forge | Scroll-driven metal tempering, spark-burst hammer interaction |
 | [The Locked Room](The%20Locked%20Room/) | Noir escape-room venue | Real solvable 4-dial combination lock, live clock, booking form |
-| [The Apiary](The%20Apiary/) | Boutique beekeeping & honey | Interactive honeycomb hex-grid, animated bee flight path |
+| [Willowcomb](The%20Apiary/) | Boutique raw-honey brand | Filterable honeycomb, harvest calendar, live 12-hive dashboard, build-a-box with cart |
 
 ---
 
