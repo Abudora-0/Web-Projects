@@ -1,6 +1,19 @@
 /* ═══════════════════════════════════════════════════
-   AB Fitness — script.js
+   AB Fitness - script.js
    ═══════════════════════════════════════════════════ */
+
+// Swap no-js -> js as the very first statement. If this file ever fails
+// to parse, the class stays "no-js" and the reveal CSS keeps everything
+// visible instead of leaving a blank page.
+document.documentElement.classList.replace('no-js', 'js');
+
+// Safety net: if a JS error stops the reveal observer from ever running,
+// nothing on screen gets its .visible class. Detect that 1.2s after load
+// and un-hide everything so the page is never blank.
+window.addEventListener('load', () => setTimeout(() => {
+  if (document.querySelector('.reveal.visible, .reveal-right.visible')) return;
+  document.querySelectorAll('.reveal, .reveal-right').forEach(el => el.classList.add('visible'));
+}, 1200));
 
 // ── Countdown ────────────────────────────────────────
 (function () {
@@ -462,7 +475,7 @@ document.getElementById('genPlanBtn').addEventListener('click', () => {
   if (!plan) {
     // try closest day count
     const available = Object.keys(PLANS[goal]?.[level] || {}).map(Number).sort((a,b)=>a-b);
-    if (!available.length) { plan = [{ day:'Day 1', ex:['Rest & stretch — plan unavailable for this combo'] }]; }
+    if (!available.length) { plan = [{ day:'Day 1', ex:['Rest & stretch - plan unavailable for this combo'] }]; }
     else {
       const closest = available.reduce((a,b) => Math.abs(b - +days) < Math.abs(a - +days) ? b : a);
       plan = PLANS[goal][level][closest];
@@ -490,7 +503,7 @@ document.getElementById('copyPlan').addEventListener('click', () => {
     d.querySelector('.ai-day-name').textContent + ':\n' +
     d.querySelector('.ai-exercises').innerText
   ).join('\n\n');
-  navigator.clipboard.writeText(`AB Fitness — ${title}\n\n${days}`)
+  navigator.clipboard.writeText(`AB Fitness - ${title}\n\n${days}`)
     .then(() => {
       const btn = document.getElementById('copyPlan');
       btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
@@ -545,7 +558,7 @@ document.getElementById('calcBmi').addEventListener('click', () => {
     advice = '🔥 A focused cardio + strength routine combined with a calorie-controlled diet can bring you to a healthy range. Try our AI Workout Planner with "Weight Loss" goal!';
   } else {
     cat = 'Obese'; color = '#e74c3c';
-    advice = '⚠️ We strongly recommend starting with low-impact cardio (walking, swimming) and consulting our trainers. Small consistent steps lead to big changes — we\'re here for you.';
+    advice = '⚠️ We strongly recommend starting with low-impact cardio (walking, swimming) and consulting our trainers. Small consistent steps lead to big changes - we\'re here for you.';
   }
 
   // Gauge: BMI 10–40 range maps to 0–283 dashoffset

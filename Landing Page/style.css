@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════
-   AB FITNESS — brutalist gym poster
-   Bone white, ink black, safety orange. Heavy
-   condensed uppercase type, hard offset shadows.
-   ═══════════════════════════════════════════════ */
+  AB FITNESS - brutalist gym poster
+  Bone white, ink black, safety orange. Heavy
+  condensed uppercase type, hard offset shadows.
+  ═══════════════════════════════════════════════ */
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -53,6 +53,12 @@ h1, h2, h3, .price-amount, .price-tier {
 .reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease; }
 .reveal-right { transform: translateX(36px); }
 .reveal.visible { opacity: 1; transform: translate(0, 0); }
+/* if the script never parses, "no-js" stays on <html> and content shows */
+.no-js .reveal, .no-js .reveal-right { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-right { transition: none; }
+}
 
 .hidden { display: none !important; }
 
@@ -91,6 +97,13 @@ h1, h2, h3, .price-amount, .price-tier {
   color: var(--ink);
   text-decoration: none;
   letter-spacing: 0.02em;
+}
+
+.site-logo {
+  height: 56px;
+  width: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .nav-logo span:not(.logo-icon) { color: var(--orange); }
@@ -294,7 +307,7 @@ h1, h2, h3, .price-amount, .price-tier {
   filter: grayscale(0.25) contrast(1.08);
 }
 
-/* ── STATS BAR — orange band ──────────────────── */
+/* ── STATS BAR - orange band ──────────────────── */
 .stats-bar {
   background: var(--orange);
   border-top: var(--border);
