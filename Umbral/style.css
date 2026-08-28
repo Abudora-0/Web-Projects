@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   Nova Expeditions - style.css
+   Umbral - style.css
    A field-outfitter's site for chasing eclipses, meteor storms
    and aurorae. Deep-space navy, solar-flare orange, mission-log type.
    ═══════════════════════════════════════════════════════════════ */
@@ -405,25 +405,14 @@ section { padding: 6.5rem 1.5rem; }
 }
 .sim-tab:hover { color: var(--star-white); border-color: var(--line-strong); }
 .sim-tab.is-active { color: #1a0d04; background: var(--accent); border-color: var(--accent); }
-.sim-stage-svg { width: 100%; height: auto; overflow: visible; border-radius: 8px; }
-.sim-stage-svg.is-hidden { display: none; }
-#meteorSvg .streak {
-  stroke: var(--star-white); stroke-linecap: round;
-  animation: shoot 0.62s linear forwards;
+.sim-stage-svg, .sim-canvas {
+  display: block;
+  width: 100%; height: auto; aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: visible;
 }
-@keyframes shoot {
-  0%   { opacity: 0; stroke-dashoffset: var(--len); }
-  18%  { opacity: 0.95; }
-  100% { opacity: 0; stroke-dashoffset: 0; }
-}
-.curtain {
-  transform-box: fill-box; transform-origin: top center;
-  animation: sway 7s ease-in-out infinite alternate;
-}
-.curtain:nth-child(2) { animation-duration: 9s; animation-delay: -3s; }
-.curtain:nth-child(3) { animation-duration: 8s; animation-delay: -1.5s; }
-@keyframes sway { from { transform: skewX(-4deg); } to { transform: skewX(5deg); } }
-@media (prefers-reduced-motion: reduce) { #meteorSvg .streak, .curtain { animation: none; } }
+.sim-canvas { background: #05060d; }
+.sim-stage-svg.is-hidden, .sim-canvas.is-hidden { display: none; }
 
 /* ── How it works / timeline ──────────────────────────────── */
 .timeline { max-width: 760px; margin: 0 auto; position: relative; }
@@ -555,7 +544,7 @@ section { padding: 6.5rem 1.5rem; }
 .readout-detail { font-size: 0.9rem; margin: 0; }
 
 /* ── Expedition detail modal ──────────────────────────────── */
-.exp-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+.exp-modal { position: fixed; inset: 0; z-index: 900; display: flex; align-items: center; justify-content: center; padding: 5rem 1.5rem 1.5rem; }
 .exp-modal[hidden] { display: none; }
 .exp-modal-backdrop { position: absolute; inset: 0; background: rgba(3, 4, 9, 0.78); backdrop-filter: blur(4px); animation: fade 0.2s ease; }
 .exp-modal-card {
@@ -716,12 +705,20 @@ section { padding: 6.5rem 1.5rem; }
   .nav-toggle { display: flex; }
 }
 
+@media (max-width: 560px) {
+  .sim-tabs { gap: 0.35rem; }
+  .sim-tab { padding: 0.55em 0.7em; font-size: 0.66rem; letter-spacing: 0.03em; }
+  .simulator-panel { padding: 1.4rem; }
+}
+
 @media (max-width: 480px) {
   section { padding: 4.5rem 1.1rem; }
   .countdown { gap: 0.7rem; }
   .countdown-unit { min-width: 2.6em; }
   .signup-field { flex-direction: column; }
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 1.8rem; }
+  .exp-modal { padding: 4rem 0.8rem 0.8rem; }
+  .exp-modal-body { padding: 1.2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

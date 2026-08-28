@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   Nova Expeditions - script.js
+   Umbral - script.js
    ═══════════════════════════════════════════════════════════════ */
 
 // ── Starfield (parallax, twinkling, mouse + scroll reactive) ────
@@ -233,39 +233,24 @@
   steps.forEach(s => stepObs.observe(s));
 })();
 
-// ── Sky simulator: eclipse / meteor / aurora ───────────────────────
+// ── Sky simulator: eclipse (SVG) / meteor + aurora (canvas) ─────────
 (function () {
   const slider = document.getElementById('simSlider');
   const label = document.getElementById('simSliderLabel');
   const phaseEl = document.getElementById('readoutPhase');
   const detailEl = document.getElementById('readoutDetail');
   const tabs = Array.from(document.querySelectorAll('.sim-tab'));
-  const svgs = Array.from(document.querySelectorAll('.sim-stage-svg'));
-  const SVGNS = 'http://www.w3.org/2000/svg';
-  if (!slider) return;
-
-  let mode = 'eclipse';
-  let meteorTimer = null;
+  const eclipseSvg = document.getElementById('eclipseSvg');
+  const canvas = document.getElementById('simCanvas');
+  if (!slider || !canvas) return;
 
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // scatter background stars into a <g> once
-  function seedStars(g, n) {
-    if (!g || g.childElementCount) return;
-    for (let i = 0; i < n; i++) {
-      const c = document.createElementNS(SVGNS, 'circle');
-      c.setAttribute('cx', (Math.random() * 400).toFixed(1));
-      c.setAttribute('cy', (Math.random() * 320).toFixed(1));
-      c.setAttribute('r', (Math.random() * 1.1 + 0.3).toFixed(2));
-      c.setAttribute('fill', '#f5f7fa');
-      c.setAttribute('opacity', (Math.random() * 0.5 + 0.2).toFixed(2));
-      g.appendChild(c);
-    }
-  }
-  seedStars(document.getElementById('meteorStars'), 90);
-  seedStars(document.getElementById('auroraStars'), 90);
+  let mode = 'eclipse';
+  let sliderVal = 0;
 
-  /* ---------- ECLIPSE ---------- */
+  /* ================= ECLIPSE (unchanged SVG) ================= */
   const SUN_CX = 200, SUN_R = 80, MOON_R = 82;
   const E_START = SUN_CX + SUN_R + MOON_R + 30;
   const E_END = SUN_CX - (SUN_R + MOON_R + 30);
@@ -276,11 +261,9 @@
     const pct = v / 100;
     const cx = E_START + (E_END - E_START) * pct;
     moon.setAttribute('cx', cx);
-    const dist = Math.abs(cx - SUN_CX);
-    let coverage = clamp(1 - dist / (SUN_R + MOON_R), 0, 1);
+    const coverage = clamp(1 - Math.abs(cx - SUN_CX) / (SUN_R + MOON_R), 0, 1);
     const cp = Math.round(coverage * 100);
     corona.setAttribute('opacity', coverage > 0.9 ? String((coverage - 0.9) / 0.1) : '0');
-
     let phase, detail;
     if (cp === 0 && pct < 0.5) { phase = 'First Contact'; detail = 'Coverage 0% — the Moon has just touched the Sun’s edge.'; }
     else if (cp === 0 && pct >= 0.5) { phase = 'Fourth Contact'; detail = 'Coverage 0% — the Moon has cleared the Sun. Eclipse over.'; }
@@ -291,125 +274,328 @@
     detailEl.textContent = detail;
   }
 
-  /* ---------- METEOR ---------- */
-  const radiantLabel = document.getElementById('radiantLabel');
-  const radiantDot = document.getElementById('radiantDot');
-  const streakLayer = document.getElementById('meteorStreaks');
-  let currentZHR = 0;
+  /* ================= CANVAS SETUP ================= */
+  const ctx = canvas.getContext('2d');
+  const W = 480;                       // logical drawing units
+  const HORIZON = W * 0.82;
+  const SCALE = canvas.width / W;
+  ctx.scale(SCALE, SCALE);
 
-  function meteorAltitude(pct) {
-    // radiant climbs through the night, highest just before dawn
-    return Math.sin(pct * Math.PI * 0.9 + 0.1); // 0..1-ish
+  // shared star field
+  const stars = Array.from({ length: 150 }, () => ({
+    x: Math.random() * W,
+    y: Math.random() * HORIZON,
+    r: Math.random() * 1.1 + 0.25,
+    a: Math.random() * 0.5 + 0.25,
+    tw: Math.random() * Math.PI * 2,
+    ts: Math.random() * 1.4 + 0.5
+  }));
+
+  // ridge silhouettes (two layers)
+  function makeRidge(baseY, amp, seed) {
+    const pts = [];
+    for (let x = -20; x <= W + 20; x += 26) {
+      pts.push([x, baseY + Math.sin(x * 0.03 + seed) * amp + Math.sin(x * 0.011 + seed * 2) * amp * 0.6]);
+    }
+    return pts;
+  }
+  const ridgeFar = makeRidge(HORIZON - 6, 10, 1.3);
+  const ridgeNear = makeRidge(HORIZON + 14, 20, 4.1);
+
+  function drawRidge(pts, fill) {
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.lineTo(W + 20, W + 20); ctx.lineTo(-20, W + 20); ctx.closePath();
+    ctx.fillStyle = fill; ctx.fill();
   }
 
-  function spawnStreak() {
-    if (mode !== 'meteor' || !streakLayer) return;
-    const rx = 285, ry = Number(radiantDot.getAttribute('cy'));
-    const ang = (Math.random() * 0.7 + 0.15) * Math.PI; // fan downward-left
-    const len = Math.random() * 70 + 45;
-    const x2 = rx - Math.cos(ang) * len;
-    const y2 = ry + Math.sin(ang) * len;
-    const l = document.createElementNS(SVGNS, 'line');
-    l.setAttribute('class', 'streak');
-    l.setAttribute('x1', rx); l.setAttribute('y1', ry);
-    l.setAttribute('x2', x2.toFixed(1)); l.setAttribute('y2', y2.toFixed(1));
-    l.setAttribute('stroke-width', (Math.random() * 1 + 0.8).toFixed(1));
-    l.style.setProperty('--len', len.toFixed(1));
-    l.style.strokeDasharray = len.toFixed(1);
-    streakLayer.appendChild(l);
-    setTimeout(() => l.remove(), 700);
+  function drawStars(t, dim) {
+    for (const s of stars) {
+      const tw = 0.55 + 0.45 * Math.sin(t * s.ts + s.tw);
+      ctx.globalAlpha = s.a * tw * (dim || 1);
+      ctx.fillStyle = '#f5f7fa';
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 7); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
   }
 
-  function scheduleMeteors() {
-    clearInterval(meteorTimer);
-    if (mode !== 'meteor' || currentZHR <= 0) return;
-    const gap = clamp(2400 - currentZHR * 22, 200, 2400);
-    meteorTimer = setInterval(spawnStreak, gap);
+  /* ================= METEOR ================= */
+  const RADIANT_X = W * 0.66;
+  let radiantY = 120, zhr = 0, spawnAcc = 0;
+  const meteors = [];
+  const trains = [];
+
+  // radiant climbs steadily through the night, highest just before dawn
+  function meteorAltitude(pct) { return Math.sin((0.06 + pct * 0.92) * Math.PI / 2); } // ~0.09 -> ~1
+
+  function spawnMeteor() {
+    // fly away from the radiant, biased downward
+    const ang = Math.atan2(HORIZON - radiantY, (Math.random() - 0.5) * W) +
+                (Math.random() - 0.5) * 0.55;
+    const speed = Math.random() * 3.6 + 4;
+    const big = Math.random() < 0.16;
+    const d0 = Math.random() * 70 + 12;
+    meteors.push({
+      x: RADIANT_X + Math.cos(ang) * d0,
+      y: radiantY + Math.sin(ang) * d0,
+      vx: Math.cos(ang) * speed,
+      vy: Math.sin(ang) * speed,
+      len: (big ? 70 : 40) + Math.random() * 34,
+      life: 1,
+      decay: big ? 0.009 : 0.014 + Math.random() * 0.012,
+      w: big ? 2.6 : 1.5,
+      big
+    });
+  }
+
+  function drawMeteorScene(t, dt) {
+    // sky
+    const g = ctx.createLinearGradient(0, 0, 0, HORIZON);
+    g.addColorStop(0, '#04050b'); g.addColorStop(0.7, '#070d18'); g.addColorStop(1, '#0b1322');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, HORIZON);
+
+    // milky-way smudge
+    ctx.save();
+    ctx.translate(W * 0.5, HORIZON * 0.42); ctx.rotate(-0.5);
+    const mw = ctx.createLinearGradient(-W * 0.5, 0, W * 0.5, 0);
+    mw.addColorStop(0, 'rgba(150,170,220,0)');
+    mw.addColorStop(0.5, 'rgba(150,170,220,0.06)');
+    mw.addColorStop(1, 'rgba(150,170,220,0)');
+    ctx.fillStyle = mw; ctx.fillRect(-W * 0.5, -60, W, 120);
+    ctx.restore();
+
+    drawStars(t, 1);
+
+    // radiant marker
+    ctx.globalAlpha = 0.5;
+    ctx.strokeStyle = '#ff7a33'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(RADIANT_X - 6, radiantY); ctx.lineTo(RADIANT_X + 6, radiantY);
+    ctx.moveTo(RADIANT_X, radiantY - 6); ctx.lineTo(RADIANT_X, radiantY + 6);
+    ctx.stroke();
+    ctx.globalAlpha = 0.7;
+    ctx.fillStyle = '#ffb27a'; ctx.font = '10px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('radiant', RADIANT_X, radiantY - 12);
+    ctx.globalAlpha = 1;
+
+    // persistent trains
+    for (let i = trains.length - 1; i >= 0; i--) {
+      const tr = trains[i];
+      tr.life -= dt * 0.9;
+      if (tr.life <= 0) { trains.splice(i, 1); continue; }
+      ctx.globalAlpha = tr.life * 0.5;
+      ctx.strokeStyle = '#9fe8d0'; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(tr.x1, tr.y1); ctx.lineTo(tr.x2, tr.y2); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+
+    // spawn — tuned for a lively watch, not a literal naked-eye rate
+    if (!reduceMotion && zhr > 0) {
+      spawnAcc += dt * (zhr / 12);
+      while (spawnAcc >= 1) { spawnMeteor(); spawnAcc -= 1; }
+    }
+
+    // meteors
+    ctx.lineCap = 'round';
+    for (let i = meteors.length - 1; i >= 0; i--) {
+      const m = meteors[i];
+      if (!reduceMotion) { m.x += m.vx * dt * 60; m.y += m.vy * dt * 60; m.life -= m.decay * dt * 60; }
+      if (m.life <= 0 || m.y > HORIZON || m.x < -40 || m.x > W + 40) {
+        if (m.big && m.life <= 0) trains.push({ x1: m.x, y1: m.y, x2: m.x - m.vx * 6, y2: m.y - m.vy * 6, life: 1 });
+        meteors.splice(i, 1); continue;
+      }
+      const sp = Math.hypot(m.vx, m.vy) || 1;
+      const tx = m.x - m.vx / sp * m.len;
+      const ty = m.y - m.vy / sp * m.len;
+      const fade = Math.min(1, m.life * 1.6);
+      const grd = ctx.createLinearGradient(m.x, m.y, tx, ty);
+      grd.addColorStop(0, `rgba(255,250,240,${fade})`);
+      grd.addColorStop(0.25, `rgba(255,224,190,${fade * 0.75})`);
+      grd.addColorStop(1, 'rgba(255,210,170,0)');
+      ctx.strokeStyle = grd; ctx.lineWidth = m.w;
+      ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(tx, ty); ctx.stroke();
+      // glowing head
+      const hg = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.big ? 5 : 3);
+      hg.addColorStop(0, `rgba(255,252,245,${fade})`);
+      hg.addColorStop(1, 'rgba(255,240,220,0)');
+      ctx.fillStyle = hg;
+      ctx.beginPath(); ctx.arc(m.x, m.y, m.big ? 5 : 3, 0, 7); ctx.fill();
+    }
+
+    // ground
+    drawRidge(ridgeFar, '#070b14');
+    drawRidge(ridgeNear, '#04060c');
   }
 
   function updateMeteor(v) {
     const pct = v / 100;
     const alt = meteorAltitude(pct);
-    const cy = 120 - alt * 78;              // radiant rises up the sky
-    radiantDot.setAttribute('cy', cy);
-    radiantLabel.setAttribute('y', cy - 16);
-    currentZHR = Math.round(Math.max(0, alt) * 92);
-
+    radiantY = HORIZON - 20 - Math.max(0, alt) * (HORIZON - 70);
+    zhr = Math.round(Math.max(0, alt) * 95);
+    // seed in-flight meteors at varied positions so a first (or non-animating) frame is already full
+    if (meteors.length < 4 && zhr > 4) {
+      const n = Math.min(22, 5 + ((zhr / 6) | 0));
+      for (let i = 0; i < n; i++) {
+        spawnMeteor();
+        const m = meteors[meteors.length - 1];
+        const adv = Math.random() * 40;              // slide it partway along its path
+        m.x += m.vx * adv; m.y += m.vy * adv;
+        m.life = Math.random() * 0.75 + 0.2;
+      }
+    }
     const hrs = (pct * 7).toFixed(1);
-    let phase, detail;
-    if (alt <= 0.02) { phase = 'Dusk — radiant below the horizon'; detail = 'Almost nothing yet. The shower’s radiant hasn’t risen; only grazers skimming the horizon.'; }
-    else if (pct < 0.55) { phase = `${hrs} h after dusk — rate climbing`; detail = `Radiant ${Math.round(alt * 90)}° up. Roughly ${currentZHR} meteors/hour and rising as it climbs.`; }
-    else { phase = `${hrs} h after dusk — near peak`; detail = `Radiant high overhead. About ${currentZHR} meteors/hour — the pre-dawn window Nova plans the watch around.`; }
-    phaseEl.textContent = phase;
-    detailEl.textContent = detail;
-    scheduleMeteors();
+    if (alt <= 0.04) {
+      phaseEl.textContent = 'Dusk — radiant still low';
+      detailEl.textContent = 'Only a handful of long, slow "earthgrazers" skimming the horizon. Worth staying up for what comes next.';
+    } else if (pct < 0.55) {
+      phaseEl.textContent = `${hrs} h after dusk — rate climbing`;
+      detailEl.textContent = `Radiant about ${Math.round(alt * 88)}° up. Roughly ${zhr} an hour and rising as it climbs.`;
+    } else {
+      phaseEl.textContent = `${hrs} h after dusk — near peak`;
+      detailEl.textContent = `Radiant high overhead, about ${zhr} an hour. The pre-dawn window Umbral plans the watch around.`;
+    }
   }
 
-  /* ---------- AURORA ---------- */
-  const curtains = document.getElementById('auroraCurtains');
+  /* ================= AURORA ================= */
+  const auroraLayers = [
+    { speed: 0.05, phase: 0, amp: 34, base: 120, hgt: 150, hue: 150 },
+    { speed: -0.08, phase: 2, amp: 46, base: 90, hgt: 190, hue: 155 },
+    { speed: 0.11, phase: 4, amp: 30, base: 150, hgt: 130, hue: 145 },
+    { speed: -0.06, phase: 1, amp: 55, base: 70, hgt: 220, hue: 160 },
+    { speed: 0.09, phase: 3.4, amp: 40, base: 110, hgt: 170, hue: 150 }
+  ];
+  let kpNow = 3, auroraT = 0;
+
+  function drawAuroraScene(t, dt) {
+    auroraT += reduceMotion ? 0 : dt;
+    const g = ctx.createLinearGradient(0, 0, 0, HORIZON + 40);
+    g.addColorStop(0, '#03040a'); g.addColorStop(0.6, '#050c14'); g.addColorStop(1, '#07131a');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, W);
+
+    drawStars(t, clamp(1 - kpNow / 14, 0.35, 1));
+
+    const nLayers = Math.round(clamp(1.6 + kpNow * 0.42, 2, 5));
+    const drop = (kpNow / 9) * 90;
+    const baseAlpha = 0.10 + (kpNow / 9) * 0.42;
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    for (let li = 0; li < nLayers; li++) {
+      const L = auroraLayers[li];
+      const topAt = x => L.base + drop
+        + Math.sin(x * 0.012 + auroraT * L.speed + L.phase) * L.amp
+        + Math.sin(x * 0.031 + auroraT * L.speed * 1.7) * L.amp * 0.35;
+
+      const grad = ctx.createLinearGradient(0, L.base + drop - 30, 0, L.base + drop + L.hgt);
+      grad.addColorStop(0, `hsla(${kpNow >= 6 ? 305 : L.hue}, 90%, 62%, 0)`);
+      if (kpNow >= 6) grad.addColorStop(0.12, `hsla(300, 90%, 64%, ${baseAlpha * 0.5})`);
+      grad.addColorStop(0.32, `hsla(${L.hue}, 92%, 58%, ${baseAlpha})`);
+      grad.addColorStop(0.6, `hsla(${L.hue + 20}, 88%, 52%, ${baseAlpha * 0.7})`);
+      grad.addColorStop(1, `hsla(190, 90%, 55%, 0)`);
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(0, topAt(0));
+      for (let x = 0; x <= W; x += 8) ctx.lineTo(x, topAt(x));
+      for (let x = W; x >= 0; x -= 8) ctx.lineTo(x, topAt(x) + L.hgt);
+      ctx.closePath();
+      ctx.fill();
+
+      // vertical ray texture
+      ctx.globalAlpha = baseAlpha * 0.5;
+      ctx.strokeStyle = `hsl(${L.hue}, 95%, 72%)`;
+      ctx.lineWidth = 1;
+      for (let x = (li * 13) % 24; x < W; x += 24) {
+        const y0 = topAt(x);
+        ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x, y0 + L.hgt * (0.5 + Math.random() * 0.4)); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+    ctx.restore();
+
+    drawRidge(ridgeFar, '#060b12');
+    drawRidge(ridgeNear, '#03060b');
+  }
 
   function updateAurora(v) {
-    const kp = Math.round(v / 100 * 9);
-    if (curtains) {
-      curtains.setAttribute('opacity', (0.12 + kp / 9 * 0.88).toFixed(2));
-      // group transform (SVG attr) drives Kp intensity; per-curtain sway is CSS, no conflict
-      const s = 0.55 + kp / 9 * 0.7;
-      curtains.setAttribute('transform', `translate(0 ${((1 - kp / 9) * 34).toFixed(0)}) scale(1 ${s.toFixed(2)})`);
-    }
+    kpNow = Math.round(v / 100 * 9);
     const places = [
-      'Barely a glow on the northern horizon from the Arctic Circle.',
-      'A faint green arch, low to the north from Tromsø and Abisko.',
-      'Steady overhead band from northern Norway; horizon glow from Scotland.',
-      'Bright, moving curtains overhead across Iceland and northern Finland.',
-      'Active, structured display — visible well into the northern UK and Canada.',
-      'Storm-level. Curtains overhead as far south as the Baltic and Oregon.',
-      'Rare major storm — aurora reported from central Europe and the US Midwest.'
+      'Barely a colourless glow on the northern horizon, even from the Arctic Circle.',
+      'A faint green arch, low to the north — Tromsø, Abisko, Fairbanks.',
+      'A steady green band overhead in northern Norway; a horizon glow from Scotland.',
+      'Bright, slowly moving curtains overhead across Iceland and northern Finland.',
+      'Active and structured — folds and rays, visible well into the northern UK and Canada.',
+      'Storm-level. Curtains overhead as far south as the Baltic states and Oregon.',
+      'Rare severe storm — aurora photographed from central Europe and the US Midwest.'
     ];
-    phaseEl.textContent = `Kp ${kp} — ${kp >= 6 ? 'geomagnetic storm' : kp >= 4 ? 'active' : 'quiet'}`;
-    detailEl.textContent = places[clamp(Math.floor(kp * places.length / 9.5), 0, places.length - 1)];
+    phaseEl.textContent = `Kp ${kpNow} — ${kpNow >= 6 ? 'geomagnetic storm' : kpNow >= 4 ? 'active' : 'quiet'}`;
+    detailEl.textContent = places[clamp(Math.round(kpNow / 9 * (places.length - 1)), 0, places.length - 1)];
   }
 
-  /* ---------- mode plumbing ---------- */
+  /* ================= LOOP + MODE PLUMBING ================= */
   const LABELS = {
     eclipse: 'First contact → totality → last contact',
     meteor: 'Dusk → midnight → pre-dawn',
     aurora: 'Kp index — quiet → geomagnetic storm'
   };
 
+  let raf = 0, last = 0, visible = true;
+  function frame(now) {
+    raf = 0;
+    const dt = Math.min(0.05, (now - last) / 1000) || 0.016;
+    last = now;
+    const t = now / 1000;
+    ctx.clearRect(0, 0, W, W);
+    if (mode === 'meteor') drawMeteorScene(t, dt);
+    else if (mode === 'aurora') drawAuroraScene(t, dt);
+    if ((mode === 'meteor' || mode === 'aurora') && visible && !reduceMotion) raf = requestAnimationFrame(frame);
+  }
+  function kick() {
+    if (raf || reduceMotion) { if (reduceMotion) frame(performance.now()); return; }
+    last = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
   function render(v) {
+    sliderVal = v;
     if (mode === 'eclipse') updateEclipse(v);
     else if (mode === 'meteor') updateMeteor(v);
     else updateAurora(v);
+    if (mode !== 'eclipse') { frame(performance.now()); kick(); }  // draw at least one frame
   }
 
   function setMode(next) {
     mode = next;
-    clearInterval(meteorTimer);
-    if (streakLayer) streakLayer.innerHTML = '';
-    tabs.forEach(t => {
-      const on = t.dataset.mode === next;
-      t.classList.toggle('is-active', on);
-      t.setAttribute('aria-selected', String(on));
+    stop();
+    meteors.length = 0; trains.length = 0; spawnAcc = 0;
+    tabs.forEach(tb => {
+      const on = tb.dataset.mode === next;
+      tb.classList.toggle('is-active', on);
+      tb.setAttribute('aria-selected', String(on));
     });
-    svgs.forEach(s => s.classList.toggle('is-hidden', s.dataset.mode !== next));
+    eclipseSvg.classList.toggle('is-hidden', next !== 'eclipse');
+    canvas.classList.toggle('is-hidden', next === 'eclipse');
     label.textContent = LABELS[next];
-    slider.value = next === 'aurora' ? 33 : 0;
+    slider.value = next === 'aurora' ? 45 : next === 'meteor' ? 30 : 0;
     render(Number(slider.value));
   }
 
-  tabs.forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
+  tabs.forEach(tb => tb.addEventListener('click', () => setMode(tb.dataset.mode)));
   slider.addEventListener('input', () => render(Number(slider.value)));
 
-  // pause the meteor spawner when the section scrolls out of view
   const simSection = document.getElementById('simulator');
   if (simSection && 'IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) clearInterval(meteorTimer);
-        else if (mode === 'meteor') scheduleMeteors();
-      });
+      visible = entries[0].isIntersecting;
+      if (!visible) stop(); else if (mode !== 'eclipse') kick();
     }, { threshold: 0 }).observe(simSection);
   }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else if (mode !== 'eclipse' && visible) kick();
+  });
 
   updateEclipse(0);
 })();
@@ -484,7 +670,7 @@
   if (!form) return;
 
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const STORAGE_KEY = 'novaExpeditions_signups';
+  const STORAGE_KEY = 'umbral_signups';
 
   function getSignups() {
     try {
