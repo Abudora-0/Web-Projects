@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f3ec" />
+  <meta name="description" content="Kestrel - a small-batch clothing label. Considered wardrobe staples in natural fibres, made to outlast the season." />
+  <title>Kestrel - Considered Wardrobe Staples</title>
+
+  <!-- Favicon: thread & knot -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f6f3ec'/%3E%3Cpath d='M16 5 C24 5 24 15 16 15 C8 15 8 25 16 25' fill='none' stroke='%231c1c1a' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='28' r='2' fill='%23a8654a'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Assistant:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── ANNOUNCEMENT ───────────────────────────────────── -->
+  <div class="announce">Complimentary shipping on orders over &#8377;4,000 &middot; 30-day returns</div>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────── -->
+  <header id="navbar">
+    <div class="nav-wrap">
+      <a href="#" class="logo" aria-label="Kestrel home">
+        <svg class="logo-mark" viewBox="0 0 32 34" aria-hidden="true">
+          <path d="M16 4 C25 4 25 15 16 15 C7 15 7 26 16 26 C21 26 24 23.5 24 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="16" y1="26" x2="16" y2="28.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="16" cy="30.6" r="2.2" fill="var(--clay)"/>
+        </svg>
+        <span class="logo-text">Kestrel</span>
+      </a>
+
+      <nav class="nav-cats" aria-label="Primary">
+        <a href="#products" class="cat-link">New In</a>
+        <a href="#products" class="cat-link">Shop</a>
+        <a href="#categories" class="cat-link">Collections</a>
+        <a href="#lookbook" class="cat-link">Lookbook</a>
+        <a href="#about" class="cat-link">About</a>
+      </nav>
+
+      <div class="nav-right">
+        <div class="search-wrap">
+          <i class="fas fa-search search-icon" aria-hidden="true"></i>
+          <input type="text" class="search-input" placeholder="Search the label" aria-label="Search" />
+        </div>
+        <div class="nav-actions">
+          <a href="#" class="nav-action" aria-label="Account"><i class="far fa-user"></i></a>
+          <a href="#" class="nav-action" aria-label="Wishlist">
+            <i class="far fa-heart" id="wishlistIcon"></i>
+            <span class="badge" id="wishlistCount">0</span>
+          </a>
+          <a href="#" class="nav-action" aria-label="Bag">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="badge" id="bagCount">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── HERO CAROUSEL ─────────────────────────────────── -->
+  <section class="hero-section">
+    <div class="carousel" id="carousel">
+      <div class="slides" id="slides">
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1600&q=70" alt="Inside the Kestrel shop" />
+          <div class="slide-overlay">
+            <div class="slide-content">
+              <p class="slide-sub">The Winter Edit</p>
+              <h2 class="slide-title">Built for the long season</h2>
+              <p class="slide-disc">Wool, cotton and cashmere. Nothing that won't last a decade.</p>
+              <a href="#products" class="slide-btn">Shop the edit</a>
+            </div>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=70" alt="Model in a wool coat" />
+          <div class="slide-overlay">
+            <div class="slide-content">
+              <p class="slide-sub">Outerwear</p>
+              <h2 class="slide-title">One coat, worn for years</h2>
+              <p class="slide-disc">Fully canvassed, Italian wool, repaired free for the first year.</p>
+              <a href="#products" class="slide-btn">See outerwear</a>
+            </div>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1600&q=70" alt="Folded knitwear" />
+          <div class="slide-overlay">
+            <div class="slide-content">
+              <p class="slide-sub">Knitwear</p>
+              <h2 class="slide-title">Small batches, natural fibres</h2>
+              <p class="slide-disc">Knitted in a family mill, dyed in colours that don't shout.</p>
+              <a href="#products" class="slide-btn">Shop knitwear</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn prev" id="prevBtn" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next" id="nextBtn" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </section>
+
+  <!-- ── COLLECTIONS ────────────────────────────────────── -->
+  <section class="section categories-sec" id="categories">
+    <div class="section-inner">
+      <div class="section-head">
+        <h2>Collections</h2>
+        <a href="#products" class="view-all">Shop all <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="cat-grid">
+        <a href="#products" class="cat-card" data-filter="outerwear">
+          <div class="cat-img-wrap" style="background-image:url(https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=500&q=65)"></div>
+          <span>Outerwear</span>
+        </a>
+        <a href="#products" class="cat-card" data-filter="knitwear">
+          <div class="cat-img-wrap" style="background-image:url(https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=500&q=65)"></div>
+          <span>Knitwear</span>
+        </a>
+        <a href="#products" class="cat-card" data-filter="shirts">
+          <div class="cat-img-wrap" style="background-image:url(https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=500&q=65)"></div>
+          <span>Shirts</span>
+        </a>
+        <a href="#products" class="cat-card" data-filter="trousers">
+          <div class="cat-img-wrap" style="background-image:url(https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=500&q=65)"></div>
+          <span>Trousers</span>
+        </a>
+        <a href="#products" class="cat-card" data-filter="denim">
+          <div class="cat-img-wrap" style="background-image:url(https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=500&q=65)"></div>
+          <span>Denim</span>
+        </a>
+        <a href="#products" class="cat-card" data-filter="accessories">
+          <div class="cat-img-wrap" style="background-image:url(https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=65)"></div>
+          <span>Accessories</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ARCHIVE BAND ───────────────────────────────────── -->
+  <section class="archive-band">
+    <div class="archive-inner">
+      <div class="archive-text">
+        <span class="archive-tag">The Archive</span>
+        <h2>Past seasons, <span>up to 40% off</span></h2>
+        <p>A short window on last year's cuts and colours. When it's gone, it's gone.</p>
+      </div>
+      <div class="archive-actions">
+        <a href="#products" class="btn-ink">Shop the Archive</a>
+        <div class="archive-timer" aria-label="Time remaining">
+          <span class="at-lbl">Closes in</span>
+          <div class="at-box"><span id="sHours">00</span><small>hrs</small></div>
+          <div class="at-sep">:</div>
+          <div class="at-box"><span id="sMins">00</span><small>min</small></div>
+          <div class="at-sep">:</div>
+          <div class="at-box"><span id="sSecs">00</span><small>sec</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRODUCTS ───────────────────────────────────────── -->
+  <section class="section products-sec" id="products">
+    <div class="section-inner">
+      <div class="section-head">
+        <h2>New In</h2>
+        <a href="#" class="view-all">View everything <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="filters-bar" id="filtersBar">
+        <button class="filter-chip active-chip" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="outerwear">Outerwear</button>
+        <button class="filter-chip" data-filter="knitwear">Knitwear</button>
+        <button class="filter-chip" data-filter="shirts">Shirts</button>
+        <button class="filter-chip" data-filter="trousers">Trousers</button>
+        <button class="filter-chip" data-filter="denim">Denim</button>
+        <button class="filter-chip" data-filter="accessories">Accessories</button>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ── LOOKBOOK ───────────────────────────────────────── -->
+  <section class="lookbook" id="lookbook">
+    <div class="lb-figure lb-tall">
+      <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=900&q=70" alt="Lookbook - wool coat" loading="lazy" />
+    </div>
+    <div class="lb-copy">
+      <p class="lb-kicker">Lookbook &mdash; Vol. 04</p>
+      <h2>The way we mean it to be worn</h2>
+      <p>Photographed on a cold morning in one take, no steamer, no retouching. Clothes look
+        better with a few creases in them.</p>
+      <a href="#products" class="link-underline">See the pieces</a>
+    </div>
+    <div class="lb-figure lb-wide">
+      <img src="https://images.unsplash.com/photo-1479064555552-3ef4979f8908?auto=format&fit=crop&w=1100&q=70" alt="Lookbook - flatlay" loading="lazy" />
+    </div>
+  </section>
+
+  <!-- ── ABOUT ──────────────────────────────────────────── -->
+  <section class="about-strip" id="about">
+    <div class="about-inner">
+      <p class="about-kicker">The label</p>
+      <p class="about-lead">Kestrel makes a small range of wardrobe staples in natural fibres, in
+        batches of a few hundred, from a workshop that has been sewing for three generations.
+        We would rather you bought one good coat than five you replace every winter.</p>
+      <a href="#" class="link-underline">Read our story</a>
+    </div>
+  </section>
+
+  <!-- ── SERVICE STRIP ──────────────────────────────────── -->
+  <section class="service-strip">
+    <div class="svc-inner">
+      <div class="svc-item">
+        <i class="fas fa-truck"></i>
+        <div><strong>Free shipping</strong><p>On orders over &#8377;4,000</p></div>
+      </div>
+      <div class="svc-item">
+        <i class="fas fa-rotate-left"></i>
+        <div><strong>30-day returns</strong><p>Unworn, tags on, on us</p></div>
+      </div>
+      <div class="svc-item">
+        <i class="fas fa-scissors"></i>
+        <div><strong>Free repairs</strong><p>Any Kestrel piece, first year</p></div>
+      </div>
+      <div class="svc-item">
+        <i class="fas fa-seedling"></i>
+        <div><strong>Small batches</strong><p>A few hundred of each run</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NEWSLETTER ─────────────────────────────────────── -->
+  <section class="newsletter">
+    <div class="nl-inner">
+      <h3>Restocks, new cuts, the occasional archive drop.</h3>
+      <form class="nl-form" id="nlForm">
+        <input type="email" placeholder="Your email" aria-label="Email address" required />
+        <button type="submit">Sign up</button>
+      </form>
+      <p class="nl-fine">No more than one email a fortnight. Unsubscribe any time.</p>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-col footer-brand-col">
+        <span class="footer-word">Kestrel</span>
+        <p>Considered wardrobe staples, made to outlast the season.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="#products">New In</a><a href="#products">Outerwear</a><a href="#products">Knitwear</a>
+        <a href="#products">Denim</a><a href="#products">The Archive</a>
+      </div>
+      <div class="footer-col">
+        <h4>The Label</h4>
+        <a href="#about">Our Story</a><a href="#">Materials</a><a href="#">The Workshop</a>
+        <a href="#lookbook">Lookbook</a><a href="#">Stockists</a>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <a href="#">Shipping</a><a href="#">Returns &amp; Exchanges</a><a href="#">Size Guide</a>
+        <a href="#">Care &amp; Repairs</a><a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>&copy; 2026 Kestrel. All rights reserved.</span>
+      <span>Made in small batches.</span>
+    </div>
+  </footer>
+
+  <!-- ── TOAST ──────────────────────────────────────────── -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#1c1c1a;color:#f6f3ec;border:1px solid #3a3a36;border-radius:2px;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='#a8654a';this.style.borderColor='#a8654a'" onmouseout="this.style.background='#1c1c1a';this.style.borderColor='#3a3a36'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>
