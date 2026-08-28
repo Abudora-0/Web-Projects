@@ -1932,24 +1932,51 @@ input, textarea, select { font-family: var(--grotesk); }
 }
 
 @media (max-width: 860px) {
-  .studio-body { grid-template-columns: 1fr; }
+  /* studio: single column, and let the grid tracks shrink below content width */
+  .studio-body { grid-template-columns: 1fr; max-width: 100%; }
+  .studio-left, .studio-right { min-width: 0; }
 
-  #playerView { position: relative; overflow: auto; min-height: 100vh; height: auto; }
+  /* deck view: unpin, scroll the whole thing, stack the three panels */
+  #playerView {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
+    height: auto;
+  }
+  .player-bg { inset: 0; }
 
   .player-layout {
     grid-template-columns: 1fr;
     overflow: visible;
+    padding: 1.2rem 1rem 2.4rem;
   }
 
-  .tracklist-panel { order: 2; max-height: 420px; transform: none; }
-  .player-stage { order: 1; }
+  .player-stage    { order: 1; max-width: 100%; min-width: 0; }
+  .tracklist-panel { order: 2; max-height: 440px; transform: none; }
+  .info-panel {
+    order: 3;
+    display: flex;
+    height: 62vh;
+    min-height: 360px;
+    transform: none;
+  }
 
-  .deck { width: min(100%, 380px); }
+  .deck { width: min(100%, 400px, 62vh); }
 }
 
 @media (max-width: 560px) {
   .studio-header { padding: 1rem 1.2rem; }
   .brand-motto { display: none; }
   .crate-section, .studio-body { padding-left: 1.2rem; padding-right: 1.2rem; }
+
+  /* topbar: drop the album/artist onto its own centred row */
   .player-topbar { flex-wrap: wrap; }
+  .topbar-album { order: 3; width: 100%; justify-content: center; }
+
+  .player-layout { padding: 1rem 0.85rem 2.4rem; }
+
+  /* narrow screens: shrink the deck so the tonearm stays on-screen */
+  .deck { width: min(70vw, 300px); }
+  .tonearm { right: 0; }
 }
