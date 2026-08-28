@@ -59,7 +59,6 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 |---|---|---|
 | [Netflix Clone](Netflix%20Clone/) | Landing page - hero, feature rows, FAQ, title modal | HTML · CSS · JS |
 | [Spotify Clone](Spotify%20Clone/) | Web player - sidebar, playlists, functional audio | HTML · CSS · JS |
-| [Myntra Clone](Myntra%20Clone/) | Fashion e-commerce storefront | HTML · CSS · JS |
 | [X / Twitter Clone](X%20%26%20Twitter%20Clone/) | Feed UI in the dark theme | HTML · Tailwind |
 | [Windows 11 UI Clone](WIndow%2011%20UI%20Clone/) | Desktop with taskbar, start menu & apps | HTML · CSS · JS |
 | [Bootstrap Website](BootStrap%20Website/) | Tech-news zine on Bootstrap 5, restyled as an acid dev-zine | Bootstrap 5 |
@@ -76,6 +75,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Cinder & Salt](Cinder%20%26%20Salt/) | Warm artisan eatery, cooked over fire | Split hero, menu cards with price leaders, map, contact |
 | [The Order Window](The%20Order%20Window/) | Late-night diner take-out window | Ticket-rail menu, cart-as-spike, kitchen-timer checkout |
 | [Thread & Rail](Thread%20%26%20Rail/) | Garment-district showroom | Rolling clothing rack, size/color picker, cart & checkout |
+| [Kestrel](Kestrel/) | Small-batch clothing label, editorial | Lookbook, collections, filterable range, archive sale timer |
 | [The Perfumer's Atelier](The%20Perfumer's%20Atelier/) | Backlit perfume light table | Scent-note pyramid, glass-bottle illustrations, cart & checkout |
 | [The Terminal](The%20Terminal/) | Dark HUD gadget spec-browser | Exploded-view diagrams, live spec compare, terminal checkout |
 | [The Drop](The%20Drop/) | Hype-drop streetwear release | Live countdown, box-opening reveal, stock badges, cart & checkout |
@@ -146,7 +146,7 @@ web-projects/
 ├── README.md
 ├── LICENSE
 ├── Analog Clock/        ├── The Flatbed/
-├── Animated Car/        ├── Myntra Clone/
+├── Animated Car/        ├── Kestrel/
 ├── Arcade Hub/          ├── Netflix Clone/
 ├── Blog Website/        ├── The Cellar Door/
 ├── BootStrap Website/   ├── Cashbook/
@@ -175,7 +175,7 @@ Every project folder is self-contained: `index.html` + `style.css` + `script.js`
 
 Released under the [MIT License](LICENSE) - use anything here freely, with attribution.
 
-Brand-clone projects (Netflix, Spotify, Myntra, X, Windows 11) are educational
+Brand-clone projects (Netflix, Spotify, X, Windows 11) are educational
 UI studies; the names, logos, and imagery they imitate belong to their respective owners.
 
 ---
