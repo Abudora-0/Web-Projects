@@ -1,37 +1,9 @@
 /* ═══════════════════════════════════════════════
-   Kestrel - script.js
+   KESTREL - script.js  (home)
+   Depends on store.js
    ═══════════════════════════════════════════════ */
 
-const U = (id, w = 600, q = 68) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=${q}`;
-
-// ── The range ────────────────────────────────────────
-const PRODUCTS = [
-  { id: 1,  name: 'The Camden Overshirt',        cat: 'outerwear',   img: U('photo-1602810318383-e386cc2a3ccf'), price: 8900,  was: 0,     colour: 'Tobacco' },
-  { id: 2,  name: 'Balmacaan Wool Coat',         cat: 'outerwear',   img: U('photo-1544022613-e87ca75a784a'),     price: 32000, was: 38000, colour: 'Stone' },
-  { id: 3,  name: 'The Workhorse Denim Jacket',  cat: 'denim',       img: U('photo-1551028719-00167b16eac5'),     price: 11500, was: 0,     colour: 'Rinsed Indigo' },
-  { id: 4,  name: 'Merino Crew',                 cat: 'knitwear',    img: U('photo-1576566588028-4147f3842f27'),  price: 7500,  was: 0,     colour: 'Oat' },
-  { id: 5,  name: 'Lambswool Sweater',           cat: 'knitwear',    img: U('photo-1620799140408-edc6dcb6d633'),  price: 8900,  was: 0,     colour: 'Moss' },
-  { id: 6,  name: 'Shawl-Collar Cardigan',       cat: 'knitwear',    img: U('photo-1434389677669-e08b4cac3105'),  price: 12500, was: 16000, colour: 'Charcoal' },
-  { id: 7,  name: 'Oxford Shirt',                cat: 'shirts',      img: U('photo-1596755094514-f87e34085b2c'),  price: 5900,  was: 0,     colour: 'White' },
-  { id: 8,  name: 'Heavyweight Tee',             cat: 'shirts',      img: U('photo-1521572163474-6864f9cf17ab'),  price: 3200,  was: 0,     colour: 'Bone' },
-  { id: 9,  name: 'Pleated Wide Trouser',        cat: 'trousers',    img: U('photo-1594633312681-425c7b97ccd1'),  price: 8500,  was: 0,     colour: 'Charcoal' },
-  { id: 10, name: 'Twill Chino',                 cat: 'trousers',    img: U('photo-1473966968600-fa801b869a1a'),  price: 6500,  was: 8500,  colour: 'Stone' },
-  { id: 11, name: 'Selvedge Straight Jean',      cat: 'denim',       img: U('photo-1542272604-787c3835535d'),     price: 9800,  was: 0,     colour: 'Raw Indigo' },
-  { id: 12, name: 'Canvas Weekender Tote',       cat: 'accessories', img: U('photo-1553062407-98eeb64c6a62'),     price: 5500,  was: 0,     colour: 'Natural' },
-];
-
-const CAT_LABEL = {
-  all: 'New In', outerwear: 'Outerwear', knitwear: 'Knitwear',
-  shirts: 'Shirts', trousers: 'Trousers', denim: 'Denim', accessories: 'Accessories',
-};
-
-// ── State ─────────────────────────────────────────────
-const wishlist = new Set();
-const bag      = [];
-let   currentFilter = 'all';
-
-const fmtPrice = n => 'Rs ' + n.toLocaleString('en-PK');
+let currentFilter = 'all';
 
 // ── Render products ───────────────────────────────────
 function renderProducts(filter = 'all') {
@@ -41,57 +13,38 @@ function renderProducts(filter = 'all') {
   grid.innerHTML = data.map(p => {
     const onSale = p.was && p.was > p.price;
     const off = onSale ? Math.round((1 - p.price / p.was) * 100) : 0;
-    const wl  = wishlist.has(p.id);
+    const saved = Store.isSaved(p.id);
     return `
     <article class="prod-card" data-id="${p.id}">
-      <div class="prod-img-wrap">
+      <a class="prod-img-wrap" href="${productHref(p.id)}">
         <img src="${p.img}" alt="${p.name} in ${p.colour}" loading="lazy"
-             onerror="this.src='https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=600&q=60'" />
+             onerror="this.src='${FALLBACK_IMG}'" />
         ${onSale ? `<span class="prod-badge">Archive &minus;${off}%</span>` : ''}
-        <button class="wishlist-btn ${wl ? 'wishlisted' : ''}" data-id="${p.id}" aria-label="Save ${p.name}">
-          <i class="${wl ? 'fas' : 'far'} fa-heart"></i>
-        </button>
-        <div class="prod-hover-actions">
-          <button class="add-bag-btn" data-id="${p.id}">Add to bag</button>
-        </div>
-      </div>
-      <div class="prod-info">
+        <div class="prod-hover-actions"><span class="prod-view">View product</span></div>
+      </a>
+      <button class="wishlist-btn ${saved ? 'wishlisted' : ''}" data-id="${p.id}" aria-label="Save ${p.name}">
+        <i class="${saved ? 'fas' : 'far'} fa-heart"></i>
+      </button>
+      <a class="prod-info" href="${productHref(p.id)}">
         <div class="prod-name">${p.name}</div>
         <div class="prod-colour">${p.colour}</div>
         <div class="prod-price-row">
           <span class="prod-price ${onSale ? 'is-sale' : ''}">${fmtPrice(p.price)}</span>
           ${onSale ? `<span class="prod-was">${fmtPrice(p.was)}</span>` : ''}
         </div>
-      </div>
+      </a>
     </article>`;
   }).join('');
 
   grid.querySelectorAll('.wishlist-btn').forEach(btn => {
     btn.addEventListener('click', e => {
+      e.preventDefault();
       e.stopPropagation();
       const id = +btn.dataset.id;
-      if (wishlist.has(id)) {
-        wishlist.delete(id);
-        btn.classList.remove('wishlisted');
-        btn.querySelector('i').className = 'far fa-heart';
-        showToast('Removed from saved');
-      } else {
-        wishlist.add(id);
-        btn.classList.add('wishlisted');
-        btn.querySelector('i').className = 'fas fa-heart';
-        showToast('Saved');
-      }
-      updateBadges();
-    });
-  });
-
-  grid.querySelectorAll('.add-bag-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      const id = +btn.dataset.id;
-      if (!bag.includes(id)) bag.push(id);
-      updateBadges();
-      showToast('Added to bag');
+      const added = Store.toggleSaved(id);
+      btn.classList.toggle('wishlisted', added);
+      btn.querySelector('i').className = added ? 'fas fa-heart' : 'far fa-heart';
+      showToast(added ? 'Saved' : 'Removed from saved');
     });
   });
 }
@@ -110,7 +63,6 @@ document.querySelectorAll('.filter-chip').forEach(chip => {
   chip.addEventListener('click', () => setFilter(chip.dataset.filter));
 });
 
-// Collection cards jump to the grid pre-filtered
 document.querySelectorAll('.cat-card[data-filter]').forEach(card => {
   card.addEventListener('click', e => {
     e.preventDefault();
@@ -118,17 +70,6 @@ document.querySelectorAll('.cat-card[data-filter]').forEach(card => {
     document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
   });
 });
-
-// ── Badges ────────────────────────────────────────────
-function updateBadges() {
-  const wBadge = document.getElementById('wishlistCount');
-  const bBadge = document.getElementById('bagCount');
-  wBadge.textContent = wishlist.size;
-  bBadge.textContent = bag.length;
-  wBadge.classList.toggle('show', wishlist.size > 0);
-  bBadge.classList.toggle('show', bag.length > 0);
-  document.getElementById('wishlistIcon').className = wishlist.size > 0 ? 'fas fa-heart' : 'far fa-heart';
-}
 
 // ── Carousel ──────────────────────────────────────────
 (function () {
@@ -162,7 +103,7 @@ function updateBadges() {
 
 // ── Archive timer ─────────────────────────────────────
 (function () {
-  const end = Date.now() + 18 * 3600 * 1000;   // an 18-hour window
+  const end = Date.now() + 18 * 3600 * 1000;
   function tick() {
     const diff = Math.max(0, end - Date.now());
     const h = Math.floor(diff / 3600000);
@@ -182,16 +123,6 @@ document.getElementById('nlForm')?.addEventListener('submit', e => {
   e.target.reset();
   showToast('You’re on the list');
 });
-
-// ── Toast ─────────────────────────────────────────────
-let _tt = null;
-function showToast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(_tt);
-  _tt = setTimeout(() => el.classList.remove('show'), 2200);
-}
 
 // ── Navbar shadow on scroll ───────────────────────────
 window.addEventListener('scroll', () => {

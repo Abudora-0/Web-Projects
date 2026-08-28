@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f3ec" />
+  <title>Your Bag - Kestrel</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f6f3ec'/%3E%3Cpath d='M16 5 C24 5 24 15 16 15 C8 15 8 25 16 25' fill='none' stroke='%231c1c1a' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='28' r='2' fill='%23a8654a'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Assistant:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="announce">Complimentary shipping on orders over Rs 12,000 &middot; 30-day returns</div>
+
+  <header id="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo" aria-label="Kestrel home">
+        <svg class="logo-mark" viewBox="0 0 32 34" aria-hidden="true">
+          <path d="M16 4 C25 4 25 15 16 15 C7 15 7 26 16 26 C21 26 24 23.5 24 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="16" y1="26" x2="16" y2="28.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="16" cy="30.6" r="2.2" fill="var(--clay)"/>
+        </svg>
+        <span class="logo-text">Kestrel</span>
+      </a>
+      <nav class="nav-cats" aria-label="Primary">
+        <a href="index.html#products" class="cat-link">New In</a>
+        <a href="index.html#products" class="cat-link">Shop</a>
+        <a href="index.html#categories" class="cat-link">Collections</a>
+        <a href="index.html#lookbook" class="cat-link">Lookbook</a>
+        <a href="index.html#about" class="cat-link">About</a>
+      </nav>
+      <div class="nav-right">
+        <div class="search-wrap">
+          <i class="fas fa-search search-icon" aria-hidden="true"></i>
+          <input type="text" class="search-input" placeholder="Search the label" aria-label="Search" />
+        </div>
+        <div class="nav-actions">
+          <a href="#" class="nav-action" aria-label="Account"><i class="far fa-user"></i></a>
+          <a href="#" class="nav-action" aria-label="Wishlist">
+            <i class="far fa-heart" id="wishlistIcon"></i>
+            <span class="badge" id="wishlistCount">0</span>
+          </a>
+          <a href="bag.html" class="nav-action" aria-label="Bag">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="badge" id="bagCount">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="bag-page">
+    <h1 class="bag-title">Your Bag</h1>
+    <div class="bag-layout" id="bagLayout"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-col footer-brand-col">
+        <span class="footer-word">Kestrel</span>
+        <p>Considered wardrobe staples, made to outlast the season.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="index.html#products">New In</a><a href="index.html#products">Outerwear</a>
+        <a href="index.html#products">Knitwear</a><a href="index.html#products">Denim</a>
+      </div>
+      <div class="footer-col">
+        <h4>The Label</h4>
+        <a href="index.html#about">Our Story</a><a href="#">Materials</a>
+        <a href="#">The Workshop</a><a href="index.html#lookbook">Lookbook</a>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <a href="#">Shipping</a><a href="#">Returns &amp; Exchanges</a>
+        <a href="#">Size Guide</a><a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>&copy; 2026 Kestrel. All rights reserved.</span>
+      <span>Made in small batches.</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="store.js"></script>
+  <script src="bag.js"></script>
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#1c1c1a;color:#f6f3ec;border:1px solid #3a3a36;border-radius:2px;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='#a8654a';this.style.borderColor='#a8654a'" onmouseout="this.style.background='#1c1c1a';this.style.borderColor='#3a3a36'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>
