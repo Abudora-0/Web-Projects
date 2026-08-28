@@ -1,9 +1,9 @@
-/* THE STACKS — CSS reference card */
+/* EPHEMERIS - CSS reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'css', name: 'CSS', mono: 'Cs',
   call: '006.7 CSS', tag: 'Stylesheets', shelf: 'web', prism: 'css',
-  desc: 'Selectors, the box model, Flexbox, Grid, typography, animation, and responsive layout — how pages get their looks.',
+  desc: 'Selectors, the box model, Flexbox, Grid, typography, animation, and responsive layout - how pages get their looks.',
   keywords: 'styling stylesheet layout design flexbox grid responsive',
   sections: [
     { title: 'Selectors', snippets: [

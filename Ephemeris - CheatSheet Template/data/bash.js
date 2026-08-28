@@ -1,18 +1,18 @@
-/* THE STACKS — Bash reference card */
+/* EPHEMERIS - Bash reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'bash', name: 'Bash', mono: 'Sh',
   call: '005.446 BSH', tag: 'Shell', shelf: 'data', prism: 'bash',
-  desc: 'Variables, conditionals, loops, functions, and pipes — the glue language of every terminal.',
+  desc: 'Variables, conditionals, loops, functions, and pipes - the glue language of every terminal.',
   keywords: 'bash shell terminal scripting linux unix cli zsh',
   sections: [
     { title: 'Script Basics', snippets: [
       { label: 'Script skeleton', desc: 'The safety flags catch most silent failures.', code: '#!/usr/bin/env bash\nset -euo pipefail   # exit on error, unset vars, pipe fails\n\necho "Hello from $0"\n\n# make executable & run\n# chmod +x script.sh\n# ./script.sh' },
-      { label: 'Arguments & exit codes', desc: '$1…$n, $@ for all, $? for last status.', code: 'name="${1:-world}"     # first arg, with default\necho "args: $# — all: $@"\n\nif [[ $# -lt 1 ]]; then\n  echo "usage: $0 <file>" >&2\n  exit 1\nfi\n\nsome_command\necho "exit code: $?"' },
+      { label: 'Arguments & exit codes', desc: '$1…$n, $@ for all, $? for last status.', code: 'name="${1:-world}"     # first arg, with default\necho "args: $# - all: $@"\n\nif [[ $# -lt 1 ]]; then\n  echo "usage: $0 <file>" >&2\n  exit 1\nfi\n\nsome_command\necho "exit code: $?"' },
     ]},
     { title: 'Variables & Expansion', snippets: [
       { label: 'Variables', desc: 'No spaces around =; quote every expansion.', code: 'title="The Stacks"\ncount=3\nreadonly MAX=100\n\necho "$title has $count drawers"\necho "${title}!"        # braces when adjacent to text\n\nresult=$(date +%F)      # command substitution\nsum=$(( count + 2 ))    # arithmetic' },
-      { label: 'String expansion tricks', desc: 'Defaults, trimming, replacing — no sed needed.', code: 'file="archive/notes.backup.txt"\n\necho "${file##*/}"       # notes.backup.txt (basename)\necho "${file%/*}"        # archive (dirname)\necho "${file%.txt}"      # strip suffix\necho "${file/backup/old}" # replace first match\necho "${#file}"          # length\necho "${undefined:-fallback}"' },
+      { label: 'String expansion tricks', desc: 'Defaults, trimming, replacing - no sed needed.', code: 'file="archive/notes.backup.txt"\n\necho "${file##*/}"       # notes.backup.txt (basename)\necho "${file%/*}"        # archive (dirname)\necho "${file%.txt}"      # strip suffix\necho "${file/backup/old}" # replace first match\necho "${#file}"          # length\necho "${undefined:-fallback}"' },
     ]},
     { title: 'Conditionals', snippets: [
       { label: 'if & tests', desc: 'Use [[ ]]; file tests are single letters.', code: 'if [[ -f "notes.txt" ]]; then   # file exists\n  echo "found"\nelif [[ -d "archive" ]]; then    # directory exists\n  echo "check the archive"\nfi\n\n[[ -z "$var" ]]   # empty string\n[[ -n "$var" ]]   # non-empty\n[[ "$a" == "$b" ]]\n[[ $n -gt 5 ]]    # numeric: -eq -ne -lt -le -gt -ge' },

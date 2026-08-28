@@ -1,9 +1,9 @@
-/* THE STACKS — Go reference card */
+/* EPHEMERIS - Go reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'go', name: 'Go', mono: 'Go',
   call: '005.133 GO', tag: 'Concurrent', shelf: 'core', prism: 'go',
-  desc: 'Slices, maps, structs, interfaces, goroutines, and error handling — small language, sharp tools.',
+  desc: 'Slices, maps, structs, interfaces, goroutines, and error handling - small language, sharp tools.',
   keywords: 'go golang goroutines channels backend cloud',
   sections: [
     { title: 'Basics', snippets: [
@@ -23,11 +23,11 @@ window.STACKS.push({
       { label: 'Variadic, closures, defer', desc: 'defer runs when the function returns.', code: 'func sum(nums ...int) int {\n    total := 0\n    for _, n := range nums {\n        total += n\n    }\n    return total\n}\n\ncounter := func() func() int {\n    n := 0\n    return func() int { n++; return n }\n}()\n\nf, _ := os.Open("notes.txt")\ndefer f.Close()          // guaranteed cleanup' },
     ]},
     { title: 'Structs & Methods', snippets: [
-      { label: 'Structs', desc: 'Composition over inheritance — embed instead.', code: 'type Book struct {\n    Title string\n    Year  int\n}\n\nb := Book{Title: "Dune", Year: 1965}\nb.Year = 1966\n\ntype Novel struct {\n    Book             // embedded: Novel gets Book\'s fields\n    Author string\n}\nn := Novel{Book{"Emma", 1815}, "Austen"}\nfmt.Println(n.Title)     // promoted field' },
+      { label: 'Structs', desc: 'Composition over inheritance - embed instead.', code: 'type Book struct {\n    Title string\n    Year  int\n}\n\nb := Book{Title: "Dune", Year: 1965}\nb.Year = 1966\n\ntype Novel struct {\n    Book             // embedded: Novel gets Book\'s fields\n    Author string\n}\nn := Novel{Book{"Emma", 1815}, "Austen"}\nfmt.Println(n.Title)     // promoted field' },
       { label: 'Methods & receivers', desc: 'Pointer receiver to modify; value to read.', code: 'func (b Book) Age() int {\n    return 2026 - b.Year\n}\n\nfunc (b *Book) Checkout() {\n    b.Out = true         // modifies the original\n}\n\nb.Checkout()             // Go auto-takes the address' },
     ]},
     { title: 'Interfaces', snippets: [
-      { label: 'Implicit satisfaction', desc: 'No implements keyword — just match the methods.', code: 'type Shelvable interface {\n    CallNumber() string\n}\n\nfunc (b Book) CallNumber() string {\n    return fmt.Sprintf("005.13 %s", b.Title[:3])\n}\n\n// Book now satisfies Shelvable automatically\nfunc file(s Shelvable) {\n    fmt.Println(s.CallNumber())\n}' },
+      { label: 'Implicit satisfaction', desc: 'No implements keyword - just match the methods.', code: 'type Shelvable interface {\n    CallNumber() string\n}\n\nfunc (b Book) CallNumber() string {\n    return fmt.Sprintf("005.13 %s", b.Title[:3])\n}\n\n// Book now satisfies Shelvable automatically\nfunc file(s Shelvable) {\n    fmt.Println(s.CallNumber())\n}' },
       { label: 'Type assertions', desc: 'Recover the concrete type when needed.', code: 'var s Shelvable = Book{Title: "Dune"}\n\nif b, ok := s.(Book); ok {\n    fmt.Println(b.Year)\n}\n\nswitch v := s.(type) {\ncase Book:\n    fmt.Println("book:", v.Title)\ncase *Novel:\n    fmt.Println("novel:", v.Author)\n}' },
     ]},
     { title: 'Goroutines & Channels', snippets: [

@@ -1,9 +1,9 @@
-/* THE STACKS — C reference card */
+/* EPHEMERIS - C reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'c', name: 'C', mono: 'C',
   call: '005.133 C', tag: 'Systems', shelf: 'core', prism: 'c',
-  desc: 'Pointers, arrays, structs, memory, and file I/O — the language underneath everything else.',
+  desc: 'Pointers, arrays, structs, memory, and file I/O - the language underneath everything else.',
   keywords: 'c systems low-level pointers memory embedded',
   sections: [
     { title: 'Basics', snippets: [
@@ -12,7 +12,7 @@ window.STACKS.push({
     ]},
     { title: 'Control Flow', snippets: [
       { label: 'Conditionals & loops', desc: 'Braces even for one-liners save debugging later.', code: 'if (n > 0) {\n    puts("positive");\n} else if (n == 0) {\n    puts("zero");\n} else {\n    puts("negative");\n}\n\nfor (int i = 0; i < 10; i++) { }\nwhile (n-- > 0) { }\ndo { } while (0);' },
-      { label: 'switch', desc: 'break or fall through — on purpose only.', code: 'switch (grade) {\n    case \'A\':\n    case \'B\':\n        puts("pass");\n        break;\n    case \'F\':\n        puts("fail");\n        break;\n    default:\n        puts("unknown");\n}' },
+      { label: 'switch', desc: 'break or fall through - on purpose only.', code: 'switch (grade) {\n    case \'A\':\n    case \'B\':\n        puts("pass");\n        break;\n    case \'F\':\n        puts("fail");\n        break;\n    default:\n        puts("unknown");\n}' },
     ]},
     { title: 'Pointers', snippets: [
       { label: 'Pointer basics', desc: '& takes an address, * follows one.', code: 'int n = 42;\nint *p = &n;      // p holds the address of n\n\nprintf("%d\\n", *p);   // 42 (dereference)\n*p = 10;              // n is now 10\n\nint **pp = &p;        // pointer to pointer\nif (p != NULL) { }    // always check' },
@@ -28,7 +28,7 @@ window.STACKS.push({
     ]},
     { title: 'Dynamic Memory', snippets: [
       { label: 'malloc / free', desc: 'Every malloc needs exactly one free.', code: '#include <stdlib.h>\n\nint *nums = malloc(10 * sizeof *nums);\nif (nums == NULL) return 1;    // always check\n\nnums[0] = 42;\n\nnums = realloc(nums, 20 * sizeof *nums);\nfree(nums);\nnums = NULL;                   // avoid dangling use' },
-      { label: 'calloc & ownership', desc: 'calloc zeroes; document who frees what.', code: '/* zero-initialized array */\nBook *books = calloc(n, sizeof *books);\n\n/* caller owns the result — must free() */\nchar *dup_string(const char *s) {\n    char *copy = malloc(strlen(s) + 1);\n    if (copy) strcpy(copy, s);\n    return copy;\n}' },
+      { label: 'calloc & ownership', desc: 'calloc zeroes; document who frees what.', code: '/* zero-initialized array */\nBook *books = calloc(n, sizeof *books);\n\n/* caller owns the result - must free() */\nchar *dup_string(const char *s) {\n    char *copy = malloc(strlen(s) + 1);\n    if (copy) strcpy(copy, s);\n    return copy;\n}' },
     ]},
     { title: 'File I/O', snippets: [
       { label: 'Reading a file', desc: 'fgets stops at newline or buffer limit.', code: '#include <stdio.h>\n\nFILE *f = fopen("notes.txt", "r");\nif (f == NULL) { perror("open"); return 1; }\n\nchar line[256];\nwhile (fgets(line, sizeof line, f)) {\n    printf("%s", line);\n}\nfclose(f);' },

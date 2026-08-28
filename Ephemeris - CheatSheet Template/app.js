@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════
-   CONSTELLATION — shared app logic
+   EPHEMERIS - shared app logic
    (theme · bookmarks · command palette · star-chart helpers)
 ════════════════════════════════════════════════════════════ */
 
@@ -32,7 +32,7 @@ function designationFor(sheet) {
 }
 
 /* ── Theme ─────────────────────────────────────────────── */
-const THEME_KEY = 'constellation-theme';
+const THEME_KEY = 'ephemeris-theme';
 
 function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
@@ -51,7 +51,7 @@ function initTheme() {
 }
 
 /* ── Bookmarks ─────────────────────────────────────────── */
-const BM_KEY = 'constellation-pins';
+const BM_KEY = 'ephemeris-pins';
 
 const Bookmarks = {
   load() {
@@ -198,7 +198,7 @@ const Palette = (() => {
     items = search(q);
     selIdx = 0;
     if (!q.trim()) {
-      results.innerHTML = '<div class="pal-empty">Type to search the whole sky —<br>snippet names, descriptions, even the code itself.</div>';
+      results.innerHTML = '<div class="pal-empty">Type to search the whole sky -<br>snippet names, descriptions, even the code itself.</div>';
       return;
     }
     if (!items.length) {
@@ -212,7 +212,7 @@ const Palette = (() => {
       if (it.type === 'sheet') {
         html += '<div class="pal-item' + (i === selIdx ? ' sel' : '') + '" data-i="' + i + '">'
           + '<span class="pal-mono">' + escapeHtml(designationFor(it.sheet)) + '</span>'
-          + '<span class="pal-text"><span class="pal-label">' + escapeHtml(it.sheet.name) + ' — full chart</span>'
+          + '<span class="pal-text"><span class="pal-label">' + escapeHtml(it.sheet.name) + ' - full chart</span>'
           + '<span class="pal-sub">' + escapeHtml(it.sheet.tag) + ' · ' + it.sheet.sections.length + ' regions</span></span>'
           + '<span class="pal-jump">open ↵</span></div>';
       } else {

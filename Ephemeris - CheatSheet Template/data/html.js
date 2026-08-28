@@ -1,9 +1,9 @@
-/* THE STACKS — HTML reference card */
+/* EPHEMERIS - HTML reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'html', name: 'HTML', mono: 'Ht',
   call: '006.74 HTM', tag: 'Markup', shelf: 'web', prism: 'markup',
-  desc: 'Document structure, semantic elements, forms, tables, media, and the head section — the bones of every page.',
+  desc: 'Document structure, semantic elements, forms, tables, media, and the head section - the bones of every page.',
   keywords: 'markup web page structure semantic hypertext',
   sections: [
     { title: 'Boilerplate & Head', snippets: [
@@ -24,7 +24,7 @@ window.STACKS.push({
       { label: 'Table with header & caption', desc: 'thead/tbody keep tables accessible and styleable.', code: '<table>\n  <caption>Monthly totals</caption>\n  <thead>\n    <tr><th scope="col">Month</th><th scope="col">Total</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>January</td><td>$4,200</td></tr>\n    <tr><td>February</td><td>$3,850</td></tr>\n  </tbody>\n</table>' },
     ]},
     { title: 'Forms & Inputs', snippets: [
-      { label: 'Form skeleton', desc: 'Labels tied to inputs by id — never skip them.', code: '<form action="/submit" method="post">\n  <label for="name">Name</label>\n  <input id="name" name="name" type="text" required>\n\n  <label for="email">Email</label>\n  <input id="email" name="email" type="email" required>\n\n  <button type="submit">Send</button>\n</form>' },
+      { label: 'Form skeleton', desc: 'Labels tied to inputs by id - never skip them.', code: '<form action="/submit" method="post">\n  <label for="name">Name</label>\n  <input id="name" name="name" type="text" required>\n\n  <label for="email">Email</label>\n  <input id="email" name="email" type="email" required>\n\n  <button type="submit">Send</button>\n</form>' },
       { label: 'Input types', desc: 'Built-in validation and mobile keyboards for free.', code: '<input type="number" min="0" max="10" step="0.5">\n<input type="date">\n<input type="range" min="0" max="100">\n<input type="color">\n<input type="file" accept=".png,.jpg">\n<input type="password" minlength="8">\n<input type="search" placeholder="Search…">' },
       { label: 'Select, textarea, datalist', desc: 'The other form controls you always look up.', code: '<select name="size">\n  <option value="">Choose…</option>\n  <option value="s">Small</option>\n  <option value="m" selected>Medium</option>\n</select>\n\n<textarea name="notes" rows="4" placeholder="Notes…"></textarea>\n\n<input list="cities" name="city">\n<datalist id="cities">\n  <option value="Lahore"><option value="London">\n</datalist>' },
     ]},

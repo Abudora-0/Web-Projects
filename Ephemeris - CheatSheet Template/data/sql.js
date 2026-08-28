@@ -1,9 +1,9 @@
-/* THE STACKS — SQL reference card */
+/* EPHEMERIS - SQL reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'sql', name: 'SQL', mono: 'Sq',
   call: '005.7565 SQL', tag: 'Queries', shelf: 'data', prism: 'sql',
-  desc: 'SELECTs, joins, aggregation, mutations, table design, and window functions — talking to the card catalog itself.',
+  desc: 'SELECTs, joins, aggregation, mutations, table design, and window functions - talking to the card catalog itself.',
   keywords: 'sql database queries postgres mysql sqlite relational',
   sections: [
     { title: 'Queries', snippets: [
@@ -24,7 +24,7 @@ window.STACKS.push({
     ]},
     { title: 'Insert · Update · Delete', snippets: [
       { label: 'Writing rows', desc: 'Multi-row insert and insert-from-select.', code: "INSERT INTO books (title, author, year)\nVALUES ('Dune', 'Herbert', 1965),\n       ('Emma', 'Austen', 1815);\n\nINSERT INTO archive (title, year)\nSELECT title, year FROM books WHERE year < 1900;" },
-      { label: 'UPDATE & DELETE', desc: 'Always with a WHERE — test it as a SELECT first.', code: "UPDATE books\nSET rating = 5, updated_at = CURRENT_TIMESTAMP\nWHERE title = 'Dune';\n\nDELETE FROM loans\nWHERE returned_at IS NOT NULL\n  AND returned_at < DATE '2020-01-01';\n\n-- upsert (Postgres/SQLite)\nINSERT INTO counts (lang, n) VALUES ('js', 1)\nON CONFLICT (lang) DO UPDATE SET n = counts.n + 1;" },
+      { label: 'UPDATE & DELETE', desc: 'Always with a WHERE - test it as a SELECT first.', code: "UPDATE books\nSET rating = 5, updated_at = CURRENT_TIMESTAMP\nWHERE title = 'Dune';\n\nDELETE FROM loans\nWHERE returned_at IS NOT NULL\n  AND returned_at < DATE '2020-01-01';\n\n-- upsert (Postgres/SQLite)\nINSERT INTO counts (lang, n) VALUES ('js', 1)\nON CONFLICT (lang) DO UPDATE SET n = counts.n + 1;" },
     ]},
     { title: 'Tables & Constraints', snippets: [
       { label: 'CREATE TABLE', desc: 'Keys, defaults, and referential integrity.', code: 'CREATE TABLE books (\n  id      INTEGER PRIMARY KEY,\n  title   TEXT NOT NULL,\n  isbn    TEXT UNIQUE,\n  year    INTEGER CHECK (year > 0),\n  author_id INTEGER REFERENCES authors(id)\n            ON DELETE SET NULL,\n  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);' },
@@ -32,7 +32,7 @@ window.STACKS.push({
     ]},
     { title: 'Indexes & Views', snippets: [
       { label: 'Indexes', desc: 'Index what you filter and join on; verify with EXPLAIN.', code: 'CREATE INDEX idx_books_author ON books(author_id);\nCREATE UNIQUE INDEX idx_books_isbn ON books(isbn);\nCREATE INDEX idx_loans_open\n  ON loans(book_id) WHERE returned_at IS NULL;  -- partial\n\nEXPLAIN SELECT * FROM books WHERE author_id = 3;' },
-      { label: 'Views & CTEs', desc: 'Name a query — temporarily (CTE) or permanently (view).', code: "CREATE VIEW overdue AS\nSELECT m.name, b.title, l.due_date\nFROM loans l\nJOIN members m ON m.id = l.member_id\nJOIN books b   ON b.id = l.book_id\nWHERE l.returned_at IS NULL AND l.due_date < CURRENT_DATE;\n\nWITH busy AS (\n  SELECT member_id, COUNT(*) n FROM loans GROUP BY member_id\n)\nSELECT * FROM busy WHERE n > 10;" },
+      { label: 'Views & CTEs', desc: 'Name a query - temporarily (CTE) or permanently (view).', code: "CREATE VIEW overdue AS\nSELECT m.name, b.title, l.due_date\nFROM loans l\nJOIN members m ON m.id = l.member_id\nJOIN books b   ON b.id = l.book_id\nWHERE l.returned_at IS NULL AND l.due_date < CURRENT_DATE;\n\nWITH busy AS (\n  SELECT member_id, COUNT(*) n FROM loans GROUP BY member_id\n)\nSELECT * FROM busy WHERE n > 10;" },
     ]},
     { title: 'Window Functions', snippets: [
       { label: 'Ranking', desc: 'Number rows within partitions without collapsing them.', code: 'SELECT title, author, year,\n       ROW_NUMBER() OVER (PARTITION BY author\n                          ORDER BY year)        AS nth_book,\n       RANK()       OVER (ORDER BY rating DESC) AS overall_rank\nFROM books;' },

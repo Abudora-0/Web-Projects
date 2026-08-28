@@ -1,4 +1,4 @@
-/* THE STACKS — Python reference card */
+/* EPHEMERIS - Python reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'python', name: 'Python', mono: 'Py',
@@ -24,7 +24,7 @@ window.STACKS.push({
     ]},
     { title: 'Comprehensions', snippets: [
       { label: 'List & dict comprehensions', desc: 'Transform + filter in one readable line.', code: 'squares = [n * n for n in range(10)]\nevens = [n for n in range(10) if n % 2 == 0]\n\nlengths = {word: len(word) for word in words}\nunique = {n % 3 for n in range(10)}   # set comp\n\npairs = [(x, y) for x in "ab" for y in "12"]' },
-      { label: 'Generators', desc: 'Lazy sequences — nothing computed until needed.', code: 'gen = (n * n for n in range(1_000_000))\nnext(gen)          # 0\nsum(n for n in range(100) if n % 3 == 0)\n\ndef countdown(n):\n    while n > 0:\n        yield n\n        n -= 1' },
+      { label: 'Generators', desc: 'Lazy sequences - nothing computed until needed.', code: 'gen = (n * n for n in range(1_000_000))\nnext(gen)          # 0\nsum(n for n in range(100) if n % 3 == 0)\n\ndef countdown(n):\n    while n > 0:\n        yield n\n        n -= 1' },
     ]},
     { title: 'Functions', snippets: [
       { label: 'Defaults, *args, **kwargs', desc: 'Never use a mutable default value.', code: 'def issue(title, days=14, *tags, **meta):\n    print(title, days, tags, meta)\n\nissue("Dune", 7, "scifi", branch="main")\n\n# keyword-only after *\ndef move(x, y, *, speed=1.0): ...\nmove(1, 2, speed=2.5)\n\ndef add(items=None):        # not items=[]\n    items = items or []' },

@@ -1,9 +1,9 @@
-/* THE STACKS — TypeScript reference card */
+/* EPHEMERIS - TypeScript reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'ts', name: 'TypeScript', mono: 'Ts',
   call: '005.133 TYP', tag: 'Typed JS', shelf: 'web', prism: 'typescript',
-  desc: 'Types, interfaces, generics, narrowing, and utility types — JavaScript that catches your mistakes before runtime.',
+  desc: 'Types, interfaces, generics, narrowing, and utility types - JavaScript that catches your mistakes before runtime.',
   keywords: 'typescript types static typing interfaces generics tsc',
   sections: [
     { title: 'Basic Types', snippets: [
@@ -19,7 +19,7 @@ window.STACKS.push({
       { label: 'void, never, async', desc: 'Return types beyond values.', code: 'function log(msg: string): void { console.log(msg); }\n\nfunction fail(msg: string): never {\n  throw new Error(msg);\n}\n\nasync function load(): Promise<Book[]> {\n  const res = await fetch("/api/books");\n  return res.json() as Promise<Book[]>;\n}' },
     ]},
     { title: 'Narrowing', snippets: [
-      { label: 'Type guards', desc: 'typeof, in, instanceof — TS follows the logic.', code: 'function format(v: string | number) {\n  if (typeof v === "string") return v.toUpperCase();\n  return v.toFixed(2);          // v is number here\n}\n\nif ("author" in item) { /* item is Novel */ }\nif (el instanceof HTMLInputElement) { el.value = ""; }' },
+      { label: 'Type guards', desc: 'typeof, in, instanceof - TS follows the logic.', code: 'function format(v: string | number) {\n  if (typeof v === "string") return v.toUpperCase();\n  return v.toFixed(2);          // v is number here\n}\n\nif ("author" in item) { /* item is Novel */ }\nif (el instanceof HTMLInputElement) { el.value = ""; }' },
       { label: 'Discriminated unions', desc: 'A shared literal field switches the type.', code: 'type Shape =\n  | { kind: "circle"; radius: number }\n  | { kind: "rect"; w: number; h: number };\n\nfunction areaOf(s: Shape): number {\n  switch (s.kind) {\n    case "circle": return Math.PI * s.radius ** 2;\n    case "rect":   return s.w * s.h;\n  }\n}' },
     ]},
     { title: 'Generics', snippets: [
@@ -36,7 +36,7 @@ window.STACKS.push({
     ]},
     { title: 'Config & Assertions', snippets: [
       { label: 'tsconfig essentials', desc: 'The flags that catch real bugs.', code: '{\n  "compilerOptions": {\n    "strict": true,\n    "target": "ES2022",\n    "module": "ESNext",\n    "moduleResolution": "bundler",\n    "noUncheckedIndexedAccess": true,\n    "outDir": "dist"\n  },\n  "include": ["src"]\n}' },
-      { label: 'Assertions & satisfies', desc: 'Tell the checker what you know — carefully.', code: 'const input = document.querySelector("input") as HTMLInputElement;\nconst el = document.getElementById("app")!; // non-null\n\nconst palette = {\n  ink: "#2b2416",\n  stamp: "#a93b2a",\n} satisfies Record<string, string>; // checked, not widened' },
+      { label: 'Assertions & satisfies', desc: 'Tell the checker what you know - carefully.', code: 'const input = document.querySelector("input") as HTMLInputElement;\nconst el = document.getElementById("app")!; // non-null\n\nconst palette = {\n  ink: "#2b2416",\n  stamp: "#a93b2a",\n} satisfies Record<string, string>; // checked, not widened' },
     ]},
   ],
 });

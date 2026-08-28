@@ -1,15 +1,15 @@
-/* THE STACKS — JavaScript reference card */
+/* EPHEMERIS - JavaScript reference card */
 window.STACKS = window.STACKS || [];
 window.STACKS.push({
   id: 'js', name: 'JavaScript', mono: 'Js',
   call: '005.133 JAV', tag: 'Scripting', shelf: 'web', prism: 'javascript',
-  desc: 'Variables, functions, arrays, objects, the DOM, events, and async — the language of the browser (and half of everything else).',
+  desc: 'Variables, functions, arrays, objects, the DOM, events, and async - the language of the browser (and half of everything else).',
   keywords: 'js es6 ecmascript dom events async promises frontend node',
   sections: [
     { title: 'Variables & Types', snippets: [
       { label: 'Declarations', desc: 'const by default, let when reassigning, never var.', code: 'const name = "Ada";      // cannot be reassigned\nlet count = 0;           // can be reassigned\ncount += 1;\n\nconst list = [];\nlist.push("ok");         // const allows mutation' },
       { label: 'Type checks & conversion', desc: 'The checks you actually reach for.', code: 'typeof "hi"        // "string"\ntypeof 42          // "number"\nArray.isArray([])  // true\nvalue ?? "default" // null/undefined fallback\n\nNumber("3.14")     // 3.14\nString(42)         // "42"\nBoolean("")        // false' },
-      { label: 'Template literals', desc: 'Interpolation and multi-line strings.', code: 'const user = "Ada";\nconst msg = `Hello, ${user}!`;\n\nconst html = `\n  <li class="item">\n    ${user} — ${new Date().getFullYear()}\n  </li>`;' },
+      { label: 'Template literals', desc: 'Interpolation and multi-line strings.', code: 'const user = "Ada";\nconst msg = `Hello, ${user}!`;\n\nconst html = `\n  <li class="item">\n    ${user} - ${new Date().getFullYear()}\n  </li>`;' },
     ]},
     { title: 'Functions', snippets: [
       { label: 'Arrow functions', desc: 'Short syntax; no own this binding.', code: 'const add = (a, b) => a + b;\nconst square = n => n * n;\nconst greet = (name = "friend") => {\n  return `Hi, ${name}`;\n};\n\n// rest parameters\nconst sum = (...nums) => nums.reduce((a, b) => a + b, 0);' },
@@ -17,7 +17,7 @@ window.STACKS.push({
     ]},
     { title: 'Arrays', snippets: [
       { label: 'map · filter · reduce', desc: 'The transformation trio.', code: 'const nums = [1, 2, 3, 4, 5];\n\nnums.map(n => n * 2)        // [2,4,6,8,10]\nnums.filter(n => n % 2)     // [1,3,5]\nnums.reduce((a, n) => a + n, 0) // 15\n\nnums.find(n => n > 3)       // 4\nnums.some(n => n > 4)       // true\nnums.every(n => n > 0)      // true' },
-      { label: 'Sort, slice, and friends', desc: 'sort mutates — copy first if you care.', code: 'const sorted = [...nums].sort((a, b) => a - b);\nnums.slice(1, 3)      // copy of index 1–2\nnums.includes(3)      // true\nnums.indexOf(4)       // 3\nnums.flat()           // flatten one level\nnums.at(-1)           // last element\n[...new Set([1,1,2])] // dedupe → [1,2]' },
+      { label: 'Sort, slice, and friends', desc: 'sort mutates - copy first if you care.', code: 'const sorted = [...nums].sort((a, b) => a - b);\nnums.slice(1, 3)      // copy of index 1–2\nnums.includes(3)      // true\nnums.indexOf(4)       // 3\nnums.flat()           // flatten one level\nnums.at(-1)           // last element\n[...new Set([1,1,2])] // dedupe → [1,2]' },
     ]},
     { title: 'Objects', snippets: [
       { label: 'Object utilities', desc: 'Iterate, copy, and reshape objects.', code: 'Object.keys(obj)    // ["a", "b"]\nObject.values(obj)  // [1, 2]\nObject.entries(obj) // [["a",1], ["b",2]]\n\nObject.fromEntries([["a", 1]]) // {a: 1}\nstructuredClone(obj)           // deep copy\n\nfor (const [key, val] of Object.entries(obj)) {\n  console.log(key, val);\n}' },
@@ -38,10 +38,10 @@ window.STACKS.push({
     ]},
     { title: 'Classes & Modules', snippets: [
       { label: 'Class syntax', desc: 'Fields, constructor, getters, and inheritance.', code: 'class Book {\n  #checkedOut = false;        // private field\n  constructor(title) { this.title = title; }\n  get status() { return this.#checkedOut ? "out" : "in"; }\n  checkout() { this.#checkedOut = true; }\n  static shelve(books) { return books.sort(); }\n}\n\nclass Novel extends Book {\n  constructor(title, author) {\n    super(title);\n    this.author = author;\n  }\n}' },
-      { label: 'ES modules', desc: 'import/export — one module per file.', code: '// util.js\nexport const clamp = (n, a, b) => Math.min(b, Math.max(a, n));\nexport default function log(msg) { console.log(msg); }\n\n// main.js\nimport log, { clamp } from "./util.js";\nimport * as utils from "./util.js";' },
+      { label: 'ES modules', desc: 'import/export - one module per file.', code: '// util.js\nexport const clamp = (n, a, b) => Math.min(b, Math.max(a, n));\nexport default function log(msg) { console.log(msg); }\n\n// main.js\nimport log, { clamp } from "./util.js";\nimport * as utils from "./util.js";' },
     ]},
     { title: 'Storage & JSON', snippets: [
-      { label: 'localStorage', desc: 'Strings only — JSON in, JSON out.', code: 'localStorage.setItem("theme", "dark");\nlocalStorage.getItem("theme");     // "dark"\nlocalStorage.removeItem("theme");\n\n// objects\nlocalStorage.setItem("prefs", JSON.stringify(prefs));\nconst prefs = JSON.parse(localStorage.getItem("prefs")) ?? {};' },
+      { label: 'localStorage', desc: 'Strings only - JSON in, JSON out.', code: 'localStorage.setItem("theme", "dark");\nlocalStorage.getItem("theme");     // "dark"\nlocalStorage.removeItem("theme");\n\n// objects\nlocalStorage.setItem("prefs", JSON.stringify(prefs));\nconst prefs = JSON.parse(localStorage.getItem("prefs")) ?? {};' },
       { label: 'JSON parse & stringify', desc: 'Pretty-print with the third argument.', code: 'const text = JSON.stringify(data);\nconst pretty = JSON.stringify(data, null, 2);\nconst obj = JSON.parse(text);\n\n// safe parse\nfunction tryParse(s, fallback = null) {\n  try { return JSON.parse(s); } catch { return fallback; }\n}' },
     ]},
   ],
