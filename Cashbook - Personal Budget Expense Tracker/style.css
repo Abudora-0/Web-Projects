@@ -928,37 +928,26 @@ html[data-theme="lamp"] .form-group input[type="date"] { color-scheme: dark; }
 #back-to-all:hover { color: var(--margin); border-color: var(--margin); }
 
 /* ═══════════ FORM CONTROLS ═══════════ */
-/* Drop the OS chrome on every select / number field and redraw it in the
-   ledger's own hand: a hand-inked chevron, brass focus, paper option list. */
-.tool-select,
-.form-group select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
+/* The native <select> pop-up and the native date picker ignore the ledger
+   palette entirely (system blue, white cells). Both are rebuilt from
+   scratch in controls.js; the real elements stay hidden as the value
+   store. What follows styles those hand-made parts. */
 
-.tool-select,
-.form-group select {
-  background-color: var(--card);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235c5546' stroke-width='2.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 9px center;
-  background-size: 11px;
-  padding-right: 28px;
+/* eased focus for the plain text fields + search box */
+.form-group input,
+.search-wrap {
+  transition: border-color .18s ease, box-shadow .22s ease,
+              background-color .18s ease, color .18s ease;
 }
-.tool-select:hover,
-.form-group select:hover { cursor: pointer; }
-
-/* option pop-up: honour the paper palette where the browser lets us */
-.tool-select option,
-.form-group select option {
-  background: var(--card);
-  color: var(--ink);
+.form-group input:focus,
+.search-wrap:focus-within {
+  border-color: var(--margin);
+  box-shadow: 0 6px 16px -8px rgba(40, 36, 28, .3);
 }
-
-html[data-theme="lamp"] .tool-select,
-html[data-theme="lamp"] .form-group select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23a89f88' stroke-width='2.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+.search-wrap:focus-within { color: var(--ink); }
+html[data-theme="lamp"] .form-group input:focus,
+html[data-theme="lamp"] .search-wrap:focus-within {
+  box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .55);
 }
 
 /* number fields: no OS spinner - amounts are typed, not clicked */
@@ -972,17 +961,277 @@ html[data-theme="lamp"] .form-group select {
   margin: 0;
 }
 
-/* date field: tone the picker glyph down to an ink smudge */
-.form-group input[type="date"]::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-  opacity: .5;
-  transition: opacity .2s;
-}
-.form-group input[type="date"]:hover::-webkit-calendar-picker-indicator,
-.form-group input[type="date"]:focus::-webkit-calendar-picker-indicator { opacity: .95; }
-
 /* checkbox: a stamped red tick in both lights */
-.check-row input[type="checkbox"] { accent-color: var(--red); }
+.check-row input[type="checkbox"] {
+  accent-color: var(--red);
+  transition: transform .15s ease;
+}
+.check-row input[type="checkbox"]:active { transform: scale(.88); }
+
+/* ─── custom select (combobox) ─── */
+.select-wrap { position: relative; display: inline-flex; vertical-align: middle; }
+.form-group .select-wrap { display: flex; width: 100%; }
+.cb-native { display: none; }
+
+.cb-trigger {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  font-family: var(--mono);
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--rule2);
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .18s ease, box-shadow .22s ease, background-color .18s ease;
+}
+.cb-value { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* masthead / ledger toolbar sizing */
+.tool-select + .cb-trigger,
+.masthead-tools .cb-trigger,
+.ledger-controls .cb-trigger {
+  font-size: .75rem;
+  color: var(--ink2);
+  padding: 7px 10px 7px 11px;
+}
+.masthead-tools .cb-trigger:hover,
+.ledger-controls .cb-trigger:hover { border-color: var(--ink2); color: var(--ink); }
+
+/* modal form sizing */
+.form-group .cb-trigger { font-size: .86rem; padding: 9px 11px; }
+
+.cb-trigger:focus-visible { outline: 2px solid var(--margin); outline-offset: 1px; }
+.cb.cb-open .cb-trigger,
+.cb-trigger:focus {
+  border-color: var(--margin);
+  box-shadow: 0 6px 16px -8px rgba(40, 36, 28, .3);
+}
+html[data-theme="lamp"] .cb.cb-open .cb-trigger,
+html[data-theme="lamp"] .cb-trigger:focus { box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .55); }
+
+.cb-caret {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transform-origin: center;
+  transition: transform .28s cubic-bezier(.34, 1.3, .64, 1);
+}
+.cb.cb-open .cb-caret { transform: translateY(1px) rotate(-135deg); }
+
+.cb-panel {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: 260px;
+  /* no scrollbar: the lists are short (max 11 rows) so the panel just
+     grows to fit; the flip-up logic keeps it on screen */
+  background: var(--card);
+  border: 1px solid var(--rule2);
+  border-top: 3px solid var(--margin);
+  border-radius: 4px 4px 8px 8px;
+  box-shadow: var(--shadow);
+  padding: 4px;
+  opacity: 0;
+  transform: translateY(-6px) scaleY(.96);
+  transform-origin: top;
+  pointer-events: none;
+  transition: opacity .16s ease, transform .18s cubic-bezier(.2, .8, .2, 1);
+}
+/* form comboboxes span the field; toolbar ones hug their edge */
+.form-group .cb-panel { max-width: 100%; }
+.masthead-tools .cb-panel { left: auto; right: 0; }
+/* open upward when the list would fall off the bottom */
+.cb.cb-flip .cb-panel {
+  top: auto;
+  bottom: calc(100% + 6px);
+  transform-origin: bottom;
+}
+.cb.cb-flip .cb-panel { transform: translateY(6px) scaleY(.96); }
+.cb.cb-flip.cb-open .cb-panel { transform: none; }
+.cb.cb-open .cb-panel {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.cb-opt {
+  font-family: var(--mono);
+  font-size: .8rem;
+  color: var(--ink);
+  padding: 6px 12px 6px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  transition: background-color .12s ease, color .12s ease;
+}
+.cb-opt:hover,
+.cb-opt.cb-active { background: var(--paper); color: var(--ink); }
+.cb-opt[aria-selected="true"] { color: var(--margin); font-weight: 600; }
+.cb-opt[aria-selected="true"]::before {
+  content: "✓";
+  position: absolute;
+  left: 9px;
+  font-size: .78rem;
+}
+
+/* ─── custom date picker ─── */
+.dp { position: relative; display: block; }
+.dp-input {
+  width: 100%;
+  cursor: pointer;
+  caret-color: transparent;
+  padding-right: 34px !important;
+}
+.dp-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  color: var(--ink3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color .18s ease, background-color .18s ease, transform .18s ease;
+}
+.dp-btn:hover { color: var(--margin); background: var(--red-soft); }
+.dp.dp-open .dp-btn { color: var(--margin); transform: translateY(-50%) scale(1.05); }
+.dp-btn:focus-visible { outline: 2px solid var(--margin); outline-offset: 1px; }
+
+.dp-panel {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 256px;
+  background: var(--card);
+  border: 1px solid var(--rule2);
+  border-top: 3px solid var(--margin);
+  border-radius: 4px 4px 8px 8px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+  opacity: 0;
+  transform: translateY(-6px) scale(.97);
+  transform-origin: top right;
+  pointer-events: none;
+  transition: opacity .16s ease, transform .18s cubic-bezier(.2, .8, .2, 1);
+}
+.dp.dp-open .dp-panel { opacity: 1; transform: none; pointer-events: auto; }
+.dp.dp-flip .dp-panel {
+  top: auto;
+  bottom: calc(100% + 6px);
+  transform-origin: bottom right;
+  transform: translateY(6px) scale(.97);
+}
+.dp.dp-flip.dp-open .dp-panel { transform: none; }
+
+.dp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.dp-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variant: small-caps;
+  letter-spacing: .03em;
+  font-size: .95rem;
+}
+.dp-nav {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--rule2);
+  background: var(--paper);
+  color: var(--ink2);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all .16s ease;
+}
+.dp-nav:hover { border-color: var(--margin); color: var(--margin); }
+
+.dp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.dp-dow {
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-align: center;
+  padding: 4px 0 6px;
+}
+.dp-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: .78rem;
+  color: var(--ink);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color .12s ease, border-color .12s ease, color .12s ease;
+}
+.dp-day:hover { background: var(--paper); border-color: var(--rule2); }
+.dp-day.dp-today { color: var(--margin); font-weight: 700; }
+.dp-day.dp-sel {
+  background: var(--margin);
+  border-color: var(--margin);
+  color: var(--paper);
+  font-weight: 700;
+}
+.dp-day.dp-sel:hover { background: var(--red); }
+
+.dp-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid var(--rule2);
+}
+.dp-link {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  background: none;
+  border: none;
+  border-bottom: 1px dashed transparent;
+  cursor: pointer;
+  padding: 0 0 1px;
+  transition: color .16s ease, border-color .16s ease;
+}
+.dp-link:hover { color: var(--margin); border-bottom-color: var(--margin); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-caret, .cb-panel, .dp-panel, .dp-btn { transition: none; }
+}
 
 /* ═══════════ RESPONSIVE ═══════════ */
 @media (max-width: 1020px) {

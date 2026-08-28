@@ -30,16 +30,18 @@
   </a>
   <p class="brand-tag">a&nbsp;personal&nbsp;ledger&nbsp;·&nbsp;kept&nbsp;by&nbsp;hand,&nbsp;balanced&nbsp;by&nbsp;machine</p>
   <div class="masthead-tools">
-    <select id="currencySel" class="tool-select" title="Currency" aria-label="Currency">
-      <option value="$">$ USD</option>
-      <option value="€">€ EUR</option>
-      <option value="£">£ GBP</option>
-      <option value="₹">₹ INR</option>
-      <option value="¥">¥ JPY</option>
-      <option value="₨">₨ PKR</option>
-      <option value="C$">C$ CAD</option>
-      <option value="A$">A$ AUD</option>
-    </select>
+    <span class="select-wrap">
+      <select id="currencySel" class="tool-select" title="Currency" aria-label="Currency">
+        <option value="$">$ USD</option>
+        <option value="€">€ EUR</option>
+        <option value="£">£ GBP</option>
+        <option value="₹">₹ INR</option>
+        <option value="¥">¥ JPY</option>
+        <option value="₨">₨ PKR</option>
+        <option value="C$">C$ CAD</option>
+        <option value="A$">A$ AUD</option>
+      </select>
+    </span>
     <button id="themeBtn" class="tool-btn" title="Day / lamp light (T)" aria-label="Toggle theme">
       <svg class="ic-day" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></svg>
       <svg class="ic-lamp" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l3 8H5l3-8Z"/><path d="M12 11v7"/><path d="M8 21h8"/></svg>
@@ -88,11 +90,13 @@
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.4" y2="16.4"/></svg>
             <input id="searchInput" type="text" placeholder="search particulars… ( / )" autocomplete="off">
           </div>
-          <select id="typeFilter" class="tool-select" aria-label="Filter by type">
-            <option value="">everything</option>
-            <option value="in">credits only</option>
-            <option value="out">debits only</option>
-          </select>
+          <span class="select-wrap">
+            <select id="typeFilter" class="tool-select" aria-label="Filter by type">
+              <option value="">everything</option>
+              <option value="in">credits only</option>
+              <option value="out">debits only</option>
+            </select>
+          </span>
         </div>
 
         <div class="ledger-sheet">
@@ -227,7 +231,7 @@
       </div>
       <div class="form-group">
         <label for="entryCategory">Category</label>
-        <select id="entryCategory" required></select>
+        <span class="select-wrap"><select id="entryCategory" required></select></span>
       </div>
       <div class="form-group">
         <label for="entryNote">Particulars</label>
@@ -257,7 +261,7 @@
       <input type="hidden" id="envId">
       <div class="form-group">
         <label for="envCategory">Category</label>
-        <select id="envCategory" required></select>
+        <span class="select-wrap"><select id="envCategory" required></select></span>
       </div>
       <div class="form-group">
         <label for="envLimit">Monthly allowance</label>
@@ -287,6 +291,7 @@
 <div id="toastWrap" class="toast-wrap" aria-live="polite"></div>
 
 <script src="script.js"></script>
+<script src="controls.js"></script>
 <a id="back-to-all" href="../index.html"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
 </body>
 </html>
