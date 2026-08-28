@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════
-   DINO RUN — pixel desert sunset
+   BADLANDS - pixel desert sunset
    Dusk-band sky, handheld-console shell around the canvas,
    sandstone + coral palette. body.night → plum midnight.
    ══════════════════════════════════════════════════════ */
@@ -116,7 +116,7 @@ body.night { filter: brightness(0.55) hue-rotate(18deg) saturate(0.8); }
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.65} }
 
-/* ── Canvas — the console screen ─────────────── */
+/* ── Canvas - the console screen ─────────────── */
 .canvas-box {
   width:100%;
   overflow: hidden;
@@ -152,7 +152,7 @@ canvas {
   outline: 2px solid var(--shell-edge);
 }
 
-/* ── Mobile buttons — chunky console keys ────── */
+/* ── Mobile buttons - chunky console keys ────── */
 .mob-row { display:none; gap:14px; margin-top:14px; }
 .mbtn {
   font-family: 'Press Start 2P', monospace;

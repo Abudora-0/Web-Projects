@@ -1,6 +1,6 @@
 'use strict';
 // ══════════════════════════════════════════════════════
-//  DINO RUN  —  full-featured Google dino clone
+//  BADLANDS  -  an endless runner in the Google dino mould
 // ══════════════════════════════════════════════════════
 
 const C  = document.getElementById('c');
@@ -67,7 +67,7 @@ const stars = Array.from({ length: 60 }, () => ({
 }));
 
 // ══════════════════════════════════════════════════════
-//  AUDIO  (Web Audio — no files needed)
+//  AUDIO  (Web Audio - no files needed)
 // ══════════════════════════════════════════════════════
 let _ac = null;
 function ac() { return _ac || (_ac = new (window.AudioContext || window.webkitAudioContext)()); }
@@ -304,26 +304,42 @@ function drawStartScreen() {
   cx.fillStyle = 'rgba(0,0,0,0.18)';
   FR(0, 0, CW, CH);
 
-  txt('DINO RUN', CW / 2, CH / 2 - 26, 22, pal.fg);
+  txt('BADLANDS', CW / 2, CH / 2 - 26, 22, pal.fg);
   txt('PRESS SPACE TO START', CW / 2, CH / 2 + 6, 8, nightMode ? '#8a76a8' : '#a3825f');
   txt('↑ JUMP  ·  ↓ DUCK  ·  COLLECT POWER-UPS', CW / 2, CH / 2 + 28, 6, nightMode ? '#5e4d80' : '#c2a077');
 }
 
 // ── Game-over screen ───────────────────────────────────
 function drawDeadScreen() {
-  cx.fillStyle = 'rgba(0,0,0,0.22)';
+  // full-bleed scrim - dims the whole screen so the panel reads as an end card
+  cx.fillStyle = nightMode ? 'rgba(9,6,20,0.62)' : 'rgba(38,20,12,0.5)';
   FR(0, 0, CW, CH);
 
-  txt('GAME OVER', CW / 2, CH / 2 - 44, 18, pal.fg);
-
+  // centred pixel panel
+  const pw = 344, ph = 188;
+  const px = Math.round((CW - pw) / 2), py = Math.round((CH - ph) / 2);
+  cx.fillStyle = nightMode ? '#221735' : '#f6e7c8';
+  FR(px, py, pw, ph);
   cx.fillStyle = nightMode ? '#4a3a63' : '#c9a86b';
-  FR(CW / 2 - 120, CH / 2 - 26, 240, 2);
+  FR(px, py, pw, 3); FR(px, py + ph - 3, pw, 3);
+  FR(px, py, 3, ph); FR(px + pw - 3, py, 3, ph);
 
-  txt(`SCORE  ${fmt(score)}`,    CW / 2, CH / 2 - 6,  10, pal.fg);
-  txt(`BEST   ${fmt(hiScore)}`,  CW / 2, CH / 2 + 16, 10, pal.fg);
+  const mid = CW / 2;
+  const newBest = score > 0 && score >= hiScore;
 
-  txt(`DODGED ${dodgeCount}  ·  TOP SPEED ${maxSpeed.toFixed(1)}`, CW / 2, CH / 2 + 38, 6, nightMode ? '#8a76a8' : '#a3825f');
-  txt('PRESS SPACE TO RESTART', CW / 2, CH / 2 + 60, 7, nightMode ? '#8a76a8' : '#c2a077');
+  txt('GAME OVER', mid, py + 34, 17, pal.fg);
+  cx.fillStyle = nightMode ? '#4a3a63' : '#c9a86b';
+  FR(mid - 104, py + 52, 208, 2);
+
+  txt(`SCORE  ${fmt(score)}`,   mid, py + 80,  9, pal.fg);
+  txt(`BEST   ${fmt(hiScore)}`, mid, py + 100, 9, newBest ? '#f4a259' : pal.fg);
+
+  if (newBest) txt('* NEW BEST *', mid, py + 122, 6, '#f4a259');
+  else txt(`DODGED ${dodgeCount}  ·  TOP SPEED ${maxSpeed.toFixed(1)}`, mid, py + 122, 5.5, nightMode ? '#8a76a8' : '#a3825f');
+
+  // blinking prompt
+  if (Math.floor(frame / 30) % 2 === 0)
+    txt('PRESS SPACE TO RESTART', mid, py + 154, 6.5, nightMode ? '#a68fce' : '#9a5f38');
 }
 
 // ══════════════════════════════════════════════════════
@@ -349,6 +365,10 @@ function loop() {
   raf = requestAnimationFrame(loop);
   frame++;
   if (state === 'run') update();
+  // settle the impact jolt on every screen, not just while running
+  shakeX *= 0.82; shakeY *= 0.82;
+  if (Math.abs(shakeX) < 0.15) shakeX = 0;
+  if (Math.abs(shakeY) < 0.15) shakeY = 0;
   render();
 }
 
@@ -430,9 +450,8 @@ function update() {
   if (comboTimer > 0) comboTimer--;
   else combo = 0;
 
-  // Particles + shake decay
+  // Particles
   updateParticles();
-  shakeX *= 0.78; shakeY *= 0.78;
 
   // Collision
   if (checkCollision()) triggerGameOver();
@@ -443,7 +462,8 @@ function update() {
 // ══════════════════════════════════════════════════════
 function render() {
   cx.save();
-  if (state === 'dead' && (Math.abs(shakeX) > 0.3 || Math.abs(shakeY) > 0.3))
+  // the impact jolt shakes the world, never the overlay
+  if (Math.abs(shakeX) > 0.3 || Math.abs(shakeY) > 0.3)
     cx.translate(shakeX + (Math.random() - 0.5) * 2, shakeY + (Math.random() - 0.5) * 2);
 
   cx.fillStyle = pal.bg;
@@ -469,10 +489,11 @@ function render() {
     cx.restore();
   }
 
+  cx.restore();
+
+  // ── Overlays: drawn on the steady frame, always full-bleed ──
   if (state === 'start') drawStartScreen();
   if (state === 'dead')  drawDeadScreen();
-
-  cx.restore();
 }
 
 // ══════════════════════════════════════════════════════
