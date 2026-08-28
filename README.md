@@ -33,7 +33,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | Project | Design identity | Highlights |
 |---|---|---|
 | [Badlands](Badlands/) | Pixel desert sunset, handheld-console shell | Canvas engine, power-ups, combo system, day/night |
-| [Snake Game](Snake%20Game/) | Nokia 3310 olive LCD in a candybar phone | Canvas, special food, levels, touch D-pad |
+| [Nibble](Nibble%20-%20Snake%20Game/) | Nokia 3310 olive LCD in a candybar phone | Classic/Wrap/Maze/Daily modes, combo scoring, swappable screen colour, local top-5, ghost run |
 | [Tic Tac Toe](Tic%20Tac%20Toe/) | Schoolyard chalkboard in a wooden frame | Minimax AI (3 difficulties), confetti, sound |
 | [Animated Car](Animated%20Car/) | "Neon Drive" synthwave highway | Pure-SVG car, gears & turbo, rain & night modes |
 | [Arcade Hub](Arcade%20Hub/) | CRT arcade cabinet with scanlines | 8 mini-games: Wordle, 2048, Simon, Memory & more |
@@ -151,7 +151,7 @@ web-projects/
 ├── Blog Website/        ├── The Cellar Door/
 ├── BootStrap Website/   ├── Cashbook/
 ├── Ephemeris/            ├── Portfolio/
-├── De Calc/             ├── Snake Game/
+├── De Calc/             ├── Nibble/
 ├── Badlands/            ├── SoundRoom/
 ├── Email Validator/     ├── Spotify Clone/
 ├── Ember & Anvil/       ├── The Apiary/

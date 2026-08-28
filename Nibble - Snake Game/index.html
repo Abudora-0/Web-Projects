@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+  <title>Nibble - LCD Snake</title>
+
+  <!-- Corner-snake LCD favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232d3250'/%3E%3Crect x='2' y='2' width='28' height='28' rx='3' fill='%239ead86'/%3E%3Cg fill='%232c3423'%3E%3Crect x='4' y='19' width='6' height='6'/%3E%3Crect x='10' y='19' width='6' height='6'/%3E%3Crect x='16' y='19' width='6' height='6'/%3E%3Crect x='16' y='13' width='6' height='6'/%3E%3Crect x='16' y='7' width='6' height='6'/%3E%3Crect x='22' y='7' width='6' height='6'/%3E%3C/g%3E%3Crect x='24' y='9' width='2' height='2' fill='%239ead86'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </noscript>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-left">
+      <svg class="nav-logo" viewBox="0 0 44 44" aria-hidden="true">
+        <g fill="currentColor">
+          <rect x="4" y="24" width="8" height="8"/><rect x="12" y="24" width="8" height="8"/>
+          <rect x="20" y="24" width="8" height="8"/><rect x="20" y="16" width="8" height="8"/>
+          <rect x="20" y="8" width="8" height="8"/><rect x="28" y="8" width="8" height="8"/>
+        </g>
+        <rect x="30" y="10" width="2" height="2" fill="var(--shell)"/>
+      </svg>
+      <span class="nav-title">Nib<span>ble</span></span>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn" id="settingsBtn" title="Settings" aria-label="Settings"><i class="fas fa-sliders"></i></button>
+      <button class="nav-btn" id="soundBtn" title="Toggle Sound" aria-label="Toggle sound"><i class="fas fa-volume-high" id="soundIcon"></i></button>
+    </div>
+  </nav>
+
+  <!-- Settings drawer -->
+  <div class="settings-panel hidden" id="settingsPanel">
+    <div class="set-row">
+      <span class="set-label">Screen</span>
+      <div class="swatches" id="screenSwatches">
+        <button class="swatch" data-screen="olive"   style="--sw:#9ead86" title="Olive LCD"></button>
+        <button class="swatch" data-screen="gameboy" style="--sw:#9bbc0f" title="Game Boy green"></button>
+        <button class="swatch" data-screen="amber"   style="--sw:#ffb641" title="Amber"></button>
+        <button class="swatch" data-screen="vfd"     style="--sw:#4dd0e1" title="Blue VFD"></button>
+      </div>
+    </div>
+    <div class="set-row">
+      <span class="set-label">Ghost of your best</span>
+      <button class="toggle-btn" id="ghostToggle" aria-pressed="true">On</button>
+    </div>
+    <div class="set-row">
+      <span class="set-label">Wipe all records</span>
+      <button class="toggle-btn danger" id="wipeBtn">Wipe</button>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-label">Score</span>
+      <span class="stat-val" id="scoreVal">0</span>
+    </div>
+    <div class="stat level">
+      <span class="stat-label">Level</span>
+      <span class="stat-val" id="levelVal">1</span>
+    </div>
+    <div class="stat best">
+      <span class="stat-label">Best</span>
+      <span class="stat-val" id="bestVal">0</span>
+    </div>
+    <div class="stat length">
+      <span class="stat-label">Length</span>
+      <span class="stat-val" id="lengthVal">3</span>
+    </div>
+  </div>
+
+  <!-- Speed bar -->
+  <div class="speed-track-wrap">
+    <div class="speed-label"><i class="fas fa-gauge-high"></i> Speed</div>
+    <div class="speed-track"><div class="speed-fill" id="speedFill"></div></div>
+    <div class="speed-max">MAX</div>
+  </div>
+
+  <!-- Canvas wrap + overlays -->
+  <div class="canvas-wrap">
+    <canvas id="gameCanvas" width="500" height="500"></canvas>
+
+    <!-- Start screen -->
+    <div class="overlay" id="startScreen">
+      <div class="ov-inner ov-scroll">
+        <h1 class="ov-title">NIBBLE</h1>
+        <div class="mode-select" id="modeSelect" role="group" aria-label="Game mode">
+          <button class="mode-chip is-on" data-mode="classic">Classic</button>
+          <button class="mode-chip" data-mode="wrap">Wrap</button>
+          <button class="mode-chip" data-mode="maze">Maze</button>
+          <button class="mode-chip" data-mode="daily">Daily</button>
+        </div>
+        <p class="mode-blurb" id="modeBlurb">Hit a wall or yourself and it's over.</p>
+        <button class="ov-btn primary" id="startBtn"><i class="fas fa-play"></i> Start</button>
+        <div class="ov-hints">
+          <span><kbd>&uarr;&darr;&larr;&rarr;</kbd> / <kbd>WASD</kbd> move</span>
+          <span><kbd>P</kbd> / <kbd>Space</kbd> pause</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pause screen -->
+    <div class="overlay hidden" id="pauseScreen">
+      <div class="ov-inner">
+        <i class="fas fa-pause ov-pause-icon"></i>
+        <h2 class="ov-title">PAUSED</h2>
+        <button class="ov-btn primary" id="resumeBtn"><i class="fas fa-play"></i> Resume</button>
+        <button class="ov-btn ghost" id="quitBtn"><i class="fas fa-stop"></i> Quit</button>
+      </div>
+    </div>
+
+    <!-- Game Over screen -->
+    <div class="overlay hidden" id="gameoverScreen">
+      <div class="ov-inner ov-scroll">
+        <div class="ov-go-emoji" id="goEmoji">&#9760;</div>
+        <h2 class="ov-title">GAME OVER</h2>
+        <div class="go-stats">
+          <div class="go-stat"><span class="gs-label">Score</span><span class="gs-val" id="goScore">0</span></div>
+          <div class="go-stat"><span class="gs-label">Level</span><span class="gs-val" id="goLevel">1</span></div>
+          <div class="go-stat"><span class="gs-label">Length</span><span class="gs-val" id="goLength">3</span></div>
+        </div>
+
+        <!-- initials entry (shown only when the run makes the board) -->
+        <form class="hi-entry hidden" id="hiEntry">
+          <span class="hi-entry-label"><i class="fas fa-trophy"></i> Top 5! Your mark:</span>
+          <input type="text" id="hiInitials" maxlength="3" autocomplete="off" spellcheck="false"
+                 inputmode="latin" aria-label="Your initials" />
+          <button type="submit" class="ov-btn primary sm">Save</button>
+        </form>
+
+        <button class="ov-btn primary" id="playAgainBtn"><i class="fas fa-rotate-right"></i> Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile D-pad -->
+  <div class="dpad" id="dpad">
+    <button class="dp-btn dp-up" data-dir="up" aria-label="Up">
+      <svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,3 18,17 2,17"/></svg>
+    </button>
+    <button class="dp-btn dp-left" data-dir="left" aria-label="Left">
+      <svg viewBox="0 0 20 20" fill="currentColor"><polygon points="3,10 17,2 17,18"/></svg>
+    </button>
+    <button class="dp-btn dp-center" aria-hidden="true" tabindex="-1">
+      <svg viewBox="0 0 20 20" fill="currentColor" opacity=".25"><circle cx="10" cy="10" r="3"/></svg>
+    </button>
+    <button class="dp-btn dp-right" data-dir="right" aria-label="Right">
+      <svg viewBox="0 0 20 20" fill="currentColor"><polygon points="17,10 3,2 3,18"/></svg>
+    </button>
+    <button class="dp-btn dp-down" data-dir="down" aria-label="Down">
+      <svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,17 2,3 18,3"/></svg>
+    </button>
+  </div>
+
+  <!-- High-score board -->
+  <div class="records">
+    <div class="records-head">
+      <span class="records-title"><i class="fas fa-award"></i> High Scores</span>
+      <div class="records-tabs" id="recordsTabs">
+        <button class="rec-tab is-on" data-mode="classic">Classic</button>
+        <button class="rec-tab" data-mode="wrap">Wrap</button>
+        <button class="rec-tab" data-mode="maze">Maze</button>
+        <button class="rec-tab" data-mode="daily">Daily</button>
+      </div>
+    </div>
+    <ol class="records-list" id="recordsList"></ol>
+    <p class="records-empty hidden" id="recordsEmpty">No runs logged yet. Go set one.</p>
+  </div>
+
+  <p class="footer-hint">
+    <span class="fh-red">&#9679;</span> food = 1pt &middot;
+    <span class="fh-gold">&#9733;</span> bonus food is worth more the faster you grab it &middot;
+    eat in quick succession for a combo &middot; speed climbs every 5 points
+  </p>
+
+  <script src="script.js"></script>
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#2d3250;color:#d7d9e8;border:1px solid #3c4268;border-bottom:4px solid #20243c;border-radius:12px;font-size:1rem;letter-spacing:0.08em;text-decoration:none;font-family:'VT323',monospace;text-transform:uppercase;transition:all .12s;white-space:nowrap;" onmouseover="this.style.background='#454b73'" onmouseout="this.style.background='#2d3250'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>
