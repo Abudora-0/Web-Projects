@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Flatbed - an editing bench for finding your next film. Browse, filter, screen trailers, see where to watch, and keep a log of what you've watched." />
+  <meta name="theme-color" content="#16171b" />
+  <title>The Flatbed - Find Your Next Film</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%2316171b'/><rect x='7' y='5' width='18' height='22' rx='1.6' fill='%23eef4f8'/><g fill='%2316171b'><rect x='9' y='8' width='2' height='2' rx='.6'/><rect x='9' y='12.5' width='2' height='2' rx='.6'/><rect x='9' y='17' width='2' height='2' rx='.6'/><rect x='9' y='21.5' width='2' height='2' rx='.6'/><rect x='21' y='8' width='2' height='2' rx='.6'/><rect x='21' y='12.5' width='2' height='2' rx='.6'/><rect x='21' y='17' width='2' height='2' rx='.6'/><rect x='21' y='21.5' width='2' height='2' rx='.6'/></g><path d='M12 16 C11 10 23 9 22.5 15.5 C22 22 12 22.5 11.5 16.5 C11.3 13 13.5 10.5 17 10.7' fill='none' stroke='%23ff5a1f' stroke-width='2.2' stroke-linecap='round'/></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Sprocket rails ─────────────────────────── -->
+<div class="rail rail-l" aria-hidden="true"></div>
+<div class="rail rail-r" aria-hidden="true"></div>
+
+<!-- ── Slate / header ─────────────────────────── -->
+<header class="slate" id="slate">
+  <div class="slate-clap" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="slate-inner">
+    <a href="#" class="brand" id="brandBtn">
+      <svg class="brand-mark" width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="6" y="4" width="20" height="24" rx="2" fill="currentColor"/>
+        <g fill="var(--deck)">
+          <rect x="8.2" y="6.6" width="2.4" height="2.4" rx=".7"/><rect x="8.2" y="11.4" width="2.4" height="2.4" rx=".7"/><rect x="8.2" y="16.2" width="2.4" height="2.4" rx=".7"/><rect x="8.2" y="21" width="2.4" height="2.4" rx=".7"/>
+          <rect x="21.4" y="6.6" width="2.4" height="2.4" rx=".7"/><rect x="21.4" y="11.4" width="2.4" height="2.4" rx=".7"/><rect x="21.4" y="16.2" width="2.4" height="2.4" rx=".7"/><rect x="21.4" y="21" width="2.4" height="2.4" rx=".7"/>
+        </g>
+        <path d="M12 17 C11 10 24 9 23.3 16.5 C22.8 24 12 24.5 11.4 17.3 C11.1 13 13.6 10.4 18 10.7" fill="none" stroke="var(--pencil)" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">The Flatbed</span>
+        <span class="brand-sub">Find your next film</span>
+      </span>
+    </a>
+
+    <!-- Slate fields: pure set-dressing that reports real state -->
+    <div class="slate-fields" aria-hidden="true">
+      <div class="sf"><span class="sf-k">ROLL</span><span class="sf-v" id="sfRoll">A</span></div>
+      <div class="sf"><span class="sf-k">SCENE</span><span class="sf-v" id="sfScene">TRENDING</span></div>
+      <div class="sf"><span class="sf-k">TAKE</span><span class="sf-v" id="sfTake">001</span></div>
+      <div class="sf sf-tc"><span class="sf-k">TC</span><span class="sf-v" id="sfTC">00:00:00:00</span></div>
+    </div>
+
+    <div class="slate-actions">
+      <div class="search" id="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Search titles…" autocomplete="off" aria-label="Search films" />
+        <kbd class="search-kbd">/</kbd>
+        <button class="search-clear hidden" id="searchClear" aria-label="Clear search">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <button class="ibtn" id="spliceBtn" title="Random splice - pull a film at random (R)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.2" fill="currentColor"/></svg>
+        <span class="ibtn-label">Splice</span>
+      </button>
+
+      <button class="ibtn" id="binsBtn" title="Your bins (B)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7l2-4h14l2 4"/><line x1="9" y1="12" x2="15" y2="12"/></svg>
+        <span class="ibtn-label">Bins</span>
+        <span class="nb" id="binsCount">0</span>
+      </button>
+
+      <button class="ibtn ibtn-filter" id="filterBtn" title="Filter rig (F)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="9" cy="6" r="2.4" fill="var(--deck)"/><circle cx="15" cy="12" r="2.4" fill="var(--deck)"/><circle cx="8" cy="18" r="2.4" fill="var(--deck)"/></svg>
+        <span class="ibtn-label">Rig</span>
+        <span class="nb nb-dot hidden" id="filterDot"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Reels (categories) -->
+  <nav class="reels" id="reels" aria-label="Categories">
+    <button class="reel active" data-category="trending">Trending</button>
+    <button class="reel" data-category="popular">Popular</button>
+    <button class="reel" data-category="top_rated">Top Rated</button>
+    <button class="reel" data-category="now_playing">In Theatres</button>
+    <button class="reel" data-category="upcoming">Upcoming</button>
+  </nav>
+</header>
+
+<!-- ── Filter rig ─────────────────────────────── -->
+<section class="rig hidden" id="rig" aria-label="Filter rig">
+  <div class="rig-inner">
+    <div class="rig-head">
+      <h2 class="rig-title">Filter rig</h2>
+      <button class="rig-reset" id="rigReset">Reset all</button>
+    </div>
+
+    <div class="rig-grid">
+      <!-- Genres -->
+      <div class="rig-field rig-field-wide">
+        <label class="rig-label">Genre</label>
+        <div class="chips" id="genreChips"></div>
+      </div>
+
+      <!-- Year -->
+      <div class="rig-field">
+        <label class="rig-label" for="yearFrom">Release years</label>
+        <div class="rig-pair">
+          <input type="number" id="yearFrom" class="rig-input" min="1900" max="2100" placeholder="1900" aria-label="Earliest year">
+          <span class="rig-dash">to</span>
+          <input type="number" id="yearTo" class="rig-input" min="1900" max="2100" placeholder="2026" aria-label="Latest year">
+        </div>
+      </div>
+
+      <!-- Runtime -->
+      <div class="rig-field" id="runtimeField">
+        <label class="rig-label" for="runtimeMax">Runtime under <span class="rig-out" id="runtimeOut">any</span></label>
+        <input type="range" id="runtimeMax" class="rig-range" min="60" max="240" step="5" value="240">
+        <p class="rig-note hidden" id="runtimeNote">Runtime filter applies when browsing, not to search results.</p>
+      </div>
+
+      <!-- Rating -->
+      <div class="rig-field">
+        <label class="rig-label" for="ratingMin">Rated at least <span class="rig-out" id="ratingOut">any</span></label>
+        <input type="range" id="ratingMin" class="rig-range" min="0" max="9" step="0.5" value="0">
+      </div>
+
+      <!-- Votes -->
+      <div class="rig-field">
+        <label class="rig-label" for="votesMin">Minimum votes <span class="rig-out" id="votesOut">any</span></label>
+        <input type="range" id="votesMin" class="rig-range" min="0" max="5000" step="100" value="0">
+      </div>
+
+      <!-- Sort -->
+      <div class="rig-field">
+        <label class="rig-label" for="sortSelect">Order by</label>
+        <select class="rig-select" id="sortSelect">
+          <option value="popularity.desc">Most popular</option>
+          <option value="vote_average.desc">Highest rated</option>
+          <option value="primary_release_date.desc">Newest first</option>
+          <option value="primary_release_date.asc">Oldest first</option>
+          <option value="revenue.desc">Biggest box office</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Feature strip ──────────────────────────── -->
+<section class="feature" id="feature" aria-label="Featured film">
+  <div class="feature-bg" id="featureBg"></div>
+  <div class="feature-scrim"></div>
+  <div class="feature-body" id="featureBody"></div>
+</section>
+
+<!-- ── Recommendations ────────────────────────── -->
+<section class="recs hidden" id="recs" aria-label="Recommended for you">
+  <div class="recs-inner">
+    <div class="d-h" id="recsHead">Cut from your reels</div>
+    <div class="rail-row" id="recsRow"></div>
+  </div>
+</section>
+
+<!-- ── Main ───────────────────────────────────── -->
+<main id="main">
+  <div class="bay-head">
+    <h2 class="bay-title" id="bayTitle">Trending this week</h2>
+    <span class="bay-count" id="bayCount"></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="empty hidden" id="empty">
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="17" y2="20"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+    <h3 id="emptyTitle">Nothing in this bin</h3>
+    <p id="emptyMsg">Loosen the filter rig or try different words.</p>
+  </div>
+
+  <div class="more-wrap hidden" id="moreWrap">
+    <button class="more-btn" id="moreBtn">
+      <span>Pull more frames</span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </div>
+
+  <div class="loader hidden" id="loader" role="status" aria-live="polite">
+    <div class="loader-reel"><span></span><span></span><span></span></div>
+    <p>Threading the projector…</p>
+  </div>
+</main>
+
+<!-- ── Detail modal ───────────────────────────── -->
+<div class="modal hidden" id="detailModal" role="dialog" aria-modal="true" aria-label="Film details">
+  <div class="modal-bg" data-close="detail"></div>
+  <div class="sheet sheet-detail">
+    <button class="sheet-close" data-close="detail" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<!-- ── Person modal ───────────────────────────── -->
+<div class="modal hidden" id="personModal" role="dialog" aria-modal="true" aria-label="Person">
+  <div class="modal-bg" data-close="person"></div>
+  <div class="sheet sheet-person">
+    <button class="sheet-close" data-close="person" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="personBody"></div>
+  </div>
+</div>
+
+<!-- ── Bins drawer ────────────────────────────── -->
+<div class="modal hidden" id="binsModal" role="dialog" aria-modal="true" aria-label="Your bins">
+  <div class="modal-bg" data-close="bins"></div>
+  <aside class="drawer">
+    <div class="drawer-head">
+      <h3 class="drawer-title">Your bins</h3>
+      <button class="sheet-close" data-close="bins" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-tabs" id="drawerTabs">
+      <button class="dtab active" data-bin="bin">Bin <span class="dtab-n" id="nBin">0</span></button>
+      <button class="dtab" data-bin="selects">Selects <span class="dtab-n" id="nSelects">0</span></button>
+      <button class="dtab" data-bin="watched">Watched <span class="dtab-n" id="nWatched">0</span></button>
+    </div>
+    <p class="drawer-hint" id="drawerHint">Films you mean to watch.</p>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+</div>
+
+<!-- ── Toast ──────────────────────────────────── -->
+<div id="toastWrap" class="toast-wrap" aria-live="polite"></div>
+
+<!-- ── Scroll top ─────────────────────────────── -->
+<button id="scrollTop" class="scroll-top" aria-label="Back to top">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- ── Footer ─────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">The Flatbed</div>
+    <p class="footer-keys">
+      <kbd>/</kbd> search · <kbd>F</kbd> filter rig · <kbd>B</kbd> bins · <kbd>R</kbd> random · <kbd>Esc</kbd> close
+    </p>
+    <p class="footer-note">Film data from <a href="https://www.themoviedb.org/" target="_blank" rel="noopener">TMDB</a>. Your bins live in this browser only.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(15,16,19,0.9);color:#ff7a45;border:1px solid rgba(255,90,31,0.35);border-radius:4px;font-size:0.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;backdrop-filter:blur(12px);font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(255,90,31,0.18)';this.style.borderColor='rgba(255,90,31,0.6)'" onmouseout="this.style.background='rgba(15,16,19,0.9)';this.style.borderColor='rgba(255,90,31,0.35)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>
