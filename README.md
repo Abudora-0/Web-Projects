@@ -75,7 +75,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Cinder & Salt](Cinder%20%26%20Salt/) | Warm artisan eatery, cooked over fire | Split hero, menu cards with price leaders, map, contact |
 | [The Order Window](The%20Order%20Window/) | Late-night diner take-out window | Ticket-rail menu, cart-as-spike, kitchen-timer checkout |
 | [Thread & Rail](Thread%20%26%20Rail/) | Garment-district showroom | Rolling clothing rack, size/color picker, cart & checkout |
-| [Kestrel](Kestrel/) | Small-batch clothing label, editorial | Lookbook, collections, filterable range, archive sale timer |
+| [Kestrel](Kestrel/) | Small-batch clothing label, editorial | Product + bag pages, localStorage bag, lookbook, filterable range, archive timer |
 | [The Perfumer's Atelier](The%20Perfumer's%20Atelier/) | Backlit perfume light table | Scent-note pyramid, glass-bottle illustrations, cart & checkout |
 | [The Terminal](The%20Terminal/) | Dark HUD gadget spec-browser | Exploded-view diagrams, live spec compare, terminal checkout |
 | [The Drop](The%20Drop/) | Hype-drop streetwear release | Live countdown, box-opening reveal, stock badges, cart & checkout |
