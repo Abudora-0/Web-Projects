@@ -27,7 +27,6 @@ function setLS(key, val) {
 /* ── Init ──────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initParticles();
-  initTheme();
   initNavbar();
   initHamburger();
   initFilters();
@@ -102,29 +101,6 @@ function initParticles() {
     requestAnimationFrame(draw);
   }
   draw();
-}
-
-/* ══════════════════════════════════════════════
-   THEME TOGGLE
-══════════════════════════════════════════════ */
-function initTheme() {
-  const btn  = document.getElementById('themeToggle');
-  const icon = btn && btn.querySelector('.theme-icon');
-  const pref = getLS('arcadeTheme', 'dark');
-
-  function apply(t) {
-    document.body.classList.toggle('light', t === 'light');
-    if (icon) icon.textContent = t === 'light' ? '🌙' : '☀️';
-  }
-  apply(pref);
-
-  if (btn) {
-    btn.addEventListener('click', () => {
-      const next = document.body.classList.contains('light') ? 'dark' : 'light';
-      setLS('arcadeTheme', next);
-      apply(next);
-    });
-  }
 }
 
 /* ══════════════════════════════════════════════
@@ -235,13 +211,13 @@ function initFavourites() {
 }
 
 /* ══════════════════════════════════════════════
-   SCORES — cards & leaderboard
+   SCORES - cards & leaderboard
 ══════════════════════════════════════════════ */
 function updateScoreCards() {
   GAMES.forEach(g => {
     const el  = document.getElementById('score-' + g.id);
     const raw = localStorage.getItem(g.scoreKey);
-    if (el) el.textContent = (raw && raw !== '0' && raw !== '-' && raw !== '00:00') ? raw : '—';
+    if (el) el.textContent = (raw && raw !== '0' && raw !== '-' && raw !== '00:00') ? raw : '-';
   });
   updateStatCards();
 }
@@ -397,8 +373,13 @@ function initScrollTop() {
 ══════════════════════════════════════════════ */
 function toast(msg, dur) {
   dur = dur || 2500;
-  const wrap = document.getElementById('toastWrap');
-  if (!wrap) return;
+  let wrap = document.getElementById('toastWrap');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = 'toastWrap';
+    wrap.className = 'toast-wrap';
+    document.body.appendChild(wrap);
+  }
   const el = document.createElement('div');
   el.className = 'toast';
   el.textContent = msg;

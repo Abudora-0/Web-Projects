@@ -45,9 +45,6 @@
     </div>
 
     <div class="nav-right">
-      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
-        <span class="theme-icon">🌙</span>
-      </button>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
@@ -58,11 +55,11 @@
 <!-- ── Hero ─────────────────────────────────── -->
 <section class="hero" id="home">
   <div class="hero-content">
-    <div class="hero-badge">🎮 8 Games • Play Free</div>
+    <div class="hero-badge"><svg class="badge-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="12" rx="6"></rect><line x1="7" y1="11" x2="7" y2="15"></line><line x1="5" y1="13" x2="9" y2="13"></line><circle cx="16" cy="11.5" r="1"></circle><circle cx="18.5" cy="14" r="1"></circle></svg> 8 Games • Play Free</div>
     <h1 class="hero-title">Your <span class="gradient-text">Arcade</span><br>Awaits</h1>
     <p class="hero-subtitle">Classic games, modern vibes. Challenge yourself and beat your high scores.</p>
     <div class="hero-actions">
-      <a href="#games" class="cta-primary">Play Now <span class="arrow">→</span></a>
+      <a href="#games" class="cta-primary">Play Now <svg class="arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       <a href="#scores" class="cta-secondary">View Scores</a>
     </div>
     <div class="hero-stats">
@@ -93,7 +90,7 @@
 <!-- ── Recently Played ───────────────────────── -->
 <section class="recent-section" id="recentSection">
   <div class="inner">
-    <div class="section-label">⏱ Recently Played</div>
+      <div class="section-label"><svg class="label-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg> Recently Played</div>
     <div class="recent-strip" id="recentStrip">
       <!-- populated by JS -->
     </div>
@@ -105,7 +102,7 @@
   <div class="inner">
     <div class="section-header">
       <div>
-        <div class="section-label">🎮 Game Library</div>
+        <div class="section-label"><svg class="label-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="12" rx="6"></rect><line x1="7" y1="11" x2="7" y2="15"></line><line x1="5" y1="13" x2="9" y2="13"></line><circle cx="16" cy="11.5" r="1"></circle><circle cx="18.5" cy="14" r="1"></circle></svg> Game Library</div>
         <h2>Choose Your Game</h2>
       </div>
       <div class="filter-bar">
@@ -130,15 +127,15 @@
           <h3>Memory Game</h3>
           <p>Match pairs of cards as fast as you can. Tests concentration and recall.</p>
           <div class="card-meta">
-            <span class="meta-pill">Easy → Hard</span>
+            <span class="meta-pill">Easy - Hard</span>
             <span class="meta-pill">5–10 min</span>
           </div>
           <div class="best-score" data-score-key="memoryBestTime" data-prefix="Best: " data-suffix="">
             <span class="bs-label">Best Time</span>
-            <span class="bs-val" id="score-memory">—</span>
+            <span class="bs-val" id="score-memory">-</span>
           </div>
         </div>
-        <a href="memory.html" class="play-btn" style="--c:#8b5cf6">Play <span>→</span></a>
+        <a href="memory.html" class="play-btn" style="--c:#8b5cf6">Play <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       </div>
 
       <div class="game-card" data-game="snake" data-cat="arcade">
@@ -151,15 +148,15 @@
           <h3>Snake</h3>
           <p>Eat, grow, survive. Don't bite yourself or hit the walls.</p>
           <div class="card-meta">
-            <span class="meta-pill">Medium → Hard</span>
+            <span class="meta-pill">Medium - Hard</span>
             <span class="meta-pill">Endless</span>
           </div>
           <div class="best-score">
             <span class="bs-label">High Score</span>
-            <span class="bs-val" id="score-snake">—</span>
+            <span class="bs-val" id="score-snake">-</span>
           </div>
         </div>
-        <a href="snake.html" class="play-btn" style="--c:#10b981">Play <span>→</span></a>
+        <a href="snake.html" class="play-btn" style="--c:#10b981">Play <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       </div>
 
       <div class="game-card" data-game="wordle" data-cat="word">
@@ -177,10 +174,10 @@
           </div>
           <div class="best-score">
             <span class="bs-label">Best Score</span>
-            <span class="bs-val" id="score-wordle">—</span>
+            <span class="bs-val" id="score-wordle">-</span>
           </div>
         </div>
-        <a href="wordle.html" class="play-btn" style="--c:#f59e0b">Play <span>→</span></a>
+        <a href="wordle.html" class="play-btn" style="--c:#f59e0b">Play <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       </div>
 
       <div class="game-card" data-game="2048" data-cat="puzzle">
@@ -198,10 +195,10 @@
           </div>
           <div class="best-score">
             <span class="bs-label">Best Score</span>
-            <span class="bs-val" id="score-2048">—</span>
+            <span class="bs-val" id="score-2048">-</span>
           </div>
         </div>
-        <a href="2048.html" class="play-btn" style="--c:#ef4444">Play <span>→</span></a>
+        <a href="2048.html" class="play-btn" style="--c:#ef4444">Play <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       </div>
 
       <div class="game-card" data-game="hangman" data-cat="word">
@@ -214,15 +211,15 @@
           <h3>Hangman</h3>
           <p>Reveal the hidden word letter by letter before running out of guesses.</p>
           <div class="card-meta">
-            <span class="meta-pill">Easy → Medium</span>
+            <span class="meta-pill">Easy - Medium</span>
             <span class="meta-pill">3–8 min</span>
           </div>
           <div class="best-score">
             <span class="bs-label">Win Streak</span>
-            <span class="bs-val" id="score-hangman">—</span>
+            <span class="bs-val" id="score-hangman">-</span>
           </div>
         </div>
-        <a href="hangman.html" class="play-btn" style="--c:#3b82f6">Play <span>→</span></a>
+        <a href="hangman.html" class="play-btn" style="--c:#3b82f6">Play <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       </div>
 
       <div class="game-card" data-game="tictactoe" data-cat="strategy">
@@ -233,17 +230,17 @@
         </div>
         <div class="card-body">
           <h3>Tic Tac Toe</h3>
-          <p>Challenge the AI. Three in a row wins — simple to learn, hard to master.</p>
+          <p>Challenge the AI. Three in a row wins - simple to learn, hard to master.</p>
           <div class="card-meta">
-            <span class="meta-pill">Easy → Hard</span>
+            <span class="meta-pill">Easy - Hard</span>
             <span class="meta-pill">2–5 min</span>
           </div>
           <div class="best-score">
             <span class="bs-label">Total Wins</span>
-            <span class="bs-val" id="score-tictactoe">—</span>
+            <span class="bs-val" id="score-tictactoe">-</span>
           </div>
         </div>
-        <a href="tictactoe.html" class="play-btn" style="--c:#00d4ff">Play <span>→</span></a>
+        <a href="tictactoe.html" class="play-btn" style="--c:#00d4ff">Play <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       </div>
 
       <div class="game-card" data-game="simon" data-cat="arcade">
@@ -256,15 +253,15 @@
           <h3>Simon Says</h3>
           <p>Watch the pattern, repeat it back. Each round adds one more colour.</p>
           <div class="card-meta">
-            <span class="meta-pill">Medium → Hard</span>
+            <span class="meta-pill">Medium - Hard</span>
             <span class="meta-pill">Endless</span>
           </div>
           <div class="best-score">
             <span class="bs-label">Best Level</span>
-            <span class="bs-val" id="score-simon">—</span>
+            <span class="bs-val" id="score-simon">-</span>
           </div>
         </div>
-        <a href="simon.html" class="play-btn" style="--c:#ff006e">Play <span>→</span></a>
+        <a href="simon.html" class="play-btn" style="--c:#ff006e">Play <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       </div>
 
       <div class="game-card" data-game="quiz" data-cat="trivia">
@@ -277,15 +274,15 @@
           <h3>Quiz Master</h3>
           <p>10 trivia questions across different topics. How many can you ace?</p>
           <div class="card-meta">
-            <span class="meta-pill">Easy → Medium</span>
+            <span class="meta-pill">Easy - Medium</span>
             <span class="meta-pill">3–5 min</span>
           </div>
           <div class="best-score">
             <span class="bs-label">Best Score</span>
-            <span class="bs-val" id="score-quiz">—</span>
+            <span class="bs-val" id="score-quiz">-</span>
           </div>
         </div>
-        <a href="quiz.html" class="play-btn" style="--c:#f97316">Play <span>→</span></a>
+        <a href="quiz.html" class="play-btn" style="--c:#f97316">Play <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
       </div>
 
     </div>
@@ -297,7 +294,7 @@
   <div class="inner">
     <div class="section-header">
       <div>
-        <div class="section-label">🏆 Your Progress</div>
+        <div class="section-label"><svg class="label-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v6a5 5 0 0 1-10 0V4z"></path><path d="M7 5H4a2 2 0 0 0 0 4h3"></path><path d="M17 5h3a2 2 0 0 1 0 4h-3"></path></svg> Your Progress</div>
         <h2>High Scores</h2>
       </div>
       <button class="clear-btn" id="clearStatsBtn">Reset All</button>
@@ -348,29 +345,29 @@
 <section class="about-section" id="about">
   <div class="inner about-inner">
     <div class="about-text">
-      <div class="section-label">ℹ️ About</div>
+      <div class="section-label"><svg class="label-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="11" x2="12" y2="16"></line><circle cx="12" cy="7.5" r="0.5" fill="currentColor" stroke="none"></circle></svg> About</div>
       <h2>What is ArcadeHub?</h2>
-      <p>ArcadeHub is a hand-crafted collection of classic browser games — built purely with HTML, CSS, and vanilla JavaScript. No installs, no accounts, no ads. Just games.</p>
+      <p>ArcadeHub is a hand-crafted collection of classic browser games - built purely with HTML, CSS, and vanilla JavaScript. No installs, no accounts, no ads. Just games.</p>
       <p>All your scores are saved locally so your progress is always there when you come back.</p>
     </div>
     <div class="features-grid">
       <div class="feat">
-        <div class="feat-icon" style="--c:#00d4ff">⚡</div>
+        <div class="feat-icon" style="--c:#00d4ff"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
         <h4>Instant Play</h4>
         <p>No loading screens or installs</p>
       </div>
       <div class="feat">
-        <div class="feat-icon" style="--c:#8b5cf6">💾</div>
+        <div class="feat-icon" style="--c:#8b5cf6"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg></div>
         <h4>Auto-Save</h4>
         <p>Progress saved in your browser</p>
       </div>
       <div class="feat">
-        <div class="feat-icon" style="--c:#10b981">📱</div>
+        <div class="feat-icon" style="--c:#10b981"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg></div>
         <h4>All Devices</h4>
         <p>Works on desktop and mobile</p>
       </div>
       <div class="feat">
-        <div class="feat-icon" style="--c:#ff006e">🎨</div>
+        <div class="feat-icon" style="--c:#ff006e"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"></path><circle cx="12" cy="12" r="2.5"></circle></svg></div>
         <h4>Polished UI</h4>
         <p>Carefully crafted experience</p>
       </div>
@@ -401,7 +398,7 @@
 </footer>
 
 <!-- ── Scroll Top ─────────────────────────────── -->
-<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Back to top" title="Back to top">↑</button>
+<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Back to top" title="Back to top"><svg class="arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button>
 
 <!-- ── Toast ──────────────────────────────────── -->
 <div id="toastWrap" class="toast-wrap"></div>

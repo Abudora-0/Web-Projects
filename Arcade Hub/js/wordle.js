@@ -145,17 +145,40 @@ function initGame() {
 }
 
 function createKeyboard() {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  
+  const rows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+
   keyboard.innerHTML = '';
 
-  alphabet.forEach(letter => {
-    const btn = document.createElement('button');
-    btn.className = 'key';
-    btn.textContent = letter;
-    btn.id = `key-${letter}`;
-    btn.onclick = () => guessLetter(letter);
-    keyboard.appendChild(btn);
+  rows.forEach((row, rowIndex) => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'kb-row';
+
+    if (rowIndex === 2) {
+      const enter = document.createElement('button');
+      enter.className = 'key key-wide';
+      enter.textContent = 'ENTER';
+      enter.onclick = submitGuess;
+      rowEl.appendChild(enter);
+    }
+
+    row.split('').forEach(letter => {
+      const btn = document.createElement('button');
+      btn.className = 'key';
+      btn.textContent = letter;
+      btn.id = `key-${letter}`;
+      btn.onclick = () => guessLetter(letter);
+      rowEl.appendChild(btn);
+    });
+
+    if (rowIndex === 2) {
+      const del = document.createElement('button');
+      del.className = 'key key-wide';
+      del.textContent = 'DEL';
+      del.onclick = deleteLetter;
+      rowEl.appendChild(del);
+    }
+
+    keyboard.appendChild(rowEl);
   });
 }
 
@@ -186,17 +209,28 @@ function newGame() {
 }
 
 function guessLetter(letter) {
-  if (gameOver || currentGuess.length >= 5 || guessedLetters.has(letter)) {
+  if (gameOver || currentGuess.length >= 5) {
     return;
   }
 
   currentGuess += letter;
-  guessedLetters.add(letter);
 
   const tileIndex = guessCount * 5 + currentGuess.length - 1;
   const tile = document.getElementById(`tile-${tileIndex}`);
   tile.textContent = letter;
   tile.classList.add('filled');
+
+  updateUI();
+}
+
+function deleteLetter() {
+  if (gameOver || currentGuess.length === 0) return;
+
+  currentGuess = currentGuess.slice(0, -1);
+  const tileIndex = guessCount * 5 + currentGuess.length;
+  const tile = document.getElementById(`tile-${tileIndex}`);
+  tile.textContent = '';
+  tile.classList.remove('filled');
 
   updateUI();
 }
@@ -229,6 +263,9 @@ function revealGuess() {
   for (let i = 0; i < 5; i++) {
     tiles.push(document.getElementById(`tile-${guessCount * 5 + i}`));
   }
+
+  // Remember which letters have been played, for keyboard colouring
+  currentGuess.split('').forEach(l => guessedLetters.add(l));
 
   // Check each letter
   const targetArray = targetWord.split('');
@@ -343,27 +380,14 @@ document.addEventListener('keydown', (e) => {
   if (gameOver) return;
 
   const letter = e.key.toUpperCase();
-  if (/^[A-Z]$/.test(letter) && !guessedLetters.has(letter)) {
+  if (/^[A-Z]$/.test(letter)) {
     guessLetter(letter);
   } else if (e.key === 'Enter') {
     submitGuess();
   } else if (e.key === 'Backspace') {
-    if (currentGuess.length > 0) {
-      currentGuess = currentGuess.slice(0, -1);
-      const tileIndex = guessCount * 5 + currentGuess.length;
-      const tile = document.getElementById(`tile-${tileIndex}`);
-      tile.textContent = '';
-      tile.classList.remove('filled');
-      updateUI();
-    }
+    deleteLetter();
   }
 });
-
-// Add submit button functionality
-wordleGrid.parentElement.insertAdjacentHTML(
-  'afterend',
-  '<div style="text-align: center; margin: 1rem 0;"><button class="btn" onclick="submitGuess()" style="padding: 0.8rem 2rem;">Submit Guess</button></div>'
-);
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', initGame);

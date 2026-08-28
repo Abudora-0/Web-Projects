@@ -8,118 +8,42 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .game-header {
-      text-align: center;
-      margin: 2rem 0;
-    }
-
-    .game-header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .game-container {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .game-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-      background: rgba(45, 53, 97, 0.5);
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      border: 1px solid rgba(0, 212, 255, 0.2);
-    }
-
     .stat {
       text-align: center;
     }
 
     .stat label {
       display: block;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
+      font-size: 0.68rem;
+      color: var(--lcd-ink-soft);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      font-family: var(--font-display);
     }
 
     .stat .value {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--primary-color);
-    }
-
-    .board {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin: 2rem 0;
-      background: rgba(30, 35, 70, 0.6);
-      padding: 1.5rem;
-      border-radius: 1rem;
-      border: 2px solid rgba(0, 212, 255, 0.2);
-    }
-
-    .cell {
-      aspect-ratio: 1;
-      background: linear-gradient(135deg, rgba(45, 53, 97, 0.8), rgba(26, 31, 58, 0.8));
-      border: 2px solid rgba(0, 212, 255, 0.3);
-      border-radius: 0.75rem;
-      font-size: 2.5rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-primary);
-    }
-
-    .cell:hover:not(:disabled) {
-      border-color: var(--primary-color);
-      background: linear-gradient(135deg, rgba(45, 53, 97, 0.95), rgba(26, 31, 58, 0.95));
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
-    }
-
-    .cell:disabled {
-      cursor: not-allowed;
-    }
-
-    .cell.x {
-      color: var(--primary-color);
-      text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-    }
-
-    .cell.o {
-      color: var(--secondary-color);
-      text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
+      color: var(--lcd-ink);
+      font-family: var(--font-display);
     }
 
     .message {
       text-align: center;
-      font-size: 1.1rem;
+      font-size: .9rem;
       font-weight: 600;
-      margin: 1rem 0;
-      min-height: 1.5rem;
-      color: var(--primary-color);
+      margin: .4rem 0;
+      min-height: 1.2rem;
+      color: var(--lcd-ink);
     }
 
     .message.draw {
-      color: var(--warning-color);
+      color: var(--lcd-warn);
     }
 
     .message.win {
-      color: var(--success-color);
+      color: var(--lcd-good);
     }
 
     .controls {
@@ -127,111 +51,62 @@
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .btn {
-      padding: 0.9rem 1.8rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-      color: var(--dark-bg);
-      border: none;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 1rem;
-      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-    }
-
-    .btn.secondary {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(131, 56, 236, 0.1));
-      color: var(--primary-color);
-      border: 2px solid rgba(0, 212, 255, 0.3);
-    }
-
-    .btn.secondary:hover {
-      border-color: var(--primary-color);
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(131, 56, 236, 0.2));
+      margin-bottom: .5rem;
     }
 
     .difficulty {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: .6rem;
     }
 
     .difficulty-buttons {
       display: flex;
-      gap: 1rem;
+      gap: .6rem;
       justify-content: center;
       flex-wrap: wrap;
     }
 
     .difficulty-btn {
       padding: 0.6rem 1.2rem;
-      background: rgba(0, 212, 255, 0.1);
-      color: var(--primary-color);
-      border: 2px solid rgba(0, 212, 255, 0.3);
-      border-radius: 0.5rem;
-      font-weight: 600;
+      background: var(--lcd-bg-deep);
+      color: var(--lcd-ink);
+      border: 2px solid var(--lcd-ink);
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: .75rem;
+      font-family: var(--font-display);
       cursor: pointer;
-      transition: var(--transition);
+      transition: var(--trans);
     }
 
     .difficulty-btn.active {
-      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-      color: var(--dark-bg);
-      border-color: var(--primary-color);
+      background: var(--lcd-ink);
+      color: var(--lcd-bg);
+      border-color: var(--lcd-ink);
     }
 
     .difficulty-btn:hover {
-      border-color: var(--primary-color);
-      transform: translateY(-2px);
+      background: var(--lcd-bg);
+    }
+
+    @media (max-width: 680px) {
+      .game-stats { grid-template-columns: repeat(3, 1fr); }
+      .stat .value { font-size: 1.2rem; }
+      .stat label { font-size: .6rem; }
+      .difficulty-buttons { gap: .4rem; }
+      .difficulty-btn { flex: 1 1 0; padding: .65rem .3rem; font-size: .68rem; }
     }
   </style>
 </head>
-<body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <div class="logo-icon">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="36" height="36" rx="6" fill="none" stroke="url(#logoGradient)" stroke-width="2.5"/>
-            <circle cx="10" cy="10" r="3" fill="url(#logoGradient)"/>
-            <circle cx="30" cy="10" r="3" fill="url(#logoGradient)"/>
-            <rect x="8" y="22" width="24" height="3" rx="1.5" fill="url(#logoGradient)"/>
-            <line x1="18" y1="5" x2="22" y2="5" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="18" y1="35" x2="22" y2="35" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
-            <defs>
-              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#ff006e;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#8338ec;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-text">ArcadeHub</span>
-      </div>
-      <div class="nav-menu">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="index.html#games" class="nav-link">Games</a>
-      </div>
-    </div>
-  </nav>
-
+<body class="game-page">
   <div class="game-header">
-    <h1>⭕ Tic Tac Toe</h1>
-    <a href="index.html" class="back-button">← Back to Hub</a>
+    <h1><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg> Tic Tac Toe</h1>
+    <a href="index.html" class="back-button"><svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back to Hub</a>
   </div>
 
   <div class="game-container">
     <div class="difficulty">
-      <label style="color: var(--text-secondary); margin-bottom: 1rem; display: block;">Choose Difficulty:</label>
+      <label style="color: var(--lcd-ink-soft); margin-bottom: .5rem; display: block; font-size: .85rem;">Choose Difficulty:</label>
       <div class="difficulty-buttons">
         <button class="difficulty-btn active" onclick="setDifficulty('easy')">Easy</button>
         <button class="difficulty-btn" onclick="setDifficulty('medium')">Medium</button>

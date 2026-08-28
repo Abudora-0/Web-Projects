@@ -8,78 +8,58 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .game-header {
-      text-align: center;
-      margin: 2rem 0;
-    }
-
-    .game-header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .game-container {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
     .game-info {
       text-align: center;
-      margin-bottom: 2rem;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
+      margin-bottom: .3rem;
+      color: var(--lcd-ink-soft);
+      font-size: 0.8rem;
     }
 
     .wordle-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 0.6rem;
-      margin-bottom: 2rem;
+      gap: 0.28rem;
+      max-width: 245px;
+      margin: 0 auto .3rem;
     }
 
     .tile {
       width: 100%;
       aspect-ratio: 1;
-      border: 2px solid rgba(0, 212, 255, 0.3);
-      border-radius: 0.5rem;
+      border: 2px solid var(--lcd-ink);
+      border-radius: 3px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      background: rgba(45, 53, 97, 0.6);
-      color: var(--text-primary);
+      background: var(--lcd-bg-deep);
+      color: var(--lcd-ink);
       cursor: default;
       transition: all 0.2s ease;
       text-transform: uppercase;
     }
 
     .tile.filled {
-      border-color: rgba(0, 212, 255, 0.5);
-      background: rgba(45, 53, 97, 0.8);
+      background: var(--lcd-bg);
     }
 
     .tile.correct {
-      background: linear-gradient(135deg, #10b981, #059669);
-      border-color: #10b981;
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+      background: var(--lcd-good);
+      border-color: var(--lcd-good);
+      color: var(--lcd-bg);
     }
 
     .tile.present {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      border-color: #f59e0b;
-      box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+      background: var(--lcd-warn);
+      border-color: var(--lcd-warn);
+      color: var(--lcd-bg);
     }
 
     .tile.absent {
-      background: rgba(75, 85, 130, 0.6);
-      border-color: rgba(100, 110, 150, 0.5);
-      color: var(--text-secondary);
+      background: var(--lcd-bezel2);
+      border-color: var(--lcd-bezel2);
+      color: var(--lcd-ink-soft);
     }
 
     .tile.reveal {
@@ -100,64 +80,69 @@
 
     .keyboard {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      flex-direction: column;
+      gap: 0.34rem;
+      margin: .4rem auto;
+      max-width: 400px;
+    }
+
+    .kb-row {
+      display: flex;
+      gap: 0.34rem;
       justify-content: center;
     }
 
-    .keyboard-row {
-      display: none;
-    }
-
     .key {
-      width: 38px;
-      height: 38px;
+      flex: 1 1 auto;
+      max-width: 34px;
+      height: 46px;
       padding: 0;
-      background: rgba(45, 53, 97, 0.6);
-      border: 2px solid rgba(0, 212, 255, 0.2);
-      border-radius: 0.4rem;
-      color: var(--text-primary);
-      font-weight: 600;
+      background: var(--lcd-bg-deep);
+      border: 2px solid var(--lcd-ink);
+      border-radius: 4px;
+      color: var(--lcd-ink);
+      font-weight: 700;
       cursor: pointer;
-      transition: var(--transition);
+      transition: var(--trans);
       font-size: 0.85rem;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
+    .key.key-wide {
+      max-width: 58px;
+      flex-grow: 1.35;
+      font-size: 0.58rem;
+      font-family: var(--font-display);
+    }
+
     .key:hover:not(:disabled) {
-      border-color: var(--primary-color);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+      background: var(--lcd-bg);
     }
 
     .key:disabled {
-      opacity: 0.3;
+      opacity: 0.4;
       cursor: not-allowed;
-      background: rgba(75, 85, 130, 0.4);
     }
 
     .key.correct {
-      background: linear-gradient(135deg, #10b981, #059669);
-      border-color: #10b981;
-      color: white;
+      background: var(--lcd-good);
+      border-color: var(--lcd-good);
+      color: var(--lcd-bg);
     }
 
     .key.present {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      border-color: #f59e0b;
-      color: white;
+      background: var(--lcd-warn);
+      border-color: var(--lcd-warn);
+      color: var(--lcd-bg);
     }
 
     .key.absent {
-      background: rgba(75, 85, 130, 0.6);
-      border-color: rgba(100, 110, 150, 0.5);
-      opacity: 0.4;
+      background: var(--lcd-bezel2);
+      border-color: var(--lcd-bezel2);
+      color: var(--lcd-ink-soft);
+      opacity: 0.6;
     }
 
     .control-buttons {
@@ -167,51 +152,22 @@
       flex-wrap: wrap;
     }
 
-    .btn {
-      padding: 0.9rem 1.8rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-      color: var(--dark-bg);
-      border: none;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 1rem;
-      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-    }
-
-    .btn.secondary {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(131, 56, 236, 0.1));
-      color: var(--primary-color);
-      border: 2px solid rgba(0, 212, 255, 0.3);
-    }
-
-    .btn.secondary:hover {
-      border-color: var(--primary-color);
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(131, 56, 236, 0.2));
-    }
-
     .message {
       text-align: center;
-      font-size: 1.1rem;
+      font-size: .85rem;
       font-weight: 600;
-      margin-bottom: 1rem;
-      min-height: 1.5rem;
-      color: var(--primary-color);
+      margin-bottom: .25rem;
+      min-height: 1rem;
+      color: var(--lcd-ink);
     }
 
     .message.error {
-      color: var(--danger-color);
+      color: var(--lcd-bad);
       animation: shake 0.3s ease-in-out;
     }
 
     .message.success {
-      color: var(--success-color);
+      color: var(--lcd-good);
     }
 
     @keyframes shake {
@@ -223,12 +179,12 @@
     .stats {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-      background: rgba(45, 53, 97, 0.5);
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      border: 1px solid rgba(0, 212, 255, 0.2);
+      gap: 6px;
+      margin-bottom: .4rem;
+      background: var(--lcd-bg-deep);
+      padding: .5rem;
+      border-radius: 4px;
+      border: 2px solid var(--lcd-ink);
     }
 
     .stat-item {
@@ -237,108 +193,58 @@
 
     .stat-item label {
       display: block;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
+      font-size: 0.6rem;
+      color: var(--lcd-ink-soft);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 3px;
+      font-family: var(--font-display);
     }
 
     .stat-item .value {
-      font-size: 1.8rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      color: var(--primary-color);
-    }
-
-    @media (max-width: 768px) {
-      .keyboard-row:nth-child(2) {
-        margin-left: 0;
-      }
-
-      .keyboard-row:nth-child(3) {
-        margin-left: 0;
-      }
-
-      .key {
-        width: 35px;
-        height: 35px;
-        font-size: 0.8rem;
-      }
-
-      .game-container {
-        max-width: 100%;
-        padding: 1.5rem 1rem;
-      }
+      color: var(--lcd-ink);
+      font-family: var(--font-display);
     }
 
     @media (max-width: 480px) {
-      .keyboard {
+      .wordle-grid {
+        max-width: 300px;
         gap: 0.4rem;
       }
 
-      .key {
-        width: 32px;
-        height: 32px;
-        font-size: 0.75rem;
-      }
-
-      .wordle-grid {
-        gap: 0.5rem;
-      }
-
       .tile {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
       }
 
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-        padding: 1rem;
+      .keyboard {
+        gap: 0.3rem;
       }
 
-      .game-header {
-        padding: 1.5rem 1rem;
+      .kb-row {
+        gap: 0.28rem;
       }
 
-      .game-header h1 {
-        font-size: 1.5rem;
+      .key {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: none;
+        height: 44px;
+        font-size: 0.85rem;
+      }
+
+      .key.key-wide {
+        flex: 1.4 1 0;
+        font-size: 0.5rem;
       }
     }
   </style>
 </head>
-<body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <div class="logo-icon">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="36" height="36" rx="6" fill="none" stroke="url(#logoGradient)" stroke-width="2.5"/>
-            <circle cx="10" cy="10" r="3" fill="url(#logoGradient)"/>
-            <circle cx="30" cy="10" r="3" fill="url(#logoGradient)"/>
-            <rect x="8" y="22" width="24" height="3" rx="1.5" fill="url(#logoGradient)"/>
-            <line x1="18" y1="5" x2="22" y2="5" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="18" y1="35" x2="22" y2="35" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
-            <defs>
-              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#ff006e;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#8338ec;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-text">ArcadeHub</span>
-      </div>
-      <div class="nav-menu">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="index.html#games" class="nav-link">Games</a>
-      </div>
-    </div>
-  </nav>
-
+<body class="game-page">
   <div class="game-header">
-    <h1>📝 Wordle</h1>
-    <a href="index.html" class="back-button">← Back to Hub</a>
+    <h1><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><rect x="5" y="8" width="2" height="2" fill="currentColor" stroke="none"></rect><rect x="9" y="8" width="2" height="2" fill="currentColor" stroke="none"></rect><rect x="13" y="8" width="2" height="2" fill="currentColor" stroke="none"></rect><rect x="17" y="8" width="2" height="2" fill="currentColor" stroke="none"></rect><rect x="5" y="14" width="14" height="2" fill="currentColor" stroke="none"></rect></svg> Wordle</h1>
+    <a href="index.html" class="back-button"><svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back to Hub</a>
   </div>
 
   <div class="game-container">

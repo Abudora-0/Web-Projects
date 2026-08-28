@@ -8,42 +8,22 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .game-header {
-      text-align: center;
-      margin: 2rem 0;
-    }
-
-    .game-header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .game-container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
     .game-info {
       text-align: center;
-      margin-bottom: 2rem;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
+      margin-bottom: .5rem;
+      color: var(--lcd-ink-soft);
+      font-size: 0.85rem;
     }
 
     .stats-display {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-      background: rgba(45, 53, 97, 0.5);
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      border: 1px solid rgba(0, 212, 255, 0.2);
+      gap: 8px;
+      margin-bottom: .6rem;
+      background: var(--lcd-bg-deep);
+      padding: .7rem;
+      border-radius: 4px;
+      border: 2px solid var(--lcd-ink);
     }
 
     .stat-item {
@@ -52,33 +32,38 @@
 
     .stat-label {
       display: block;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
+      font-size: 0.68rem;
+      color: var(--lcd-ink-soft);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      font-family: var(--font-display);
     }
 
     .stat-value {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--primary-color);
+      color: var(--lcd-ink);
+      font-family: var(--font-display);
     }
 
+    /* Simon pads sit on the dark device bezel rather than the LCD screen,
+       and keep real color (the game IS a color-memory test). */
     .simon-board {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin: 2rem 0;
-      background: rgba(30, 35, 70, 0.6);
-      padding: 2rem;
-      border-radius: 1rem;
-      border: 2px solid rgba(0, 212, 255, 0.2);
+      gap: .75rem;
+      max-width: 280px;
+      margin: .75rem auto;
+      background: var(--lcd-bezel);
+      padding: 1rem;
+      border-radius: 10px;
+      border: 2px solid var(--lcd-bezel2);
     }
 
     .simon-pad {
       aspect-ratio: 1;
-      border-radius: 1rem;
+      border-radius: 10px;
       border: 3px solid transparent;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -89,90 +74,42 @@
       font-weight: 700;
       position: relative;
       overflow: hidden;
+      opacity: .82;
     }
 
-    .simon-pad::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-      z-index: 0;
-    }
+    .simon-pad.red    { background: #7a3226; }
+    .simon-pad.blue   { background: #2c4f68; }
+    .simon-pad.green  { background: #33582f; }
+    .simon-pad.yellow { background: #7a5f22; }
 
-    .simon-pad > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .simon-pad.red {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.3));
-      border-color: rgba(239, 68, 68, 0.5);
-    }
-
-    .simon-pad.red::before {
-      background: rgba(239, 68, 68, 0.6);
-    }
-
-    .simon-pad.blue {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(37, 99, 235, 0.3));
-      border-color: rgba(59, 130, 246, 0.5);
-    }
-
-    .simon-pad.blue::before {
-      background: rgba(59, 130, 246, 0.6);
-    }
-
-    .simon-pad.green {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.3));
-      border-color: rgba(16, 185, 129, 0.5);
-    }
-
-    .simon-pad.green::before {
-      background: rgba(16, 185, 129, 0.6);
-    }
-
-    .simon-pad.yellow {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.3));
-      border-color: rgba(245, 158, 11, 0.5);
-    }
-
-    .simon-pad.yellow::before {
-      background: rgba(245, 158, 11, 0.6);
-    }
-
-    .simon-pad.active::before {
+    .simon-pad.active {
       opacity: 1;
+      border-color: var(--lcd-bg);
     }
 
     .simon-pad:hover:not(:disabled) {
-      transform: scale(1.05);
-      border-width: 4px;
+      opacity: 0.95;
     }
 
     .simon-pad:disabled {
       cursor: not-allowed;
-      opacity: 0.6;
     }
 
     .message {
       text-align: center;
-      font-size: 1.1rem;
+      font-size: .9rem;
       font-weight: 600;
-      margin: 1rem 0;
-      min-height: 1.5rem;
-      color: var(--primary-color);
+      margin: .4rem 0;
+      min-height: 1.2rem;
+      color: var(--lcd-ink);
     }
 
     .message.error {
-      color: var(--danger-color);
+      color: var(--lcd-bad);
     }
 
     .message.success {
-      color: var(--success-color);
+      color: var(--lcd-good);
     }
 
     .controls {
@@ -180,77 +117,25 @@
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 2rem;
+      margin-top: .6rem;
     }
 
-    .btn {
-      padding: 0.9rem 1.8rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-      color: var(--dark-bg);
-      border: none;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 1rem;
-      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .btn.secondary {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(131, 56, 236, 0.1));
-      color: var(--primary-color);
-      border: 2px solid rgba(0, 212, 255, 0.3);
-    }
-
-    .btn.secondary:hover {
-      border-color: var(--primary-color);
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(131, 56, 236, 0.2));
+    @media (max-width: 560px) {
+      .simon-board {
+        max-width: 300px;
+        gap: .6rem;
+        padding: .8rem;
+      }
+      .stats-display { gap: 6px; padding: .6rem; }
+      .stat-value { font-size: 1.25rem; }
+      .simon-pad { font-size: 1.7rem; }
     }
   </style>
 </head>
-<body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <div class="logo-icon">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="36" height="36" rx="6" fill="none" stroke="url(#logoGradient)" stroke-width="2.5"/>
-            <circle cx="10" cy="10" r="3" fill="url(#logoGradient)"/>
-            <circle cx="30" cy="10" r="3" fill="url(#logoGradient)"/>
-            <rect x="8" y="22" width="24" height="3" rx="1.5" fill="url(#logoGradient)"/>
-            <line x1="18" y1="5" x2="22" y2="5" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="18" y1="35" x2="22" y2="35" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
-            <defs>
-              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#ff006e;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#8338ec;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-text">ArcadeHub</span>
-      </div>
-      <div class="nav-menu">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="index.html#games" class="nav-link">Games</a>
-      </div>
-    </div>
-  </nav>
-
+<body class="game-page">
   <div class="game-header">
-    <h1>🎮 Simon Says</h1>
-    <a href="index.html" class="back-button">← Back to Hub</a>
+    <h1><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="3" x2="12" y2="21"></line><line x1="3" y1="12" x2="21" y2="12"></line></svg> Simon Says</h1>
+    <a href="index.html" class="back-button"><svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back to Hub</a>
   </div>
 
   <div class="game-container">

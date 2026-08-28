@@ -8,92 +8,83 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .game-header {
-      text-align: center;
-      margin: 2rem 0;
-    }
-
-    .game-header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .game-container {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
     .game-info {
       text-align: center;
-      margin-bottom: 2rem;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
+      margin-bottom: .5rem;
+      color: var(--lcd-ink-soft);
+      font-size: 0.85rem;
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 8px;
+      margin-bottom: .6rem;
     }
 
     .stat-box {
-      background: rgba(45, 53, 97, 0.6);
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      border: 1px solid rgba(0, 212, 255, 0.2);
+      background: var(--lcd-bg-deep);
+      padding: .7rem;
+      border-radius: 4px;
+      border: 2px solid var(--lcd-ink);
       text-align: center;
     }
 
     .stat-box label {
       display: block;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
+      font-size: 0.68rem;
+      color: var(--lcd-ink-soft);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      font-family: var(--font-display);
     }
 
     .stat-box .value {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--primary-color);
+      color: var(--lcd-ink);
+      font-family: var(--font-display);
     }
 
     .game-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-      background: rgba(30, 35, 70, 0.6);
-      padding: 1rem;
-      border-radius: 1rem;
-      border: 2px solid rgba(0, 212, 255, 0.2);
-      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+      gap: 0.5rem;
+      max-width: 340px;
+      margin: 0 auto .6rem;
+      background: var(--lcd-bg-deep);
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 2px solid var(--lcd-ink);
+      touch-action: none;
+    }
+
+    @media (max-width: 400px) {
+      .game-grid { gap: 0.4rem; padding: 0.5rem; }
+      .stats-grid { gap: 6px; }
+      .stat-box { padding: .55rem; }
+      .stat-box .value { font-size: 1.25rem; }
     }
 
     .tile {
       aspect-ratio: 1;
-      border-radius: 0.5rem;
+      border-radius: 3px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+      font-size: 1.3rem;
       font-weight: 700;
-      background: rgba(45, 53, 97, 0.5);
-      color: var(--text-primary);
-      border: 2px solid rgba(0, 212, 255, 0.1);
+      background: var(--lcd-bg-deep);
+      color: var(--lcd-ink);
+      border: 2px solid var(--lcd-ink-soft);
       transition: all 0.15s ease-in-out;
       position: relative;
     }
 
     .tile.empty {
-      background: rgba(30, 35, 70, 0.3);
+      background: var(--lcd-bg-deep);
+      border-color: var(--lcd-ink-soft);
       color: transparent;
     }
 
@@ -126,69 +117,40 @@
       }
     }
 
-    /* Tile colors */
-    .tile[data-value="2"] {
-      background: linear-gradient(135deg, rgba(238, 228, 218, 0.9), rgba(237, 224, 200, 0.9));
-      color: #776e65;
-      box-shadow: 0 0 10px rgba(238, 228, 218, 0.3);
-    }
-
-    .tile[data-value="4"] {
-      background: linear-gradient(135deg, rgba(237, 224, 200, 0.95), rgba(242, 177, 121, 0.9));
-      color: #776e65;
-      box-shadow: 0 0 10px rgba(242, 177, 121, 0.3);
-    }
-
-    .tile[data-value="8"] {
-      background: linear-gradient(135deg, rgba(242, 177, 121, 0.95), rgba(245, 149, 99, 0.9));
-      color: #f9f6f2;
-      box-shadow: 0 0 10px rgba(245, 149, 99, 0.3);
-    }
-
-    .tile[data-value="16"] {
-      background: linear-gradient(135deg, rgba(245, 149, 99, 0.95), rgba(246, 124, 95, 0.9));
-      color: #f9f6f2;
-      box-shadow: 0 0 10px rgba(246, 124, 95, 0.3);
-    }
-
-    .tile[data-value="32"] {
-      background: linear-gradient(135deg, rgba(246, 124, 95, 0.95), rgba(234, 66, 53, 0.9));
-      color: #f9f6f2;
-      box-shadow: 0 0 15px rgba(234, 66, 53, 0.4);
-    }
-
-    .tile[data-value="64"] {
-      background: linear-gradient(135deg, rgba(234, 66, 53, 0.95), rgba(211, 32, 39, 0.9));
-      color: #f9f6f2;
-      box-shadow: 0 0 15px rgba(211, 32, 39, 0.4);
-    }
+    /* Tile shades - a lightness ramp within the LCD ink family, darkest = highest value */
+    .tile[data-value="2"]  { background: #102745; border-color: var(--lcd-ink); color: var(--lcd-ink); }
+    .tile[data-value="4"]  { background: #0e4464; border-color: var(--lcd-ink); color: var(--lcd-ink); }
+    .tile[data-value="8"]  { background: #0b6183; border-color: var(--lcd-ink); color: var(--lcd-bg); }
+    .tile[data-value="16"] { background: #087da3; border-color: var(--lcd-ink); color: var(--lcd-bg); }
+    .tile[data-value="32"] { background: #059ac2; border-color: var(--lcd-ink); color: var(--lcd-bg); }
+    .tile[data-value="64"] { background: #03b7e1; border-color: var(--lcd-ink); color: var(--lcd-bg); }
 
     .tile[data-value="128"] {
-      background: linear-gradient(135deg, rgba(211, 32, 39, 0.95), rgba(131, 56, 236, 0.9));
-      color: #f9f6f2;
-      font-size: 1.5rem;
-      box-shadow: 0 0 20px rgba(131, 56, 236, 0.4);
+      background: var(--lcd-ink);
+      color: var(--lcd-bg);
+      font-size: 1.05rem;
+      border-color: var(--lcd-ink);
     }
 
     .tile[data-value="256"] {
-      background: linear-gradient(135deg, rgba(131, 56, 236, 0.95), rgba(40, 167, 255, 0.9));
-      color: #f9f6f2;
-      font-size: 1.5rem;
-      box-shadow: 0 0 20px rgba(40, 167, 255, 0.4);
+      background: var(--lcd-ink);
+      color: var(--lcd-bg);
+      font-size: 1.05rem;
+      border: 3px solid var(--lcd-bg-deep);
     }
 
     .tile[data-value="512"] {
-      background: linear-gradient(135deg, rgba(40, 167, 255, 0.95), rgba(0, 212, 255, 0.9));
-      color: #f9f6f2;
-      font-size: 1.3rem;
-      box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+      background: var(--lcd-ink);
+      color: var(--lcd-bg);
+      font-size: .95rem;
+      box-shadow: inset 0 0 0 3px var(--lcd-bg-deep);
     }
 
     .tile[data-value="1024"] {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.95), rgba(16, 185, 129, 0.9));
-      color: #f9f6f2;
-      font-size: 1.2rem;
-      box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+      background: var(--lcd-ink);
+      color: var(--lcd-bg);
+      font-size: .85rem;
+      box-shadow: inset 0 0 0 3px var(--lcd-bg-deep), inset 0 0 0 6px var(--lcd-ink);
     }
 
     .tile[data-value="2048"],
@@ -197,110 +159,49 @@
     .tile[data-value="16384"],
     .tile[data-value="32768"],
     .tile[data-value="65536"] {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(34, 197, 94, 0.9));
-      color: #f9f6f2;
-      font-size: 1.2rem;
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+      background: var(--lcd-ink);
+      color: var(--lcd-bg);
+      font-size: .85rem;
+      box-shadow: inset 0 0 0 3px var(--lcd-bg-deep), inset 0 0 0 6px var(--lcd-ink), inset 0 0 0 8px var(--lcd-bg-deep);
     }
 
     .controls {
       display: flex;
       gap: 1rem;
-      margin-top: 2rem;
+      margin-top: .6rem;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    .btn {
-      padding: 0.9rem 1.8rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-      color: var(--dark-bg);
-      border: none;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 1rem;
-      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-    }
-
-    .btn.secondary {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(131, 56, 236, 0.1));
-      color: var(--primary-color);
-      border: 2px solid rgba(0, 212, 255, 0.3);
-    }
-
-    .btn.secondary:hover {
-      border-color: var(--primary-color);
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(131, 56, 236, 0.2));
-    }
-
     .message {
       text-align: center;
-      font-size: 1.1rem;
+      font-size: .9rem;
       font-weight: 600;
-      margin-bottom: 1rem;
-      min-height: 1.5rem;
-      color: var(--primary-color);
+      margin-bottom: .4rem;
+      min-height: 1.2rem;
+      color: var(--lcd-ink);
     }
 
     .message.error {
-      color: var(--danger-color);
+      color: var(--lcd-bad);
     }
 
     .message.success {
-      color: var(--success-color);
+      color: var(--lcd-good);
     }
 
     .arrow-keys {
       text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      margin-top: 1rem;
+      color: var(--lcd-ink-soft);
+      font-size: 0.8rem;
+      margin-top: .5rem;
     }
   </style>
 </head>
-<body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <div class="logo-icon">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="36" height="36" rx="6" fill="none" stroke="url(#logoGradient)" stroke-width="2.5"/>
-            <circle cx="10" cy="10" r="3" fill="url(#logoGradient)"/>
-            <circle cx="30" cy="10" r="3" fill="url(#logoGradient)"/>
-            <rect x="8" y="22" width="24" height="3" rx="1.5" fill="url(#logoGradient)"/>
-            <line x1="18" y1="5" x2="22" y2="5" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="18" y1="35" x2="22" y2="35" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
-            <defs>
-              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#ff006e;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#8338ec;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-text">ArcadeHub</span>
-      </div>
-      <div class="nav-menu">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="index.html#games" class="nav-link">Games</a>
-      </div>
-    </div>
-  </nav>
-
+<body class="game-page">
   <div class="game-header">
-    <h1>🎯 2048</h1>
-    <a href="index.html" class="back-button">← Back to Hub</a>
+    <h1><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg> 2048</h1>
+    <a href="index.html" class="back-button"><svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back to Hub</a>
   </div>
 
   <div class="game-container">

@@ -238,18 +238,19 @@ function gameOver() {
   }
 }
 
+// Nokia 3310 LCD palette (must match --lcd-bg / --lcd-ink in css/style.css;
+// canvas fillStyle can't read CSS custom properties directly)
+const LCD_BG = '#1d1038';
+const LCD_INK = '#00d4ff';
+const LCD_GRID = 'rgba(0, 212, 255, 0.12)';
+
 function draw() {
-  // Clear canvas with better gradient
-  const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  bgGradient.addColorStop(0, 'rgba(30, 35, 70, 0.8)');
-  bgGradient.addColorStop(0.5, 'rgba(35, 45, 85, 0.8)');
-  bgGradient.addColorStop(1, 'rgba(25, 30, 60, 0.8)');
-  ctx.fillStyle = bgGradient;
+  ctx.fillStyle = LCD_BG;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw grid with better styling
-  ctx.strokeStyle = 'rgba(0, 212, 255, 0.08)';
-  ctx.lineWidth = 0.5;
+  // Dot-matrix grid
+  ctx.strokeStyle = LCD_GRID;
+  ctx.lineWidth = 1;
   for (let i = 0; i <= tileCount; i++) {
     const coord = i * gridSize;
     ctx.beginPath();
@@ -263,84 +264,10 @@ function draw() {
     ctx.stroke();
   }
 
-  // Draw snake
-  snake.forEach((segment, index) => {
-    if (index === 0) {
-      // Head with glow effect
-      ctx.shadowColor = 'rgba(0, 212, 255, 0.6)';
-      ctx.shadowBlur = 15;
-      
-      const headGradient = ctx.createRadialGradient(
-        segment.x * gridSize + gridSize / 2,
-        segment.y * gridSize + gridSize / 2,
-        0,
-        segment.x * gridSize + gridSize / 2,
-        segment.y * gridSize + gridSize / 2,
-        gridSize / 2
-      );
-      headGradient.addColorStop(0, 'rgba(0, 255, 200, 1)');
-      headGradient.addColorStop(0.5, 'rgba(0, 212, 255, 0.9)');
-      headGradient.addColorStop(1, 'rgba(131, 56, 236, 0.8)');
-      ctx.fillStyle = headGradient;
-      ctx.fillRect(
-        segment.x * gridSize + 1,
-        segment.y * gridSize + 1,
-        gridSize - 2,
-        gridSize - 2
-      );
-
-      // Draw eyes
-      ctx.shadowColor = 'transparent';
-      ctx.fillStyle = '#000';
-      const eyeSize = 2;
-      const eyeOffsets = {
-        0: { x1: 5, y1: 5, x2: 13, y2: 5 }, // up
-        1: { x1: 13, y1: 5, x2: 13, y2: 13 }, // right
-        2: { x1: 13, y1: 13, x2: 5, y2: 13 }, // down
-        3: { x1: 5, y1: 13, x2: 5, y2: 5 }, // left
-      };
-      
-      let direction = 0;
-      if (dx === 0 && dy === -1) direction = 0;
-      else if (dx === 1 && dy === 0) direction = 1;
-      else if (dx === 0 && dy === 1) direction = 2;
-      else if (dx === -1 && dy === 0) direction = 3;
-      
-      const eyes = eyeOffsets[direction];
-      ctx.beginPath();
-      ctx.arc(segment.x * gridSize + eyes.x1, segment.y * gridSize + eyes.y1, eyeSize, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(segment.x * gridSize + eyes.x2, segment.y * gridSize + eyes.y2, eyeSize, 0, Math.PI * 2);
-      ctx.fill();
-    } else {
-      // Body segments with gradient
-      const bodyGradient = ctx.createLinearGradient(
-        segment.x * gridSize,
-        segment.y * gridSize,
-        segment.x * gridSize + gridSize,
-        segment.y * gridSize + gridSize
-      );
-      const fadeAlpha = 0.8 - (index / snake.length) * 0.5;
-      bodyGradient.addColorStop(0, `rgba(0, 212, 255, ${fadeAlpha})`);
-      bodyGradient.addColorStop(1, `rgba(131, 56, 236, ${fadeAlpha * 0.6})`);
-      ctx.fillStyle = bodyGradient;
-      
-      ctx.shadowColor = `rgba(0, 212, 255, ${fadeAlpha * 0.4})`;
-      ctx.shadowBlur = 8;
-      ctx.fillRect(
-        segment.x * gridSize + 1,
-        segment.y * gridSize + 1,
-        gridSize - 2,
-        gridSize - 2
-      );
-    }
-
-    // Draw segment border
-    ctx.shadowColor = 'transparent';
-    ctx.strokeStyle = 'rgba(0, 212, 255, 0.4)';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(
+  // Draw snake as flat ink pixel blocks
+  ctx.fillStyle = LCD_INK;
+  snake.forEach((segment) => {
+    ctx.fillRect(
       segment.x * gridSize + 1,
       segment.y * gridSize + 1,
       gridSize - 2,
@@ -348,48 +275,84 @@ function draw() {
     );
   });
 
-  // Draw food with pulsing animation
+  // Head gets a small light "eye" so direction reads at a glance
+  const head = snake[0];
+  ctx.fillStyle = LCD_BG;
+  const eyeSize = 3;
+  const eyeOffsets = {
+    0: { x: 6, y: 4 },  // up
+    1: { x: 13, y: 6 }, // right
+    2: { x: 6, y: 13 }, // down
+    3: { x: 4, y: 6 },  // left
+  };
+  let direction = 0;
+  if (dx === 0 && dy === -1) direction = 0;
+  else if (dx === 1 && dy === 0) direction = 1;
+  else if (dx === 0 && dy === 1) direction = 2;
+  else if (dx === -1 && dy === 0) direction = 3;
+  const eye = eyeOffsets[direction];
+  ctx.fillRect(head.x * gridSize + eye.x, head.y * gridSize + eye.y, eyeSize, eyeSize);
+
+  // Draw food as a solid ink square (classic Nokia Snake "apple")
   foodPulse += 0.05;
-  const foodSize = gridSize - 4 + Math.sin(foodPulse) * 2;
-  
-  const foodGradient = ctx.createRadialGradient(
-    food.x * gridSize + gridSize / 2,
-    food.y * gridSize + gridSize / 2,
-    0,
-    food.x * gridSize + gridSize / 2,
-    food.y * gridSize + gridSize / 2,
-    foodSize / 2
+  const foodSize = gridSize - 6 + Math.sin(foodPulse) * 2;
+  const foodOffset = (gridSize - foodSize) / 2;
+  ctx.fillStyle = LCD_INK;
+  ctx.fillRect(
+    food.x * gridSize + foodOffset,
+    food.y * gridSize + foodOffset,
+    foodSize,
+    foodSize
   );
-  foodGradient.addColorStop(0, 'rgba(255, 100, 150, 1)');
-  foodGradient.addColorStop(0.5, 'rgba(255, 50, 110, 0.9)');
-  foodGradient.addColorStop(1, 'rgba(255, 0, 110, 0.7)');
-  
-  ctx.shadowColor = 'rgba(255, 0, 110, 0.8)';
-  ctx.shadowBlur = 20;
-  ctx.fillStyle = foodGradient;
-  ctx.beginPath();
-  ctx.arc(
-    food.x * gridSize + gridSize / 2,
-    food.y * gridSize + gridSize / 2,
-    foodSize / 2,
-    0,
-    Math.PI * 2
-  );
-  ctx.fill();
-  
-  // Food highlight
-  ctx.shadowColor = 'transparent';
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-  ctx.beginPath();
-  ctx.arc(
-    food.x * gridSize + gridSize / 2 - 2,
-    food.y * gridSize + gridSize / 2 - 2,
-    foodSize / 4,
-    0,
-    Math.PI * 2
-  );
-  ctx.fill();
 }
+
+// ============================================================================
+// TOUCH CONTROLS - swipe on the screen + on-screen D-pad
+// ============================================================================
+
+// Queue a direction change, honouring the no-180-turn rule (same guard the
+// keyboard handler uses: dx/dy hold the last committed heading).
+function queueDir(d) {
+  if (d === 'up' && dy === 0)    { nextDx = 0;  nextDy = -1; }
+  if (d === 'down' && dy === 0)  { nextDx = 0;  nextDy = 1; }
+  if (d === 'left' && dx === 0)  { nextDx = -1; nextDy = 0; }
+  if (d === 'right' && dx === 0) { nextDx = 1;  nextDy = 0; }
+}
+
+// Start (or restart after a game over) on the first steer, so a swipe/tap
+// is all it takes to get going.
+function ensureRunning() {
+  if (gameRunning) return;
+  if (gameStatusDisplay.textContent === 'Game Over') resetSnake();
+  startGame();
+}
+
+document.querySelectorAll('.dpad-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    ensureRunning();
+    queueDir(btn.dataset.dir);
+  });
+});
+
+let swipeStartX = 0;
+let swipeStartY = 0;
+canvas.addEventListener('touchstart', (e) => {
+  const t = e.changedTouches[0];
+  swipeStartX = t.clientX;
+  swipeStartY = t.clientY;
+}, { passive: true });
+
+canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+canvas.addEventListener('touchend', (e) => {
+  const t = e.changedTouches[0];
+  const dX = t.clientX - swipeStartX;
+  const dY = t.clientY - swipeStartY;
+  if (Math.max(Math.abs(dX), Math.abs(dY)) < 24) return;
+  ensureRunning();
+  if (Math.abs(dX) > Math.abs(dY)) queueDir(dX > 0 ? 'right' : 'left');
+  else queueDir(dY > 0 ? 'down' : 'up');
+}, { passive: true });
 
 // Initial draw
 draw();

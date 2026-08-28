@@ -10,6 +10,8 @@ let score = 0;
 let bestScore = localStorage.getItem('2048BestScore') || 0;
 let gameOver = false;
 let won = false;
+let mergedThisMove = new Set();
+let newTilePos = null;
 
 const gameGrid = document.getElementById('gameGrid');
 const scoreEl = document.getElementById('score');
@@ -25,6 +27,8 @@ function initGame() {
   score = 0;
   gameOver = false;
   won = false;
+  mergedThisMove = new Set();
+  newTilePos = null;
 
   addNewTile();
   addNewTile();
@@ -54,6 +58,7 @@ function addNewTile() {
 
   const randomTile = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
   board[randomTile.row][randomTile.col] = Math.random() < 0.9 ? 2 : 4;
+  newTilePos = randomTile;
 }
 
 function updateDisplay() {
@@ -65,7 +70,13 @@ function updateDisplay() {
     for (let j = 0; j < GRID_SIZE; j++) {
       const value = board[i][j];
       const tile = document.createElement('div');
-      tile.className = value === 0 ? 'tile empty' : 'tile';
+      let className = value === 0 ? 'tile empty' : 'tile';
+      if (mergedThisMove.has(`${i},${j}`)) {
+        className += ' merge';
+      } else if (newTilePos && newTilePos.row === i && newTilePos.col === j) {
+        className += ' move';
+      }
+      tile.className = className;
       tile.textContent = value > 0 ? value : '';
       tile.setAttribute('data-value', value);
       gameGrid.appendChild(tile);
@@ -79,32 +90,37 @@ function move(direction) {
   if (gameOver || won) return;
 
   let moved = false;
+  mergedThisMove = new Set();
+  newTilePos = null;
 
   if (direction === 'left') {
     for (let i = 0; i < GRID_SIZE; i++) {
       const row = board[i];
-      const newRow = slideAndMerge(row);
+      const { line: newRow, mergedIndices } = slideAndMerge(row);
       if (!arraysEqual(row, newRow)) {
         moved = true;
       }
+      mergedIndices.forEach(idx => mergedThisMove.add(`${i},${idx}`));
       board[i] = newRow;
     }
   } else if (direction === 'right') {
     for (let i = 0; i < GRID_SIZE; i++) {
       const row = board[i].reverse();
-      const newRow = slideAndMerge(row);
+      const { line: newRow, mergedIndices } = slideAndMerge(row);
       if (!arraysEqual(row, newRow)) {
         moved = true;
       }
+      mergedIndices.forEach(idx => mergedThisMove.add(`${i},${GRID_SIZE - 1 - idx}`));
       board[i] = newRow.reverse();
     }
   } else if (direction === 'up') {
     for (let j = 0; j < GRID_SIZE; j++) {
       const col = board.map(row => row[j]);
-      const newCol = slideAndMerge(col);
+      const { line: newCol, mergedIndices } = slideAndMerge(col);
       if (!arraysEqual(col, newCol)) {
         moved = true;
       }
+      mergedIndices.forEach(idx => mergedThisMove.add(`${idx},${j}`));
       for (let i = 0; i < GRID_SIZE; i++) {
         board[i][j] = newCol[i];
       }
@@ -112,10 +128,11 @@ function move(direction) {
   } else if (direction === 'down') {
     for (let j = 0; j < GRID_SIZE; j++) {
       const col = board.map(row => row[j]).reverse();
-      const newCol = slideAndMerge(col);
+      const { line: newCol, mergedIndices } = slideAndMerge(col);
       if (!arraysEqual(col, newCol)) {
         moved = true;
       }
+      mergedIndices.forEach(idx => mergedThisMove.add(`${GRID_SIZE - 1 - idx},${j}`));
       const newColReversed = newCol.reverse();
       for (let i = 0; i < GRID_SIZE; i++) {
         board[i][j] = newColReversed[i];
@@ -133,6 +150,7 @@ function move(direction) {
 function slideAndMerge(line) {
   // Remove zeros
   let newLine = line.filter(val => val !== 0);
+  const mergedIndices = [];
 
   // Merge adjacent tiles
   for (let i = 0; i < newLine.length - 1; i++) {
@@ -140,6 +158,7 @@ function slideAndMerge(line) {
       newLine[i] *= 2;
       score += newLine[i];
       newLine.splice(i + 1, 1);
+      mergedIndices.push(i);
     }
   }
 
@@ -148,7 +167,7 @@ function slideAndMerge(line) {
     newLine.push(0);
   }
 
-  return newLine;
+  return { line: newLine, mergedIndices };
 }
 
 function arraysEqual(arr1, arr2) {
@@ -245,18 +264,21 @@ let touchEndY = 0;
 gameGrid.addEventListener('touchstart', (e) => {
   touchStartX = e.changedTouches[0].clientX;
   touchStartY = e.changedTouches[0].clientY;
-}, false);
+}, { passive: true });
+
+gameGrid.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 
 gameGrid.addEventListener('touchend', (e) => {
   touchEndX = e.changedTouches[0].clientX;
   touchEndY = e.changedTouches[0].clientY;
   handleSwipe();
-}, false);
+}, { passive: true });
 
 function handleSwipe() {
-  const diffX = touchStartX - touchEndX;
-  const diffY = touchStartY - touchEndY;
-  const threshold = 50;
+  // Positive diffX = finger moved right; positive diffY = finger moved down.
+  const diffX = touchEndX - touchStartX;
+  const diffY = touchEndY - touchStartY;
+  const threshold = 30;
 
   if (Math.abs(diffX) > Math.abs(diffY)) {
     // Horizontal swipe
