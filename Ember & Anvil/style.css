@@ -425,7 +425,9 @@ button { font-family: inherit; cursor: pointer; }
   gap: .8rem;
 }
 .blade-svg {
-  width: min(220px, 60vw);
+  width: auto;
+  height: min(440px, 56vh);
+  max-width: 62vw;
   animation: blade-float 7s ease-in-out infinite;
 }
 @keyframes blade-float {
@@ -459,7 +461,7 @@ button { font-family: inherit; cursor: pointer; }
   fill: var(--temper-color);
   stroke: rgba(0,0,0,.35);
   stroke-width: 1;
-  filter: drop-shadow(0 0 18px rgba(var(--temper-color-rgb), .5));
+  filter: drop-shadow(0 0 10px rgba(var(--temper-color-rgb), .42));
   transition: fill .05s linear, filter .05s linear;
 }
 .blade-fuller {
