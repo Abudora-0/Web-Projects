@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   AB Fitness - script.js
+   IRONCLAD - script.js
    ═══════════════════════════════════════════════════ */
 
 // Swap no-js -> js as the very first statement. If this file ever fails
@@ -18,12 +18,18 @@ window.addEventListener('load', () => setTimeout(() => {
 // ── Countdown ────────────────────────────────────────
 (function () {
   // Set deal end 30 days from now on first load, persist it
-  let target = localStorage.getItem('ab_deal_end');
-  if (!target || Date.now() > +target) {
+  let target;
+  try {
+    target = localStorage.getItem('ironclad_deal_end');
+    if (!target || Date.now() > +target) {
+      target = Date.now() + 30 * 24 * 60 * 60 * 1000;
+      localStorage.setItem('ironclad_deal_end', target);
+    }
+  } catch (e) {
     target = Date.now() + 30 * 24 * 60 * 60 * 1000;
-    localStorage.setItem('ab_deal_end', target);
   }
   const el = document.getElementById('countdown');
+  if (!el) return;
   function tick() {
     const diff = +target - Date.now();
     if (diff <= 0) { el.textContent = 'EXPIRED'; return; }
@@ -503,7 +509,7 @@ document.getElementById('copyPlan').addEventListener('click', () => {
     d.querySelector('.ai-day-name').textContent + ':\n' +
     d.querySelector('.ai-exercises').innerText
   ).join('\n\n');
-  navigator.clipboard.writeText(`AB Fitness - ${title}\n\n${days}`)
+  navigator.clipboard.writeText(`IRONCLAD - ${title}\n\n${days}`)
     .then(() => {
       const btn = document.getElementById('copyPlan');
       btn.innerHTML = '<i class="fas fa-check"></i> Copied!';

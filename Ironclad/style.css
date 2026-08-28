@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-  AB FITNESS - brutalist gym poster
+  IRONCLAD - brutalist gym poster
   Bone white, ink black, safety orange. Heavy
   condensed uppercase type, hard offset shadows.
   ═══════════════════════════════════════════════ */
@@ -25,7 +25,7 @@
   --body: 'Inter', sans-serif;
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; overflow-x: hidden; }
 
 body {
   font-family: var(--body);
@@ -99,25 +99,20 @@ h1, h2, h3, .price-amount, .price-tier {
   letter-spacing: 0.02em;
 }
 
-.site-logo {
-  height: 56px;
-  width: auto;
-  display: block;
-  object-fit: contain;
-}
+.nav-logo span:not(.logo-mark) { color: var(--orange); }
 
-.nav-logo span:not(.logo-icon) { color: var(--orange); }
-
-.logo-icon {
+.logo-mark {
   width: 34px;
   height: 34px;
   display: grid;
   place-items: center;
-  background: var(--orange);
-  color: var(--bone);
+  background: var(--bone);
   border: var(--border);
-  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: transform .12s ease;
 }
+.logo-mark svg { width: 24px; height: 24px; display: block; }
+.nav-logo:hover .logo-mark { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--orange); }
 
 .nav-links {
   display: flex;
