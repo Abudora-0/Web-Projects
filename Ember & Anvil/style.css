@@ -310,11 +310,12 @@ button { font-family: inherit; cursor: pointer; }
   overflow: hidden;
   background: var(--ember);
   color: #1b0a03 !important;
-  padding: .55em 1.1em;
+  padding: .7em 1.5em;
   border-radius: 2px 8px 2px 8px;
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: .02em;
+  white-space: nowrap;
   box-shadow: 0 3px 0 var(--ember-deep);
   transition: background .2s ease, box-shadow .2s ease, transform .16s ease;
 }
