@@ -237,6 +237,10 @@ let noiseSrc = null, noiseGain = null, vuRaf = null, audioEngineFailed = false;
 
 function initAudioEngine() {
   if (AC || audioEngineFailed) return;
+  // On file:// a local media file is treated as cross-origin: routing it through
+  // createMediaElementSource() taints the graph and SILENCES playback. Skip the
+  // engine there so the audio still comes out; VU falls back to its CSS bounce.
+  if (location.protocol === 'file:') { audioEngineFailed = true; return; }
   try {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     if (!Ctx) { audioEngineFailed = true; return; }
@@ -409,6 +413,18 @@ function bindAmpControls() {
   bs.value = ampSettings.bass;
   ts.value = ampSettings.treble;
 
+  var noEngineOnFile = (location.protocol === 'file:');
+  var ampRow = document.querySelector('.amp-row');
+  if (noEngineOnFile && ampRow) {
+    ampRow.classList.add('amp-disabled');
+    ampRow.title = 'Crackle, tone and the live VU meters need the page served over http (open it through a local server, not the file itself).';
+  }
+  var hinted = false;
+  function ampHint() {
+    if (hinted) return; hinted = true;
+    toast('Crackle & tone need the page served over http - not the local file');
+  }
+
   crk.addEventListener('click', function () {
     ampSettings.crackle = !ampSettings.crackle;
     crk.setAttribute('aria-pressed', String(ampSettings.crackle));
@@ -416,7 +432,7 @@ function bindAmpControls() {
     initAudioEngine();
     resumeAC();
     updateCrackleGain();
-    if (ampSettings.crackle && audioEngineFailed) toast('Surface noise needs Web Audio - not available here');
+    if (ampSettings.crackle && audioEngineFailed) ampHint();
   });
 
   function tone(slider, node, key) {
@@ -425,6 +441,7 @@ function bindAmpControls() {
       saveAmp();
       initAudioEngine();
       resumeAC();
+      if (audioEngineFailed) { ampHint(); return; }
       if (node()) node().gain.setTargetAtTime(ampSettings[key], AC.currentTime, 0.02);
     });
   }

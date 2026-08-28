@@ -1301,6 +1301,8 @@ input, textarea, select { font-family: var(--grotesk); }
 }
 .crackle-btn[aria-pressed="true"] i { animation: spin 3.2s linear infinite; }
 
+.amp-row.amp-disabled { opacity: 0.45; }
+
 .tone-group { display: flex; gap: 1rem; }
 .tone-ctl {
   display: flex;
