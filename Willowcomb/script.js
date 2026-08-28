@@ -764,11 +764,11 @@
   onScroll();
 
   /* ---------- hero parallax ---------- */
-  var sky = document.querySelector('.hero-sky');
-  if (sky && !reduceMotion) {
+  var heroImg = document.querySelector('.hero-photo img');
+  if (heroImg && !reduceMotion) {
     window.addEventListener('scroll', function () {
       var y = window.pageYOffset;
-      if (y < window.innerHeight) sky.style.transform = 'translateY(' + (y * 0.25).toFixed(1) + 'px)';
+      if (y < window.innerHeight) heroImg.style.transform = 'translateY(' + (y * 0.18).toFixed(1) + 'px) scale(1.04)';
     }, { passive: true });
   }
 })();

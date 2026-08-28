@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Willowcomb - Raw Honey, Built Cell by Cell</title>
 <meta name="description" content="Willowcomb: raw, unheated honey from twelve hives along Willow Creek. Comb-built, hand-jarred, never rushed.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M4 32c9-3 9-16 18-16s8 13 18 11' fill='none' stroke='%23c8860d' stroke-width='2.4' stroke-linecap='round' stroke-dasharray='0.1 6'/%3E%3Cellipse cx='24' cy='21' rx='7.5' ry='9.5' fill='%233a2a12'/%3E%3Cpath d='M17.5 17.5h13M18 24.5h12' stroke='%23e6a92c' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 3 31.8 7.5 31.8 16.5 24 21 16.2 16.5 16.2 7.5Z' fill='none' stroke='%23b6690f' stroke-width='2.6' stroke-linejoin='round'/%3E%3Cpath d='M16.2 16.5 24 21 24 30 16.2 34.5 8.4 30 8.4 21Z' fill='none' stroke='%23b6690f' stroke-width='2.6' stroke-linejoin='round'/%3E%3Cpath d='M31.8 16.5 39.6 21 39.6 30 31.8 34.5 24 30 24 21Z' fill='%23e9a227'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,9 +30,9 @@
     <a class="brand" href="#hero" aria-label="Willowcomb, home">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 48 48">
-          <path class="bm-path" d="M4 32c9-3 9-16 18-16s8 13 18 11" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 6"/>
-          <ellipse class="bm-body" cx="24" cy="21" rx="7.5" ry="9.5"/>
-          <path class="bm-stripe" d="M17.5 17.5h13M18 24.5h12" stroke-width="2.8" stroke-linecap="round"/>
+          <path class="bm-cell" d="M24 3 31.8 7.5 31.8 16.5 24 21 16.2 16.5 16.2 7.5Z"/>
+          <path class="bm-cell" d="M16.2 16.5 24 21 24 30 16.2 34.5 8.4 30 8.4 21Z"/>
+          <path class="bm-cell bm-cell-full" d="M31.8 16.5 39.6 21 39.6 30 31.8 34.5 24 30 24 21Z"/>
         </svg>
       </span>
       <span class="brand-text">Willowcomb</span>
@@ -54,6 +54,11 @@
 
   <!-- ============ HERO ============ -->
   <section id="hero" class="hero">
+    <div class="hero-photo" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1471943311424-646960669fbc?auto=format&amp;fit=crop&amp;crop=entropy&amp;w=1900&amp;h=1100&amp;q=70"
+           alt="" loading="eager"
+           onerror="this.closest('.hero-photo').classList.add('is-empty')">
+    </div>
     <div class="hero-sky" aria-hidden="true"></div>
 
     <div class="bee-flight" aria-hidden="true" id="beeFlight">
@@ -411,9 +416,9 @@
     <div class="footer-brand">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 48 48">
-          <path class="bm-path" d="M4 32c9-3 9-16 18-16s8 13 18 11" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 6"/>
-          <ellipse class="bm-body" cx="24" cy="21" rx="7.5" ry="9.5"/>
-          <path class="bm-stripe" d="M17.5 17.5h13M18 24.5h12" stroke-width="2.8" stroke-linecap="round"/>
+          <path class="bm-cell" d="M24 3 31.8 7.5 31.8 16.5 24 21 16.2 16.5 16.2 7.5Z"/>
+          <path class="bm-cell" d="M16.2 16.5 24 21 24 30 16.2 34.5 8.4 30 8.4 21Z"/>
+          <path class="bm-cell bm-cell-full" d="M31.8 16.5 39.6 21 39.6 30 31.8 34.5 24 30 24 21Z"/>
         </svg>
       </span>
       <span class="brand-text">Willowcomb</span>
