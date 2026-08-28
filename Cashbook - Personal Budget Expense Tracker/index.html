@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+  <meta charset="UTF-8">
+  <title>Cashbook - a personal ledger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4efe4">
+  <meta name="description" content="Cashbook - a personal ledger. Write entries in plain words, keep a running balance, seal your envelopes.">
+
+  <!-- Favicon - ledger page with red margin rule -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f4efe4'/%3E%3Crect x='7' y='5' width='18' height='22' rx='2' fill='none' stroke='%2328241c' stroke-width='2'/%3E%3Cpath d='M12 5v22' stroke='%23b3402e' stroke-width='1.8'/%3E%3Cpath d='M15 11h7M15 16h7M15 21h5' stroke='%2328241c' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23f4efe4'/%3E%3Crect x='40' y='30' width='100' height='120' rx='10' fill='none' stroke='%2328241c' stroke-width='10'/%3E%3Cpath d='M68 30v120' stroke='%23b3402e' stroke-width='9'/%3E%3Cpath d='M84 62h40M84 90h40M84 118h28' stroke='%2328241c' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════ MASTHEAD ═══════════ -->
+<header class="masthead">
+  <a class="brand" href="#" title="Cashbook">
+    <svg class="brand-mark" width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+      <rect x="7" y="5" width="18" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M12 5v22" stroke="var(--margin)" stroke-width="1.8"/>
+      <path d="M15 11h7M15 16h7M15 21h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-name">Cashbook<i>.</i></span>
+  </a>
+  <p class="brand-tag">a&nbsp;personal&nbsp;ledger&nbsp;·&nbsp;kept&nbsp;by&nbsp;hand,&nbsp;balanced&nbsp;by&nbsp;machine</p>
+  <div class="masthead-tools">
+    <select id="currencySel" class="tool-select" title="Currency" aria-label="Currency">
+      <option value="$">$ USD</option>
+      <option value="€">€ EUR</option>
+      <option value="£">£ GBP</option>
+      <option value="₹">₹ INR</option>
+      <option value="¥">¥ JPY</option>
+      <option value="₨">₨ PKR</option>
+      <option value="C$">C$ CAD</option>
+      <option value="A$">A$ AUD</option>
+    </select>
+    <button id="themeBtn" class="tool-btn" title="Day / lamp light (T)" aria-label="Toggle theme">
+      <svg class="ic-day" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></svg>
+      <svg class="ic-lamp" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l3 8H5l3-8Z"/><path d="M12 11v7"/><path d="M8 21h8"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════ FOLIO BAR ═══════════ -->
+<nav class="folio-bar" aria-label="Month">
+  <button id="prevMonth" class="folio-arrow" title="Previous folio ( [ )" aria-label="Previous month">‹</button>
+  <div class="folio-title">
+    <span class="folio-no" id="folioNo">FOLIO Nº —</span>
+    <h1 id="folioLabel">—</h1>
+    <button id="todayBtn" class="folio-today hidden" title="Return to the current month">return to today</button>
+  </div>
+  <button id="nextMonth" class="folio-arrow" title="Next folio ( ] )" aria-label="Next month">›</button>
+</nav>
+
+<!-- ═══════════ QUICK LINE ═══════════ -->
+<section class="quickline" aria-label="Quick entry">
+  <div class="quickline-row">
+    <span class="quickline-pen" aria-hidden="true">✎</span>
+    <input id="quickInput" type="text" autocomplete="off" spellcheck="false"
+           placeholder="write a line…   coffee 4.50 #food yesterday  ·  +2500 salary  ·  rent 900 monthly" />
+    <button id="fullEntryBtn" class="btn btn-ghost" title="Open the full entry form (N)">full entry</button>
+  </div>
+  <div id="quickPreview" class="quick-preview" aria-live="polite"></div>
+</section>
+
+<!-- ═══════════ INDEX TABS ═══════════ -->
+<div class="index-tabs" role="tablist">
+  <button class="index-tab active" data-tab="ledger" role="tab" aria-selected="true">Ledger</button>
+  <button class="index-tab" data-tab="envelopes" role="tab" aria-selected="false">Envelopes</button>
+  <button class="index-tab" data-tab="reports" role="tab" aria-selected="false">Reports</button>
+</div>
+
+<main class="page">
+
+  <!-- ── LEDGER ── -->
+  <section id="panel-ledger" class="panel active">
+    <div class="ledger-layout">
+
+      <div class="ledger-main">
+        <div class="ledger-controls">
+          <div class="search-wrap">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.4" y2="16.4"/></svg>
+            <input id="searchInput" type="text" placeholder="search particulars… ( / )" autocomplete="off">
+          </div>
+          <select id="typeFilter" class="tool-select" aria-label="Filter by type">
+            <option value="">everything</option>
+            <option value="in">credits only</option>
+            <option value="out">debits only</option>
+          </select>
+        </div>
+
+        <div class="ledger-sheet">
+          <table class="ledger-table">
+            <thead>
+              <tr>
+                <th class="col-date">Date</th>
+                <th class="col-part">Particulars</th>
+                <th class="col-num">Debit&nbsp;−</th>
+                <th class="col-num">Credit&nbsp;+</th>
+                <th class="col-num col-bal">Balance</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerBody"></tbody>
+          </table>
+          <div id="emptyState" class="empty-state hidden">
+            <p class="empty-head">This folio is blank.</p>
+            <p>Write your first line above - plain words will do.<br>Try <code>coffee 4.50</code> or <code>+2500 salary</code>.</p>
+            <button id="seedBtn" class="btn">open a specimen ledger</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="ledger-rail">
+        <div class="card rail-card">
+          <h2 class="rail-title">The Bottom Line</h2>
+          <dl class="bottomline">
+            <div><dt>Brought forward</dt><dd id="sumBf" class="mono">—</dd></div>
+            <div><dt>Credits (in)</dt><dd id="sumIn" class="mono pos">—</dd></div>
+            <div><dt>Debits (out)</dt><dd id="sumOut" class="mono neg">—</dd></div>
+            <div class="bl-net"><dt>Net this folio</dt><dd id="sumNet" class="mono">—</dd></div>
+            <div class="bl-cf"><dt>Carried forward</dt><dd id="sumCf" class="mono">—</dd></div>
+          </dl>
+          <div class="savings-line">
+            <span>put away</span>
+            <div class="savings-track"><div id="savingsFill" class="savings-fill"></div></div>
+            <b id="savingsRate" class="mono">0%</b>
+          </div>
+        </div>
+
+        <div class="card rail-card">
+          <h2 class="rail-title">Auditor's Notes</h2>
+          <ul id="notesList" class="auditor-notes"><li>Nothing to remark upon yet.</li></ul>
+        </div>
+
+        <div class="card rail-card" id="railEnvCard">
+          <h2 class="rail-title">Envelopes</h2>
+          <div id="railEnvelopes" class="rail-envelopes"></div>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <!-- ── ENVELOPES ── -->
+  <section id="panel-envelopes" class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Envelopes</h2>
+        <p class="panel-sub">Seal a monthly allowance into each envelope. Spending draws it down; the folio decides the month.</p>
+      </div>
+      <button id="addEnvBtn" class="btn btn-red">+ new envelope</button>
+    </div>
+    <div id="envelopeGrid" class="envelope-grid"></div>
+
+    <div class="panel-head orders-head">
+      <div>
+        <h2>Standing Orders</h2>
+        <p class="panel-sub">Lines that post themselves on the same day every month - rent, salary, subscriptions. Add one by writing <code>monthly</code> in the quick line or ticking “repeat monthly”.</p>
+      </div>
+    </div>
+    <div id="ordersList" class="orders-list"></div>
+  </section>
+
+  <!-- ── REPORTS ── -->
+  <section id="panel-reports" class="panel">
+    <div class="reports-grid">
+      <div class="card report-card">
+        <h2 class="rail-title">Six-Folio Trend</h2>
+        <p class="report-sub" id="trendSub">credits and debits, last six months</p>
+        <canvas id="trendCanvas" height="240"></canvas>
+      </div>
+      <div class="card report-card">
+        <h2 class="rail-title">Where It Went</h2>
+        <p class="report-sub" id="catSub">debits by category, this folio</p>
+        <div id="catBars" class="cat-bars"></div>
+      </div>
+    </div>
+
+    <div class="card records-card">
+      <h2 class="rail-title">The Records Office</h2>
+      <p class="report-sub">Everything lives in this browser only - nothing ever leaves your machine. Keep copies.</p>
+      <div class="records-actions">
+        <button id="exportCsvBtn" class="btn">export CSV</button>
+        <button id="backupBtn" class="btn">download backup</button>
+        <label class="btn" for="importInput">restore backup<input id="importInput" type="file" accept=".json,application/json" hidden></label>
+        <button id="clearBtn" class="btn btn-danger">burn the books</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <span>kept in <b>localStorage</b> - private by construction</span>
+  <span class="kbd-hints"><kbd>/</kbd> search · <kbd>N</kbd> entry · <kbd>[</kbd><kbd>]</kbd> folios · <kbd>T</kbd> lamp</span>
+</footer>
+
+<!-- ═══════════ ENTRY MODAL ═══════════ -->
+<div id="entryModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="entryTitle">
+  <div class="modal-bg" data-close="entryModal"></div>
+  <div class="modal-box">
+    <div class="modal-top">
+      <h3 id="entryTitle">New Entry</h3>
+      <button class="modal-x" data-close="entryModal" aria-label="Close">✕</button>
+    </div>
+    <form id="entryForm">
+      <input type="hidden" id="entryId">
+      <div class="type-toggle" id="entryTypeToggle">
+        <button type="button" class="type-btn active" data-type="out">Debit − out</button>
+        <button type="button" class="type-btn" data-type="in">Credit + in</button>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="entryAmount">Amount</label>
+          <input type="number" id="entryAmount" inputmode="decimal" step="0.01" min="0.01" placeholder="0.00" required>
+        </div>
+        <div class="form-group">
+          <label for="entryDate">Date</label>
+          <input type="date" id="entryDate" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="entryCategory">Category</label>
+        <select id="entryCategory" required></select>
+      </div>
+      <div class="form-group">
+        <label for="entryNote">Particulars</label>
+        <input type="text" id="entryNote" placeholder="what was it?" maxlength="80">
+      </div>
+      <label class="check-row" id="repeatRow">
+        <input type="checkbox" id="entryRepeat">
+        <span>repeat monthly (standing order)</span>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close="entryModal">cancel</button>
+        <button type="submit" class="btn btn-red" id="entrySaveBtn">post entry</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════ ENVELOPE MODAL ═══════════ -->
+<div id="envModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="envTitle">
+  <div class="modal-bg" data-close="envModal"></div>
+  <div class="modal-box">
+    <div class="modal-top">
+      <h3 id="envTitle">New Envelope</h3>
+      <button class="modal-x" data-close="envModal" aria-label="Close">✕</button>
+    </div>
+    <form id="envForm">
+      <input type="hidden" id="envId">
+      <div class="form-group">
+        <label for="envCategory">Category</label>
+        <select id="envCategory" required></select>
+      </div>
+      <div class="form-group">
+        <label for="envLimit">Monthly allowance</label>
+        <input type="number" id="envLimit" inputmode="decimal" step="0.01" min="1" placeholder="0.00" required>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close="envModal">cancel</button>
+        <button type="submit" class="btn btn-red">seal envelope</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════ CONFIRM MODAL ═══════════ -->
+<div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal-bg"></div>
+  <div class="modal-box modal-narrow">
+    <div class="modal-top"><h3 id="confirmTitle">Are you sure?</h3></div>
+    <p id="confirmMsg" class="confirm-msg"></p>
+    <div class="modal-actions">
+      <button type="button" class="btn" id="confirmCancel">keep them</button>
+      <button type="button" class="btn btn-danger" id="confirmOk">burn them</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastWrap" class="toast-wrap" aria-live="polite"></div>
+
+<script src="script.js"></script>
+<a id="back-to-all" href="../index.html"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>
