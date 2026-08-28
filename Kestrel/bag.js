@@ -67,7 +67,7 @@ function render() {
       <div class="sum-row sum-total"><span>Total</span><span>${fmtPrice(tot)}</span></div>
       <button class="btn-solid bag-checkout" id="checkoutBtn">Proceed to checkout</button>
       <a class="bag-cont" href="index.html#products">Continue shopping</a>
-      <p class="bag-note">Taxes calculated at checkout. This is a demo &mdash; no payment is taken.</p>
+      <p class="bag-note">Taxes calculated at checkout. This is a demo - no payment is taken.</p>
     </aside>`;
 
   layout.querySelectorAll('.bag-line').forEach(row => {

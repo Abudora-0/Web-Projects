@@ -76,7 +76,7 @@ function render() {
         <dl class="pdp-details">
           <div><dt>Fabric</dt><dd>${p.fabric}</dd></div>
           <div><dt>Care</dt><dd>${p.care} <a class="link-inline" href="care.html">Full care guide</a></dd></div>
-          <div><dt>Shipping</dt><dd>Free over Rs 12,000, otherwise Rs 500. Ships in 2&ndash;4 days.</dd></div>
+          <div><dt>Shipping</dt><dd>Free over Rs 12,000, otherwise Rs 500. Ships in 2-4 days.</dd></div>
           <div><dt>Returns</dt><dd>30 days, unworn with tags. Repairs free for the first year.</dd></div>
         </dl>
       </div>
