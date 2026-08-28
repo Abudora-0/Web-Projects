@@ -48,7 +48,7 @@ img { display: block; max-width: 100%; }
 }
 #navbar.solid { background: #000; border-bottom: 1px solid var(--border); }
 
-.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.nav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .nav-logo { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: var(--text); flex-shrink: 0; }
 .logo-mark { width: 30px; height: 30px; transition: transform .5s cubic-bezier(.34,1.4,.64,1); }
 .nav-logo:hover .logo-mark { transform: rotate(60deg); }
@@ -240,7 +240,7 @@ img { display: block; max-width: 100%; }
 .feature-text h2 { font-size: clamp(1.6rem, 3.4vw, 2.4rem); font-weight: 600; margin-bottom: 1rem; }
 .feature-text p { font-size: 1.05rem; color: #cbc9c3; line-height: 1.6; }
 .feature-media { flex: 1; min-width: 260px; display: flex; justify-content: center; }
-.feature-img { width: min(460px, 100%); border-radius: 6px; border: 1px solid var(--border); filter: saturate(.9) contrast(1.03); }
+.feature-img { display: block; width: min(460px, 100%); height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: var(--surface-2); border-radius: 6px; border: 1px solid var(--border); filter: saturate(.9) contrast(1.03); }
 
 .download-badge {
   display: flex; align-items: center; gap: .8rem;
@@ -426,4 +426,9 @@ img { display: block; max-width: 100%; }
   .pricing-grid { grid-template-columns: 1fr; }
   .hero-content h1 { font-size: 1.7rem; }
   .modal-hero-info h2 { font-size: 1.15rem; }
+  /* open search drops to a full-width bar under the nav instead of squeezing the row */
+  .nav-search:not(.hidden) {
+    position: absolute; top: calc(100% + .5rem); left: 0; right: 0;
+    width: auto; height: 40px; z-index: 5;
+  }
 }
