@@ -73,7 +73,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Portfolio](Portfolio/) | Editorial ink & ivory studio | Typing hero, numbered sections, project index |
 | [Blog Website](Blog%20Website/) | Broadsheet newspaper | 5 pages, search, dark "evening edition" |
 | [Landing Page](Landing%20Page/) | Brutalist gym poster | AI workout planner, BMI gauge, countdown |
-| [Foodies](Foodies/) | Warm artisan eatery | Menu cards with price leaders, map, contact |
+| [Cinder & Salt](Cinder%20%26%20Salt/) | Warm artisan eatery, cooked over fire | Split hero, menu cards with price leaders, map, contact |
 | [The Order Window](The%20Order%20Window/) | Late-night diner take-out window | Ticket-rail menu, cart-as-spike, kitchen-timer checkout |
 | [Thread & Rail](Thread%20%26%20Rail/) | Garment-district showroom | Rolling clothing rack, size/color picker, cart & checkout |
 | [The Perfumer's Atelier](The%20Perfumer's%20Atelier/) | Backlit perfume light table | Scent-note pyramid, glass-bottle illustrations, cart & checkout |
@@ -155,7 +155,7 @@ web-projects/
 ├── Badlands/            ├── SoundRoom/
 ├── Email Validator/     ├── Spotify Clone/
 ├── Ember & Anvil/       ├── The Apiary/
-├── Foodies/             ├── The Drop/
+├── Cinder & Salt/       ├── The Drop/
 ├── Incognito Mode/      ├── The Locked Room/
 ├── Landing Page/        ├── The Order Window/
 ├── Nova Expeditions/    ├── The Perfumer's Atelier/
