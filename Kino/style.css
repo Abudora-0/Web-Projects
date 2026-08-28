@@ -21,12 +21,11 @@
   --body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   background: var(--bg); color: var(--text);
   font-family: var(--body);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 h1, h2, h3 { font-family: var(--disp); font-weight: 600; line-height: 1.12; }
 img { display: block; max-width: 100%; }
