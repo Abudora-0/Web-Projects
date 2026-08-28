@@ -265,11 +265,11 @@
     const cp = Math.round(coverage * 100);
     corona.setAttribute('opacity', coverage > 0.9 ? String((coverage - 0.9) / 0.1) : '0');
     let phase, detail;
-    if (cp === 0 && pct < 0.5) { phase = 'First Contact'; detail = 'Coverage 0% — the Moon has just touched the Sun’s edge.'; }
-    else if (cp === 0 && pct >= 0.5) { phase = 'Fourth Contact'; detail = 'Coverage 0% — the Moon has cleared the Sun. Eclipse over.'; }
-    else if (cp >= 99) { phase = 'Totality'; detail = 'Coverage 100% — the corona is out. This is the moment an eclipse expedition is built around.'; }
-    else if (pct < 0.5) { phase = 'Partial — Moon advancing'; detail = `Coverage ${cp}% — the disc is being eaten from one side.`; }
-    else { phase = 'Partial — Moon receding'; detail = `Coverage ${cp}% — totality has passed; the disc is re-emerging.`; }
+    if (cp === 0 && pct < 0.5) { phase = 'First Contact'; detail = 'Coverage 0% - the Moon has just touched the Sun’s edge.'; }
+    else if (cp === 0 && pct >= 0.5) { phase = 'Fourth Contact'; detail = 'Coverage 0% - the Moon has cleared the Sun. Eclipse over.'; }
+    else if (cp >= 99) { phase = 'Totality'; detail = 'Coverage 100% - the corona is out. This is the moment an eclipse expedition is built around.'; }
+    else if (pct < 0.5) { phase = 'Partial - Moon advancing'; detail = `Coverage ${cp}% - the disc is being eaten from one side.`; }
+    else { phase = 'Partial - Moon receding'; detail = `Coverage ${cp}% - totality has passed; the disc is re-emerging.`; }
     phaseEl.textContent = phase;
     detailEl.textContent = detail;
   }
@@ -367,7 +367,7 @@
 
     drawStars(t, 1);
 
-    // radiant — a faint soft glow the streaks fan out from, no label
+    // radiant - a faint soft glow the streaks fan out from, no label
     const rg = ctx.createRadialGradient(RADIANT_X, radiantY, 0, RADIANT_X, radiantY, 26);
     rg.addColorStop(0, 'rgba(255,122,51,0.18)');
     rg.addColorStop(1, 'rgba(255,122,51,0)');
@@ -385,7 +385,7 @@
     }
     ctx.globalAlpha = 1;
 
-    // spawn — tuned for a lively watch, not a literal naked-eye rate
+    // spawn - tuned for a lively watch, not a literal naked-eye rate
     if (!reduceMotion && zhr > 0) {
       spawnAcc += dt * (zhr / 12);
       while (spawnAcc >= 1) { spawnMeteor(); spawnAcc -= 1; }
@@ -441,13 +441,13 @@
     }
     const hrs = (pct * 7).toFixed(1);
     if (alt <= 0.04) {
-      phaseEl.textContent = 'Dusk — radiant still low';
+      phaseEl.textContent = 'Dusk - radiant still low';
       detailEl.textContent = 'Only a handful of long, slow "earthgrazers" skimming the horizon. Worth staying up for what comes next.';
     } else if (pct < 0.55) {
-      phaseEl.textContent = `${hrs} h after dusk — rate climbing`;
+      phaseEl.textContent = `${hrs} h after dusk - rate climbing`;
       detailEl.textContent = `Radiant about ${Math.round(alt * 88)}° up. Roughly ${zhr} an hour and rising as it climbs.`;
     } else {
-      phaseEl.textContent = `${hrs} h after dusk — near peak`;
+      phaseEl.textContent = `${hrs} h after dusk - near peak`;
       detailEl.textContent = `Radiant high overhead, about ${zhr} an hour. The pre-dawn window Umbral plans the watch around.`;
     }
   }
@@ -517,14 +517,14 @@
     kpNow = Math.round(v / 100 * 9);
     const places = [
       'Barely a colourless glow on the northern horizon, even from the Arctic Circle.',
-      'A faint green arch, low to the north — Tromsø, Abisko, Fairbanks.',
+      'A faint green arch, low to the north - Tromsø, Abisko, Fairbanks.',
       'A steady green band overhead in northern Norway; a horizon glow from Scotland.',
       'Bright, slowly moving curtains overhead across Iceland and northern Finland.',
-      'Active and structured — folds and rays, visible well into the northern UK and Canada.',
+      'Active and structured - folds and rays, visible well into the northern UK and Canada.',
       'Storm-level. Curtains overhead as far south as the Baltic states and Oregon.',
-      'Rare severe storm — aurora photographed from central Europe and the US Midwest.'
+      'Rare severe storm - aurora photographed from central Europe and the US Midwest.'
     ];
-    phaseEl.textContent = `Kp ${kpNow} — ${kpNow >= 6 ? 'geomagnetic storm' : kpNow >= 4 ? 'active' : 'quiet'}`;
+    phaseEl.textContent = `Kp ${kpNow} - ${kpNow >= 6 ? 'geomagnetic storm' : kpNow >= 4 ? 'active' : 'quiet'}`;
     detailEl.textContent = places[clamp(Math.round(kpNow / 9 * (places.length - 1)), 0, places.length - 1)];
   }
 
@@ -532,7 +532,7 @@
   const LABELS = {
     eclipse: 'First contact → totality → last contact',
     meteor: 'Dusk → midnight → pre-dawn',
-    aurora: 'Kp index — quiet → geomagnetic storm'
+    aurora: 'Kp index - quiet → geomagnetic storm'
   };
 
   let raf = 0, last = 0, visible = true;
