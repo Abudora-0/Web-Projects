@@ -47,7 +47,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [SoundRoom](SoundRoom%20-%20An%20Album%20Player/) | Record shop: crate, pressing station & turntable | Web Audio VU meters + vinyl crackle + tone controls, album builder, tonearm deck, lyric booklet, spins & runtime |
 | [Halcyon](Halcyon/) | The page *is* the sky - living gradient, real sun/moon | Sentence-form conditions, scrub-the-day, rain nowcast, pollen, installable PWA |
 | [Xchange](Xchange/) | Split-flap airport departure board | 166 currencies, history charts, favourites, rate ticker |
-| [The Cellar Door](The%20Cellar%20Door/) | Prohibition-era speakeasy - the password gets you in | AES-256 encrypted vault, passphrase mixologist, breach check, clipboard burn |
+| [The Cellar Door](The%20Cellar%20Door%20-%20Password%20Manager/) | Prohibition-era speakeasy - the password gets you in | AES-256 vault, passphrase mixologist, live 2FA codes, secure notes, breach check, clipboard burn, CSV import |
 | [To Do List](To%20Do%20List/) | Stationery legal pad + clipboard | Priorities, categories, drag & drop, undo |
 | [De Calc](De%20Calc/) | Dieter Rams / Braun hardware | Scientific mode, memory keys, history |
 | [Email Validator](Email%20Validator/) | "The Sorting Office" postal desk | Typo fixes, disposable detection, batch CSV |
