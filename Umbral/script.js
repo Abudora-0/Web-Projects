@@ -367,18 +367,12 @@
 
     drawStars(t, 1);
 
-    // radiant marker
-    ctx.globalAlpha = 0.5;
-    ctx.strokeStyle = '#ff7a33'; ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(RADIANT_X - 6, radiantY); ctx.lineTo(RADIANT_X + 6, radiantY);
-    ctx.moveTo(RADIANT_X, radiantY - 6); ctx.lineTo(RADIANT_X, radiantY + 6);
-    ctx.stroke();
-    ctx.globalAlpha = 0.7;
-    ctx.fillStyle = '#ffb27a'; ctx.font = '10px "IBM Plex Mono", monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('radiant', RADIANT_X, radiantY - 12);
-    ctx.globalAlpha = 1;
+    // radiant — a faint soft glow the streaks fan out from, no label
+    const rg = ctx.createRadialGradient(RADIANT_X, radiantY, 0, RADIANT_X, radiantY, 26);
+    rg.addColorStop(0, 'rgba(255,122,51,0.18)');
+    rg.addColorStop(1, 'rgba(255,122,51,0)');
+    ctx.fillStyle = rg;
+    ctx.beginPath(); ctx.arc(RADIANT_X, radiantY, 26, 0, 7); ctx.fill();
 
     // persistent trains
     for (let i = trains.length - 1; i >= 0; i--) {

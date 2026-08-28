@@ -165,13 +165,15 @@ section { padding: 6.5rem 1.5rem; }
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.55em;
+  gap: 0.6em;
   font-family: var(--font-display);
-  font-size: 1.05rem;
-  letter-spacing: 0.02em;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: var(--star-white);
 }
-.brand-mark { width: 26px; height: 26px; color: var(--star-white); flex-shrink: 0; }
+.brand-mark { width: 46px; height: 26px; color: var(--star-white); flex-shrink: 0; }
+.footer-brand .brand-mark { width: 52px; height: 30px; }
 .main-nav { display: flex; gap: 2rem; }
 .main-nav a {
   font-size: 0.86rem;
