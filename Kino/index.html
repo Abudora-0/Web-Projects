@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0c0c0e" />
+  <meta name="description" content="Kino - every film, every series, one flat fee. Stream on any screen, download for the plane, cancel whenever." />
+  <title>Kino - Stream Without the Shouting</title>
+
+  <!-- Favicon: aperture -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230c0c0e'/%3E%3Cg fill='%23eab34a'%3E%3Cpath d='M16 4 L24 8.6 L24 17.5 L16 12.9 Z'/%3E%3Cpath d='M28 16 L23.5 24 L15 24 L19.5 16 Z' opacity='.72'/%3E%3Cpath d='M16 28 L8 23.4 L8 14.5 L16 19.1 Z' opacity='.5'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3.4' fill='%230c0c0e'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ───────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" aria-label="Kino home">
+        <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <g fill="var(--amber)">
+            <path d="M16 3 L25 8.2 L25 18.4 L16 13.2 Z"/>
+            <path d="M29.5 16 L24.4 25 L14.6 25 L19.7 16 Z" opacity=".74"/>
+            <path d="M16 29 L7 23.8 L7 13.6 L16 18.8 Z" opacity=".5"/>
+            <path d="M2.5 16 L7.6 7 L17.4 7 L12.3 16 Z" opacity=".32"/>
+          </g>
+          <circle cx="16" cy="16" r="3.6" fill="var(--bg)"/>
+        </svg>
+        <span class="logo-word">Kino</span>
+      </a>
+
+      <div class="nav-right">
+        <button class="nav-search-toggle" id="navSearchToggle" aria-label="Search"><i class="fas fa-search"></i></button>
+        <div class="nav-search hidden" id="navSearch">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Titles, genres" aria-label="Search titles" autocomplete="off" />
+          <button class="nav-search-clear" id="searchClear" aria-label="Clear"><i class="fas fa-xmark"></i></button>
+        </div>
+        <select class="lang-select" aria-label="Language">
+          <option>English</option>
+          <option>اردو</option>
+          <option>हिन्दी</option>
+        </select>
+        <button class="btn-accent-sm">Sign In</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────── -->
+  <section class="hero-section">
+    <div class="hero-bg">
+      <div class="hero-poster-wall" id="posterWall" aria-hidden="true"></div>
+      <div class="hero-gradient-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <h1>Every film, every series,<br>one flat fee</h1>
+      <p class="hero-sub">Plans from PKR 250 a month. Cancel whenever, no questions.</p>
+      <p class="hero-cta-text">Ready to watch? Enter your email to create or restart your membership.</p>
+      <div class="hero-email-row">
+        <div class="email-input-wrap">
+          <i class="fas fa-envelope email-icon"></i>
+          <input type="email" placeholder="Email address" id="heroEmail" />
+        </div>
+        <button class="btn-accent-lg" onclick="handleGetStarted()">
+          Get Started <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <p class="hero-note" id="heroNote"></p>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── SEARCH RESULTS ───────────────────────────────── -->
+  <section class="search-results hidden" id="searchResults">
+    <div class="sr-inner">
+      <h2 id="srHeading">Results</h2>
+      <div class="sr-grid" id="srGrid"></div>
+      <p class="sr-empty hidden" id="srEmpty">Nothing matches that. Try a different word.</p>
+    </div>
+  </section>
+
+  <!-- ── CONTENT ROWS ─────────────────────────────────── -->
+  <section class="content-rows-section" id="rowsSection">
+    <div class="row-block hidden" id="block-mylist">
+      <div class="row-header">
+        <h2 class="row-title">My List</h2>
+      </div>
+      <div class="row-track-wrap">
+        <button class="row-arrow row-prev" data-row="mylist" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+        <div class="row-track" id="row-mylist"></div>
+        <button class="row-arrow row-next" data-row="mylist" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <div class="row-block">
+      <div class="row-header">
+        <h2 class="row-title"><span class="trending-rank" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><g fill="currentColor"><path d="M16 4 L25 9 L25 19 L16 14 Z"/><path d="M28 16 L23 25 L14 25 L19 16 Z" opacity=".7"/><path d="M16 28 L7 23 L7 13 L16 18 Z" opacity=".45"/></g></svg>
+        </span> Trending Now</h2>
+      </div>
+      <div class="row-track-wrap">
+        <button class="row-arrow row-prev" data-row="trending" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+        <div class="row-track" id="row-trending"></div>
+        <button class="row-arrow row-next" data-row="trending" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <div class="row-block">
+      <div class="row-header">
+        <h2 class="row-title">Popular on Kino</h2>
+      </div>
+      <div class="row-track-wrap">
+        <button class="row-arrow row-prev" data-row="popular" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+        <div class="row-track" id="row-popular"></div>
+        <button class="row-arrow row-next" data-row="popular" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <div class="row-block">
+      <div class="row-header">
+        <h2 class="row-title">New &amp; Noteworthy</h2>
+      </div>
+      <div class="row-track-wrap">
+        <button class="row-arrow row-prev" data-row="new" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+        <div class="row-track" id="row-new"></div>
+        <button class="row-arrow row-next" data-row="new" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── FEATURE: TV ───────────────────────────────────── -->
+  <section class="feature-sec">
+    <div class="feature-inner">
+      <div class="feature-text">
+        <h2>Made for the big screen</h2>
+        <p>Kino runs on smart TVs, game consoles, streaming sticks and set-top boxes. Sign in once and pick up wherever you left off.</p>
+      </div>
+      <div class="feature-media">
+        <img class="feature-img" src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=900&q=70" alt="A television in a dim living room" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── FEATURE: MOBILE ──────────────────────────────── -->
+  <section class="feature-sec feature-reverse">
+    <div class="feature-inner">
+      <div class="feature-media">
+        <img class="feature-img" src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=70" alt="Someone watching a phone" loading="lazy" />
+      </div>
+      <div class="feature-text">
+        <h2>Take it offline</h2>
+        <p>Download episodes and films to your phone or tablet and watch on the plane, the train, or anywhere the signal drops.</p>
+        <div class="download-badge">
+          <div class="badge-poster"></div>
+          <div class="badge-text">
+            <span>Downloading…</span>
+            <span class="badge-sub">Money Heist &middot; S1 E1</span>
+          </div>
+          <div class="badge-anim"><i class="fas fa-arrow-down"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── FEATURE: EVERYWHERE ──────────────────────────── -->
+  <section class="feature-sec">
+    <div class="feature-inner">
+      <div class="feature-text">
+        <h2>One account, every device</h2>
+        <p>Phone, tablet, laptop, TV — your watchlist and your place in every episode follow you, at no extra cost.</p>
+      </div>
+      <div class="feature-media">
+        <img class="feature-img" src="https://images.unsplash.com/photo-1601944177325-f8867652837f?auto=format&fit=crop&w=900&q=70" alt="A tablet and a laptop" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── FEATURE: KIDS ────────────────────────────────── -->
+  <section class="feature-sec feature-reverse">
+    <div class="feature-inner">
+      <div class="feature-media">
+        <img class="feature-img" src="https://images.unsplash.com/photo-1606166187734-a4cb74079037?auto=format&fit=crop&w=900&q=70" alt="Children watching a screen" loading="lazy" />
+      </div>
+      <div class="feature-text">
+        <h2>A safer corner for kids</h2>
+        <p>Create a kids profile with its own picks, a PIN, and a maturity limit you set. Included with every plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── PRICING ───────────────────────────────────────── -->
+  <section class="pricing-sec" id="pricing">
+    <div class="pricing-inner">
+      <h2 class="sec-title">Pick a plan</h2>
+      <p class="sec-sub">Watch all you want. No ads, no contract.</p>
+
+      <div class="pricing-grid">
+        <div class="plan-card">
+          <div class="plan-top">
+            <div class="plan-name">Mobile</div>
+            <div class="plan-price">PKR 250<span>/mo</span></div>
+          </div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> Phone &amp; tablet</li>
+            <li><i class="fas fa-check"></i> Good quality</li>
+            <li><i class="fas fa-check"></i> 1 screen at a time</li>
+            <li class="no"><i class="fas fa-xmark"></i> Downloads</li>
+            <li class="no"><i class="fas fa-xmark"></i> 4K + HDR</li>
+          </ul>
+          <button class="plan-btn">Choose Mobile</button>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-top">
+            <div class="plan-name">Basic</div>
+            <div class="plan-price">PKR 450<span>/mo</span></div>
+          </div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> TV, phone &amp; tablet</li>
+            <li><i class="fas fa-check"></i> Good quality</li>
+            <li><i class="fas fa-check"></i> 1 screen at a time</li>
+            <li><i class="fas fa-check"></i> Downloads</li>
+            <li class="no"><i class="fas fa-xmark"></i> 4K + HDR</li>
+          </ul>
+          <button class="plan-btn">Choose Basic</button>
+        </div>
+
+        <div class="plan-card featured-plan">
+          <div class="featured-badge"><i class="fas fa-star"></i> Most Popular</div>
+          <div class="plan-top">
+            <div class="plan-name">Standard</div>
+            <div class="plan-price">PKR 750<span>/mo</span></div>
+          </div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> TV, phone &amp; tablet</li>
+            <li><i class="fas fa-check"></i> Full HD (1080p)</li>
+            <li><i class="fas fa-check"></i> 2 screens at a time</li>
+            <li><i class="fas fa-check"></i> Downloads</li>
+            <li class="partial"><i class="fas fa-minus"></i> No 4K</li>
+          </ul>
+          <button class="plan-btn plan-btn-featured">Choose Standard</button>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-top">
+            <div class="plan-name">Premium</div>
+            <div class="plan-price">PKR 1,100<span>/mo</span></div>
+          </div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> TV, phone &amp; tablet</li>
+            <li><i class="fas fa-check"></i> Ultra HD (4K) + HDR</li>
+            <li><i class="fas fa-check"></i> 4 screens at a time</li>
+            <li><i class="fas fa-check"></i> Downloads</li>
+            <li><i class="fas fa-check"></i> Spatial audio</li>
+          </ul>
+          <button class="plan-btn">Choose Premium</button>
+        </div>
+      </div>
+
+      <p class="pricing-note">HD, Full HD, Ultra HD and HDR availability depend on your internet and device. Not all titles are available in every resolution.</p>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── FAQ ───────────────────────────────────────────── -->
+  <section class="faq-sec">
+    <div class="faq-inner">
+      <h2>Frequently asked questions</h2>
+
+      <div class="faq-list" id="faqList">
+        <div class="faq-item">
+          <button class="faq-q">What is Kino? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-ans">Kino is a streaming service with a wide range of films, series, documentaries and animation on the devices you already own. Watch as much as you want, whenever you want — with no ads.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">How much does Kino cost? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-ans">One fixed monthly fee, from PKR 250 to PKR 1,100 depending on the plan. No add-ons, no contract, and you can change plan any time.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Where can I watch? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-ans">Anywhere. Sign in to watch instantly on the web, or through the Kino app on smart TVs, phones, tablets, streaming players and consoles. Downloads work offline on mobile and tablet.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">How do I cancel? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-ans">In two clicks from your account page. No cancellation fee, no phone call. Start again whenever you like and your list will still be there.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is Kino good for kids? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-ans">A kids profile comes with every membership. It has its own catalogue, a PIN, and a maturity limit you control, so children stay in an age-appropriate space.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Can I watch on more than one screen? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-ans">Yes — the Standard plan streams on two screens at once, and Premium on four. Everyone in the house can have their own profile either way.</div>
+        </div>
+      </div>
+
+      <div class="faq-email-cta">
+        <p>Ready to watch? Enter your email to create or restart your membership.</p>
+        <div class="hero-email-row">
+          <div class="email-input-wrap">
+            <i class="fas fa-envelope email-icon"></i>
+            <input type="email" placeholder="Email address" id="footerEmail" />
+          </div>
+          <button class="btn-accent-lg" onclick="handleGetStarted('footer')">
+            Get Started <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <p class="hero-note" id="footerNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── FOOTER ────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-phone"><i class="fas fa-phone"></i> Questions? Call 0800-000-546</p>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="#">FAQ</a><a href="#">Help Centre</a><a href="#">Account</a><a href="#">Media Centre</a>
+        </div>
+        <div class="footer-col">
+          <a href="#">Ways to Watch</a><a href="#">Terms of Use</a><a href="#">Privacy</a><a href="#">Cookie Preferences</a>
+        </div>
+        <div class="footer-col">
+          <a href="#">Corporate Information</a><a href="#">Contact Us</a><a href="#">Speed Test</a><a href="#">Legal Notices</a>
+        </div>
+        <div class="footer-col">
+          <a href="#">Jobs</a><a href="#">Only on Kino</a><a href="#">Gift Cards</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <select class="lang-select lang-select-footer" aria-label="Language">
+          <option>English</option>
+          <option>اردو</option>
+          <option>हिन्दी</option>
+        </select>
+        <span class="footer-copy">Kino Pakistan &copy; 2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── MODAL ─────────────────────────────────────────── -->
+  <div class="modal-overlay hidden" id="movieModal">
+    <div class="modal-card" id="modalCard">
+      <button class="modal-close" id="modalClose" aria-label="Close"><i class="fas fa-xmark"></i></button>
+      <div class="modal-hero" id="modalHero">
+        <img id="modalBanner" src="" alt="" />
+        <div class="modal-hero-overlay"></div>
+        <div class="modal-hero-info">
+          <h2 id="modalTitle"></h2>
+          <div class="modal-actions">
+            <button class="modal-play-btn" id="modalPlay"><i class="fas fa-play"></i> Play trailer</button>
+            <button class="modal-add-btn" id="modalAdd"><i class="fas fa-plus"></i> My List</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-meta-row">
+          <span class="modal-match" id="modalMatch"></span>
+          <span class="modal-year" id="modalYear"></span>
+          <span class="modal-rating-badge" id="modalRating"></span>
+          <span class="modal-seasons" id="modalSeasons"></span>
+        </div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-genres"><strong>Genres: </strong><span id="modalGenres"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#161618;color:#eab34a;border:1px solid #33333a;border-radius:4px;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='#eab34a';this.style.color='#161618';this.style.borderColor='#eab34a'" onmouseout="this.style.background='#161618';this.style.color='#eab34a';this.style.borderColor='#33333a'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+</body>
+</html>
