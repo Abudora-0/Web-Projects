@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Off the Record — Private Browsing</title>
+  <title>Off the Record - Private Browsing</title>
 
   <!-- Fedora favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23141210'/%3E%3Cellipse cx='16' cy='21' rx='12' ry='3.5' fill='%23d8cbb3'/%3E%3Cpath d='M8 21 Q8 11 16 11 Q24 11 24 21 Z' fill='%23d8cbb3'/%3E%3Crect x='8' y='17.5' width='16' height='3' fill='%23a03c38'/%3E%3C/svg%3E" />
@@ -52,8 +52,9 @@
       <h1 class="title">You're off the record.</h1>
       <p class="subtitle">
         As far as this machine is concerned, you were never here. No history, no cookies,
-        no paper trail. But remember, detective — the walls outside this office still have
-        <span class="redact">&#9608;&#9608;&#9608;&#9608;&#9608;</span> ears.
+        no paper trail. But remember, detective - the walls outside this office still have
+        <span class="redact" id="redact" role="button" tabindex="0"
+              aria-label="Redacted word - reveal" data-word="advertisers'">&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;</span> ears.
         <a href="https://support.google.com/chrome/?p=incognito" target="_blank" class="link">Read the fine print</a>
       </p>
     </div>
@@ -104,6 +105,30 @@
 
   </main>
 
+  <!-- ── THE FILE ON YOU ────────────────────── -->
+  <section class="dossier-file" id="dossierFile">
+    <div class="df-head">
+      <span class="df-title">The file on you</span>
+      <span class="df-meta">compiled <span id="dfTime">--:--:--</span> &middot; held for this session only</span>
+    </div>
+    <p class="df-intro">
+      Blocking cookies closes one door. Every request your browser sends still carries the
+      description below - and the combination is usually enough to pick one person out of a crowd.
+    </p>
+    <dl class="df-list" id="dfList"></dl>
+    <div class="df-foot">
+      <div class="df-fp">
+        <span class="df-fp-label">How much you stand out</span>
+        <div class="df-fp-bar"><span id="dfFpBar"></span></div>
+        <span class="df-fp-verdict" id="dfFpVerdict">reading the wire&hellip;</span>
+      </div>
+      <p class="df-note">
+        Rough estimate from what this page can see - a real fingerprinting service reads far more.
+        On the wire, this set hashes to <span class="df-hash" id="dfHash">&#9608;&#9608;&#9608;&#9608;</span>.
+      </p>
+    </div>
+  </section>
+
   <!-- ── EXTRA FEATURES ─────────────────────── -->
   <section class="extras" id="extras">
 
@@ -137,6 +162,23 @@
       <div class="tip-dots" id="tipDots"></div>
     </div>
 
+  </section>
+
+  <!-- ── SHRED THE EVIDENCE ─────────────────── -->
+  <section class="shred-section" id="shredSection">
+    <div class="shred-card" id="shredCard">
+      <div class="shred-face" id="shredFace">
+        <div class="shred-ico"><i class="fas fa-fire-flame-curved"></i></div>
+        <div class="shred-copy">
+          <div class="shred-title">Shred the evidence</div>
+          <div class="shred-desc">Wipe everything this page kept on this machine - the informant toggle, the case notes, all of it.</div>
+        </div>
+        <button class="shred-btn" id="shredBtn" type="button">Burn it</button>
+      </div>
+      <div class="shred-done" id="shredDone" hidden>
+        <span class="shred-stamp">Nothing on record</span>
+      </div>
+    </div>
   </section>
 
   <!-- ── KEYBOARD SHORTCUTS ─────────────────── -->
