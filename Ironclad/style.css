@@ -714,11 +714,18 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
 .price-card.featured .btn-primary { border-color: var(--bone); }
 
 /* ── TESTIMONIALS ─────────────────────────────── */
-.testi-track-wrap { display: flex; align-items: center; gap: 1rem; max-width: 100%; }
+/* grid, not flex: the middle track column is minmax(0,1fr) so it always
+   shrinks to fit and overflow-x actually does the scrolling */
+.testi-track-wrap {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  max-width: 100%;
+}
 
 .testi-track {
-  flex: 1;
-  min-width: 0;            /* let the flex item shrink so overflow-x actually scrolls */
+  min-width: 0;
   display: flex;
   gap: 1.2rem;
   overflow-x: auto;
