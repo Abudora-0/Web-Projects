@@ -27,6 +27,7 @@ const GNX_DEFAULT = {
   id: 'gnx-default', title: 'GNX', artist: 'Kendrick Lamar',
   year: '2024', genre: 'Hip-Hop', accent: '#e8933a',
   artUrl: 'covers/1.jpg', bgUrl: 'bg.webp', songs: GNX_SONGS,
+  notes: "A blank pressing. Drop numbered rips (1.mp3, 2.mp3 ...) into this project's /songs folder and cover art into /covers to cut the record.",
 };
 
 function sp(folder, file, title, artist) {
@@ -35,7 +36,6 @@ function sp(folder, file, title, artist) {
 }
 
 const PRESET_ALBUMS = [
-  GNX_DEFAULT,
   {
     id: 'billie-hmhas', title: 'HIT ME HARD AND SOFT', artist: 'Billie Eilish',
     year: '2024', genre: 'Pop', accent: '#a3e6b0',
@@ -188,6 +188,7 @@ const PRESET_ALBUMS = [
       sp('weeknd','14. Until I Bleed Out.mp3','Until I Bleed Out','The Weeknd'),
     ],
   },
+  GNX_DEFAULT,
 ];
 
 /* ── State ──────────────────────────────────── */
