@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FooDies — Honest Food, Made With Fire</title>
+    <meta name="theme-color" content="#f7f1e5">
+    <title>Cinder &amp; Salt - Honest Food, Made With Fire</title>
 
-    <!-- Terracotta flame-fork favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f7f1e5'/%3E%3Cpath d='M16 4 C20 9 23 12 23 18 A7 7 0 0 1 9 18 C9 12 12 9 16 4 Z' fill='%23c4552e'/%3E%3Cpath d='M16 12 C18 15 19.5 16.5 19.5 19.5 A3.5 3.5 0 0 1 12.5 19.5 C12.5 16.5 14 15 16 12 Z' fill='%23e9b44c'/%3E%3C/svg%3E" />
+    <!-- Two-tone flame favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f7f1e5'/%3E%3Cpath d='M16 5 C20 10.5 23 13.5 23 18 A7 7 0 0 1 9 18 C9 13.5 12 10.5 16 5 Z' fill='%23c4552e'/%3E%3Cpath d='M16 13 C17.8 15.4 19 16.8 19 19 A3 3 0 0 1 13 19 C13 16.8 14.2 15.4 16 13 Z' fill='%23e9b44c'/%3E%3C/svg%3E" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -19,10 +21,10 @@
     <nav class="topnav" id="home">
         <div class="logo-container">
             <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
-                <path d="M16 3 C20.5 8.5 24 11.5 24 18 A8 8 0 0 1 8 18 C8 11.5 11.5 8.5 16 3 Z" fill="var(--terracotta)"/>
+                <path d="M16 3 C20.5 9 24 12.5 24 18 A8 8 0 0 1 8 18 C8 12.5 11.5 9 16 3 Z" fill="var(--terracotta)"/>
                 <path d="M16 12 C18.2 15 20 16.8 20 20 A4 4 0 0 1 12 20 C12 16.8 13.8 15 16 12 Z" fill="var(--mustard)"/>
             </svg>
-            <span class="logo-font"><a href="#home">FooDies</a></span>
+            <span class="logo-font"><a href="#home">Cinder <em>&amp;</em> Salt</a></span>
         </div>
         <ul>
             <li><a href="#home">Home</a></li>
@@ -33,27 +35,33 @@
     </nav>
 
     <header class="hero">
-        <div class="hero-content">
-            <p class="hero-kicker">est. 2025 &mdash; foodie city</p>
-            <h1 id="headline">Honest food, made with fire.</h1>
-            <p id="subline">A place where food lovers gather</p>
-            <div class="search-container">
-                <input type="text" placeholder="Burgers, pizza, wings&hellip;">
-                <button>Search</button>
+        <div class="hero-grid">
+            <div class="hero-content">
+                <p class="hero-kicker">est. 2025 &mdash; cooked over open fire</p>
+                <h1 id="headline">Honest food, made with fire.</h1>
+                <p id="subline">A table worth coming back to.</p>
+                <div class="search-container">
+                    <input type="text" placeholder="Burgers, tacos, wings&hellip;">
+                    <button>Search</button>
+                </div>
+            </div>
+            <div class="hero-photo">
+                <img src="img/1.jpeg" alt="A flame-grilled burger fresh off the board" loading="eager">
+                <span class="hero-photo-tag">flame-grilled daily</span>
             </div>
         </div>
         <div class="hero-ornament" aria-hidden="true">&#10045;</div>
     </header>
 
-    <!-- ── MENU ─────────────────────────────── -->
+    <!-- MENU -->
     <section class="menu-section" id="menu">
         <p class="section-kicker">from the kitchen</p>
-        <h2 class="menu-heading">Our Menu</h2>
+        <h2 class="menu-heading">The Menu</h2>
         <div class="heading-flourish" aria-hidden="true"><span>&#10045;</span></div>
 
         <div class="menu-container">
             <div class="menu-item">
-                <div class="menu-img-wrap"><img src="img/burger.jpeg" loading="lazy" alt="Classic Burger"></div>
+                <div class="menu-img-wrap"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Classic Burger"></div>
                 <div class="menu-body">
                     <div class="menu-title-row"><h3>Classic Burger</h3><span class="dots"></span><span class="price">$8.99</span></div>
                     <p>Juicy beef patty with fresh lettuce, tomato, and cheese.</p>
@@ -61,7 +69,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <div class="menu-img-wrap"><img src="img/nuggets.jpeg" loading="lazy" alt="Chicken Nuggets"></div>
+                <div class="menu-img-wrap"><img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Chicken Nuggets"></div>
                 <div class="menu-body">
                     <div class="menu-title-row"><h3>Chicken Nuggets</h3><span class="dots"></span><span class="price">$6.99</span></div>
                     <p>Crispy and golden, served with your choice of dipping sauce.</p>
@@ -69,7 +77,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <div class="menu-img-wrap"><img src="img/pizza.jpeg" loading="lazy" alt="Italian Pizza"></div>
+                <div class="menu-img-wrap"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Italian Pizza"></div>
                 <div class="menu-body">
                     <div class="menu-title-row"><h3>Italian Pizza</h3><span class="dots"></span><span class="price">$9.99</span></div>
                     <p>Classic Italian pizza with a perfectly baked crust.</p>
@@ -77,7 +85,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <div class="menu-img-wrap"><img src="img/tacos.jpeg" loading="lazy" alt="Spicy Tacos"></div>
+                <div class="menu-img-wrap"><img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Spicy Tacos"></div>
                 <div class="menu-body">
                     <div class="menu-title-row"><h3>Spicy Tacos</h3><span class="dots"></span><span class="price">$7.99</span></div>
                     <p>Delicious tacos with a spicy kick, served with salsa.</p>
@@ -85,7 +93,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <div class="menu-img-wrap"><img src="img/grilled_sandwich.jpeg" loading="lazy" alt="Grilled Sandwich"></div>
+                <div class="menu-img-wrap"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Grilled Sandwich"></div>
                 <div class="menu-body">
                     <div class="menu-title-row"><h3>Grilled Sandwich</h3><span class="dots"></span><span class="price">$5.99</span></div>
                     <p>Grilled to perfection with a variety of fillings.</p>
@@ -93,7 +101,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <div class="menu-img-wrap"><img src="img/fries.jpeg" loading="lazy" alt="French Fries"></div>
+                <div class="menu-img-wrap"><img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="French Fries"></div>
                 <div class="menu-body">
                     <div class="menu-title-row"><h3>French Fries</h3><span class="dots"></span><span class="price">$3.99</span></div>
                     <p>Golden and crispy, served with ketchup.</p>
@@ -101,7 +109,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <div class="menu-img-wrap"><img src="img/wings.jpeg" loading="lazy" alt="Spicy Wings"></div>
+                <div class="menu-img-wrap"><img src="https://images.unsplash.com/photo-1608039755401-742074f0548d?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Spicy Wings"></div>
                 <div class="menu-body">
                     <div class="menu-title-row"><h3>Spicy Wings</h3><span class="dots"></span><span class="price">$8.99</span></div>
                     <p>Hot and spicy chicken wings served with ranch dip.</p>
@@ -109,7 +117,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <div class="menu-img-wrap"><img src="img/fish_chips.jpeg" loading="lazy" alt="Fish and Chips"></div>
+                <div class="menu-img-wrap"><img src="https://images.unsplash.com/photo-1579208030886-b937da0925dc?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Fish and Chips"></div>
                 <div class="menu-body">
                     <div class="menu-title-row"><h3>Fish &amp; Chips</h3><span class="dots"></span><span class="price">$10.99</span></div>
                     <p>Classic battered fish served with crispy fries.</p>
@@ -119,21 +127,21 @@
         </div>
     </section>
 
-    <!-- ── ABOUT ────────────────────────────── -->
+    <!-- ABOUT -->
     <section class="about-us" id="about">
         <div class="about-container">
             <p class="section-kicker light">our story</p>
-            <h2 class="about-heading">About <span class="about-logofont">FooDies</span></h2>
+            <h2 class="about-heading">About <span class="about-logofont">Cinder &amp; Salt</span></h2>
             <div class="about-content">
-                <div class="about-img-frame"><img src="img/aboutpic.jpeg" alt="Inside the FooDies restaurant"></div>
+                <div class="about-img-frame"><img src="img/aboutpic.jpeg" alt="Inside the Cinder &amp; Salt dining room"></div>
                 <div class="about-text">
-                    <p>Welcome to FooDies, where every meal is a celebration. Our mission is to serve delicious,
-                        mouth-watering food that delights your taste buds — from juicy burgers to crispy chicken
-                        nuggets, every dish is crafted with love and passion.</p>
-                    <p>Founded in 2025, FooDies is committed to the freshest ingredients and honest recipes.
+                    <p>Welcome to Cinder &amp; Salt, where every meal is a celebration. Our mission is to serve
+                        delicious, mouth-watering food that delights your taste buds - from juicy burgers to crispy
+                        chicken nuggets, every dish is crafted with love and passion.</p>
+                    <p>Founded in 2025, Cinder &amp; Salt is committed to the freshest ingredients and honest recipes.
                         Our kitchen team makes every plate to order, giving you a burst of flavour in every bite.</p>
                     <p>We believe in a warm, inviting room where friends and families come together over great
-                        food and great company. Dine in, take out, or order online — we promise a meal worth
+                        food and great company. Dine in, take out, or order online - we promise a meal worth
                         coming back for.</p>
                     <a class="menu-button" href="#menu">See Our Menu</a>
                 </div>
@@ -141,10 +149,10 @@
         </div>
     </section>
 
-    <!-- ── CONTACT ──────────────────────────── -->
+    <!-- CONTACT -->
     <section class="contact-section" id="contact">
         <p class="section-kicker">find us</p>
-        <h2 class="contact-heading">Contact Us</h2>
+        <h2 class="contact-heading">Come By</h2>
         <div class="heading-flourish" aria-hidden="true"><span>&#10045;</span></div>
 
         <div class="contact-container">
@@ -159,22 +167,22 @@
                 </div>
                 <div class="contact-row">
                     <span class="contact-label">The address</span>
-                    <span class="contact-value">123 Fast Food St, Foodie City, FC 12345</span>
+                    <span class="contact-value">123 Firepit Lane, Foodie City, FC 12345</span>
                 </div>
 
                 <div class="social-media">
                     <span class="contact-label">Follow along</span>
                     <div class="social-icons">
-                        <a href="https://www.instagram.com/yourhandle" target="_blank" aria-label="Instagram">
+                        <a href="https://www.instagram.com/yourhandle" target="_blank" rel="noopener" aria-label="Instagram">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
                         </a>
-                        <a href="https://www.facebook.com/yourhandle" target="_blank" aria-label="Facebook">
+                        <a href="https://www.facebook.com/yourhandle" target="_blank" rel="noopener" aria-label="Facebook">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 8h3V4.5h-3c-2.2 0-4 1.8-4 4V11H7v3.5h3V21h3.5v-6.5h3l.5-3.5h-3.5V8.8c0-.5.3-.8.5-.8Z"/></svg>
                         </a>
-                        <a href="https://www.linkedin.com/in/yourhandle" target="_blank" aria-label="LinkedIn">
+                        <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener" aria-label="LinkedIn">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10.5" x2="8" y2="17"/><circle cx="8" cy="7.5" r="0.8" fill="currentColor"/><path d="M12 17v-4a2.4 2.4 0 0 1 4.8 0v4"/><line x1="12" y1="10.5" x2="12" y2="17"/></svg>
                         </a>
-                        <a href="https://www.twitter.com/yourhandle" target="_blank" aria-label="X">
+                        <a href="https://www.twitter.com/yourhandle" target="_blank" rel="noopener" aria-label="X">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l16 16M20 4L4 20"/></svg>
                         </a>
                     </div>
@@ -183,7 +191,7 @@
             <div class="contact-map">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d617.2014364538791!2d74.26010003819077!3d31.471185354969908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3919039f3eaa74f7%3A0x17cdd4217cf18d76!2sAman%20plaza!5e0!3m2!1sen!2s!4v1736346075483!5m2!1sen!2s"
-                    title="FooDies location map"
+                    title="Cinder &amp; Salt location map"
                     style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
@@ -191,7 +199,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2025 FooDies &middot; All rights reserved &middot; Built with <span class="heart">&#10084;</span> by <a href="#">Abdullah</a></p>
+        <p>&copy; 2025 Cinder &amp; Salt &middot; All rights reserved &middot; Built with <span class="heart">&#10084;</span> by <a href="#">Abdullah</a></p>
     </footer>
 
     <script src="script.js" defer></script>
