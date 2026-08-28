@@ -7,18 +7,18 @@ const U = (id, w = 600, q = 68) =>
 
 // ── The range ────────────────────────────────────────
 const PRODUCTS = [
-  { id: 1,  name: 'The Camden Overshirt',        cat: 'outerwear',   img: U('photo-1602810318383-e386cc2a3ccf'), price: 6900,  was: 0,     colour: 'Tobacco' },
-  { id: 2,  name: 'Balmacaan Wool Coat',         cat: 'outerwear',   img: U('photo-1544022613-e87ca75a784a'),     price: 16500, was: 19000, colour: 'Stone' },
-  { id: 3,  name: 'The Workhorse Denim Jacket',  cat: 'denim',       img: U('photo-1551028719-00167b16eac5'),     price: 7800,  was: 0,     colour: 'Rinsed Indigo' },
-  { id: 4,  name: 'Merino Crew',                 cat: 'knitwear',    img: U('photo-1576566588028-4147f3842f27'),  price: 4200,  was: 0,     colour: 'Oat' },
-  { id: 5,  name: 'Lambswool Sweater',           cat: 'knitwear',    img: U('photo-1620799140408-edc6dcb6d633'),  price: 4900,  was: 0,     colour: 'Moss' },
-  { id: 6,  name: 'Shawl-Collar Cardigan',       cat: 'knitwear',    img: U('photo-1434389677669-e08b4cac3105'),  price: 6400,  was: 8200,  colour: 'Charcoal' },
-  { id: 7,  name: 'Oxford Shirt',                cat: 'shirts',      img: U('photo-1596755094514-f87e34085b2c'),  price: 3600,  was: 0,     colour: 'White' },
-  { id: 8,  name: 'Heavyweight Tee',             cat: 'shirts',      img: U('photo-1521572163474-6864f9cf17ab'),  price: 1900,  was: 0,     colour: 'Bone' },
-  { id: 9,  name: 'Pleated Wide Trouser',        cat: 'trousers',    img: U('photo-1594633312681-425c7b97ccd1'),  price: 5400,  was: 0,     colour: 'Charcoal' },
-  { id: 10, name: 'Twill Chino',                 cat: 'trousers',    img: U('photo-1473966968600-fa801b869a1a'),  price: 3900,  was: 4900,  colour: 'Stone' },
-  { id: 11, name: 'Selvedge Straight Jean',      cat: 'denim',       img: U('photo-1542272604-787c3835535d'),     price: 5800,  was: 0,     colour: 'Raw Indigo' },
-  { id: 12, name: 'Canvas Weekender Tote',       cat: 'accessories', img: U('photo-1553062407-98eeb64c6a62'),     price: 3200,  was: 0,     colour: 'Natural' },
+  { id: 1,  name: 'The Camden Overshirt',        cat: 'outerwear',   img: U('photo-1602810318383-e386cc2a3ccf'), price: 8900,  was: 0,     colour: 'Tobacco' },
+  { id: 2,  name: 'Balmacaan Wool Coat',         cat: 'outerwear',   img: U('photo-1544022613-e87ca75a784a'),     price: 32000, was: 38000, colour: 'Stone' },
+  { id: 3,  name: 'The Workhorse Denim Jacket',  cat: 'denim',       img: U('photo-1551028719-00167b16eac5'),     price: 11500, was: 0,     colour: 'Rinsed Indigo' },
+  { id: 4,  name: 'Merino Crew',                 cat: 'knitwear',    img: U('photo-1576566588028-4147f3842f27'),  price: 7500,  was: 0,     colour: 'Oat' },
+  { id: 5,  name: 'Lambswool Sweater',           cat: 'knitwear',    img: U('photo-1620799140408-edc6dcb6d633'),  price: 8900,  was: 0,     colour: 'Moss' },
+  { id: 6,  name: 'Shawl-Collar Cardigan',       cat: 'knitwear',    img: U('photo-1434389677669-e08b4cac3105'),  price: 12500, was: 16000, colour: 'Charcoal' },
+  { id: 7,  name: 'Oxford Shirt',                cat: 'shirts',      img: U('photo-1596755094514-f87e34085b2c'),  price: 5900,  was: 0,     colour: 'White' },
+  { id: 8,  name: 'Heavyweight Tee',             cat: 'shirts',      img: U('photo-1521572163474-6864f9cf17ab'),  price: 3200,  was: 0,     colour: 'Bone' },
+  { id: 9,  name: 'Pleated Wide Trouser',        cat: 'trousers',    img: U('photo-1594633312681-425c7b97ccd1'),  price: 8500,  was: 0,     colour: 'Charcoal' },
+  { id: 10, name: 'Twill Chino',                 cat: 'trousers',    img: U('photo-1473966968600-fa801b869a1a'),  price: 6500,  was: 8500,  colour: 'Stone' },
+  { id: 11, name: 'Selvedge Straight Jean',      cat: 'denim',       img: U('photo-1542272604-787c3835535d'),     price: 9800,  was: 0,     colour: 'Raw Indigo' },
+  { id: 12, name: 'Canvas Weekender Tote',       cat: 'accessories', img: U('photo-1553062407-98eeb64c6a62'),     price: 5500,  was: 0,     colour: 'Natural' },
 ];
 
 const CAT_LABEL = {
@@ -31,7 +31,7 @@ const wishlist = new Set();
 const bag      = [];
 let   currentFilter = 'all';
 
-const rupees = n => '₹' + n.toLocaleString('en-IN');
+const fmtPrice = n => 'Rs ' + n.toLocaleString('en-PK');
 
 // ── Render products ───────────────────────────────────
 function renderProducts(filter = 'all') {
@@ -59,8 +59,8 @@ function renderProducts(filter = 'all') {
         <div class="prod-name">${p.name}</div>
         <div class="prod-colour">${p.colour}</div>
         <div class="prod-price-row">
-          <span class="prod-price ${onSale ? 'is-sale' : ''}">${rupees(p.price)}</span>
-          ${onSale ? `<span class="prod-was">${rupees(p.was)}</span>` : ''}
+          <span class="prod-price ${onSale ? 'is-sale' : ''}">${fmtPrice(p.price)}</span>
+          ${onSale ? `<span class="prod-was">${fmtPrice(p.was)}</span>` : ''}
         </div>
       </div>
     </article>`;
