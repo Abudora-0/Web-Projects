@@ -57,7 +57,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 
 | Project | Description | Stack |
 |---|---|---|
-| [Spotify Clone](Spotify%20Clone/) | Web player - sidebar, playlists, functional audio | HTML · CSS · JS |
+| [Spotify Clone](Spotify%20Clone/) | Web player - queue, playlists, track search, Now Playing panel, karaoke lyrics, resume-on-reload | HTML · CSS · JS |
 | [X / Twitter Clone](X%20%26%20Twitter%20Clone/) | Feed UI in the dark theme | HTML · Tailwind |
 | [Windows 11 UI Clone](WIndow%2011%20UI%20Clone/) | Desktop with taskbar, start menu & apps | HTML · CSS · JS |
 | [Bootstrap Website](BootStrap%20Website/) | Tech-news zine on Bootstrap 5, restyled as an acid dev-zine | Bootstrap 5 |
