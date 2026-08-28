@@ -12,7 +12,7 @@
 <body>
 
 <!-- ═══════════════ APP SHELL ═══════════════════ -->
-<div class="spotify-app">
+<div class="spotify-app" id="spotifyApp">
 
   <!-- ══ LEFT SIDEBAR ══════════════════════════ -->
   <aside class="sidebar" id="sidebar">
@@ -46,18 +46,16 @@
           <span>Your Library</span>
         </button>
         <div class="lib-header-actions">
-          <button class="lib-icon-btn" title="Create playlist or folder">
+          <button class="lib-icon-btn" id="createPlaylistBtn" title="Create a playlist">
             <i class="fa-solid fa-plus"></i>
-          </button>
-          <button class="lib-icon-btn" title="Show more">
-            <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
 
       <!-- Filter chips -->
       <div class="lib-filters">
-        <button class="filter-chip active" data-filter="all">Playlists</button>
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="playlists">Playlists</button>
         <button class="filter-chip" data-filter="albums">Albums</button>
         <button class="filter-chip" data-filter="artists">Artists</button>
       </div>
@@ -117,10 +115,9 @@
         </div>
 
         <!-- Recently Played -->
-        <div class="content-section">
+        <div class="content-section" id="recentSection" hidden>
           <div class="section-header">
             <h2 class="section-title">Recently played</h2>
-            <a href="#" class="show-all-btn">Show all</a>
           </div>
           <div class="card-grid" id="recentGrid">
             <!-- populated by JS -->
@@ -131,7 +128,6 @@
         <div class="content-section">
           <div class="section-header">
             <h2 class="section-title">Featured Albums</h2>
-            <a href="#" class="show-all-btn">Show all</a>
           </div>
           <div class="card-grid" id="albumGrid">
             <!-- populated by JS -->
@@ -142,7 +138,6 @@
         <div class="content-section">
           <div class="section-header">
             <h2 class="section-title">Made for you</h2>
-            <a href="#" class="show-all-btn">Show all</a>
           </div>
           <div class="card-grid" id="madeGrid">
             <!-- populated by JS -->
@@ -178,7 +173,7 @@
           <button class="action-icon-btn like-btn" id="albumLikeBtn" title="Save to library">
             <i class="fa-regular fa-heart"></i>
           </button>
-          <button class="action-icon-btn" title="More options">
+          <button class="action-icon-btn" id="albumMoreBtn" title="More options">
             <i class="fa-solid fa-ellipsis"></i>
           </button>
         </div>
@@ -203,16 +198,33 @@
           <div class="search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="searchInput" placeholder="What do you want to play?" autocomplete="off" />
+            <button class="search-clear" id="searchClear" hidden title="Clear"><i class="fa-solid fa-xmark"></i></button>
           </div>
         </div>
-        <h2 class="section-title" style="margin:28px 0 16px">Browse all</h2>
-        <div class="browse-grid" id="browseGrid">
-          <!-- genre cards -->
+        <div id="browseWrap">
+          <h2 class="section-title" style="margin:28px 0 16px">Browse all</h2>
+          <div class="browse-grid" id="browseGrid">
+            <!-- genre cards -->
+          </div>
+        </div>
+        <div id="searchResults" hidden>
+          <!-- populated by JS -->
         </div>
       </section>
 
     </div><!-- /content-area -->
   </main>
+
+  <!-- ══ RIGHT PANEL (Queue / Now playing) ═════════ -->
+  <aside class="right-panel" id="rightPanel" hidden>
+    <div class="rp-header">
+      <h2 class="rp-title" id="rpTitle">Queue</h2>
+      <button class="rp-close" id="rpClose" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="rp-body" id="rpBody">
+      <!-- populated by JS -->
+    </div>
+  </aside>
 
 </div><!-- /spotify-app -->
 
@@ -267,8 +279,14 @@
 
   <!-- Right: volume + extras -->
   <div class="np-right">
+    <button class="np-extra-btn" id="btnLyrics" title="Lyrics">
+      <i class="fa-solid fa-microphone-lines"></i>
+    </button>
     <button class="np-extra-btn" id="btnQueue" title="Queue">
       <i class="fa-solid fa-list"></i>
+    </button>
+    <button class="np-extra-btn" id="btnNowPlaying" title="Now playing view">
+      <i class="fa-solid fa-window-maximize"></i>
     </button>
     <button class="np-extra-btn" id="btnDevice" title="Connect to a device">
       <i class="fa-solid fa-desktop"></i>
@@ -290,6 +308,9 @@
   </div>
 
 </div>
+
+<!-- ══ CONTEXT MENU ═══════════════════════════════ -->
+<div class="ctx-menu" id="ctxMenu" hidden></div>
 
 <!-- ══ TOAST ══════════════════════════════════════ -->
 <div id="toastContainer"></div>
