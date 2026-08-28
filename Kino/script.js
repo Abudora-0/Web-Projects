@@ -285,7 +285,7 @@ function handleGetStarted(source = 'hero') {
   if (!re.test(email)) { note.style.color = '#e8a33d'; note.textContent = 'Enter a valid email address.'; input.style.borderColor = '#e8a33d'; return; }
 
   note.style.color = '#5fbf6f';
-  note.textContent = '✓ Great — let’s set up your Kino membership.';
+  note.textContent = '✓ Great - let’s set up your Kino membership.';
   input.style.borderColor = '#5fbf6f';
 }
 
