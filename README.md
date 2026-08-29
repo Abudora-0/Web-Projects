@@ -117,7 +117,7 @@ npx serve .        # then open http://localhost:3000
 ```
 
 `http://localhost:3000` opens the portfolio; every project lives at
-`/<name>` (for example `/the-terminal`). A local server is recommended -
+`/<name>/` (for example `/the-terminal/`). A local server is recommended -
 a few projects `fetch()` local files, which browsers block on `file://`.
 
 > **API projects** (Halcyon, The Flatbed, Xchange) need an internet
