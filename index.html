@@ -54,24 +54,30 @@
 
     <!-- ============ HERO ============ -->
     <section class="hero" id="hero">
-      <p class="hero-kick">Frontend developer / Pakistan</p>
-      <h1 class="hero-title">
-        I build <span class="type-wrap"><span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span></span>
-      </h1>
-      <p class="hero-lede">
-        CS student, self-taught on the web. I have shipped <strong id="heroCount">34</strong> small projects from
-        scratch - games, tools, clones and full sites - and given every one its own design.
-        No frameworks. No two alike.
-      </p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#work" data-magnetic>See the work
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a class="btn btn-ghost" href="#contact" data-magnetic>Get in touch</a>
+      <div class="hero-lead">
+        <p class="hero-kick">Frontend developer / Pakistan</p>
+        <h1 class="hero-title">
+          I build <span class="type-wrap"><span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span></span>
+        </h1>
+        <p class="hero-lede">
+          CS student, self-taught on the web. I have shipped <strong id="heroCount">34</strong> small projects from
+          scratch - games, tools, clones and full sites - and given every one its own design.
+          No frameworks. No two alike.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#work" data-magnetic>See the work
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#contact" data-magnetic>Get in touch</a>
+        </div>
       </div>
-      <a class="scroll-cue" href="#work" aria-label="Scroll to work">
-        <span></span>
-      </a>
+      <aside class="hero-rail" id="heroRail" aria-label="Latest builds" hidden>
+        <p class="rail-head">Latest builds</p>
+        <ul class="rail-list" id="railList"></ul>
+        <a class="rail-all" href="#work">All 34 projects
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </aside>
     </section>
 
     <!-- ============ WORK ============ -->
@@ -204,6 +210,11 @@
 
   <!-- launch overlay target -->
   <div class="launch" id="launch" aria-hidden="true"></div>
+
+  <!-- back to top -->
+  <a href="#top" class="to-top" id="toTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </a>
 
   <!-- command palette -->
   <div class="palette" id="palette" hidden>

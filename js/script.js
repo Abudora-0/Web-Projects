@@ -206,6 +206,35 @@ $("#cGame").textContent  = counts.game  || 0;
 $("#cClone").textContent = counts.clone || 0;
 $("#heroCount").textContent = PROJECTS.length;
 
+/* ---------- hero rail: latest builds ---------- */
+
+const RAIL_SLUGS = ["the-terminal", "sillage", "thread-and-rail", "dispatch", "soundroom"];
+const railList = $("#railList");
+const heroRail = $("#heroRail");
+if (railList && heroRail) {
+  const rows = RAIL_SLUGS.map((s) => PROJECTS.find((p) => p.slug === s)).filter(Boolean);
+  if (rows.length) {
+    railList.innerHTML = rows
+      .map(
+        (p) =>
+          `<li><a href="${p.slug}/" data-slug="${p.slug}">` +
+          `<span class="rail-dot" style="--d:${p.accent}"></span>` +
+          `<span class="rail-name">${p.name}</span>` +
+          `<span class="rail-sig">${p.sig || CAT_LABEL[p.cat] || ""}</span></a></li>`
+      )
+      .join("");
+    heroRail.hidden = false;
+    railList.querySelectorAll("a").forEach((a) => {
+      const p = rows.find((r) => r.slug === a.dataset.slug);
+      a.addEventListener("click", (e) => { e.preventDefault(); jumpToCard(p.slug); });
+      a.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") setAccent(p.accent); });
+      a.addEventListener("pointerleave", resetAccent);
+      a.addEventListener("focus", () => setAccent(p.accent));
+      a.addEventListener("blur", resetAccent);
+    });
+  }
+}
+
 /* =========================================================
    SPECTRUM BAR - 35 accents, doubles as scroll progress
    ========================================================= */
@@ -667,9 +696,15 @@ window.addEventListener("pageshow", (e) => { if (e.persisted) returnPulse(); });
 
 const nav = $("#nav");
 let navScrolled = false;
+const toTop = $("#toTop");
+let toTopShown = false;
 scrollJobs.push(() => {
   const s = window.scrollY > 24;
   if (s !== navScrolled) { navScrolled = s; nav.classList.toggle("scrolled", s); }
+  if (toTop) {
+    const t = window.scrollY > window.innerHeight * 0.8;
+    if (t !== toTopShown) { toTopShown = t; toTop.classList.toggle("show", t); }
+  }
 });
 onScrollFrame();
 
