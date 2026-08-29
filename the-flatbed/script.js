@@ -54,10 +54,10 @@ const watched = () => getLS(K_WATCHED, []);
 const inList  = (list, id) => list.some(m => m.id === id);
 const findIn  = (list, id) => list.find(m => m.id === id);
 
-const year    = m => m && m.release_date ? m.release_date.slice(0, 4) : '—';
+const year    = m => m && m.release_date ? m.release_date.slice(0, 4) : '-';
 const score   = m => m && m.vote_average ? m.vote_average.toFixed(1) : null;
-const runtime = min => min ? `${Math.floor(min / 60)}h ${String(min % 60).padStart(2, '0')}m` : '—';
-const money   = n => !n ? '—' : n >= 1e9 ? '$' + (n / 1e9).toFixed(2) + 'B' : '$' + Math.round(n / 1e6) + 'M';
+const runtime = min => min ? `${Math.floor(min / 60)}h ${String(min % 60).padStart(2, '0')}m` : '-';
+const money   = n => !n ? '-' : n >= 1e9 ? '$' + (n / 1e9).toFixed(2) + 'B' : '$' + Math.round(n / 1e6) + 'M';
 
 /* ══════════════════════════════════════════════
    FETCH
@@ -531,7 +531,7 @@ function filterTitle() {
   const f = state.filters;
   const genre = f.genre ? state.genres.find(g => g.id == f.genre) : null;
   const bits = [genre ? `${genre.name} films` : 'All films'];
-  if (f.yearFrom && f.yearTo) bits.push(`${f.yearFrom}–${f.yearTo}`);
+  if (f.yearFrom && f.yearTo) bits.push(`${f.yearFrom}-${f.yearTo}`);
   else if (f.yearFrom) bits.push(`${f.yearFrom} onwards`);
   else if (f.yearTo) bits.push(`up to ${f.yearTo}`);
   if (f.runtimeMax < 240) bits.push(`under ${f.runtimeMax} min`);
@@ -579,7 +579,7 @@ function setFeature(m) {
   $('featureBody').innerHTML = `
     <div class="feat-flags">
       <span class="flag flag-tape">On the bench</span>
-      ${year(m) !== '—' ? `<span class="flag">${year(m)}</span>` : ''}
+      ${year(m) !== '-' ? `<span class="flag">${year(m)}</span>` : ''}
       ${m.original_language ? `<span class="flag flag-gate">${esc(m.original_language.toUpperCase())}</span>` : ''}
     </div>
     <h1 class="feat-title">${esc(m.title)}</h1>
@@ -689,7 +689,7 @@ function frameCard(m, lists) {
       ${m.poster_path
         ? `<img src="${IMG}${m.poster_path}" alt="${esc(m.title)}" loading="lazy">`
         : `<div class="frame-blank">${iFilm()}</div>`}
-      <div class="frame-score ${cls}">${iStar()}${sc || '—'}</div>
+      <div class="frame-score ${cls}">${iStar()}${sc || '-'}</div>
       <div class="frame-acts">
         <button class="act act-bin ${isBin ? 'on' : ''}" title="${isBin ? 'Remove from bin' : 'Add to bin'}">${iBin(isBin)}</button>
         <button class="act act-sel ${isSel ? 'on' : ''}" title="${isSel ? 'Deselect' : 'Select'}">${iHeart(isSel)}</button>
@@ -817,10 +817,10 @@ function renderDetail(m) {
         ${director ? specLink('Director', director) : ''}
         ${writer ? specLink('Writer', writer) : ''}
         ${dop ? specLink('Cinematography', dop) : ''}
-        <div class="spec"><div class="spec-k">Released</div><div class="spec-v">${m.release_date || '—'}</div></div>
+        <div class="spec"><div class="spec-k">Released</div><div class="spec-v">${m.release_date || '-'}</div></div>
         <div class="spec"><div class="spec-k">Runtime</div><div class="spec-v">${runtime(m.runtime)}</div></div>
-        <div class="spec"><div class="spec-k">Language</div><div class="spec-v">${(m.original_language || '—').toUpperCase()}</div></div>
-        <div class="spec"><div class="spec-k">Status</div><div class="spec-v">${esc(m.status || '—')}</div></div>
+        <div class="spec"><div class="spec-k">Language</div><div class="spec-v">${(m.original_language || '-').toUpperCase()}</div></div>
+        <div class="spec"><div class="spec-k">Status</div><div class="spec-v">${esc(m.status || '-')}</div></div>
         ${m.budget  > 0 ? `<div class="spec"><div class="spec-k">Budget</div><div class="spec-v">${money(m.budget)}</div></div>` : ''}
         ${m.revenue > 0 ? `<div class="spec"><div class="spec-k">Box office</div><div class="spec-v">${money(m.revenue)}</div></div>` : ''}
       </div>
@@ -961,7 +961,7 @@ function renderLog(m) {
       updateLog(m.id, l => { l.rating = l.rating === n ? 0 : n; });
       renderLog(m);
       refreshFrames(m.id);
-      toast(`Rated ${'★'.repeat(findIn(watched(), m.id).rating) || '—'}`);
+      toast(`Rated ${'★'.repeat(findIn(watched(), m.id).rating) || '-'}`);
     });
   });
 
@@ -988,7 +988,7 @@ function updateLog(id, mutate) {
 }
 
 function fmtDate(ts) {
-  if (!ts) return '—';
+  if (!ts) return '-';
   return new Date(ts).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
 }
 

@@ -720,7 +720,7 @@ function renderTrackRows(coll) {
         <button class="track-like ${liked ? 'liked' : ''}" title="${liked ? 'Remove from' : 'Save to'} Liked Songs">
           <i class="${liked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
         </button>
-        <span class="track-dur-text">–</span>
+        <span class="track-dur-text">-</span>
       </div>`;
 
     row.addEventListener('click', () => {
@@ -986,7 +986,7 @@ function syncRepeatUI() {
   ctrlRepeat.querySelector('i').className = repeat === 'one' ? 'fa-solid fa-repeat-1' : 'fa-solid fa-repeat';
 }
 
-/* ── Seek + volume (pointer events → touch friendly) ── */
+/* ── Seek + volume (pointer events -> touch friendly) ── */
 const seekBarWrap = $('seekBarWrap');
 const volBarWrap  = $('volBarWrap');
 

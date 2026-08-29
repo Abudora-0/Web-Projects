@@ -61,7 +61,7 @@ A modern, responsive web-based gaming hub featuring 8 exciting arcade games with
 
 ### 5. **Hangman Game** 🎯
 - Guess the word before running out of attempts
-- Visual stage progression (🤔→😕→😟→😰→😭→💀)
+- Visual stage progression (🤔->😕->😟->😰->😭->💀)
 - Multiple difficulty levels
 - Win/loss statistics
 - Hint system included

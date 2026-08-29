@@ -180,7 +180,7 @@ function drawDino(ox, oy, lf, duck, dead) {
 }
 
 // ── Cacti ──────────────────────────────────────────────
-// Each type: (x, baseY) → draws on canvas
+// Each type: (x, baseY) -> draws on canvas
 const CACTUS = [
   // 0: small single  w=28 h=50
   (x) => { const y=GY; FR(x+8,y-50,10,50); FR(x,y-44,6,18); FR(x,y-38,8,6); FR(x+20,y-36,6,14); FR(x+18,y-30,8,6); },
@@ -306,7 +306,7 @@ function drawStartScreen() {
 
   txt('BADLANDS', CW / 2, CH / 2 - 26, 22, pal.fg);
   txt('PRESS SPACE TO START', CW / 2, CH / 2 + 6, 8, nightMode ? '#8a76a8' : '#a3825f');
-  txt('↑ JUMP  ·  ↓ DUCK  ·  COLLECT POWER-UPS', CW / 2, CH / 2 + 28, 6, nightMode ? '#5e4d80' : '#c2a077');
+  txt('^ JUMP  ·  v DUCK  ·  COLLECT POWER-UPS', CW / 2, CH / 2 + 28, 6, nightMode ? '#5e4d80' : '#c2a077');
 }
 
 // ── Game-over screen ───────────────────────────────────

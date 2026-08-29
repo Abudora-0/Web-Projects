@@ -15,12 +15,12 @@ Weather apps tell you the weather. Halcyon shows it to you - big editorial serif
 - **Living sky engine** - 8 condition groups × dawn/day/dusk/night palettes; adaptive ink (dark text on pale skies, warm white on dark ones)
 - **Real sun & moon position** - plotted along their actual arc from sunrise/sunset times; hidden when it's overcast
 - **Weather effects** - CSS-generated clouds, drizzle, rain, snowfall, storm lightning, and a starfield on clear nights
-- **Search autocomplete** - debounced place lookup with keyboard navigation (↑ ↓ Enter Esc)
+- **Search autocomplete** - debounced place lookup with keyboard navigation (^ v Enter Esc)
 - **Kept places** - pin places you care about, each shown with its own live temperature (persisted in `localStorage`)
 - **24-hour temperature curve** - hand-drawn SVG line with rain-chance annotations, scrolls horizontally on narrow screens instead of squashing
 - **7-day outlook** - condition words, highs/lows, rain probability, always starting from today
 - **Yesterday, compared** - "2° warmer than this time yesterday," pulled from real hourly history
-- **The best window today** - scans the remaining hours for the driest stretch: "dry 14:00–18:00, then rain returns"
+- **The best window today** - scans the remaining hours for the driest stretch: "dry 14:00-18:00, then rain returns"
 - **8 years of history** - "3° above the 8-year average for july 17," or "the warmest july 17 in 8 years" on a record day - fetched quietly in the background from Open-Meteo's archive so it never blocks the first paint
 - **Sun & air** - sunrise/sunset arc, total daylight duration, tonight's moon phase, and air quality spoken plainly: "the air is lovely / fine / poor…" with EAQI and PM2.5 underneath
 - **The fine print** - wind (with compass words), gusts, humidity, pressure, UV, visibility, dew point, cloud cover - wind and visibility switch to mph/mi with the unit toggle instead of staying stuck in km

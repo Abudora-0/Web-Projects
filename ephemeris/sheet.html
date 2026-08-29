@@ -65,7 +65,7 @@
       </div>
       <div class="palette-results" id="paletteResults"></div>
       <div class="palette-foot">
-        <span><b>↑↓</b> browse</span><span><b>↵</b> open</span><span><b>esc</b> close</span>
+        <span><b>^v</b> browse</span><span><b>↵</b> open</span><span><b>esc</b> close</span>
       </div>
     </div>
   </div>
@@ -171,8 +171,8 @@
         '<a href="sheet.html?lang=' + prev.id + '">' + svgIcon('back') + ' ' + escapeHtml(prev.name) + '</a>'
         + '<a href="sheet.html?lang=' + next.id + '">' + svgIcon('arrow') + ' ' + escapeHtml(next.name) + '</a>';
       document.getElementById('sheetNav').innerHTML =
-        '<a class="prev" href="sheet.html?lang=' + prev.id + '"><span class="nav-dir">← Previous sky</span><span class="nav-name">' + escapeHtml(prev.name) + '</span></a>'
-        + '<a class="next" href="sheet.html?lang=' + next.id + '"><span class="nav-dir">Next sky →</span><span class="nav-name">' + escapeHtml(next.name) + '</span></a>';
+        '<a class="prev" href="sheet.html?lang=' + prev.id + '"><span class="nav-dir"><- Previous sky</span><span class="nav-name">' + escapeHtml(prev.name) + '</span></a>'
+        + '<a class="next" href="sheet.html?lang=' + next.id + '"><span class="nav-dir">Next sky -></span><span class="nav-name">' + escapeHtml(next.name) + '</span></a>';
 
       // ── Scrollspy ──
       const links = [...document.querySelectorAll('.toc-link')];

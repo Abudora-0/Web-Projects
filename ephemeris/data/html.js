@@ -11,7 +11,7 @@ window.STACKS.push({
       { label: 'Common head tags', desc: 'Stylesheets, scripts, favicon, and description.', code: '<link rel="stylesheet" href="style.css">\n<link rel="icon" href="favicon.svg" type="image/svg+xml">\n<meta name="description" content="What this page is about">\n<script src="script.js" defer></script>' },
     ]},
     { title: 'Text & Headings', snippets: [
-      { label: 'Headings & paragraphs', desc: 'One h1 per page; h2–h6 nest below it in order.', code: '<h1>Page title</h1>\n<h2>Section</h2>\n<p>A paragraph of body text.</p>\n<h3>Subsection</h3>\n<p>More text with <strong>importance</strong> and <em>emphasis</em>.</p>' },
+      { label: 'Headings & paragraphs', desc: 'One h1 per page; h2-h6 nest below it in order.', code: '<h1>Page title</h1>\n<h2>Section</h2>\n<p>A paragraph of body text.</p>\n<h3>Subsection</h3>\n<p>More text with <strong>importance</strong> and <em>emphasis</em>.</p>' },
       { label: 'Inline text elements', desc: 'Semantic inline markup beats bare spans.', code: '<code>inline code</code>\n<kbd>Ctrl</kbd> + <kbd>K</kbd>\n<mark>highlighted</mark>\n<small>fine print</small>\n<abbr title="HyperText Markup Language">HTML</abbr>\n<time datetime="2026-07-17">July 17</time>' },
     ]},
     { title: 'Links & Media', snippets: [

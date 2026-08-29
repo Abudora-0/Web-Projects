@@ -1,5 +1,5 @@
 {
-  "name": "Halcyon — a window on the sky",
+  "name": "Halcyon - a window on the sky",
   "short_name": "Halcyon",
   "description": "A weather app where the page becomes the sky.",
   "start_url": "./index.html",

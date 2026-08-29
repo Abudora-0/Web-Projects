@@ -10,11 +10,11 @@ The heart of Cashbook is a single writing line. Type an entry the way you'd say 
 watch it get parsed live before you post it:
 
 ```
-coffee 4.50                  → debit  4.50 · Food · today
-+2500 salary                 → credit 2500 · Salary · today
-groceries 82.13 #food friday → debit  82.13 · Food · last Friday
-rent 900 monthly             → debit  900 · Housing · standing order, posts every month
-netflix 11.99 12/7           → debit  11.99 · Subscriptions · 12 July
+coffee 4.50                  -> debit  4.50 · Food · today
++2500 salary                 -> credit 2500 · Salary · today
+groceries 82.13 #food friday -> debit  82.13 · Food · last Friday
+rent 900 monthly             -> debit  900 · Housing · standing order, posts every month
+netflix 11.99 12/7           -> debit  11.99 · Subscriptions · 12 July
 ```
 
 The parser understands:
@@ -22,7 +22,7 @@ The parser understands:
 | Element | Examples |
 |---|---|
 | Amounts | `4.50`, `1,200`, `+2500` (a `+` makes it income) |
-| Categories | `#food`, `#tra` (prefix match), or guessed from keywords (`coffee` → Food, `uber` → Transport) |
+| Categories | `#food`, `#tra` (prefix match), or guessed from keywords (`coffee` -> Food, `uber` -> Transport) |
 | Dates | `today`, `yesterday`, weekday names (`friday` = the most recent one), `12/7` (day/month) |
 | Standing orders | end the line with `monthly` |
 | Particulars | everything else becomes the handwritten note |

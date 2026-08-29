@@ -32,7 +32,7 @@ window.STACKS.push({
     ]},
     { title: 'Text Tools', snippets: [
       { label: 'grep', desc: 'Search file contents; -r walks directories.', code: 'grep "pattern" file.txt\ngrep -i "case-insensitive" file.txt\ngrep -rn "TODO" src/        # recursive + line numbers\ngrep -l "main" *.c          # filenames only\ngrep -v "exclude" file.txt  # invert\ngrep -E "cat|dog" file.txt  # regex alternation\ngrep -c "hits" file.txt     # count' },
-      { label: 'sed & awk one-liners', desc: 'Stream editing and column extraction.', code: "sed 's/old/new/' file        # first per line\nsed 's/old/new/g' file       # every occurrence\nsed -n '5,10p' file          # print lines 5–10\nsed -i.bak 's/a/b/g' file    # in place, keep backup\n\nawk '{print $2}' data.txt    # second column\nawk -F, '{print $1}' file.csv\nawk '{sum += $1} END {print sum}' nums.txt" },
+      { label: 'sed & awk one-liners', desc: 'Stream editing and column extraction.', code: "sed 's/old/new/' file        # first per line\nsed 's/old/new/g' file       # every occurrence\nsed -n '5,10p' file          # print lines 5-10\nsed -i.bak 's/a/b/g' file    # in place, keep backup\n\nawk '{print $2}' data.txt    # second column\nawk -F, '{print $1}' file.csv\nawk '{sum += $1} END {print sum}' nums.txt" },
     ]},
     { title: 'Files & Processes', snippets: [
       { label: 'File operations', desc: 'The daily handful.', code: 'cp -r src/ backup/\nmv old.txt new.txt\nrm -rf build/\nmkdir -p a/b/c\nln -s /real/path shortcut\ntouch marker.txt\nchmod +x script.sh\ntar -czf arch.tar.gz folder/   # pack\ntar -xzf arch.tar.gz           # unpack' },

@@ -390,10 +390,10 @@ function bestWindowToday(data, hIdx) {
   const spansToEnd = best.end === endIdx;
 
   if (best.avg < 15) {
-    return spansRest ? "dry for the rest of the day" : `dry ${label(best.start)}–${label(best.end)}${spansToEnd ? "" : ", then rain returns"}`;
+    return spansRest ? "dry for the rest of the day" : `dry ${label(best.start)}-${label(best.end)}${spansToEnd ? "" : ", then rain returns"}`;
   }
   if (best.avg < 40) {
-    return `best chance of staying dry ${label(best.start)}–${label(best.end)}`;
+    return `best chance of staying dry ${label(best.start)}-${label(best.end)}`;
   }
   return `rain likely most of the day - driest around ${label(best.start)}`;
 }
@@ -721,8 +721,8 @@ function render(data, air) {
     ["gusts", windText(cur.wind_gusts_10m)],
     ["humidity", `${cur.relative_humidity_2m}%`],
     ["pressure", `${Math.round(cur.surface_pressure)} hPa`],
-    ["uv index", uv != null ? uv.toFixed(1) + uvWord : "—"],
-    ["visibility", vis != null ? distText(vis / 1000) : "—"],
+    ["uv index", uv != null ? uv.toFixed(1) + uvWord : "-"],
+    ["visibility", vis != null ? distText(vis / 1000) : "-"],
     ["dew point", t(cur.dew_point_2m)],
     ["cloud cover", `${cur.cloud_cover}%`],
   ];

@@ -7,7 +7,7 @@
 Games, tools, UI clones, and full websites, written from scratch in HTML, CSS & vanilla JavaScript.
 No frameworks. No bundlers. No two projects that look alike.
 
-[**Browse the live gallery →**](https://abudora-0.github.io/Web-Projects/)
+[**Browse the live gallery ->**](https://abudora-0.github.io/Web-Projects/)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
@@ -142,7 +142,7 @@ projects show empty libraries on GitHub Pages. Locally:
 
 ```
 web-projects/
-├── index.html                        ← the live project gallery
+├── index.html                        <- the live project gallery
 ├── README.md
 ├── LICENSE
 ├── Analog Clock/        ├── The Flatbed/

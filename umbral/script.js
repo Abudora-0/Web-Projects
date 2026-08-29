@@ -530,9 +530,9 @@
 
   /* ================= LOOP + MODE PLUMBING ================= */
   const LABELS = {
-    eclipse: 'First contact → totality → last contact',
-    meteor: 'Dusk → midnight → pre-dawn',
-    aurora: 'Kp index - quiet → geomagnetic storm'
+    eclipse: 'First contact -> totality -> last contact',
+    meteor: 'Dusk -> midnight -> pre-dawn',
+    aurora: 'Kp index - quiet -> geomagnetic storm'
   };
 
   let raf = 0, last = 0, visible = true;

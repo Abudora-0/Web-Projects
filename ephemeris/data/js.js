@@ -17,7 +17,7 @@ window.STACKS.push({
     ]},
     { title: 'Arrays', snippets: [
       { label: 'map · filter · reduce', desc: 'The transformation trio.', code: 'const nums = [1, 2, 3, 4, 5];\n\nnums.map(n => n * 2)        // [2,4,6,8,10]\nnums.filter(n => n % 2)     // [1,3,5]\nnums.reduce((a, n) => a + n, 0) // 15\n\nnums.find(n => n > 3)       // 4\nnums.some(n => n > 4)       // true\nnums.every(n => n > 0)      // true' },
-      { label: 'Sort, slice, and friends', desc: 'sort mutates - copy first if you care.', code: 'const sorted = [...nums].sort((a, b) => a - b);\nnums.slice(1, 3)      // copy of index 1–2\nnums.includes(3)      // true\nnums.indexOf(4)       // 3\nnums.flat()           // flatten one level\nnums.at(-1)           // last element\n[...new Set([1,1,2])] // dedupe → [1,2]' },
+      { label: 'Sort, slice, and friends', desc: 'sort mutates - copy first if you care.', code: 'const sorted = [...nums].sort((a, b) => a - b);\nnums.slice(1, 3)      // copy of index 1-2\nnums.includes(3)      // true\nnums.indexOf(4)       // 3\nnums.flat()           // flatten one level\nnums.at(-1)           // last element\n[...new Set([1,1,2])] // dedupe -> [1,2]' },
     ]},
     { title: 'Objects', snippets: [
       { label: 'Object utilities', desc: 'Iterate, copy, and reshape objects.', code: 'Object.keys(obj)    // ["a", "b"]\nObject.values(obj)  // [1, 2]\nObject.entries(obj) // [["a",1], ["b",2]]\n\nObject.fromEntries([["a", 1]]) // {a: 1}\nstructuredClone(obj)           // deep copy\n\nfor (const [key, val] of Object.entries(obj)) {\n  console.log(key, val);\n}' },

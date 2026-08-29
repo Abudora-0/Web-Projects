@@ -8,7 +8,7 @@ window.STACKS.push({
   sections: [
     { title: 'Selectors', snippets: [
       { label: 'Everyday selectors', desc: 'Type, class, id, attribute, and combinators.', code: 'p { }              /* every <p> */\n.card { }          /* class */\n#hero { }          /* id */\n[data-open] { }    /* has attribute */\n[href^="https"] { }/* attr starts with */\n.card > p { }      /* direct child */\n.card p { }        /* any descendant */\nh2 + p { }         /* next sibling */' },
-      { label: 'Pseudo-classes & elements', desc: 'State and generated content.', code: 'a:hover { }\ninput:focus-visible { }\nli:first-child { }\nli:nth-child(odd) { }\np:not(.intro) { }\n.card:has(img) { }   /* parent selector */\n\n.card::before { content: "→ "; }\np::first-line { font-weight: 700; }' },
+      { label: 'Pseudo-classes & elements', desc: 'State and generated content.', code: 'a:hover { }\ninput:focus-visible { }\nli:first-child { }\nli:nth-child(odd) { }\np:not(.intro) { }\n.card:has(img) { }   /* parent selector */\n\n.card::before { content: "-> "; }\np::first-line { font-weight: 700; }' },
     ]},
     { title: 'Box Model & Units', snippets: [
       { label: 'Box sizing & spacing', desc: 'border-box makes width include padding and border.', code: '*, *::before, *::after { box-sizing: border-box; }\n\n.card {\n  width: 320px;\n  padding: 1rem 1.5rem;   /* vertical | horizontal */\n  margin: 0 auto;         /* center a block */\n  border: 1px solid #ccc;\n}' },

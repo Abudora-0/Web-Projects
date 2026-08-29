@@ -520,8 +520,8 @@ function scentMapSVG(list, opts) {
     g += '<line x1="' + x + '" y1="' + pad + '" x2="' + x + '" y2="' + (h - pad) + '" stroke="var(--hairline)" stroke-width="0.5"/>';
     g += '<line x1="' + pad + '" y1="' + y + '" x2="' + (w - pad) + '" y2="' + y + '" stroke="var(--hairline)" stroke-width="0.5"/>';
   }
-  g += '<text x="' + (w / 2) + '" y="' + (h - 14) + '" text-anchor="middle" class="map-ax">fresh  →  deep</text>';
-  g += '<text x="16" y="' + (h / 2) + '" text-anchor="middle" class="map-ax" transform="rotate(-90 16 ' + (h / 2) + ')">light  →  heavy</text>';
+  g += '<text x="' + (w / 2) + '" y="' + (h - 14) + '" text-anchor="middle" class="map-ax">fresh  ->  deep</text>';
+  g += '<text x="16" y="' + (h / 2) + '" text-anchor="middle" class="map-ax" transform="rotate(-90 16 ' + (h / 2) + ')">light  ->  heavy</text>';
   list.forEach((f) => {
     const x = pad + (w - pad * 2) * (f.freshDeep - 0.5) / 5;
     const y = pad + (h - pad * 2) * (f.weight - 0.5) / 5;

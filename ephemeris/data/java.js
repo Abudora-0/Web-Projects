@@ -31,7 +31,7 @@ window.STACKS.push({
       { label: 'Iteration & factories', desc: 'Immutable literals with List.of / Map.of.', code: 'List<String> fixed = List.of("a", "b", "c");\nMap<String, Integer> m = Map.of("a", 1, "b", 2);\n\nfor (Map.Entry<String, Integer> e : m.entrySet()) {\n    System.out.println(e.getKey() + "=" + e.getValue());\n}\n\ncounts.forEach((k, v) -> System.out.println(k + v));' },
     ]},
     { title: 'Streams & Optional', snippets: [
-      { label: 'Stream pipeline', desc: 'filter → map → collect, the daily pattern.', code: 'List<String> titles = books.stream()\n    .filter(b -> b.year() > 1950)\n    .map(Book::title)\n    .sorted()\n    .toList();\n\nlong n = books.stream().filter(Book::isOut).count();\nint total = books.stream().mapToInt(Book::pages).sum();\n\nMap<Integer, List<Book>> byYear = books.stream()\n    .collect(Collectors.groupingBy(Book::year));' },
+      { label: 'Stream pipeline', desc: 'filter -> map -> collect, the daily pattern.', code: 'List<String> titles = books.stream()\n    .filter(b -> b.year() > 1950)\n    .map(Book::title)\n    .sorted()\n    .toList();\n\nlong n = books.stream().filter(Book::isOut).count();\nint total = books.stream().mapToInt(Book::pages).sum();\n\nMap<Integer, List<Book>> byYear = books.stream()\n    .collect(Collectors.groupingBy(Book::year));' },
       { label: 'Optional', desc: 'A container that may be empty - no null checks.', code: 'Optional<Book> found = repo.findByTitle("Dune");\n\nfound.ifPresent(b -> System.out.println(b));\nBook b = found.orElse(DEFAULT_BOOK);\nBook c = found.orElseThrow(() -> new NotFoundException());\nString t = found.map(Book::title).orElse("n/a");' },
     ]},
     { title: 'Exceptions', snippets: [

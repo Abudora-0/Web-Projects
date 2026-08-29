@@ -1,7 +1,7 @@
 'use strict';
 /* ═════════════════════════════════════════════════════════
    CASHBOOK - a personal ledger
-   Plain-words quick entry → parsed lines → running balance.
+   Plain-words quick entry -> parsed lines -> running balance.
    Everything stays in localStorage.
    ═════════════════════════════════════════════════════════ */
 
@@ -61,7 +61,7 @@ function loadDb() {
         };
       }
     }
-  } catch (e) { /* corrupted store → start fresh */ }
+  } catch (e) { /* corrupted store -> start fresh */ }
   return { entries: [], envelopes: [], orders: [], currency: '$', theme: 'day' };
 }
 function save() { localStorage.setItem(LS_KEY, JSON.stringify(db)); }
@@ -346,8 +346,8 @@ function renderLedger() {
 function renderSummary(bf, inSum, outSum) {
   const net = inSum - outSum, cf = bf + net;
   $('#sumBf').textContent = fmt(bf);
-  $('#sumIn').textContent = inSum ? fmt(inSum, true) : '—';
-  $('#sumOut').textContent = outSum ? fmt(-outSum, true) : '—';
+  $('#sumIn').textContent = inSum ? fmt(inSum, true) : '-';
+  $('#sumOut').textContent = outSum ? fmt(-outSum, true) : '-';
   const netEl = $('#sumNet');
   netEl.textContent = fmt(net, true);
   netEl.className = 'mono ' + (net > 0 ? 'pos' : net < 0 ? 'neg' : '');

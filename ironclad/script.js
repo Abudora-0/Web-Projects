@@ -357,7 +357,7 @@ const PLANS = {
         { day: 'Monday',    ex: ['30 min steady jog'] },
         { day: 'Wednesday', ex: ['Interval run: 6×400m with 90s rest'] },
         { day: 'Friday',    ex: ['45 min easy cardio (bike or swim)'] },
-        { day: 'Sunday',    ex: ['Long run 50–60 min (slow pace)'] },
+        { day: 'Sunday',    ex: ['Long run 50-60 min (slow pace)'] },
       ],
       5: [
         { day: 'Monday',    ex: ['30 min easy run'] },
@@ -372,7 +372,7 @@ const PLANS = {
         { day: 'Wednesday', ex: ['Intervals 30 min'] },
         { day: 'Thursday',  ex: ['Cross-train (swim/bike) 40 min'] },
         { day: 'Friday',    ex: ['Tempo run 30 min'] },
-        { day: 'Sunday',    ex: ['Long run 60–70 min'] },
+        { day: 'Sunday',    ex: ['Long run 60-70 min'] },
       ],
     },
     intermediate: {
@@ -631,7 +631,7 @@ document.getElementById('calcBmi').addEventListener('click', () => {
     advice = '⚠️ We strongly recommend starting with low-impact cardio (walking, swimming) and consulting our trainers. Small consistent steps lead to big changes - we\'re here for you.';
   }
 
-  // Gauge: BMI 10–40 range maps to 0–283 dashoffset
+  // Gauge: BMI 10-40 range maps to 0-283 dashoffset
   const pct = Math.max(0, Math.min(1, (bmi - 10) / 30));
   const offset = 283 - pct * 283;
 
