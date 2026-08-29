@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Windows 11</title>
-  <link rel="icon" href="favicon.ico" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
@@ -73,7 +73,7 @@
     <div class="win-titlebar">
       <div class="win-tb-left">
         <i class="fas fa-file-lines win-appicon" style="color:#0078d4"></i>
-        <span class="win-title">Untitled – Notepad</span>
+        <span class="win-title">Untitled - Notepad</span>
       </div>
       <div class="win-controls">
         <button class="wc-btn wc-min" title="Minimize"><i class="fas fa-minus"></i></button>
@@ -164,7 +164,7 @@
     <div class="explorer-body">
       <div class="explorer-nav">
         <div class="exp-nav-section">
-          <span class="exp-nav-label">Quick access</span>
+          <span class="exp-nav-label"><i class="fas fa-bolt" style="margin-right:6px;color:#ffc83d"></i>Quick access</span>
           <div class="exp-nav-item active" data-folder="home"><i class="fas fa-house"></i>Home</div>
           <div class="exp-nav-item" data-folder="desktop"><i class="fas fa-desktop"></i>Desktop</div>
           <div class="exp-nav-item" data-folder="downloads"><i class="fas fa-download"></i>Downloads</div>
@@ -174,7 +174,7 @@
           <div class="exp-nav-item" data-folder="videos"><i class="fas fa-film"></i>Videos</div>
         </div>
         <div class="exp-nav-section">
-          <span class="exp-nav-label">This PC</span>
+          <span class="exp-nav-label"><i class="fas fa-desktop" style="margin-right:6px;color:#888"></i>This PC</span>
           <div class="exp-nav-item" data-folder="c"><i class="fas fa-hard-drive"></i>Local Disk (C:)</div>
         </div>
       </div>
@@ -398,7 +398,7 @@
     </div>
   </div>
   <div class="sm-section-header">
-    <span>Pinned</span>
+    <span><i class="fas fa-thumbtack" style="margin-right:6px;color:#0078d4"></i>Pinned</span>
     <button class="sm-all-btn">All apps <i class="fas fa-chevron-right"></i></button>
   </div>
   <div class="sm-pinned-grid">
@@ -422,7 +422,7 @@
     <button class="sm-app"><div class="sm-app-icon"><i class="fas fa-scissors" style="color:#888"></i></div><span>Snipping Tool</span></button>
   </div>
   <div class="sm-section-header">
-    <span>Recommended</span>
+    <span><i class="fas fa-star" style="margin-right:6px;color:#ffc83d"></i>Recommended</span>
     <button class="sm-all-btn">More <i class="fas fa-chevron-right"></i></button>
   </div>
   <div class="sm-recommended">
@@ -505,6 +505,6 @@
 
 <script src="script.js"></script>
 <!-- Back to All Projects -->
-<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(7,7,14,0.88);color:#c4b5fd;border:1px solid rgba(167,139,250,0.3);border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(124,58,237,0.25)';this.style.borderColor='rgba(167,139,250,0.55)'" onmouseout="this.style.background='rgba(7,7,14,0.88)';this.style.borderColor='rgba(167,139,250,0.3)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+<a id="back-to-all" href="../index.html"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
 </body>
 </html>

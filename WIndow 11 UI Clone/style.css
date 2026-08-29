@@ -660,6 +660,7 @@ html, body {
   bottom: calc(var(--tb-h) + 8px);
   left: 50%;
   transform: translateX(-50%);
+  animation: panelInCenter .18s ease !important;
   padding: 20px;
 }
 .sm-search-wrap { margin-bottom: 16px; }
@@ -843,6 +844,51 @@ html, body {
   left: 50%; transform: translateX(-50%);
   padding: 6px;
   width: 180px;
+  animation: panelInCenter .18s ease !important;
+}
+
+@keyframes panelInCenter {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* ── All Projects Button ────────────────────── */
+#back-to-all {
+  position: fixed !important;
+  top: 12px !important;
+  right: 12px !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 99999 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px !important;
+  background: rgba(255,255,255,0.08) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  border-radius: 8px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  font-family: 'Segoe UI', system-ui, sans-serif !important;
+  transition: all 0.15s ease !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+}
+
+#back-to-all:hover {
+  background: rgba(255,255,255,0.12) !important;
+  border-color: rgba(255,255,255,0.25) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+}
+
+#back-to-all:active {
+  background: rgba(255,255,255,0.15) !important;
+  transform: scale(0.98) !important;
 }
 .pm-item {
   display: flex; align-items: center; gap: 10px;
@@ -853,6 +899,12 @@ html, body {
 }
 .pm-item:hover { background: var(--hover); }
 .pm-item i { font-size: .85rem; width: 16px; color: var(--text2); }
+
+#back-to-all svg {
+  width: 12px !important;
+  height: 12px !important;
+  stroke-width: 2.5 !important;
+}
 
 /* ── Toast ───────────────────────────────────── */
 #toastContainer {
