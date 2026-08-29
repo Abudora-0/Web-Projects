@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vernier - Precision Calculation Instrument</title>
+  <meta name="description" content="Vernier - a six-sheet blueprint calculation instrument: standard, scientific, programmer, unit converter, date and finance calculators." />
+
+  <!-- Blueprint crosshair favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230e3157'/%3E%3Cpath d='M8 0v32M16 0v32M24 0v32M0 8h32M0 16h32M0 24h32' stroke='%23dce9f7' stroke-opacity='.14' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23dce9f7' stroke-width='2'/%3E%3Cpath d='M16 3v6M16 23v6M3 16h6M23 16h6' stroke='%23ff6248' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23ff6248'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Spline+Sans+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-mode="standard">
+
+  <div class="sheet">
+    <div class="sheet-frame" aria-hidden="true"></div>
+
+    <!-- ── MASTHEAD ─────────────────────────────── -->
+    <header class="masthead">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <circle cx="24" cy="24" r="17" stroke="currentColor" stroke-width="2"/>
+          <path d="M24 2v9M24 37v9M2 24h9M37 24h9" stroke="#ff6248" stroke-width="2.5"/>
+          <path d="M24 13v5M24 30v5M13 24h5M30 24h5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M34.6 13.4l-3.2 3.2M13.4 13.4l3.2 3.2M13.4 34.6l3.2-3.2M34.6 34.6l-3.2-3.2" stroke="currentColor" stroke-width="1.1"/>
+          <circle cx="24" cy="24" r="2.2" fill="#ff6248"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">VERNIER</span>
+          <span class="brand-sub">PRECISION CALCULATION INSTRUMENT · DWG SET VRN-2026</span>
+        </div>
+      </div>
+      <div class="mast-tools">
+        <button class="tool-chip hidden" id="degBtn" title="Toggle degrees / radians">DEG</button>
+        <button class="tool-chip" id="legendBtn" title="Keyboard legend (?)">? KEYS</button>
+        <button class="tool-chip" id="revBtn" title="Revision record">REV RECORD</button>
+      </div>
+    </header>
+
+    <!-- ── SHEET INDEX ──────────────────────────── -->
+    <nav class="sheet-tabs" id="tabs">
+      <button class="tab active" data-mode="standard"><span class="tab-no">01</span><span class="tab-name">STANDARD</span></button>
+      <button class="tab" data-mode="scientific"><span class="tab-no">02</span><span class="tab-name">SCIENTIFIC</span></button>
+      <button class="tab" data-mode="programmer"><span class="tab-no">03</span><span class="tab-name">PROGRAMMER</span></button>
+      <button class="tab" data-mode="converter"><span class="tab-no">04</span><span class="tab-name">CONVERTER</span></button>
+      <button class="tab" data-mode="date"><span class="tab-no">05</span><span class="tab-name">DATE</span></button>
+      <button class="tab" data-mode="finance"><span class="tab-no">06</span><span class="tab-name">FINANCE</span></button>
+    </nav>
+
+    <!-- ── BENCH ────────────────────────────────── -->
+    <main class="bench">
+      <section class="instrument">
+
+        <!-- CALC PANEL (sheets 01 + 02) -->
+        <div class="panel panel-calc" id="panelCalc">
+          <div class="readout">
+            <div class="readout-label"><span>READOUT · DETAIL A</span><span class="angle-tag hidden" id="angleTag">DEG</span></div>
+            <div class="ro-expr" id="roExpr">&nbsp;</div>
+            <div class="ro-result" id="roResult">0</div>
+            <div class="ro-sub">
+              <span class="badge hidden" id="memBadge">M</span>
+              <span class="badge hidden" id="ansBadge">ANS</span>
+              <button class="copy-btn" id="copyBtn" title="Copy result">⧉ COPY</button>
+            </div>
+          </div>
+
+          <div class="mem-row">
+            <button class="key key-mem" data-action="MC">MC</button>
+            <button class="key key-mem" data-action="MR">MR</button>
+            <button class="key key-mem" data-action="M+">M+</button>
+            <button class="key key-mem" data-action="M-">M−</button>
+            <button class="key key-mem" data-action="MS">MS</button>
+            <button class="key key-mem" data-action="ans">ANS</button>
+          </div>
+
+          <div class="grid sci-grid hidden" id="sciGrid">
+            <button class="key" data-action="sin">sin</button>
+            <button class="key" data-action="cos">cos</button>
+            <button class="key" data-action="tan">tan</button>
+            <button class="key" data-action="log">log</button>
+
+            <button class="key" data-action="asin">sin⁻¹</button>
+            <button class="key" data-action="acos">cos⁻¹</button>
+            <button class="key" data-action="atan">tan⁻¹</button>
+            <button class="key" data-action="ln">ln</button>
+
+            <button class="key" data-action="sinh">sinh</button>
+            <button class="key" data-action="cosh">cosh</button>
+            <button class="key" data-action="tanh">tanh</button>
+            <button class="key" data-action="abs">|x|</button>
+
+            <button class="key" data-action="sq">x²</button>
+            <button class="key" data-action="cube">x³</button>
+            <button class="key" data-action="pow">xʸ</button>
+            <button class="key" data-action="fact">n!</button>
+
+            <button class="key" data-action="sqrt">√</button>
+            <button class="key" data-action="cbrt">∛</button>
+            <button class="key" data-action="recip">1/x</button>
+            <button class="key" data-action="mod">mod</button>
+
+            <button class="key" data-action="pi">π</button>
+            <button class="key" data-action="euler">ℯ</button>
+            <button class="key" data-action="(">(</button>
+            <button class="key" data-action=")">)</button>
+          </div>
+
+          <div class="grid main-grid">
+            <button class="key key-fn key-ac" data-action="AC">AC</button>
+            <button class="key key-fn" data-action="negate">±</button>
+            <button class="key key-fn" data-action="%">%</button>
+            <button class="key key-op" data-action="÷">÷</button>
+
+            <button class="key" data-action="7">7</button>
+            <button class="key" data-action="8">8</button>
+            <button class="key" data-action="9">9</button>
+            <button class="key key-op" data-action="×">×</button>
+
+            <button class="key" data-action="4">4</button>
+            <button class="key" data-action="5">5</button>
+            <button class="key" data-action="6">6</button>
+            <button class="key key-op" data-action="−">−</button>
+
+            <button class="key" data-action="1">1</button>
+            <button class="key" data-action="2">2</button>
+            <button class="key" data-action="3">3</button>
+            <button class="key key-op" data-action="+">+</button>
+
+            <button class="key key-zero" data-action="0">0</button>
+            <button class="key" data-action=".">.</button>
+            <button class="key key-fn" data-action="backspace">⌫</button>
+            <button class="key key-eq" data-action="=">=</button>
+          </div>
+        </div>
+
+        <!-- PROGRAMMER PANEL (sheet 03) -->
+        <div class="panel panel-prog hidden" id="panelProg">
+          <div class="readout">
+            <div class="readout-label"><span>REGISTER · DETAIL B</span><span class="angle-tag" id="wordTag">DWORD · 32-BIT</span></div>
+            <div class="ro-expr" id="progExpr">&nbsp;</div>
+            <div class="ro-result" id="progResult">0</div>
+            <div class="ro-sub">
+              <span class="badge" id="signedTag">SIGNED 0</span>
+              <button class="copy-btn" id="progCopyBtn" title="Copy value">⧉ COPY</button>
+            </div>
+          </div>
+
+          <div class="base-rows" id="baseRows">
+            <button class="base-row active" data-base="16"><span>HEX</span><b id="bv16">0</b></button>
+            <button class="base-row" data-base="10"><span>DEC</span><b id="bv10">0</b></button>
+            <button class="base-row" data-base="8"><span>OCT</span><b id="bv8">0</b></button>
+            <button class="base-row" data-base="2"><span>BIN</span><b id="bv2">0</b></button>
+          </div>
+
+          <div class="word-row">
+            <span class="word-label">WORD</span>
+            <button class="word-btn" data-word="8">BYTE</button>
+            <button class="word-btn" data-word="16">WORD</button>
+            <button class="word-btn active" data-word="32">DWORD</button>
+            <button class="word-btn" data-word="64">QWORD</button>
+          </div>
+
+          <div class="bit-grid" id="bitGrid"></div>
+
+          <div class="grid prog-grid" id="progGrid">
+            <button class="key key-hex" data-prog="dA">A</button>
+            <button class="key key-bit" data-prog="AND">AND</button>
+            <button class="key key-bit" data-prog="OR">OR</button>
+            <button class="key key-bit" data-prog="XOR">XOR</button>
+            <button class="key key-bit" data-prog="NOT">NOT</button>
+
+            <button class="key key-hex" data-prog="dB">B</button>
+            <button class="key key-bit" data-prog="NAND">NAND</button>
+            <button class="key key-bit" data-prog="NOR">NOR</button>
+            <button class="key key-bit" data-prog="SHL">&lt;&lt;</button>
+            <button class="key key-bit" data-prog="SHR">&gt;&gt;</button>
+
+            <button class="key key-hex" data-prog="dC">C</button>
+            <button class="key" data-prog="d7">7</button>
+            <button class="key" data-prog="d8">8</button>
+            <button class="key" data-prog="d9">9</button>
+            <button class="key key-op" data-prog="DIV">÷</button>
+
+            <button class="key key-hex" data-prog="dD">D</button>
+            <button class="key" data-prog="d4">4</button>
+            <button class="key" data-prog="d5">5</button>
+            <button class="key" data-prog="d6">6</button>
+            <button class="key key-op" data-prog="MUL">×</button>
+
+            <button class="key key-hex" data-prog="dE">E</button>
+            <button class="key" data-prog="d1">1</button>
+            <button class="key" data-prog="d2">2</button>
+            <button class="key" data-prog="d3">3</button>
+            <button class="key key-op" data-prog="SUB">−</button>
+
+            <button class="key key-hex" data-prog="dF">F</button>
+            <button class="key key-fn" data-prog="NEG">±</button>
+            <button class="key" data-prog="d0">0</button>
+            <button class="key key-bit" data-prog="MOD">mod</button>
+            <button class="key key-op" data-prog="ADD">+</button>
+
+            <button class="key key-fn key-ac" data-prog="AC">AC</button>
+            <button class="key key-fn" data-prog="BSP">⌫</button>
+            <button class="key key-eq" data-prog="EQ">=</button>
+          </div>
+        </div>
+
+        <!-- CONVERTER PANEL (sheet 04) -->
+        <div class="panel panel-conv hidden" id="panelConv">
+          <div class="conv-cat">
+            <label class="field-label" for="convCat">SCHEDULE</label>
+            <select id="convCat"></select>
+          </div>
+
+          <div class="conv-io">
+            <div class="conv-side">
+              <select id="convFromU" aria-label="From unit"></select>
+              <input id="convFromV" type="number" value="1" step="any" inputmode="decimal" aria-label="From value" />
+            </div>
+            <button class="swap-btn" id="convSwap" title="Swap units">⇄</button>
+            <div class="conv-side">
+              <select id="convToU" aria-label="To unit"></select>
+              <input id="convToV" type="number" step="any" inputmode="decimal" aria-label="To value" />
+            </div>
+          </div>
+
+          <div class="conv-table-title">SCHEDULE OF EQUIVALENTS</div>
+          <div class="conv-table" id="convTable"></div>
+        </div>
+
+        <!-- DATE PANEL (sheet 05) -->
+        <div class="panel panel-date hidden" id="panelDate">
+          <div class="date-tool">
+            <span class="tool-title">INTERVAL BETWEEN DATUM POINTS</span>
+            <div class="field-row">
+              <label><span class="field-label">FROM</span><input type="date" id="dateA" /></label>
+              <label><span class="field-label">TO</span><input type="date" id="dateB" /></label>
+            </div>
+            <div class="date-out" id="dateDiffOut"></div>
+          </div>
+
+          <div class="date-tool">
+            <span class="tool-title">OFFSET FROM DATUM</span>
+            <div class="field-row">
+              <label><span class="field-label">DATUM</span><input type="date" id="dateBase" /></label>
+              <label><span class="field-label">OPERATION</span>
+                <select id="dateSign">
+                  <option value="1">ADD +</option>
+                  <option value="-1">SUBTRACT −</option>
+                </select>
+              </label>
+            </div>
+            <div class="field-row">
+              <label><span class="field-label">YEARS</span><input type="number" id="offY" value="0" min="0" /></label>
+              <label><span class="field-label">MONTHS</span><input type="number" id="offM" value="0" min="0" /></label>
+              <label><span class="field-label">DAYS</span><input type="number" id="offD" value="0" min="0" /></label>
+            </div>
+            <div class="date-out" id="dateOffOut"></div>
+          </div>
+        </div>
+
+        <!-- FINANCE PANEL (sheet 06) -->
+        <div class="panel panel-fin hidden" id="panelFin">
+          <div class="fin-tool">
+            <span class="tool-title">LOAN AMORTISATION · EMI</span>
+            <div class="field-row">
+              <label><span class="field-label">PRINCIPAL</span><input type="number" id="loanP" value="250000" min="0" /></label>
+              <label><span class="field-label">RATE % / YR</span><input type="number" id="loanR" value="8.5" min="0" step="0.05" /></label>
+              <label><span class="field-label">TERM · YEARS</span><input type="number" id="loanY" value="15" min="0" step="0.5" /></label>
+            </div>
+            <div class="fin-out" id="loanOut"></div>
+          </div>
+
+          <div class="fin-tool">
+            <span class="tool-title">COMPOUND GROWTH</span>
+            <div class="field-row">
+              <label><span class="field-label">PRINCIPAL</span><input type="number" id="cgP" value="100000" min="0" /></label>
+              <label><span class="field-label">RATE % / YR</span><input type="number" id="cgR" value="7" min="0" step="0.1" /></label>
+              <label><span class="field-label">YEARS</span><input type="number" id="cgY" value="10" min="0" step="0.5" /></label>
+              <label><span class="field-label">COMPOUNDING</span>
+                <select id="cgF">
+                  <option value="1">YEARLY</option>
+                  <option value="2">HALF-YEARLY</option>
+                  <option value="4">QUARTERLY</option>
+                  <option value="12" selected>MONTHLY</option>
+                </select>
+              </label>
+            </div>
+            <div class="fin-out" id="cgOut"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- REVISION RECORD (history) -->
+      <aside class="rev-table" id="revPanel">
+        <div class="rev-head">
+          <span>REVISION RECORD</span>
+          <button class="void-btn" id="voidBtn">VOID ALL</button>
+        </div>
+        <div class="rev-cols"><span>REV</span><span>DESCRIPTION / RESULT</span><span>DATE</span></div>
+        <div class="rev-list" id="revList"></div>
+      </aside>
+    </main>
+
+    <!-- ── TITLE BLOCK ──────────────────────────── -->
+    <footer class="title-block">
+      <div class="stamp" aria-hidden="true">CHECKED ✓<small>VRN · QA BUREAU</small></div>
+      <div class="tb-cell"><span class="tb-label">TITLE</span><span class="tb-val" id="tbTitle">STANDARD ARITHMETIC UNIT</span></div>
+      <div class="tb-cell"><span class="tb-label">DWG NO.</span><span class="tb-val red" id="tbDwg">VRN-1001</span></div>
+      <div class="tb-cell"><span class="tb-label">SHEET</span><span class="tb-val" id="tbSheet">01 OF 06</span></div>
+      <div class="tb-cell"><span class="tb-label">SCALE</span><span class="tb-val">1 : 1</span></div>
+      <div class="tb-cell"><span class="tb-label">DRAWN BY</span><span class="tb-val">ABUDORA-0</span></div>
+      <div class="tb-cell"><span class="tb-label">DATE</span><span class="tb-val" id="tbDate">-</span></div>
+      <div class="tb-cell"><span class="tb-label">REV</span><span class="tb-val red" id="tbRev">-</span></div>
+    </footer>
+  </div>
+
+  <!-- ── KEY LEGEND OVERLAY ─────────────────────── -->
+  <div class="legend hidden" id="legend">
+    <div class="legend-card">
+      <div class="legend-head"><span>KEY LEGEND - GENERAL NOTES</span><button id="legendClose" title="Close">✕</button></div>
+      <div class="legend-list">
+        <div class="legend-row"><kbd>0-9 · .</kbd><span>digits &amp; decimal point</span></div>
+        <div class="legend-row"><kbd>+ − * /</kbd><span>operators</span></div>
+        <div class="legend-row"><kbd>Enter / =</kbd><span>evaluate</span></div>
+        <div class="legend-row"><kbd>Backspace</kbd><span>delete last entry</span></div>
+        <div class="legend-row"><kbd>Esc / Delete</kbd><span>all clear</span></div>
+        <div class="legend-row"><kbd>^ &nbsp; ( ) &nbsp; !</kbd><span>power · parens · factorial (sheet 02)</span></div>
+        <div class="legend-row"><kbd>A-F</kbd><span>hex digits (sheet 03)</span></div>
+        <div class="legend-row"><kbd>&amp; | ^ ~ &lt; &gt;</kbd><span>AND · OR · XOR · NOT · shifts (sheet 03)</span></div>
+        <div class="legend-row"><kbd>Alt + 1…6</kbd><span>switch sheet</span></div>
+        <div class="legend-row"><kbd>?</kbd><span>this legend</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+<!-- Back to All Projects -->
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#0a2440;color:#dce9f7;border:1px solid rgba(220,233,247,0.5);border-radius:2px;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-decoration:none;font-family:'Spline Sans Mono','Consolas',monospace;box-shadow:0 8px 22px rgba(3,12,24,0.5);transition:all .15s;white-space:nowrap;" onmouseover="this.style.background='#ff6248';this.style.borderColor='#ff6248';this.style.color='#fff'" onmouseout="this.style.background='#0a2440';this.style.borderColor='rgba(220,233,247,0.5)';this.style.color='#dce9f7'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>ALL PROJECTS</a>
+</body>
+</html>

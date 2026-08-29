@@ -49,7 +49,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Xchange](Xchange/) | Split-flap airport departure board | 166 currencies, history charts, favourites, rate ticker |
 | [The Cellar Door](The%20Cellar%20Door%20-%20Password%20Manager/) | Prohibition-era speakeasy - the password gets you in | AES-256 vault, passphrase mixologist, live 2FA codes, secure notes, breach check, clipboard burn, CSV import |
 | [To Do List](To%20Do%20List/) | Stationery legal pad + clipboard | Priorities, categories, drag & drop, undo |
-| [De Calc](De%20Calc/) | Dieter Rams / Braun hardware | Scientific mode, memory keys, history |
+| [Vernier](Vernier%20-%20De%20Calc/) | Cyanotype blueprint drafting sheet | Six sheets - standard, scientific, programmer, unit converter, date, finance - with a revision record |
 | [The Sorting Office](The%20Sorting%20%20Office%20-%20Email%20Validator/) | Postal-desk email inspector | Live DoH domain lookup, disposable + gibberish detection, batch sorting, inspection-ledger stats, night shift |
 | [Analog Clock](Analog%20Clock/) | "Meridian" luxury horology | SVG watchface, timezones, five dial finishes |
 
@@ -151,7 +151,7 @@ web-projects/
 ├── Blog Website/        ├── The Cellar Door/
 ├── BootStrap Website/   ├── Cashbook/
 ├── Ephemeris/            ├── Portfolio/
-├── De Calc/             ├── Nibble/
+├── Vernier/             ├── Nibble/
 ├── Badlands/            ├── SoundRoom/
 ├── The Sorting Office/  ├── Spotify Clone/
 ├── Ember & Anvil/       ├── Willowcomb/
