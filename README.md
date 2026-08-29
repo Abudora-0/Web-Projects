@@ -2,7 +2,7 @@
 
 # Web Projects
 
-**35 hand-built web projects - each with its own design identity.**
+**34 hand-built web projects - each with its own design identity.**
 
 Games, tools, UI clones and full websites, written from scratch in
 HTML, CSS and vanilla JavaScript. No frameworks. No bundlers.
@@ -13,7 +13,7 @@ No two projects that look alike.
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Projects](https://img.shields.io/badge/projects-35-2946ff?style=flat-square)
+![Projects](https://img.shields.io/badge/projects-34-2946ff?style=flat-square)
 ![License](https://img.shields.io/github/license/Abudora-0/Web-Projects?style=flat-square&color=2946ff)
 ![Last commit](https://img.shields.io/github/last-commit/Abudora-0/Web-Projects?style=flat-square)
 ![Repo size](https://img.shields.io/github/repo-size/Abudora-0/Web-Projects?style=flat-square)
@@ -46,7 +46,6 @@ one opens it full screen. It is the site's front page.
 | [Badlands](badlands/) | Pixel desert sunset in a handheld-console shell | Canvas engine, power-ups, combo system, day/night |
 | [Nibble](nibble/) | Nokia 3310 olive LCD in a candybar phone | Classic/Wrap/Maze/Daily modes, combo scoring, swappable screen colour, local top-5, ghost run |
 | [Tic Tac Toe](tic-tac-toe/) | Schoolyard chalkboard in a wooden frame | Minimax AI (3 difficulties), confetti, sound |
-| [Neon Drive](animated-car/) | Synthwave highway at night | Pure-SVG car, gears and turbo, rain and night modes |
 | [Arcade Hub](arcade-hub/) | CRT arcade cabinet with scanlines | 8 mini-games: Wordle, 2048, Simon, Memory and more |
 
 ## Tools and apps

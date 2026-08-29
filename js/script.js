@@ -15,9 +15,6 @@ const PROJECTS = [
   { slug: "tic-tac-toe", name: "Tic Tac Toe", cat: "game", accent: "#f2d47f", built: "2026-06",
     tagline: "Schoolyard chalkboard with a minimax AI.",
     sig: "Minimax AI", tags: ["Minimax", "3 levels", "Sound"] },
-  { slug: "animated-car", name: "Neon Drive", cat: "game", accent: "#ff2e97", built: "2026-06",
-    tagline: "A pure-SVG synthwave car with gears and turbo.",
-    sig: "Pure-SVG car", tags: ["SVG", "Web Audio", "Night mode"] },
   { slug: "arcade-hub", name: "Arcade Hub", cat: "game", accent: "#12d0e6", built: "2026-06",
     tagline: "Eight mini-games in one CRT arcade cabinet.",
     sig: "Eight games in one", tags: ["8 games", "Scanlines", "High scores"] },
@@ -806,6 +803,27 @@ function spectrumRun() {
     if (++k >= total) { clearInterval(iv); setTimeout(end, 700); }
   }, 110);
   setTimeout(() => { clearInterval(iv); end(); }, total * 110 + 1500);
+}
+
+/* ---------- copy email ---------- */
+
+const copyBtn = $(".cp-copy");
+if (copyBtn) {
+  copyBtn.addEventListener("click", async () => {
+    const text = copyBtn.dataset.copy;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (_) {
+      const t = document.createElement("textarea");
+      t.value = text; document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      t.remove();
+    }
+    const label = copyBtn.textContent;
+    copyBtn.textContent = "Copied";
+    copyBtn.classList.add("done");
+    setTimeout(() => { copyBtn.textContent = label; copyBtn.classList.remove("done"); }, 1600);
+  });
 }
 
 /* ---------- year + brand backstop ---------- */
