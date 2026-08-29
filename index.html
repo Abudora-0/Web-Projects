@@ -3,21 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abudora - Web Projects</title>
-  <meta name="description" content="35 mini web projects built from scratch by Abudora - browser games, tools, UI clones and full websites. Pure HTML, CSS and vanilla JavaScript." />
-  <link rel="canonical" href="https://web-projects.vercel.app/" />
-  <meta http-equiv="refresh" content="0; url=portfolio/" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0b0d'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23eeeef0' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%234b6bff'/%3E%3C/svg%3E" />
-  <style>
-    html,body{margin:0;height:100%;background:#0b0b0d;color:#eeeef0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-    .wrap{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem}
-    a{color:#7d95ff}
-  </style>
-  <script>location.replace("portfolio/" + location.search + location.hash);</script>
+  <title>Abudora - Frontend Developer</title>
+  <meta name="description" content="Abudora - a frontend developer who has shipped 35 mini web projects from scratch, each with its own design identity. Browse them live." />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="canonical" href="https://abudora-web.vercel.app/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Abudora - Frontend Developer" />
+  <meta property="og:description" content="35 mini web projects built from scratch, each with its own design identity. Browse them live." />
+  <meta property="og:url" content="https://abudora-web.vercel.app/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Abudora - Frontend Developer" />
+  <meta name="twitter:description" content="35 mini web projects built from scratch, each with its own design identity." />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0b'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23f2f2f4' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%234b6bff'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="wrap">
-    <p>Taking you to <a href="portfolio/">the portfolio</a>...</p>
-  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Abudora
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-gh" href="https://github.com/Abudora-0" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49l-.01-1.72c-2.78.62-3.37-1.37-3.37-1.37-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.36-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+      </a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <p class="hero-kick">Frontend developer / Pakistan</p>
+      <h1 class="hero-title">
+        I build <span class="type-wrap"><span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span></span>
+      </h1>
+      <p class="hero-lede">
+        CS student, self-taught on the web. I have shipped <strong id="heroCount">35</strong> small projects from
+        scratch - games, tools, clones and full sites - and given every one its own design.
+        No frameworks. No two alike.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#work">See the work</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+      <a class="scroll-cue" href="#work" aria-label="Scroll to work">
+        <span></span>
+      </a>
+    </section>
+
+    <!-- ============ WORK ============ -->
+    <section class="work" id="work">
+      <div class="work-head">
+        <div>
+          <p class="eyebrow">The wall</p>
+          <h2>Every project, running live.</h2>
+          <p class="work-sub">Each card below is the real thing in a frame. Click one to open it full screen.</p>
+        </div>
+        <button class="preview-toggle" id="previewToggle" aria-pressed="false">
+          <span class="pt-dot"></span><span class="pt-label">Previews on</span>
+        </button>
+      </div>
+
+      <div class="filters" id="filters" role="tablist" aria-label="Filter projects">
+        <button class="chip active" data-cat="all" role="tab" aria-selected="true">All <b id="cAll">0</b></button>
+        <button class="chip" data-cat="site" role="tab">Sites <b id="cSite">0</b></button>
+        <button class="chip" data-cat="tool" role="tab">Tools <b id="cTool">0</b></button>
+        <button class="chip" data-cat="game" role="tab">Games <b id="cGame">0</b></button>
+        <button class="chip" data-cat="clone" role="tab">Clones <b id="cClone">0</b></button>
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+          <input type="search" id="search" placeholder="Search projects" autocomplete="off" aria-label="Search projects" />
+        </label>
+      </div>
+
+      <div class="exhibits" id="exhibits"></div>
+      <p class="no-hits" id="noHits" hidden>Nothing matches that. <button class="linkish" id="clearFilters">Clear filters</button></p>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about" id="about">
+      <p class="eyebrow">About</p>
+      <div class="about-grid">
+        <div class="about-copy">
+          <p>I am a Computer Science student who learned to build for the web by building for the web - one small, finished project at a time.</p>
+          <p>My focus is the front end: interfaces that load fast, feel considered, and have a point of view. I treat each project as its own product with its own visual language, and keep the code plain vanilla so the ideas stay portable.</p>
+          <p>Outside of that: C++ and Python for coursework, and a steady habit of finding the next rabbit hole.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat"><b data-target="35">0</b><span>projects shipped</span></div>
+          <div class="stat"><b data-target="5">0</b><span>languages</span></div>
+          <div class="stat"><b data-target="2">0</b><span>years building</span></div>
+        </div>
+      </div>
+      <div class="skills">
+        <div class="skill-col">
+          <h3>Languages</h3>
+          <ul><li>JavaScript</li><li>C++</li><li>Python</li><li>PHP</li><li>Java</li><li>SQL</li></ul>
+        </div>
+        <div class="skill-col">
+          <h3>Web</h3>
+          <ul><li>HTML</li><li>CSS</li><li>React</li><li>Next.js</li><li>Tailwind</li><li>Node.js</li></ul>
+        </div>
+        <div class="skill-col">
+          <h3>Tools</h3>
+          <ul><li>Git &amp; GitHub</li><li>Vercel</li><li>Figma</li><li>Data structures</li><li>OOP</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact">
+      <p class="eyebrow">Contact</p>
+      <h2>Open to internships and freelance work.</h2>
+      <div class="contact-links">
+        <a href="mailto:m.abdullah21306@gmail.com" class="c-link">
+          <span class="c-k">Email</span><span class="c-v">m.abdullah21306@gmail.com</span>
+        </a>
+        <a href="https://github.com/Abudora-0" target="_blank" rel="noopener" class="c-link">
+          <span class="c-k">GitHub</span><span class="c-v">@Abudora-0</span>
+        </a>
+        <a href="https://www.linkedin.com/in/m-abdullah-94367b3a1/" target="_blank" rel="noopener" class="c-link">
+          <span class="c-k">LinkedIn</span><span class="c-v">m-abdullah</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <span class="foot-mark">Abudora</span>
+    <span>Built with HTML, CSS and JavaScript. Deployed on Vercel.</span>
+    <span id="footYear">2026</span>
+  </footer>
+
+  <!-- launch overlay target -->
+  <div class="launch" id="launch" aria-hidden="true"></div>
+
+  <script src="js/script.js" defer></script>
 </body>
 </html>

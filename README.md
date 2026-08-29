@@ -8,7 +8,7 @@ Games, tools, UI clones and full websites, written from scratch in
 HTML, CSS and vanilla JavaScript. No frameworks. No bundlers.
 No two projects that look alike.
 
-[**Open the live portfolio**](https://web-projects.vercel.app/)
+[**Open the live portfolio**](https://abudora-web.vercel.app/)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
@@ -33,9 +33,9 @@ book, a Nokia-LCD snake, a prohibition speakeasy that keeps your
 passwords, a detective-noir incognito page. The code stays simple;
 the design does the talking.
 
-The [portfolio](portfolio/) ties them together: a dark gallery wall
-where each project runs live in a frame, and clicking one opens it
-full screen.
+The [portfolio](https://abudora-web.vercel.app/) ties them together: a
+dark gallery wall where each project runs live in a frame, and clicking
+one opens it full screen. It is the site's front page.
 
 ---
 
@@ -116,9 +116,9 @@ cd Web-Projects
 npx serve .        # then open http://localhost:3000
 ```
 
-Open `http://localhost:3000/portfolio/` for the gallery, or any
-project folder directly. A local server is recommended - a few
-projects `fetch()` local files, which browsers block on `file://`.
+`http://localhost:3000` opens the portfolio; every project lives at
+`/<name>` (for example `/the-terminal`). A local server is recommended -
+a few projects `fetch()` local files, which browsers block on `file://`.
 
 > **API projects** (Halcyon, The Flatbed, Xchange) need an internet
 > connection; The Flatbed needs a valid API key in its `script.js`.
@@ -168,7 +168,7 @@ respective owners.
 
 <div align="center">
 
-**Abudora** &middot; [github.com/Abudora-0](https://github.com/Abudora-0) &middot; [Live portfolio](https://web-projects.vercel.app/)
+**Abudora** &middot; [github.com/Abudora-0](https://github.com/Abudora-0) &middot; [Live portfolio](https://abudora-web.vercel.app/)
 
 *Built with HTML, CSS and JavaScript - and a different idea every time.*
 

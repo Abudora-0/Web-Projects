@@ -135,7 +135,7 @@ const grid = $("#exhibits");
 PROJECTS.forEach((p, i) => {
   const el = document.createElement("a");
   el.className = "exhibit";
-  el.href = `../${p.slug}/`;
+  el.href = `${p.slug}/`;
   el.dataset.cat = p.cat;
   el.dataset.search = `${p.name} ${p.tagline} ${p.tags.join(" ")} ${CAT_LABEL[p.cat]}`.toLowerCase();
   el.style.setProperty("--tint", p.accent);
@@ -147,7 +147,7 @@ PROJECTS.forEach((p, i) => {
       <span class="exhibit-open">Open
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
       </span>
-      <iframe data-src="../${p.slug}/" title="${p.name} preview" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+      <iframe data-src="${p.slug}/" title="${p.name} preview" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
     </div>
     <div class="exhibit-meta">
       <h3 class="exhibit-name">${p.name}</h3>
