@@ -3,134 +3,172 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Xchange — FX Terminal</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' rx='6' fill='%230d1117' stroke='%2300e582' stroke-width='2'/%3E%3Cpath d='M12 18h18M12 18l4-4M12 18l4 4' stroke='%2300e582' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M36 30H18M36 30l-4-4M36 30l-4 4' stroke='%23ffb02e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <title>Xchange - International Currency Board</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none'%3E%3Crect x='1' y='1' width='46' height='46' rx='9' fill='%2314171d' stroke='%232b313d' stroke-width='2'/%3E%3Cpath d='M16 14L32 34M32 14L16 34' stroke='%23ffce2e' stroke-width='5' stroke-linecap='round'/%3E%3Crect x='2' y='23' width='44' height='2.4' fill='%230a0c10'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav class="navbar">
-    <a href="#" class="nav-logo">
-      <img src="logo.svg" alt="Xchange" />
-      <span>Xchange</span>
+  <!-- ═══ Board header ═══ -->
+  <header class="board-header">
+    <a href="#" class="brand">
+      <img src="logo.svg" alt="Xchange logo" />
+      <div class="brand-text">
+        <span class="brand-name">XCHANGE</span>
+        <span class="brand-sub">International Currency Board</span>
+      </div>
     </a>
-    <div class="nav-right">
-      <span class="rate-time" id="rateTime"></span>
-      <button class="theme-btn" id="themeBtn" title="Toggle theme">
+
+    <div class="clocks">
+      <div class="clock">
+        <span class="clock-label">Local</span>
+        <span class="clock-time" id="clockLocal">--:--:--</span>
+      </div>
+      <div class="clock">
+        <span class="clock-label">UTC</span>
+        <span class="clock-time" id="clockUtc">--:--:--</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <span class="data-status" id="dataStatus"><span class="status-dot"></span>CONNECTING</span>
+      <button class="theme-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">
         <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
     </div>
-  </nav>
+  </header>
+
+  <!-- ═══ Rate ticker ═══ -->
+  <div class="ticker-strip" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
 
   <main>
 
-    <!-- Hero -->
-    <section class="hero">
-      <h1>Live Currency Converter</h1>
-      <p>Real-time exchange rates for 160+ currencies, updated daily.</p>
+    <!-- ═══ Boarding-pass converter ═══ -->
+    <div class="strip strip--main"><span>CONVERT</span><span class="strip-right" id="stripInfo">161 CURRENCIES · LIVE RATES</span></div>
+
+    <section class="ticket">
+      <div class="ticket-main">
+
+        <div class="t-col">
+          <div class="t-label">From</div>
+          <div class="currency-picker" id="fromPickerBtn" tabindex="0" role="button" aria-haspopup="listbox">
+            <span class="cc-badge" id="fromFlag">US</span>
+            <div class="picker-info">
+              <span class="picker-code" id="fromCode">USD</span>
+              <span class="picker-name" id="fromName">US Dollar</span>
+            </div>
+            <svg class="picker-chevron" id="fromChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <input class="amount-input" type="number" id="fromAmount" value="1" min="0" step="any" placeholder="0" autocomplete="off" aria-label="Amount" />
+        </div>
+
+        <div class="swap-col">
+          <button class="swap-btn" id="swapBtn" title="Swap currencies (S)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 7h13m0 0l-4-4m4 4l-4 4"/><path d="M20 17H7m0 0l4 4m-4-4l4-4"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="t-col">
+          <div class="t-label">To</div>
+          <div class="currency-picker" id="toPickerBtn" tabindex="0" role="button" aria-haspopup="listbox">
+            <span class="cc-badge" id="toFlag">PK</span>
+            <div class="picker-info">
+              <span class="picker-code" id="toCode">PKR</span>
+              <span class="picker-name" id="toName">Pakistani Rupee</span>
+            </div>
+            <svg class="picker-chevron" id="toChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="flap-result" id="toAmount" aria-live="polite"></div>
+        </div>
+
+      </div>
+
+      <div class="ticket-stub">
+        <div class="stub-rates">
+          <span class="rate-line" id="rateBadge">-</span>
+          <span class="rate-line rate-line--inv" id="inverseBadge"></span>
+        </div>
+        <div class="stub-actions">
+          <span class="quick-label">Quick</span>
+          <button class="qa-btn" data-val="100">100</button>
+          <button class="qa-btn" data-val="500">500</button>
+          <button class="qa-btn" data-val="1000">1K</button>
+          <button class="qa-btn" data-val="10000">10K</button>
+          <span class="stub-sep"></span>
+          <button class="act-btn" id="copyResultBtn" title="Copy result">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+          <button class="act-btn" id="shareBtn" title="Copy shareable link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            Link
+          </button>
+        </div>
+      </div>
     </section>
 
-    <!-- Main converter card -->
-    <div class="converter-card">
-
-      <!-- FROM side -->
-      <div class="converter-side">
-        <div class="side-label">From</div>
-        <input class="amount-input" type="number" id="fromAmount" value="1" min="0" step="any" placeholder="0" autocomplete="off" />
-        <!-- Custom dropdown trigger -->
-        <div class="currency-picker" id="fromPickerBtn" tabindex="0" role="button" aria-haspopup="listbox">
-          <span class="cc-badge" id="fromFlag">US</span>
-          <div class="picker-info">
-            <span class="picker-code" id="fromCode">USD</span>
-            <span class="picker-name" id="fromName">US Dollar</span>
-          </div>
-          <svg class="picker-chevron" id="fromChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
+    <!-- ═══ Rate history chart ═══ -->
+    <section class="section" id="chartSection" hidden>
+      <div class="strip"><span id="chartTitle">RATE HISTORY</span>
+        <span class="strip-right chart-ranges">
+          <button class="range-btn" data-days="7">7D</button>
+          <button class="range-btn active" data-days="30">1M</button>
+          <button class="range-btn" data-days="90">3M</button>
+          <button class="range-btn" data-days="365">1Y</button>
+        </span>
       </div>
-
-      <!-- Swap -->
-      <div class="swap-col">
-        <button class="swap-btn" id="swapBtn" title="Swap currencies">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
-          </svg>
-        </button>
+      <div class="chart-panel">
+        <canvas id="chartCanvas" height="220"></canvas>
+        <div class="chart-meta" id="chartMeta"></div>
       </div>
+    </section>
 
-      <!-- TO side -->
-      <div class="converter-side converter-side--result">
-        <div class="side-label">To</div>
-        <div class="amount-result" id="toAmount">—</div>
-        <div class="currency-picker" id="toPickerBtn" tabindex="0" role="button" aria-haspopup="listbox">
-          <span class="cc-badge cc-badge--to" id="toFlag">PK</span>
-          <div class="picker-info">
-            <span class="picker-code" id="toCode">PKR</span>
-            <span class="picker-name" id="toName">Pakistani Rupee</span>
-          </div>
-          <svg class="picker-chevron" id="toChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
-      </div>
+    <!-- ═══ Favorites board ═══ -->
+    <section class="section" id="favSection" hidden>
+      <div class="strip"><span>★ FAVOURITES</span><span class="strip-right" id="favInfo"></span></div>
+      <div class="board" id="favBoard"></div>
+    </section>
 
-    </div>
-
-    <!-- Custom dropdown panel (shared, moved by JS) -->
-    <div class="dropdown-panel" id="dropdownPanel" style="display:none">
-      <div class="dropdown-search-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="dropdownSearch" placeholder="Search currency…" autocomplete="off" />
-      </div>
-      <ul class="dropdown-list" id="dropdownList" role="listbox"></ul>
-    </div>
-
-    <!-- Rate badge + quick amounts -->
-    <div class="meta-row">
-      <div class="rate-badge" id="rateBadge">—</div>
-      <div class="quick-amounts">
-        <span class="quick-label">Quick:</span>
-        <button class="qa-btn" data-val="100">100</button>
-        <button class="qa-btn" data-val="500">500</button>
-        <button class="qa-btn" data-val="1000">1K</button>
-        <button class="qa-btn" data-val="10000">10K</button>
-      </div>
-    </div>
-
-    <!-- Popular pairs -->
+    <!-- ═══ Popular routes ═══ -->
     <section class="section">
-      <h2 class="section-title">Popular Pairs</h2>
-      <div class="pairs-grid" id="pairsGrid"></div>
+      <div class="strip"><span>POPULAR ROUTES</span><span class="strip-right">7-DAY CHANGE</span></div>
+      <div class="board board--routes" id="pairsGrid"></div>
     </section>
 
-    <!-- All currencies results -->
-    <section class="section" id="resultsSection" style="display:none">
-      <div class="results-header">
-        <h2 class="section-title" id="resultsTitle">All Currencies</h2>
-        <div class="results-search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="searchInput" placeholder="Search currency…" />
-        </div>
+    <!-- ═══ Full board: all currencies ═══ -->
+    <section class="section">
+      <div class="strip"><span id="allTitle">ALL CURRENCIES</span>
+        <span class="strip-right search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="SEARCH…" autocomplete="off" />
+        </span>
       </div>
-      <div class="results-grid" id="resultsGrid"></div>
+      <div class="board" id="resultsGrid"></div>
     </section>
-
-    <!-- Convert all button -->
-    <div class="center-row" id="convertAllWrap">
-      <button class="btn-convert-all" id="convertAllBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-        Convert to All Currencies
-      </button>
-    </div>
 
   </main>
 
+  <!-- Shared dropdown panel -->
+  <div class="dropdown-panel" id="dropdownPanel" style="display:none">
+    <div class="dropdown-search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="dropdownSearch" placeholder="Search currency…" autocomplete="off" />
+    </div>
+    <ul class="dropdown-list" id="dropdownList" role="listbox"></ul>
+  </div>
+
   <footer class="footer">
-    <p>Xchange &nbsp;·&nbsp; Rates from <a href="https://open.er-api.com" target="_blank">open.er-api.com</a> &nbsp;·&nbsp; Updated every 24h</p>
+    <p>XCHANGE · Rates via <a href="https://open.er-api.com" target="_blank" rel="noopener">open.er-api.com</a> · History via <a href="https://frankfurter.dev" target="_blank" rel="noopener">frankfurter.dev</a> · <span id="rateTime"></span></p>
   </footer>
 
   <script src="script.js"></script>
 <!-- Back to All Projects -->
-<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#0d1117;color:#00e582;border:1px solid rgba(0,229,130,0.4);border-radius:2px;font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;font-family:'IBM Plex Mono',monospace;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(0,229,130,0.12)';this.style.borderColor='#00e582'" onmouseout="this.style.background='#0d1117';this.style.borderColor='rgba(0,229,130,0.4)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#14171d;color:#ffce2e;border:1px solid rgba(255,206,46,0.4);border-radius:3px;font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;font-family:'IBM Plex Mono',monospace;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(255,206,46,0.12)';this.style.borderColor='#ffce2e'" onmouseout="this.style.background='#14171d';this.style.borderColor='rgba(255,206,46,0.4)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
 </body>
 </html>
