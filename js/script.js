@@ -131,23 +131,29 @@ const pad2 = (n) => String(n).padStart(2, "0");
 /* ---------- build the grid ---------- */
 
 const grid = $("#exhibits");
+const PLAY = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>`;
 
 PROJECTS.forEach((p, i) => {
   const el = document.createElement("a");
   el.className = "exhibit";
   el.href = `${p.slug}/`;
   el.dataset.cat = p.cat;
+  el.dataset.slug = p.slug;
+  el.dataset.name = p.name;
   el.dataset.search = `${p.name} ${p.tagline} ${p.tags.join(" ")} ${CAT_LABEL[p.cat]}`.toLowerCase();
   el.style.setProperty("--tint", p.accent);
   el.setAttribute("aria-label", `${p.name} - ${p.tagline} Open project.`);
 
   el.innerHTML = `
     <div class="exhibit-screen" style="--tint:${p.accent}">
-      <span class="exhibit-badge">${pad2(i + 1)} / ${PROJECTS.length}</span>
+      <div class="screen-bar"><i></i><i></i><i></i><span class="screen-url">/${p.slug}</span></div>
+      <span class="screen-mono">${p.name.replace(/[^A-Za-z0-9]/g, "").charAt(0) || "A"}</span>
+      <span class="screen-no">${pad2(i + 1)} / ${PROJECTS.length}</span>
+      <button type="button" class="preview-btn" aria-pressed="false">${PLAY}<span>Preview</span></button>
+      <div class="frame-slot"></div>
       <span class="exhibit-open">Open
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
       </span>
-      <iframe data-src="${p.slug}/" title="${p.name} preview" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
     </div>
     <div class="exhibit-meta">
       <h3 class="exhibit-name">${p.name}</h3>
@@ -156,8 +162,9 @@ PROJECTS.forEach((p, i) => {
     </div>`;
 
   el.addEventListener("click", (e) => {
+    if (e.target.closest(".preview-btn")) return;
     e.preventDefault();
-    launch(el, el.href);
+    launch(el);
   });
 
   grid.appendChild(el);
@@ -173,106 +180,124 @@ $("#cGame").textContent  = counts.game  || 0;
 $("#cClone").textContent = counts.clone || 0;
 $("#heroCount").textContent = PROJECTS.length;
 
-/* ---------- scale the preview iframes to their card ---------- */
+/* ---------- previews: load one project at a time, on demand ----------
+   The wall stays static (designed poster cards). Hovering a card on a
+   pointer device, or tapping its Preview button, mounts the real project
+   in an iframe - never more than a couple alive at once. */
 
 const LOGICAL_W = 1280;
-function rescale() {
-  $$(".exhibit-screen").forEach((s) => {
-    s.style.setProperty("--scale", s.clientWidth / LOGICAL_W);
-  });
+const MAX_LIVE = 2;
+const live = [];          // [{el, frame, pinned}] most-recent last
+let autoPreview = window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion;
+if (navigator.connection && navigator.connection.saveData) autoPreview = false;
+
+let previewsOff = false;
+try { previewsOff = localStorage.getItem("previewsOff") === "1"; } catch (_) {}
+
+function scaleFrame(screen) {
+  screen.style.setProperty("--scale", screen.clientWidth / LOGICAL_W);
 }
-rescale();
-let rz;
-window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(rescale, 150); });
 
-/* ---------- lazy previews: a windowed loader ----------
-   Only cards near the viewport get a live iframe. Cards that
-   scroll well away are unloaded again so we never keep 35
-   documents (and 5 game loops) alive at once. */
+function mount(el, pinned) {
+  const rec = live.find((r) => r.el === el);
+  if (rec) { rec.pinned = rec.pinned || pinned; return; }
 
-const MAX_CONCURRENT = 2;
-let inFlight = 0;
-const queue = [];
-let paused = false;
-
-try {
-  paused = localStorage.getItem("previewsPaused") === "1";
-} catch (_) {}
-if (reduceMotion) paused = true;
-if (navigator.connection && navigator.connection.saveData) paused = true;
-
-function pump() {
-  if (paused) return;
-  while (inFlight < MAX_CONCURRENT && queue.length) {
-    const frame = queue.shift();
-    if (!frame || frame.dataset.state) continue;
-    inFlight++;
-    frame.dataset.state = "loading";
-    frame.addEventListener("load", () => {
-      inFlight--;
-      if (frame.dataset.state === "loading") {
-        frame.dataset.state = "live";
-        frame.closest(".exhibit-screen").classList.add("loaded");
-      }
-      pump();
-    }, { once: true });
-    frame.src = frame.dataset.src;
+  // evict the oldest non-pinned preview if we're at the cap
+  while (live.length >= MAX_LIVE) {
+    const victim = live.find((r) => !r.pinned) || live[0];
+    unmount(victim.el);
   }
+
+  const screen = el.querySelector(".exhibit-screen");
+  const slot = el.querySelector(".frame-slot");
+  scaleFrame(screen);
+  screen.classList.add("loading");
+
+  const frame = document.createElement("iframe");
+  frame.title = el.dataset.name + " preview";
+  frame.setAttribute("scrolling", "no");
+  frame.setAttribute("tabindex", "-1");
+  frame.setAttribute("aria-hidden", "true");
+  frame.setAttribute("loading", "eager");
+  frame.addEventListener("load", () => {
+    screen.classList.remove("loading");
+    screen.classList.add("live");
+  }, { once: true });
+  frame.src = el.dataset.slug + "/";
+  slot.appendChild(frame);
+
+  const btn = el.querySelector(".preview-btn");
+  btn.setAttribute("aria-pressed", "true");
+  btn.querySelector("span").textContent = "Live";
+
+  live.push({ el, frame, pinned: !!pinned });
 }
 
-function unload(frame) {
-  const q = queue.indexOf(frame);
-  if (q > -1) queue.splice(q, 1);
-  if (frame.dataset.state === "loading") inFlight = Math.max(0, inFlight - 1);
-  frame.removeAttribute("src");
-  delete frame.dataset.state;
-  frame.closest(".exhibit-screen").classList.remove("loaded");
+function unmount(el) {
+  const idx = live.findIndex((r) => r.el === el);
+  if (idx < 0) return;
+  live.splice(idx, 1);
+  const screen = el.querySelector(".exhibit-screen");
+  screen.classList.remove("live", "loading");
+  el.querySelector(".frame-slot").innerHTML = "";
+  const btn = el.querySelector(".preview-btn");
+  btn.setAttribute("aria-pressed", "false");
+  btn.querySelector("span").textContent = "Preview";
 }
 
-const NEAR = () => window.innerHeight * 0.5 + 300;
-const FAR  = () => window.innerHeight + 700;
+// preview button - pin / unpin a live preview (works on every device)
+grid.addEventListener("click", (e) => {
+  const btn = e.target.closest(".preview-btn");
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const el = btn.closest(".exhibit");
+  const rec = live.find((r) => r.el === el);
+  if (rec) unmount(el);
+  else mount(el, true);
+});
 
-function sweep() {
-  const near = NEAR(), far = FAR();
-  $$(".exhibit").forEach((el) => {
-    const frame = el.querySelector(".exhibit-screen iframe");
-    if (!frame) return;
-    const r = el.getBoundingClientRect();
-    const offscreen = r.top - window.innerHeight > 0 ? r.top - window.innerHeight : (r.bottom < 0 ? -r.bottom : 0);
-    const hidden = el.classList.contains("hidden");
-
-    if (!hidden && offscreen < near && !frame.dataset.state && !queue.includes(frame)) {
-      queue.push(frame);
-    } else if ((hidden || offscreen > far) && frame.dataset.state) {
-      unload(frame);
-    }
-  });
-  pump();
+// hover intent on pointer devices
+if (autoPreview) {
+  let hoverT;
+  grid.addEventListener("pointerenter", (e) => {
+    if (previewsOff) return;
+    const el = e.target.closest(".exhibit");
+    if (!el || e.pointerType !== "mouse") return;
+    clearTimeout(hoverT);
+    hoverT = setTimeout(() => mount(el, false), 260);
+  }, true);
+  grid.addEventListener("pointerleave", (e) => {
+    const el = e.target.closest(".exhibit");
+    if (!el) return;
+    clearTimeout(hoverT);
+    const rec = live.find((r) => r.el === el);
+    if (rec && !rec.pinned) setTimeout(() => {
+      const r2 = live.find((r) => r.el === el);
+      if (r2 && !r2.pinned && !el.matches(":hover")) unmount(el);
+    }, 380);
+  }, true);
 }
 
-let raf = 0;
-const scheduleSweep = () => {
-  if (raf) return;
-  raf = requestAnimationFrame(() => { raf = 0; sweep(); });
-};
-window.addEventListener("scroll", scheduleSweep, { passive: true });
-window.addEventListener("resize", scheduleSweep, { passive: true });
-setInterval(sweep, 1500);
-setTimeout(sweep, 400);
+let rz;
+window.addEventListener("resize", () => {
+  clearTimeout(rz);
+  rz = setTimeout(() => live.forEach((r) => scaleFrame(r.el.querySelector(".exhibit-screen"))), 150);
+});
 
-// preview toggle
+// the "previews on/off" switch just governs hover auto-loading
 const toggle = $("#previewToggle");
 function reflectToggle() {
-  document.body.classList.toggle("previews-paused", paused);
-  toggle.setAttribute("aria-pressed", String(paused));
-  $(".pt-label", toggle).textContent = paused ? "Previews off" : "Previews on";
+  document.body.classList.toggle("previews-paused", previewsOff);
+  toggle.setAttribute("aria-pressed", String(previewsOff));
+  $(".pt-label", toggle).textContent = previewsOff ? "Hover previews off" : "Hover previews on";
 }
+if (!autoPreview) toggle.hidden = true;
 reflectToggle();
 toggle.addEventListener("click", () => {
-  paused = !paused;
-  try { localStorage.setItem("previewsPaused", paused ? "1" : "0"); } catch (_) {}
+  previewsOff = !previewsOff;
+  try { localStorage.setItem("previewsOff", previewsOff ? "1" : "0"); } catch (_) {}
   reflectToggle();
-  if (!paused) sweep();
 });
 
 /* ---------- reveal on scroll ---------- */
@@ -305,8 +330,7 @@ function applyFilter() {
     if (show) shown++;
   });
   noHits.hidden = shown > 0;
-  rescale();
-  sweep();
+  live.slice().forEach((r) => { if (r.el.classList.contains("hidden")) unmount(r.el); });
 }
 
 chips.forEach((chip) => {
@@ -331,28 +355,17 @@ $("#clearFilters").addEventListener("click", () => {
 
 const launchEl = $("#launch");
 
-function launch(card, href) {
+function launch(card) {
+  const href = card.getAttribute("href");
   if (reduceMotion) { location.href = href; return; }
 
   const screen = card.querySelector(".exhibit-screen");
   const r = screen.getBoundingClientRect();
-  const slug = href.replace(/[./]/g, (m) => (m === "/" ? "-" : "")); // harmless id
-  const tint = card.style.getPropertyValue("--tint") || "#333";
+  const tint = card.style.getPropertyValue("--tint") || "#4b6bff";
 
   launchEl.style.cssText =
-    `top:${r.top}px;left:${r.left}px;width:${r.width}px;height:${r.height}px;` +
-    `--tint:${tint};--scale:${r.width / LOGICAL_W};` +
-    `--fill-scale:${Math.max(window.innerWidth / LOGICAL_W, window.innerHeight / 800)};` +
-    `background:linear-gradient(180deg,#191920,#0e0e12);`;
-
-  const live = screen.querySelector("iframe");
-  const clone = document.createElement("iframe");
-  clone.setAttribute("scrolling", "no");
-  clone.setAttribute("tabindex", "-1");
-  clone.setAttribute("aria-hidden", "true");
-  clone.src = (live && live.src) || (live && live.dataset.src) || href;
-  launchEl.innerHTML = "";
-  launchEl.appendChild(clone);
+    `top:${r.top}px;left:${r.left}px;width:${r.width}px;height:${r.height}px;--tint:${tint};`;
+  launchEl.innerHTML = `<span class="launch-name">${card.dataset.name}</span>`;
 
   document.body.classList.add("launching");
   launchEl.setAttribute("aria-hidden", "false");
@@ -361,7 +374,7 @@ function launch(card, href) {
     requestAnimationFrame(() => launchEl.classList.add("go"));
   });
 
-  setTimeout(() => { location.href = href; }, 430);
+  setTimeout(() => { location.href = href; }, 420);
 }
 
 // coming back via bfcache: reset the overlay
