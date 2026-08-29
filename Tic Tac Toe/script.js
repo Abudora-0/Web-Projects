@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════
-   DeXO — Tic Tac Toe  |  script.js
+   DeXO - Tic Tac Toe  |  script.js
    ══════════════════════════════════════════════ */
 
 'use strict';
@@ -202,10 +202,10 @@ function getWinner() {
 
 // ── Win line ──────────────────────────────────
 function drawWinLine(combo) {
-  // We'll highlight via CSS only (win-cell glow) — clean & reliable.
+  // We'll highlight via CSS only (win-cell glow) - clean & reliable.
   // Optionally add a subtle overlay line on the board wrap.
   const boardRect = boardEl.getBoundingClientRect();
-  // Just rely on the cell glow — it looks great.
+  // Just rely on the cell glow - it looks great.
 }
 
 // ── New game ──────────────────────────────────
