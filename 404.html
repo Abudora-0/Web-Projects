@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Abudora</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1.25' y='1.25' width='29.5' height='29.5' rx='8' fill='%23101014' stroke='%232f2f36' stroke-width='1.5'/%3E%3Cpath d='M8.5 25 L16 7 L23.5 25 M11.5 17.8 H20.5' fill='none' stroke='%235570ff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .e404 {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: var(--shell);
+      margin: 0 auto;
+      padding: 7rem 0 4rem;
+    }
+    .e404 .code {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--fg-faint);
+      margin-bottom: 1.4rem;
+    }
+    .e404 h1 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 9vw, 5.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .e404 h1 em { font-style: italic; color: var(--accent-2); }
+    .e404 p { color: var(--fg-dim); max-width: 46ch; margin-bottom: 2.4rem; }
+    .jump {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      max-width: 420px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      padding: 0.65rem 1.1rem;
+      margin-bottom: 1.6rem;
+      transition: border-color 0.15s;
+    }
+    .jump:focus-within { border-color: var(--accent); }
+    .jump svg { width: 15px; height: 15px; color: var(--fg-faint); flex: none; }
+    .jump input {
+      flex: 1;
+      background: none;
+      border: 0;
+      outline: 0;
+      color: var(--fg);
+      font: inherit;
+      font-size: 0.92rem;
+    }
+    .jump input::placeholder { color: var(--fg-faint); }
+    .jump-hint { font-family: var(--mono); font-size: 0.7rem; color: var(--fg-faint); margin-bottom: 2.4rem; }
+    .jump-hint b { color: var(--accent-2); font-weight: 400; }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="spectrum" id="spectrum" aria-hidden="true"></div>
+
+  <header class="nav scrolled" id="nav">
+    <a class="brand brand-settled" href="/" aria-label="Abudora - home">
+      <span class="ba" aria-hidden="true">A</span><span class="brest" aria-hidden="true"><span>b</span><span>u</span><span>d</span><span>o</span><span>r</span><span>a</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/#work">Work</a>
+      <a href="/#about">About</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="e404">
+    <p class="code">Error 404</p>
+    <h1>This route was never <em>built</em>.</h1>
+    <p>The page you asked for is not one of the thirty-five. Head back to the wall, or jump straight to a project.</p>
+
+    <label class="jump">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <input type="text" id="jumpInput" placeholder="Type a project name" autocomplete="off" spellcheck="false" aria-label="Jump to a project" />
+    </label>
+    <p class="jump-hint" id="jumpHint">Try <b>terminal</b>, <b>dispatch</b>, <b>halcyon</b>...</p>
+
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="/">Back to the wall</a>
+      <a class="btn btn-ghost" href="https://github.com/Abudora-0" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </main>
+
+  <script>
+    var SLUGS = ["badlands","nibble","tic-tac-toe","animated-car","arcade-hub","cashbook","the-flatbed","soundroom","halcyon","xchange","the-cellar-door","taskly","vernier","the-sorting-office","meridian","spotify-clone","windows-11-ui-clone","compile","ephemeris","off-the-record","dispatch","deblog","ironclad","cinder-and-salt","the-order-window","thread-and-rail","kestrel","kino","sillage","the-terminal","deadstock","umbral","ember-and-anvil","nine-fifty-four","willowcomb"];
+    var ACCENTS = ["#f0a03c","#9ead86","#f2d47f","#ff2e97","#12d0e6","#b5292f","#ff5a1f","#e8933a","#6aa9d8","#ffce2e","#c9a227","#d0913f","#ff6248","#b0413e","#c8a45c","#1db954","#4b6bff","#a4e22e","#e3c27b","#a03c38","#ffb000","#c0392b","#ff6600","#d5622d","#ff3d81","#b81f2c","#8a7355","#e8a33d","#a2564e","#12d0e6","#ccff00","#ff7a33","#ff6a1a","#b8863f","#e9a227"];
+
+    var spectrum = document.getElementById("spectrum");
+    SLUGS.forEach(function (s, i) {
+      var seg = document.createElement("span");
+      seg.className = "seg lit";
+      seg.style.background = ACCENTS[i];
+      spectrum.appendChild(seg);
+    });
+
+    var input = document.getElementById("jumpInput");
+    var hint = document.getElementById("jumpHint");
+    function match(q) {
+      q = q.trim().toLowerCase().replace(/\s+/g, "-");
+      if (!q) return null;
+      return SLUGS.find(function (s) { return s === q || s.indexOf(q) === 0; }) ||
+             SLUGS.find(function (s) { return s.indexOf(q) > -1; });
+    }
+    input.addEventListener("input", function () {
+      var m = match(input.value);
+      hint.textContent = m ? "Enter to open /" + m + "/" : "No project by that name.";
+    });
+    input.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      var m = match(input.value);
+      if (m) location.href = "/" + m + "/";
+    });
+  </script>
+</body>
+</html>
