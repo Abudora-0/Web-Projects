@@ -168,28 +168,21 @@ PROJECTS.forEach((p, i) => {
   el.style.setProperty("--sy", (Math.random() * 30 + 6).toFixed(1) + "px");
   el.setAttribute("aria-label", `${p.name} - ${p.tagline} Open project.`);
 
-  const monogram = p.name.replace(/[^A-Za-z0-9]/g, "").charAt(0) || "A";
   el.innerHTML = `
     <div class="exhibit-screen" style="--tint:${p.accent}">
+      <img class="exhibit-shot" src="assets/thumb/${p.slug}.webp" alt="" loading="lazy" decoding="async" width="1100" height="688" />
       <div class="screen-bar"><i></i><i></i><i></i><span class="screen-url">/${p.slug}</span></div>
-      <span class="screen-mono">${monogram}</span>
-      <span class="screen-no">${pad2(i + 1)} / ${PROJECTS.length}</span>
-      <button type="button" class="preview-btn" aria-pressed="false">${PLAY}<span>Preview</span></button>
-      <div class="frame-slot"></div>
       <span class="exhibit-open">Open
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
       </span>
+      <button type="button" class="preview-btn" aria-pressed="false">${PLAY}<span>Preview</span></button>
+      <div class="frame-slot"></div>
     </div>
     <div class="exhibit-meta">
-      <span class="exhibit-idx">${pad2(i + 1)}</span>
+      <span class="exhibit-idx">${pad2(i + 1)} / ${PROJECTS.length}</span>
       <h3 class="exhibit-name">${p.name}</h3>
       <p class="exhibit-tagline">${p.tagline}</p>
       <div class="exhibit-tags">${p.tags.map((t) => `<span>${t}</span>`).join("")}</div>
-      <div class="dna" aria-hidden="true">
-        <span class="dna-sw" style="background:${p.accent}"></span>
-        <span class="dna-sig">${p.sig}</span>
-        <span class="dna-built">${fmtBuilt(p.built)}</span>
-      </div>
     </div>`;
 
   el.addEventListener("click", (e) => {
@@ -205,11 +198,6 @@ PROJECTS.forEach((p, i) => {
   grid.appendChild(el);
   cardBySlug[p.slug] = el;
 });
-
-function fmtBuilt(ym) {
-  const [y, m] = ym.split("-");
-  return ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][+m] + " " + y;
-}
 
 /* ---------- counts ---------- */
 
@@ -242,16 +230,29 @@ PROJECTS.forEach((p, i) => {
   spectrum.appendChild(seg);
 });
 const segs = $$(".seg", spectrum);
+let litCount = -1;
 
 function updateSpectrum() {
   const max = document.documentElement.scrollHeight - window.innerHeight;
   const pct = max > 0 ? clamp01(window.scrollY / max) : 0;
   const lit = Math.round(pct * segs.length);
+  if (lit === litCount) return;
+  litCount = lit;
   segs.forEach((s, i) => s.classList.toggle("lit", i < lit));
 }
-updateSpectrum();
-window.addEventListener("scroll", updateSpectrum, { passive: true });
-window.addEventListener("resize", updateSpectrum);
+
+/* one rAF-batched scroll handler for everything that reacts to scroll */
+const scrollJobs = [updateSpectrum];
+let scrollRaf = 0;
+function onScrollFrame() {
+  scrollRaf = 0;
+  for (const job of scrollJobs) job();
+}
+window.addEventListener("scroll", () => {
+  if (!scrollRaf) scrollRaf = requestAnimationFrame(onScrollFrame);
+}, { passive: true });
+window.addEventListener("resize", onScrollFrame);
+onScrollFrame();
 
 function jumpToCard(slug) {
   const card = cardBySlug[slug];
@@ -418,11 +419,11 @@ $$(".exhibit").forEach(armReveal);
 
 // never leave anything invisible if the entrance transition is inert
 setTimeout(() => {
-  $$(".exhibit, .tl-node").forEach((el) => {
+  $$(".exhibit").forEach((el) => {
     el.classList.add("in");
     if (getComputedStyle(el).opacity === "0") {
       el.style.transition = "none";
-      el.style.opacity = el.classList.contains("tl-node") ? "0.5" : "1";
+      el.style.opacity = "1";
       el.style.transform = "none";
     }
   });
@@ -470,40 +471,26 @@ $("#clearFilters").addEventListener("click", () => {
 });
 
 /* =========================================================
-   THE BUILD TIMELINE - the 35 in the order they were made
+   CURSOR SPOTLIGHT - a soft light tracks the pointer on the wall
    ========================================================= */
 
-const tl = $("#tlTrack");
-const ordered = PROJECTS
-  .map((p, i) => ({ p, i }))
-  .sort((a, b) => a.p.built.localeCompare(b.p.built) || a.i - b.i);
-
-let lastMonth = "";
-ordered.forEach(({ p }, k) => {
-  if (p.built !== lastMonth) {
-    lastMonth = p.built;
-    const mk = document.createElement("span");
-    mk.className = "tl-month";
-    mk.textContent = fmtBuilt(p.built);
-    mk.style.setProperty("--k", k);
-    tl.appendChild(mk);
-  }
-  const node = document.createElement("button");
-  node.type = "button";
-  node.className = "tl-node";
-  node.tabIndex = -1;
-  node.style.background = p.accent;
-  node.style.setProperty("--k", k);
-  node.dataset.slug = p.slug;
-  node.setAttribute("aria-label", `${p.name}, built ${fmtBuilt(p.built)} - jump`);
-  node.innerHTML = `<span class="tl-tip">${p.name}<b>${fmtBuilt(p.built)}</b></span>`;
-  node.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") setAccent(p.accent); });
-  node.addEventListener("pointerleave", resetAccent);
-  node.addEventListener("click", () => jumpToCard(p.slug));
-  tl.appendChild(node);
-  armReveal(node, k);
-});
-tl.style.setProperty("--n", ordered.length);
+if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion) {
+  const workSection = $("#work");
+  let sx = 0, sy = 0, spotRaf = 0;
+  workSection.addEventListener("pointermove", (e) => {
+    const r = workSection.getBoundingClientRect();
+    sx = e.clientX - r.left;
+    sy = e.clientY - r.top;
+    if (spotRaf) return;
+    spotRaf = requestAnimationFrame(() => {
+      spotRaf = 0;
+      workSection.style.setProperty("--mx", sx + "px");
+      workSection.style.setProperty("--my", sy + "px");
+    });
+  });
+  workSection.addEventListener("pointerenter", () => workSection.classList.add("lit"));
+  workSection.addEventListener("pointerleave", () => workSection.classList.remove("lit"));
+}
 
 /* =========================================================
    COMMAND PALETTE
@@ -535,9 +522,15 @@ function scrollToId(id) {
 
 function renderPalette() {
   const q = palInput.value.trim().toLowerCase();
+  const rank = (a) => {
+    const li = a.label.toLowerCase().indexOf(q);
+    if (li === 0) return 0;
+    if (li > 0) return 1 + li / 100;
+    return 5 + a.key.indexOf(q) / 100;
+  };
   const matches = (q
     ? ACTIONS.filter((a) => a.key.includes(q) || a.label.toLowerCase().includes(q))
-        .sort((a, b) => a.label.toLowerCase().indexOf(q) - b.label.toLowerCase().indexOf(q))
+        .sort((a, b) => rank(a) - rank(b))
     : ACTIONS
   ).slice(0, 40);
   palIndex = 0;
@@ -676,9 +669,12 @@ window.addEventListener("pageshow", (e) => { if (e.persisted) returnPulse(); });
    ========================================================= */
 
 const nav = $("#nav");
-const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 24);
-onScroll();
-window.addEventListener("scroll", onScroll, { passive: true });
+let navScrolled = false;
+scrollJobs.push(() => {
+  const s = window.scrollY > 24;
+  if (s !== navScrolled) { navScrolled = s; nav.classList.toggle("scrolled", s); }
+});
+onScrollFrame();
 
 const burger = $("#hamburger");
 const navLinks = $("#navLinks");
@@ -692,6 +688,31 @@ $$("#navLinks a").forEach((a) => a.addEventListener("click", () => {
   burger.classList.remove("open");
   burger.setAttribute("aria-expanded", "false");
 }));
+
+/* =========================================================
+   MAGNETIC BUTTONS
+   ========================================================= */
+
+if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion) {
+  $$("[data-magnetic]").forEach((btn) => {
+    let raf = 0;
+    btn.addEventListener("pointermove", (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) * 0.25;
+      const y = (e.clientY - r.top - r.height / 2) * 0.38;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        btn.style.setProperty("--mag-x", x.toFixed(1) + "px");
+        btn.style.setProperty("--mag-y", y.toFixed(1) + "px");
+      });
+    });
+    btn.addEventListener("pointerleave", () => {
+      btn.style.removeProperty("--mag-x");
+      btn.style.removeProperty("--mag-y");
+    });
+  });
+}
 
 /* =========================================================
    HERO TYPING
