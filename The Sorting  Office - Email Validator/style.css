@@ -323,6 +323,7 @@ main { max-width: 860px; margin: 0 auto; padding: 0 0.4rem 3rem; }
 .api-toggle-btn:hover { color: var(--post-blue); }
 
 .api-key-row { display: flex; gap: 0.6rem; margin-top: 0.8rem; flex-wrap: wrap; }
+.api-key-row.hidden { display: none; }
 .api-key-row input { flex: 1; min-width: 200px; padding-left: 0.4rem; }
 
 /* ── Results - inspection certificate ──────────── */
@@ -709,6 +710,7 @@ kbd {
   position: fixed; inset: 0; z-index: 120;
   background: rgba(58, 50, 38, 0.4); display: flex; align-items: center; justify-content: center; padding: 1.5rem;
 }
+.sheet-overlay.hidden { display: none; }
 .sheet {
   background: var(--paper-card); border: 1.5px solid var(--ink); border-radius: 3px;
   width: min(420px, 100%); box-shadow: 8px 8px 0 rgba(58, 50, 38, 0.2);
