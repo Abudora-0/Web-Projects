@@ -119,8 +119,11 @@ html{ scrollbar-width:thin; scrollbar-color:var(--neon) var(--black); }
   background:var(--neon); color:var(--black); font-weight:800; font-size:.66rem;
   display:flex; align-items:center; justify-content:center; border-radius:50%;
 }
-.hamburger{ display:none; flex-direction:column; gap:5px; width:32px; height:32px; background:none; border:none; padding:0; }
-.hamburger span{ display:block; height:3px; width:100%; background:var(--white); transition:transform .25s var(--ease-snap), opacity .2s; }
+.hamburger{ display:none; flex-direction:column; justify-content:center; gap:5px; width:34px; height:34px; background:none; border:none; padding:6px 4px; flex-shrink:0; }
+.hamburger span{ display:block; height:3px; width:100%; background:var(--white); transition:transform .25s var(--ease-snap), opacity .18s; transform-origin:center; }
+.hamburger[aria-expanded="true"] span:nth-child(1){ transform:translateY(8px) rotate(45deg); }
+.hamburger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.hamburger[aria-expanded="true"] span:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
 
 /* ===== TAPE ===== */
 .tape{ background:var(--neon); color:var(--black); overflow:hidden; border-bottom:3px solid var(--black); }
@@ -436,13 +439,21 @@ input[type=range]::-moz-range-thumb{ width:14px; height:14px; border-radius:0; b
   .footer-inner{ grid-template-columns:1fr 1fr; }
 }
 @media (max-width:760px){
+  .header-inner{ gap:.75rem; }
   .nav{
-    position:fixed; top:var(--header-h); left:0; right:0; flex-direction:column; gap:0;
-    background:var(--black); border-bottom:3px solid var(--white); padding:.5rem 1.25rem 1rem;
-    transform:translateY(-130%); transition:transform .3s var(--ease-snap); z-index:500;
+    position:absolute; top:100%; left:0; right:0;
+    flex-direction:column; gap:0;
+    background:var(--black); border-bottom:3px solid var(--white);
+    padding:.25rem 1.25rem .85rem;
+    box-shadow:0 20px 40px -12px rgba(0,0,0,.8);
+    display:none;
+    z-index:20;
   }
-  .nav.open{ transform:translateY(0); }
-  .nav a{ padding:.7rem 0; border-bottom:1px solid var(--line); }
+  .nav.open{ display:flex; animation:navDrop .18s var(--ease-snap); }
+  @keyframes navDrop{ from{ transform:translateY(-6px); } to{ transform:none; } }
+  .nav a{ padding:.85rem .25rem; border-bottom:1px solid var(--line); font-size:1rem; }
+  .nav a:last-child{ border-bottom:none; }
+  .nav a[aria-current="page"]::after{ display:none; }
   .hamburger{ display:flex; }
   .shop-adv{ margin-left:0; width:100%; }
   .lookgrid{ columns:2 160px; }

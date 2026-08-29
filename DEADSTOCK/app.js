@@ -162,9 +162,20 @@
           '</div>' +
         '</div></header>';
 
-      $("#hamb").addEventListener("click", function () {
-        var n = $("#nav"); var open = n.classList.toggle("open");
-        this.setAttribute("aria-expanded", String(open));
+      var hamb = $("#hamb"), nav = $("#nav");
+      function setNav(open) {
+        nav.classList.toggle("open", open);
+        hamb.setAttribute("aria-expanded", String(open));
+      }
+      hamb.addEventListener("click", function (e) {
+        e.stopPropagation();
+        setNav(!nav.classList.contains("open"));
+      });
+      document.addEventListener("click", function (e) {
+        if (nav.classList.contains("open") && !nav.contains(e.target) && e.target !== hamb) setNav(false);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && nav.classList.contains("open")) { setNav(false); hamb.focus(); }
       });
       $("#openCart").addEventListener("click", openDrawer);
     }
