@@ -72,7 +72,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Blog Website](Blog%20Website/) | Broadsheet newspaper | 5 pages, search, dark "evening edition" |
 | [Ironclad](Ironclad/) | Brutalist gym poster | AI workout planner, BMI gauge, deal countdown |
 | [Cinder & Salt](Cinder%20%26%20Salt/) | Warm artisan eatery, cooked over fire | Split hero, menu cards with price leaders, map, contact |
-| [The Order Window](The%20Order%20Window/) | Late-night diner take-out window | Ticket-rail menu, cart-as-spike, kitchen-timer checkout |
+| [The Order Window](The%20Order%20Window/) | Late-night diner take-out counter (multipage) | Real food photos, ticket-rail menu, Blue Plate combo builder, kitchen-queue ticker, Regulars + order history, spike drawer, promo codes, delivery/tip checkout |
 | [Thread & Rail](Thread%20%26%20Rail/) | Garment-district showroom | Rolling clothing rack, size/color picker, cart & checkout |
 | [Kestrel](Kestrel/) | Small-batch clothing label, editorial | Product + bag pages, localStorage bag, lookbook, filterable range, archive timer |
 | [Kino](Kino/) | Streaming service, near-black + amber | Poster-wall hero, live search, persistent My List, in-modal trailers |
