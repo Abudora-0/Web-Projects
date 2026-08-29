@@ -8,32 +8,35 @@
 /* ── Preset albums ───────────────────────────── */
 const SP = '../spotify-clone/songs/';  // shared songs folder
 
-const GNX_SONGS = [
-  { title: 'wacced out murals',    artist: 'Kendrick Lamar', file: 'songs/1.mp3',  cover: 'covers/1.jpg',  duration: '5:17', lyrics: '' },
-  { title: 'squabble up',          artist: 'Kendrick Lamar', file: 'songs/2.mp3',  cover: 'covers/2.jpg',  duration: '2:37', lyrics: '' },
-  { title: "can't be humble",      artist: 'Kendrick Lamar', file: 'songs/3.mp3',  cover: 'covers/3.jpg',  duration: '2:39', lyrics: '' },
-  { title: 'tv off',               artist: 'Kendrick Lamar', file: 'songs/4.mp3',  cover: 'covers/4.jpg',  duration: '2:51', lyrics: '' },
-  { title: 'man at the garden',    artist: 'Kendrick Lamar', file: 'songs/5.mp3',  cover: 'covers/5.jpg',  duration: '3:31', lyrics: '' },
-  { title: 'heart pt 6',           artist: 'Kendrick Lamar', file: 'songs/6.mp3',  cover: 'covers/6.jpg',  duration: '4:09', lyrics: '' },
-  { title: 'reincarnated',         artist: 'Kendrick Lamar', file: 'songs/7.mp3',  cover: 'covers/7.jpg',  duration: '4:04', lyrics: '' },
-  { title: 'dodger blue',          artist: 'Kendrick Lamar', file: 'songs/8.mp3',  cover: 'covers/8.jpg',  duration: '3:29', lyrics: '' },
-  { title: 'peekaboo',             artist: 'Kendrick Lamar', file: 'songs/9.mp3',  cover: 'covers/9.jpg',  duration: '3:19', lyrics: '' },
-  { title: 'luther',               artist: 'Kendrick Lamar', file: 'songs/10.mp3', cover: 'covers/10.jpg', duration: '3:18', lyrics: '' },
-  { title: 'man at the garden II', artist: 'Kendrick Lamar', file: 'songs/11.mp3', cover: 'covers/11.jpg', duration: '2:56', lyrics: '' },
-  { title: 'gloria',               artist: 'Kendrick Lamar', file: 'songs/12.mp3', cover: 'covers/12.jpg', duration: '4:47', lyrics: '' },
-];
-
-const GNX_DEFAULT = {
-  id: 'gnx-default', title: 'GNX', artist: 'Kendrick Lamar',
-  year: '2024', genre: 'Hip-Hop', accent: '#e8933a',
-  artUrl: 'covers/1.jpg', bgUrl: 'bg.webp', songs: GNX_SONGS,
-  notes: "A blank pressing. Drop numbered rips (1.mp3, 2.mp3 ...) into this project's /songs folder and cover art into /covers to cut the record.",
-};
-
 function sp(folder, file, title, artist) {
   return { title, artist, file: SP + folder + '/' + file,
            cover: SP + folder + '/cover.jpg', duration: '-', lyrics: '' };
 }
+
+const TPAB_DEFAULT = {
+  id: 'kendrick-tpab', title: 'To Pimp a Butterfly', artist: 'Kendrick Lamar',
+  year: '2015', genre: 'Hip-Hop / Jazz', accent: '#c98a3c',
+  artUrl: SP + 'kenny/cover.jpg', bgUrl: SP + 'kenny/cover.jpg',
+  songs: [
+    sp('kenny', "1. Wesley's Theory.mp3", "Wesley's Theory", 'Kendrick Lamar'),
+    sp('kenny', '2. For Free_ - Interlude.mp3', 'For Free? (Interlude)', 'Kendrick Lamar'),
+    sp('kenny', '3. King Kunta.mp3', 'King Kunta', 'Kendrick Lamar'),
+    sp('kenny', '4. Institutionalized.mp3', 'Institutionalized', 'Kendrick Lamar'),
+    sp('kenny', '5. These Walls.mp3', 'These Walls', 'Kendrick Lamar'),
+    sp('kenny', '6. u.mp3', 'u', 'Kendrick Lamar'),
+    sp('kenny', '7. Alright.mp3', 'Alright', 'Kendrick Lamar'),
+    sp('kenny', '8. For Sale_ - Interlude.mp3', 'For Sale? (Interlude)', 'Kendrick Lamar'),
+    sp('kenny', '9. Momma.mp3', 'Momma', 'Kendrick Lamar'),
+    sp('kenny', '10. Hood Politics.mp3', 'Hood Politics', 'Kendrick Lamar'),
+    sp('kenny', '11. How Much A Dollar Cost.mp3', 'How Much a Dollar Cost', 'Kendrick Lamar'),
+    sp('kenny', '12. Complexion (A Zulu Love).mp3', 'Complexion (A Zulu Love)', 'Kendrick Lamar'),
+    sp('kenny', '13. The Blacker The Berry.mp3', 'The Blacker the Berry', 'Kendrick Lamar'),
+    sp('kenny', "14. You Ain't Gotta Lie (Momma Said).mp3", "You Ain't Gotta Lie (Momma Said)", 'Kendrick Lamar'),
+    sp('kenny', '15. i.mp3', 'i', 'Kendrick Lamar'),
+    sp('kenny', '16. Mortal Man.mp3', 'Mortal Man', 'Kendrick Lamar'),
+  ],
+  notes: '',
+};
 
 const PRESET_ALBUMS = [
   {
@@ -188,7 +191,7 @@ const PRESET_ALBUMS = [
       sp('weeknd','14. Until I Bleed Out.mp3','Until I Bleed Out','The Weeknd'),
     ],
   },
-  GNX_DEFAULT,
+  TPAB_DEFAULT,
 ];
 
 /* ── State ──────────────────────────────────── */
@@ -509,32 +512,38 @@ function syncTrackDropdown() {
   valueEl.textContent = sel ? sel.textContent : '-';
 }
 
+const SR_ALBUM_VER = '3'; // bump when preset albums or bundled paths change
+
 function initAlbums() {
-  const stored = loadStoredAlbums();
+  let stored = null;
+  try {
+    if (localStorage.getItem('albumStudio_ver') === SR_ALBUM_VER) stored = loadStoredAlbums();
+  } catch (e) {}
+
+  const kept = (p) => typeof p === 'string' && (p.startsWith('blob:') || p.startsWith('data:'));
+
   if (stored && stored.length) {
     albums = stored;
-    // Re-hydrate file paths for presets (blob URLs don't persist across sessions)
+    // re-derive bundled asset paths for preset albums (they aren't persisted in full)
     albums.forEach(a => {
       const preset = PRESET_ALBUMS.find(p => p.id === a.id);
-      if (preset) {
-        a.songs.forEach((s, i) => {
-          if (!s.file  || s.file.startsWith('blob:'))  s.file  = preset.songs[i] ? preset.songs[i].file  : '';
-          if (!s.cover || s.cover.startsWith('blob:')) s.cover = preset.songs[i] ? preset.songs[i].cover : '';
-        });
-        if (!a.artUrl || a.artUrl.startsWith('blob:')) a.artUrl = preset.artUrl;
-        if (!a.bgUrl  || a.bgUrl.startsWith('blob:'))  a.bgUrl  = preset.bgUrl;
-      }
+      if (!preset) return;
+      if (!kept(a.artUrl)) a.artUrl = preset.artUrl;
+      if (!kept(a.bgUrl))  a.bgUrl  = preset.bgUrl;
+      (a.songs || []).forEach((s, i) => {
+        const ps = preset.songs[i];
+        if (!kept(s.file))  s.file  = ps ? ps.file  : '';
+        if (!kept(s.cover)) s.cover = ps ? ps.cover : preset.artUrl;
+      });
     });
-    // Add any preset albums that aren't in stored data yet
     PRESET_ALBUMS.forEach(preset => {
-      if (!albums.find(a => a.id === preset.id)) {
-        albums.push(cloneAlbum(preset));
-      }
+      if (!albums.find(a => a.id === preset.id)) albums.push(cloneAlbum(preset));
     });
   } else {
     albums = PRESET_ALBUMS.map(p => cloneAlbum(p));
   }
   activeAlbum = albums[0];
+  try { localStorage.setItem('albumStudio_ver', SR_ALBUM_VER); } catch (e) {}
 }
 
 /* ══════════════════════════════════════════════
