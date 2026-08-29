@@ -84,13 +84,6 @@
   "source": "https://www.flickr.com/photos/25977089@N00/16327154439"
  },
  {
-  "id": "counter-cola",
-  "title": "Cuba",
-  "license": "by",
-  "creator": "Mike_fleming",
-  "source": "https://www.flickr.com/photos/33174580@N00/2941883867"
- },
- {
   "id": "diner-coffee",
   "title": "Cup Fresh Coffee Table",
   "license": "cc0",
@@ -103,5 +96,12 @@
   "license": "by",
   "creator": "jamalfanaian",
   "source": "https://www.flickr.com/photos/21207597@N07/5415250438"
+ },
+ {
+  "id": "counter-cola",
+  "title": "diet coke",
+  "license": "by",
+  "creator": "plasterbrain",
+  "source": "https://www.flickr.com/photos/86844786@N02/15220846327"
  }
 ]
