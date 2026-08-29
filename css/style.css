@@ -155,6 +155,7 @@ iframe { display: block; border: 0; }
   display: inline-block;
   transform-origin: 50% 85%;
   animation: brand-a 0.62s cubic-bezier(0.34, 1.4, 0.5, 1) both;
+  transition: color 0.45s ease;
 }
 .brand .brest {
   display: inline-flex;
