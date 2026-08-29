@@ -1125,6 +1125,8 @@ footer {
   color: var(--paper-dim);
 }
 .rc-sort .nf-sel { width: 190px; }
+.rc-sort .nf-sel-trigger,
+.rc-sort .nf-sel-opt { text-transform: none; letter-spacing: 0.02em; }
 .rooms-empty { color: var(--paper-dim); font-size: 0.9rem; }
 
 .room-meta {

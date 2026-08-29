@@ -499,7 +499,7 @@ function prefillBooking(detail) {
     if (pill) { SFX.click(); prefillBooking({ room: pill.dataset.room, iso: pill.dataset.iso }); }
     else if (book) { SFX.click(); prefillBooking({ room: book.dataset.room }); }
   });
-  if (sortSel) sortSel.addEventListener('change', draw);
+  if (sortSel) { sortSel.addEventListener('change', draw); enhanceSelect(sortSel); }
   if (firstOnly) firstOnly.addEventListener('change', draw);
 
   draw();
