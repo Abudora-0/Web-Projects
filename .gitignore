@@ -1,10 +1,11 @@
 node_modules/
 .env
+.env.*
 *.log
 .DS_Store
 Thumbs.db
 
-# Audio files — too large for GitHub (add your own mp3s locally)
+# Audio files - large, add your own mp3s locally (a few small sfx are kept)
 *.mp3
 *.wav
 *.ogg
@@ -23,3 +24,6 @@ Patreon Clone/
 # Local tooling
 .claude/
 **/.claude/
+.vercel/
+askfile.py
+_*.html
