@@ -81,7 +81,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [DEADSTOCK](DEADSTOCK/) | Multipage hype-drop streetwear store | Real product photos, live countdown, box-opening reveals, lookbook, wishlist, raffle, full checkout |
 | [Umbral](Umbral/) | Astro-tourism expedition company | Starfield parallax, live countdowns, expedition briefs, 3-mode sky simulator (eclipse/meteor/aurora) |
 | [Ember & Anvil](Ember%20%26%20Anvil/) | Artisan blacksmith forge | Scroll-driven metal tempering, spark-burst hammer interaction |
-| [Nine Fifty-Four](The%20Locked%20Room/) | Noir escape-room venue | Real solvable 4-dial lock, hall of fame, availability board, themed booking form, cipher gate |
+| [Nine Fifty-Four](Nine%20Fifty-Four/) | Noir escape-room venue | Real solvable 4-dial lock, hall of fame, availability board, themed booking form, cipher gate |
 | [Willowcomb](Willowcomb/) | Boutique raw-honey brand | Filterable honeycomb, harvest calendar, live 12-hive dashboard, build-a-box with cart |
 
 ---
@@ -156,7 +156,7 @@ web-projects/
 ├── Email Validator/     ├── Spotify Clone/
 ├── Ember & Anvil/       ├── Willowcomb/
 ├── Cinder & Salt/       ├── DEADSTOCK/
-├── Off the Record/      ├── The Locked Room/
+├── Off the Record/      ├── Nine Fifty-Four/
 ├── Ironclad/            ├── The Order Window/
 ├── Umbral/              ├── The Perfumer's Atelier/
 ├── Thread & Rail/       ├── The Terminal/
