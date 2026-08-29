@@ -209,7 +209,7 @@ async function loadAlbums() {
     const text = await res.text();
     const div  = document.createElement('div');
     div.innerHTML = text;
-    const base = new URL('songs/', location.href).pathname; // .../Spotify Clone/songs/
+    const base = new URL('songs/', location.href).pathname; // .../spotify-clone/songs/
     folders = [...div.querySelectorAll('a')]
       .map(a => {
         const p = new URL(a.getAttribute('href'), res.url).pathname;

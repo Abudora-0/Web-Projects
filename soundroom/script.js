@@ -6,7 +6,7 @@
 'use strict';
 
 /* ── Preset albums ───────────────────────────── */
-const SP = '../Spotify Clone/songs/';  // shared songs folder
+const SP = '../spotify-clone/songs/';  // shared songs folder
 
 const GNX_SONGS = [
   { title: 'wacced out murals',    artist: 'Kendrick Lamar', file: 'songs/1.mp3',  cover: 'covers/1.jpg',  duration: '5:17', lyrics: '' },
