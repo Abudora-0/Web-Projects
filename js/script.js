@@ -466,3 +466,11 @@ setTimeout(() => {
 /* ---------- year ---------- */
 
 $("#footYear").textContent = new Date().getFullYear();
+
+/* ---------- brand: settle if the load animation never ran ---------- */
+setTimeout(() => {
+  const ba = $(".brand .ba");
+  if (ba && parseFloat(getComputedStyle(ba).opacity) < 0.5) {
+    $(".brand").classList.add("brand-settled");
+  }
+}, 2000);
