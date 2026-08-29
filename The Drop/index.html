@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEADSTOCK - Nothing Is Guaranteed</title>
+<meta name="description" content="DEADSTOCK: a demo hype-drop streetwear store. Limited pieces, live countdown, box-opening reveals, no restocks.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0a0a'/%3E%3Cpolygon points='60,6 18,58 46,58 40,96 84,44 54,44' fill='%23ccff00'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="home">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="chrome"></div>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="hero-media" aria-hidden="true"><img src="img/jacket-leather.jpg" alt=""></div>
+    <div class="hero-inner">
+      <p class="hero-eyebrow">DROP 004 &middot; THIS FRIDAY 11:00</p>
+      <h1 class="hero-title">NOTHING<br>IS<br><span class="accent">GUARANTEED</span></h1>
+      <p class="hero-sub">Every piece is a limited run. Once it&rsquo;s gone, it&rsquo;s gone - no restocks promised, no back orders, no exceptions.</p>
+      <div class="hero-cta">
+        <a class="btn" href="shop.html">SHOP THE DROP</a>
+        <a class="btn line" href="lookbook.html">SEE THE LOOKBOOK</a>
+      </div>
+      <div class="countdown">
+        <p class="countdown-label">NEXT DROP IN</p>
+        <div class="countdown-clock">
+          <div class="cd-unit"><span class="cd-num d">00</span><span class="cd-word">DAYS</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num h">00</span><span class="cd-word">HRS</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num m">00</span><span class="cd-word">MIN</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num s">00</span><span class="cd-word">SEC</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <section class="section">
+      <div class="section-head">
+        <h2>This week&rsquo;s drop</h2>
+        <a href="shop.html">SEE ALL &rarr;</a>
+      </div>
+      <div class="pgrid" id="featured"></div>
+    </section>
+
+    <section class="section" style="border-top:1px solid var(--line)">
+      <div class="section-head"><h2>On the calendar</h2><a href="lookbook.html">DROP CALENDAR &rarr;</a></div>
+      <div class="pgrid" id="dropSoon"></div>
+    </section>
+
+    <section class="section" style="border-top:1px solid var(--line)">
+      <div class="section-head"><h2>Recently viewed</h2></div>
+      <div class="strip" id="recentStrip"></div>
+    </section>
+
+    <section class="section" id="list" style="border-top:1px solid var(--line)">
+      <div class="list-cta">
+        <h3>Get on the list</h3>
+        <p>Early access to every drop, 24 hours before it goes public. One email a week, nothing else.</p>
+        <form class="list-form" id="listForm" novalidate>
+          <input type="email" id="listEmail" placeholder="you@example.com" autocomplete="email" required>
+          <button class="btn" type="submit">JOIN</button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div id="chrome-footer"></div>
+<div id="drawer-mount"></div>
+<script src="app.js"></script>
+</body>
+</html>
