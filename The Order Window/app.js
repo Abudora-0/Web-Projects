@@ -300,7 +300,7 @@ function toast(msg) {
 /* ---------------- shared chrome ---------------- */
 const PAGE = document.body.dataset.page;
 const NAV = [
-  { href: "index.html", label: "The Board", key: "board" },
+  { href: "./", label: "The Board", key: "board" },
   { href: "combo.html", label: "Blue Plate", key: "combo" },
   { href: "regulars.html", label: "Regulars", key: "regulars" }
 ];
@@ -311,7 +311,7 @@ function renderChrome() {
   header.innerHTML =
     '<div class="checker-strip" aria-hidden="true"></div>' +
     '<div class="header-inner">' +
-      '<a class="sign" href="index.html">' +
+      '<a class="sign" href="./">' +
         '<span class="sign-main">THE ORDER WINDOW</span>' +
         '<span class="sign-sub">// late-night short order</span>' +
       '</a>' +
@@ -337,16 +337,20 @@ function renderChrome() {
 
   const nav = $("#diner-nav");
   const tog = $("#nav-toggle");
-  tog.addEventListener("click", () => {
-    const open = nav.classList.toggle("open");
+  function setNav(open) {
+    nav.classList.toggle("open", open);
     tog.setAttribute("aria-expanded", open ? "true" : "false");
     tog.innerHTML = open ? SVG.x : SVG.menu;
+  }
+  tog.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setNav(!nav.classList.contains("open"));
   });
+  nav.addEventListener("click", (e) => { if (e.target.closest("a")) setNav(false); });
   document.addEventListener("click", (e) => {
-    if (nav.classList.contains("open") && !nav.contains(e.target) && !tog.contains(e.target)) {
-      nav.classList.remove("open"); tog.setAttribute("aria-expanded", "false"); tog.innerHTML = SVG.menu;
-    }
+    if (nav.classList.contains("open") && !nav.contains(e.target) && !tog.contains(e.target)) setNav(false);
   });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.classList.contains("open")) setNav(false); });
 }
 
 /* ---------------- mini cart drawer (shared) ---------------- */
@@ -696,7 +700,7 @@ pages.item = function () {
     const id = decodeURIComponent(location.hash.slice(1));
     const item = findItem(id);
     if (!item) {
-      main.innerHTML = '<div class="pad"><p class="empty-note">That ticket is not on the board. <a href="index.html">Back to the board</a>.</p></div>';
+      main.innerHTML = '<div class="pad"><p class="empty-note">That ticket is not on the board. <a href="./">Back to the board</a>.</p></div>';
       return;
     }
     const sel = {};
@@ -705,7 +709,7 @@ pages.item = function () {
     const r = ratingFor(item.id);
 
     main.innerHTML =
-      '<div class="crumb"><a href="index.html">' + icon("arrowL") + 'The Board</a></div>' +
+      '<div class="crumb"><a href="./">' + icon("arrowL") + 'The Board</a></div>' +
       '<div class="item-wrap">' +
         '<div class="item-photo">' +
           '<img src="' + item.photo + '" alt="' + esc(item.name) + '" onerror="this.style.display=\'none\'">' +
@@ -828,7 +832,7 @@ pages.combo = function () {
   }
 
   main.innerHTML =
-    '<div class="crumb"><a href="index.html">' + icon("arrowL") + 'The Board</a></div>' +
+    '<div class="crumb"><a href="./">' + icon("arrowL") + 'The Board</a></div>' +
     '<div class="combo-head"><h1>The Blue Plate Special</h1>' +
       '<p>Pick a main, a side, and a drink. One flat price, whatever you choose.</p></div>' +
     '<div class="combo-grid">' + slot("main", "The Main") + slot("side", "The Side") + slot("drink", "The Drink") + '</div>' +
@@ -869,12 +873,12 @@ pages.cart = function () {
   const main = $("#main");
   function draw() {
     if (!cart.length) {
-      main.innerHTML = '<div class="crumb"><a href="index.html">' + icon("arrowL") + 'The Board</a></div>' +
-        '<div class="cart-empty"><p>The spike is empty.</p><a class="btn-solid" href="index.html">Start an order' + icon("arrowR") + '</a></div>';
+      main.innerHTML = '<div class="crumb"><a href="./">' + icon("arrowL") + 'The Board</a></div>' +
+        '<div class="cart-empty"><p>The spike is empty.</p><a class="btn-solid" href="./">Start an order' + icon("arrowR") + '</a></div>';
       return;
     }
     main.innerHTML =
-      '<div class="crumb"><a href="index.html">' + icon("arrowL") + 'Keep ordering</a></div>' +
+      '<div class="crumb"><a href="./">' + icon("arrowL") + 'Keep ordering</a></div>' +
       '<h1 class="page-title">The Spike</h1>' +
       '<div class="cart-list">' + cart.map((line) => {
         const item = line.kind === "item" ? findItem(line.itemId) : null;
@@ -912,7 +916,7 @@ pages.cart = function () {
 pages.checkout = function () {
   const main = $("#main");
   if (!cart.length) {
-    main.innerHTML = '<div class="cart-empty"><p>Nothing to fire - the spike is empty.</p><a class="btn-solid" href="index.html">Back to the board' + icon("arrowR") + '</a></div>';
+    main.innerHTML = '<div class="cart-empty"><p>Nothing to fire - the spike is empty.</p><a class="btn-solid" href="./">Back to the board' + icon("arrowR") + '</a></div>';
     return;
   }
   const draft = readJSON(K.draft, {});
@@ -1059,7 +1063,7 @@ pages.checkout = function () {
       '<h1>Order\'s Up!</h1><div class="order-number">' + num + '</div>' +
       '<p class="eta">' + (st.mode === "delivery" ? "On the road" : "Ready at the window") + ' in about <strong>' + eta + ' minutes</strong>.</p>' +
       '<p class="eta-sub">Paid: ' + money(t.grand) + (st.mode === "delivery" ? " &middot; " + esc(st.address) : "") + '</p>' +
-      '<div class="checkout-nav center"><a class="btn-ghost" href="regulars.html">Order history</a><a class="btn-solid" href="index.html">New order' + icon("arrowR") + '</a></div>' +
+      '<div class="checkout-nav center"><a class="btn-ghost" href="regulars.html">Order history</a><a class="btn-solid" href="./">New order' + icon("arrowR") + '</a></div>' +
     '</div>');
     paintCartEverywhere();
   }
