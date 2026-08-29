@@ -91,7 +91,7 @@ const PRODUCTS = [
     specs: [["Resolution", "2K QHD / night IR"], ["FOV", "130 wide angle"], ["Storage", "microSD / cloud optional"], ["Power", "PoE or USB-C"], ["Weight", "210g"]],
     tags: ["WiFi", "2K", "IR", "PoE"], weight: 210, power: "PoE / USB-C",
     metrics: { battery: 0, portability: 3, capability: 4, value: 4 } },
-  { id: "atmos", name: "ATMOS AIR QUALITY MONITOR", category: "Home", price: 79, year: 1, diagram: D.air, photo: null, stock: 19,
+  { id: "atmos", name: "ATMOS AIR QUALITY MONITOR", category: "Home", price: 79, year: 1, diagram: D.air, photo: "atmos", stock: 19,
     tagline: "Four-sensor air stack behind a low-power E-ink readout. A month per charge.",
     specs: [["Sensors", "PM2.5 / CO2 / VOC / humidity"], ["Display", "E-ink status panel"], ["Connectivity", "WiFi + BT"], ["Battery", "30-day / USB-C charge"], ["Weight", "180g"]],
     tags: ["WiFi", "BT", "E-ink"], weight: 180, power: "30-day",
