@@ -337,7 +337,6 @@ function renderChrome() {
       '<span class="foot-mark">Thread <span class="amp">&amp;</span> Rail</span>' +
       '<span>Garment District Showroom / Rack No. 04</span>' +
       '<span>Front-end demo. No payment is processed and no data leaves your browser.</span>' +
-      '<span>Garment photos under Creative Commons / see img/_credits.json</span>' +
     '</div>';
   document.body.appendChild(footer);
 
