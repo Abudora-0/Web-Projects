@@ -77,7 +77,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Kestrel](Kestrel/) | Small-batch clothing label, editorial | Product + bag pages, localStorage bag, lookbook, filterable range, archive timer |
 | [Kino](Kino/) | Streaming service, near-black + amber | Poster-wall hero, live search, persistent My List, in-modal trailers |
 | [Sillage](Sillage/) | Botanical fragrance house (multipage) | Herbarium of specimen plates, scent radar, blending bench, note explorer, scent-finder quiz, journal, wardrobe, engraved-bottle checkout, animated wordmark |
-| [The Terminal](The%20Terminal/) | Dark HUD gadget spec-browser | Exploded-view diagrams, live spec compare, terminal checkout |
+| [The Terminal](The%20Terminal/) | Dark HUD gadget store (multipage) | Photo/schematic toggle, spec diff, build-a-rig console, manpage intel, price watches, command palette |
 | [DEADSTOCK](DEADSTOCK/) | Multipage hype-drop streetwear store | Real product photos, live countdown, box-opening reveals, lookbook, wishlist, raffle, full checkout |
 | [Umbral](Umbral/) | Astro-tourism expedition company | Starfield parallax, live countdowns, expedition briefs, 3-mode sky simulator (eclipse/meteor/aurora) |
 | [Ember & Anvil](Ember%20%26%20Anvil/) | Artisan blacksmith forge | Scroll-driven metal tempering, spark-burst hammer interaction |
