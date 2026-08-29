@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════
-   DEXO — schoolyard chalkboard tic tac toe
+   DEXO - schoolyard chalkboard tic tac toe
    Slate-green board in a wooden frame, chalk-white
    X and chalk-yellow O, handwritten lettering.
    ══════════════════════════════════════════════ */
@@ -11,10 +11,10 @@
   --slate-deep: #273e33;
   --wood:       #8b5e3c;
   --wood-dark:  #6b4429;
-  --chalk:      #f5f0dc;        /* X — white chalk   */
+  --chalk:      #f5f0dc;        /* X - white chalk   */
   --chalk-dim:  rgba(245, 240, 220, 0.55);
   --chalk-faint:rgba(245, 240, 220, 0.22);
-  --yellow:     #f2d47f;        /* O — yellow chalk  */
+  --yellow:     #f2d47f;        /* O - yellow chalk  */
   --pink:       #e8a4b8;
   --hand: 'Caveat', cursive;
   --print:'Patrick Hand', cursive;
@@ -23,6 +23,21 @@
 }
 
 html, body { min-height: 100%; }
+
+/* ── Scrollbar - a chalk stick on the wooden tray ── */
+* { scrollbar-width: thin; scrollbar-color: var(--chalk-dim) var(--wood-dark); }
+*::-webkit-scrollbar { width: 12px; height: 12px; }
+*::-webkit-scrollbar-track {
+  background: var(--wood-dark);
+  border-left: 1px solid #55351e;
+}
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--chalk), var(--chalk-dim));
+  border: 3px solid var(--wood-dark);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--yellow); }
+*::-webkit-scrollbar-corner { background: var(--wood-dark); }
 
 body {
   font-family: var(--print);
@@ -108,7 +123,7 @@ header {
 .sound-btn:hover { border-style: solid; }
 .sound-btn.muted { color: var(--chalk-faint); border-color: var(--chalk-faint); }
 
-/* ── Scoreboard — tally boxes ──────────────── */
+/* ── Scoreboard - tally boxes ──────────────── */
 .scoreboard {
   width: 100%;
   display: grid;
@@ -203,7 +218,7 @@ header {
 .turn-avatar { width: 26px; height: 26px; }
 .turn-avatar .mark-svg { width: 100%; height: 100%; }
 
-/* ── Board — chalk grid ────────────────────── */
+/* ── Board - chalk grid ────────────────────── */
 .board-wrap { position: relative; width: 100%; }
 
 .board {
@@ -236,7 +251,7 @@ header {
 
 .mark-svg { width: 58%; height: 58%; display: block; }
 
-/* X — two chalk strokes */
+/* X - two chalk strokes */
 .x-line {
   stroke: var(--x-color);
   stroke-width: 9;
@@ -249,7 +264,7 @@ header {
 .x-line:nth-child(1) { animation: drawMark .18s ease forwards; }
 .x-line:nth-child(2) { animation: drawMark .18s ease .12s forwards; }
 
-/* O — yellow chalk ring */
+/* O - yellow chalk ring */
 .o-circle {
   fill: none;
   stroke: var(--o-color);
@@ -270,7 +285,7 @@ header {
   100%{ transform: scale(1); opacity: 1; }
 }
 
-/* Win cells — pressed chalk */
+/* Win cells - pressed chalk */
 .cell.win-cell { animation: winPulse .5s ease forwards; }
 
 .cell.win-cell .x-line {
@@ -290,7 +305,7 @@ header {
 .cell.draw-cell .x-line   { stroke: var(--chalk-faint); filter: none; }
 .cell.draw-cell .o-circle { stroke: var(--chalk-faint); filter: none; }
 
-/* Win line — chalk streak */
+/* Win line - chalk streak */
 .win-line {
   position: absolute;
   background: linear-gradient(90deg, transparent, currentColor, transparent);
@@ -306,7 +321,7 @@ header {
   to   { transform: scaleX(1) rotate(var(--rot, 0deg)); opacity: 1; }
 }
 
-/* ── Result banner — chalk underline note ──── */
+/* ── Result banner - chalk underline note ──── */
 .result-banner {
   width: 100%;
   padding: 10px 20px 12px;
