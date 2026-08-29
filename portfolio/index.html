@@ -1,474 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abdullah Akbar - Portfolio</title>
-  <meta name="description" content="Abdullah Akbar - CS Student & Frontend Developer. Building cool things with HTML, CSS & JavaScript.">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2316130e'/%3E%3Ctext x='16' y='22.5' text-anchor='middle' font-size='19' font-family='Georgia,serif' fill='%23f3f0e7'%3EA%3C/text%3E%3Ccircle cx='24' cy='23.5' r='2.6' fill='%232946ff'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abudora - Frontend Developer</title>
+  <meta name="description" content="Abudora - a frontend developer who has shipped 35 mini web projects from scratch, each with its own design identity. Browse them live." />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="canonical" href="https://web-projects.vercel.app/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Abudora - Frontend Developer" />
+  <meta property="og:description" content="35 mini web projects built from scratch, each with its own design identity. Browse them live." />
+  <meta property="og:url" content="https://web-projects.vercel.app/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Abudora - Frontend Developer" />
+  <meta name="twitter:description" content="35 mini web projects built from scratch, each with its own design identity." />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0b'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23f2f2f4' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%234b6bff'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<!-- Background orbs -->
-<div class="bg-orbs" aria-hidden="true">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
+  <div class="grain" aria-hidden="true"></div>
 
-<!-- ── NAVBAR ─────────────────────────────────── -->
-<header class="navbar" id="navbar">
-  <div class="nav-inner">
-    <a href="#home" class="nav-brand">
-      <div class="brand-icon">A</div>
-      <span>Abdullah<span class="brand-dot">.</span></span>
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Abudora
     </a>
-    <nav class="nav-links" id="navLinks">
-      <a href="#about"     class="nav-link">About</a>
-      <a href="#skills"    class="nav-link">Skills</a>
-      <a href="#projects"  class="nav-link">Projects</a>
-      <a href="#education" class="nav-link">Education</a>
-      <a href="#contact"   class="nav-link">Contact</a>
-      <a href="https://github.com/Abudora-0/Web-Projects" target="_blank" class="nav-cta">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-        GitHub
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-gh" href="https://github.com/Abudora-0" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49l-.01-1.72c-2.78.62-3.37-1.37-3.37-1.37-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.36-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
       </a>
     </nav>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </header>
 
-<!-- ── HERO ───────────────────────────────────── -->
-<section id="home" class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge reveal">
-      <span class="badge-dot"></span>
-      Available for opportunities
-    </div>
-    <h1 class="hero-title reveal">
-      Hi, I'm <span class="gradient-text">Abdullah Akbar</span>
-    </h1>
-    <div class="hero-roles reveal">
-      <span class="role-prefix">I build </span>
-      <span class="typing-text" id="typingText"></span>
-      <span class="cursor">|</span>
-    </div>
-    <p class="hero-desc reveal">
-      CS student passionate about building clean, functional web experiences.
-      I've shipped 27+ projects - games, tools, clones &amp; full websites.
-    </p>
-    <div class="hero-btns reveal">
-      <a href="#projects" class="btn btn-primary">
-        View Projects
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <p class="hero-kick">Frontend developer / Pakistan</p>
+      <h1 class="hero-title">
+        I build <span class="type-wrap"><span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span></span>
+      </h1>
+      <p class="hero-lede">
+        CS student, self-taught on the web. I have shipped <strong id="heroCount">35</strong> small projects from
+        scratch - games, tools, clones and full sites - and given every one its own design.
+        No frameworks. No two alike.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#work">See the work</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+      <a class="scroll-cue" href="#work" aria-label="Scroll to work">
+        <span></span>
       </a>
-      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
-      <a href="https://abudora-0.github.io/Web-Projects/" target="_blank" class="btn btn-ghost">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Live Portfolio
-      </a>
-    </div>
-    <div class="hero-stats reveal">
-      <div class="hstat"><span class="hstat-num" data-target="27">0</span><span class="hstat-label">Projects</span></div>
-      <div class="hstat-divider"></div>
-      <div class="hstat"><span class="hstat-num" data-target="5">0</span><span class="hstat-label">Languages</span></div>
-      <div class="hstat-divider"></div>
-      <div class="hstat"><span class="hstat-num" data-target="2">0</span><span class="hstat-label">Years Coding</span></div>
-    </div>
-  </div>
-  <div class="scroll-hint" aria-hidden="true">
-    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-    <span>Scroll</span>
-  </div>
-</section>
+    </section>
 
-<!-- ── ABOUT ──────────────────────────────────── -->
-<section id="about" class="section">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="section-tag">About Me</span>
-      <h2 class="section-title">Who I <span class="gradient-text">Am</span></h2>
-    </div>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <p>I'm a <strong>Computer Science student</strong> who loves turning ideas into real, working projects. My focus is frontend development - building interfaces that are fast, clean, and actually fun to use.</p>
-        <p>I've been coding for 2+ years, picking up everything from C++ and Python to React and Node.js. Outside of uni, I build personal projects to sharpen my skills and explore new ideas.</p>
-        <p>When I'm not coding I'm probably listening to music, playing games, or finding a new rabbit hole to go down.</p>
-        <div class="about-chips">
-          <span class="chip">🎓 CS Student</span>
-          <span class="chip">💻 Frontend Dev</span>
-          <span class="chip">🌍 Pakistan</span>
-          <span class="chip">🎮 Game Builder</span>
+    <!-- ============ WORK ============ -->
+    <section class="work" id="work">
+      <div class="work-head">
+        <div>
+          <p class="eyebrow">The wall</p>
+          <h2>Every project, running live.</h2>
+          <p class="work-sub">Each card below is the real thing in a frame. Click one to open it full screen.</p>
         </div>
-      </div>
-      <div class="about-cards reveal">
-        <div class="about-stat-card">
-          <div class="asc-icon">🚀</div>
-          <div class="asc-num" data-target="27">0</div>
-          <div class="asc-label">Projects Shipped</div>
-        </div>
-        <div class="about-stat-card">
-          <div class="asc-icon">🧠</div>
-          <div class="asc-num" data-target="5">0</div>
-          <div class="asc-label">Languages Known</div>
-        </div>
-        <div class="about-stat-card">
-          <div class="asc-icon">⭐</div>
-          <div class="asc-num" data-target="50">0</div>
-          <div class="asc-label">Problems Solved</div>
-        </div>
-        <div class="about-stat-card">
-          <div class="asc-icon">📅</div>
-          <div class="asc-num" data-target="2">0</div>
-          <div class="asc-label">Years of Coding</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── SKILLS ─────────────────────────────────── -->
-<section id="skills" class="section section-alt">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="section-tag">What I Know</span>
-      <h2 class="section-title">Technical <span class="gradient-text">Skills</span></h2>
-    </div>
-    <div class="skills-groups">
-
-      <div class="skill-group reveal">
-        <h3 class="sg-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          Languages
-        </h3>
-        <div class="skill-grid">
-          <div class="skill-pill">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>C++
-          </div>
-          <div class="skill-pill">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>Python
-          </div>
-          <div class="skill-pill">
-            <svg viewBox="0 0 24 24" fill="#f7df1e"><rect width="24" height="24" rx="2" fill="#f7df1e"/><path fill="#000" d="M6 18.4l1.7-1c.3.6.6 1 1.3 1 .7 0 1-.3 1-1.3V11h2v6.1c0 2.2-1.3 3.2-3.1 3.2C7.3 20.3 6.3 19.5 6 18.4zm7-.4l1.7-1c.4.7 1 1.2 2 1.2.8 0 1.3-.4 1.3-.9 0-.7-.5-.9-1.4-1.3l-.5-.2c-1.4-.6-2.3-1.3-2.3-2.9 0-1.4 1.1-2.5 2.8-2.5 1.2 0 2.1.4 2.7 1.5l-1.6 1c-.3-.6-.6-.8-1.1-.8-.5 0-.8.3-.8.8 0 .5.3.7 1.1 1.1l.5.2c1.6.7 2.5 1.4 2.5 3 0 1.7-1.3 2.6-3.1 2.6-1.7 0-2.9-.8-3.8-2.8z"/></svg>JavaScript
-          </div>
-          <div class="skill-pill">
-            <svg viewBox="0 0 24 24" fill="#777bb3"><path d="M7.01 10.21l-.98 5.08C5.83 17.08 6.7 18 7.83 18H9l.37-2H8.3c-.41 0-.7-.36-.62-.75l.89-4.63H11l.37-2H9.58l.37-1.97H7.97l-.37 1.97H6.68l-.37 2H7.01zm9.03-1.97c-1.66 0-2.98 1.09-3.56 2.74l-.01.02c-.44 1.26-.22 2.84.6 3.6.41.38.97.6 1.63.6.79 0 1.52-.29 2.08-.78l-.21 1.08c-.12.63-.61 1.12-1.42 1.12-.78 0-1.28-.37-1.47-.95l-1.97.43c.41 1.54 1.72 2.48 3.39 2.48 2.17 0 3.74-1.31 4.16-3.48l.97-5.06h-1.9l-.12.62c-.51-.5-1.17-.82-1.97-.82zm-.21 2c.7 0 1.24.32 1.47.82l-.5 2.63c-.32.55-.93.94-1.6.94-.83 0-1.28-.64-1.1-1.52.18-.93.9-2.87 1.73-2.87z"/></svg>PHP
-          </div>
-          <div class="skill-pill">
-            <svg viewBox="0 0 24 24" fill="#b07219"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>Java
-          </div>
-          <div class="skill-pill">
-            <svg viewBox="0 0 24 24" fill="#336791"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-6z"/></svg>SQL
-          </div>
-          <div class="skill-pill">
-            <svg viewBox="0 0 24 24" fill="#a8b9cc"><path d="M16.5 2h-9A5.5 5.5 0 002 7.5v9A5.5 5.5 0 007.5 22h9a5.5 5.5 0 005.5-5.5v-9A5.5 5.5 0 0016.5 2zM9 16H7V8h2v8zm8 0h-2v-4.5c0-.8-.7-1.5-1.5-1.5S12 10.7 12 11.5V16h-2V8h2v1.1c.5-.7 1.3-1.1 2.2-1.1C15.8 8 17 9.2 17 10.7V16z"/></svg>C
-          </div>
-        </div>
+        <button class="preview-toggle" id="previewToggle" aria-pressed="false">
+          <span class="pt-dot"></span><span class="pt-label">Previews on</span>
+        </button>
       </div>
 
-      <div class="skill-group reveal">
-        <h3 class="sg-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          Web Development
-        </h3>
-        <div class="skill-grid">
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#e34f26"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>HTML</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#1572b6"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.413z"/></svg>CSS</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#f7df1e"><rect width="24" height="24" rx="2" fill="#f7df1e"/><path fill="#000" d="M6 18.4l1.7-1c.3.6.6 1 1.3 1 .7 0 1-.3 1-1.3V11h2v6.1c0 2.2-1.3 3.2-3.1 3.2C7.3 20.3 6.3 19.5 6 18.4zm7-.4l1.7-1c.4.7 1 1.2 2 1.2.8 0 1.3-.4 1.3-.9 0-.7-.5-.9-1.4-1.3l-.5-.2c-1.4-.6-2.3-1.3-2.3-2.9 0-1.4 1.1-2.5 2.8-2.5 1.2 0 2.1.4 2.7 1.5l-1.6 1c-.3-.6-.6-.8-1.1-.8-.5 0-.8.3-.8.8 0 .5.3.7 1.1 1.1l.5.2c1.6.7 2.5 1.4 2.5 3 0 1.7-1.3 2.6-3.1 2.6-1.7 0-2.9-.8-3.8-2.8z"/></svg>JavaScript</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#61dafb"><circle cx="12" cy="12" r="2.139"/><path d="M12 5.965c3.168 0 6.082.739 8.202 1.93C22.498 9.07 24 10.695 24 12s-1.502 2.93-3.798 4.105C18.082 17.296 15.168 18.035 12 18.035s-6.082-.739-8.202-1.93C1.502 14.93 0 13.305 0 12s1.502-2.93 3.798-4.105C5.918 6.704 8.832 5.965 12 5.965zm0 1.08c-2.994 0-5.745.698-7.743 1.826C2.256 9.929 1.08 11.013 1.08 12s1.176 2.071 3.177 3.13C6.255 16.257 9.006 16.955 12 16.955s5.745-.698 7.743-1.826C21.744 14.071 22.92 12.987 22.92 12s-1.176-2.071-3.177-3.13C17.745 7.743 14.994 7.045 12 7.045z" fill="#61dafb"/></svg>React</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#fff"><path d="M11.5 0C5.149 0 0 5.148 0 11.5S5.149 23 11.5 23 23 17.852 23 11.5 17.851 0 11.5 0zm-.54 19.5c-.21 0-.42-.03-.62-.08l-3.65-1.05c-.54-.16-.92-.66-.92-1.22V5.79c0-.56.38-1.06.92-1.22l3.65-1.05c.2-.06.41-.08.62-.08h.08l4.28 2.5v1.5h-4.36V8.5l-2.5.72v4.56l2.5.72v1.04h4.36v1.5l-4.28 2.5h-.08z"/></svg>Next.js</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#38bdf8"><path d="M22.4 0H1.6C.72 0 0 .72 0 1.6v20.8c0 .88.72 1.6 1.6 1.6h20.8c.88 0 1.6-.72 1.6-1.6V1.6C24 .72 23.28 0 22.4 0zM12 16.8c-2.65 0-4.8-2.15-4.8-4.8S9.35 7.2 12 7.2s4.8 2.15 4.8 4.8-2.15 4.8-4.8 4.8z"/></svg>Tailwind</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#68a063"><path d="M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l1.95 1.12c.95.46 1.27.47 1.71.47 1.4 0 2.21-.85 2.21-2.33V8.44c0-.12-.1-.22-.22-.22H8.5c-.13 0-.22.1-.22.22v8.47c0 .66-.68 1.31-1.77.76L4.69 16.6c-.07-.04-.11-.12-.11-.2V7.71c0-.08.04-.16.11-.2l7.44-4.3c.07-.04.16-.04.23 0l7.44 4.3c.07.04.11.12.11.2v8.69c0 .08-.04.15-.11.2l-7.44 4.3c-.07.04-.15.04-.22 0l-1.9-1.12c-.06-.04-.15-.05-.21-.02-.59.33-.7.38-1.25.54-.14.04-.35.1.08.34l2.48 1.46c.24.14.5.2.78.2s.54-.07.78-.2l7.44-4.3c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36L12.78 2.05c-.23-.13-.5-.2-.78-.2z"/></svg>Node.js</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#47a248"><path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.174-1.61-.197-1.218z"/></svg>MongoDB</div>
-        </div>
+      <div class="filters" id="filters" role="tablist" aria-label="Filter projects">
+        <button class="chip active" data-cat="all" role="tab" aria-selected="true">All <b id="cAll">0</b></button>
+        <button class="chip" data-cat="site" role="tab">Sites <b id="cSite">0</b></button>
+        <button class="chip" data-cat="tool" role="tab">Tools <b id="cTool">0</b></button>
+        <button class="chip" data-cat="game" role="tab">Games <b id="cGame">0</b></button>
+        <button class="chip" data-cat="clone" role="tab">Clones <b id="cClone">0</b></button>
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+          <input type="search" id="search" placeholder="Search projects" autocomplete="off" aria-label="Search projects" />
+        </label>
       </div>
 
-      <div class="skill-group reveal">
-        <h3 class="sg-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-          Tools & Concepts
-        </h3>
-        <div class="skill-grid">
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#f05032"><path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.604-.404-.541-.535-.677-1.336-.404-1.996L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187"/></svg>Git & GitHub</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#a78bfa"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-6z"/></svg>Data Structures</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#22d3ee"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>OOP</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#f24e1e"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.013 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.013-4.49-4.49S5.672 0 8.148 0h4.587v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.019 3.019 3.019h3.117V1.471H8.148zm4.587 15.019H3.614v-4.588c0-2.476 2.013-4.49 4.49-4.49s4.49 2.014 4.49 4.49v4.588zm-7.524-1.471h6.053v-3.117c0-1.665-1.355-3.019-3.019-3.019s-3.019 1.354-3.019 3.019v3.117zm7.524 1.471v-4.588c0-2.476 2.013-4.49 4.49-4.49s4.49 2.014 4.49 4.49v4.588H12.735zm1.471-1.471h6.053v-3.117c0-1.665-1.355-3.019-3.019-3.019s-3.019 1.354-3.019 3.019v3.117z"/></svg>Figma</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#7952b3"><path d="M22.328 0H1.672C.748 0 0 .748 0 1.672v20.656C0 23.252.748 24 1.672 24h20.656c.924 0 1.672-.748 1.672-1.672V1.672C24 .748 23.252 0 22.328 0zM11.13 15.483H8.2v-6.77H5.975V6.563h7.366v2.15H11.13v6.77zm7.394-.004h-2.93v-4.74c0-.9-.367-1.348-1.088-1.348-.494 0-.878.238-1.14.716a2.03 2.03 0 0 0-.117.735v4.637h-2.93V9.04h2.93v1.283c.478-.97 1.27-1.456 2.37-1.456 1.724 0 2.907 1.175 2.907 3.487v3.125h-.002z"/></svg>Bootstrap</div>
-          <div class="skill-pill"><svg viewBox="0 0 24 24" fill="#ff6c37"><path d="M13.527.099C6.955-.744.942 3.9.099 10.473c-.843 6.572 3.8 12.584 10.373 13.428 6.573.843 12.587-3.801 13.428-10.374C24.744 6.955 20.101.943 13.527.099zm2.934 12.007c-.283.396-.7.648-1.171.695-.478.05-.924-.115-1.256-.46l-4.235 2.26c.04.163.06.333.04.508-.08.625-.57 1.113-1.197 1.19-.627.08-1.217-.281-1.44-.87-.225-.59-.023-1.25.5-1.629l-.46-5.07c-.407-.2-.68-.61-.68-1.07 0-.67.545-1.215 1.217-1.215s1.217.545 1.217 1.215c0 .152-.029.298-.08.433l2.67 2.09c.24-.2.548-.32.88-.32.214 0 .417.05.6.137l2.4-2.73c-.048-.13-.074-.27-.074-.418 0-.667.544-1.21 1.216-1.21s1.217.543 1.217 1.21c0 .466-.266.872-.653 1.082l.344 3.797c.462.235.779.713.779 1.26 0 .323-.1.628-.278.875z"/></svg>Postman</div>
+      <div class="exhibits" id="exhibits"></div>
+      <p class="no-hits" id="noHits" hidden>Nothing matches that. <button class="linkish" id="clearFilters">Clear filters</button></p>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about" id="about">
+      <p class="eyebrow">About</p>
+      <div class="about-grid">
+        <div class="about-copy">
+          <p>I am a Computer Science student who learned to build for the web by building for the web - one small, finished project at a time.</p>
+          <p>My focus is the front end: interfaces that load fast, feel considered, and have a point of view. I treat each project as its own product with its own visual language, and keep the code plain vanilla so the ideas stay portable.</p>
+          <p>Outside of that: C++ and Python for coursework, and a steady habit of finding the next rabbit hole.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat"><b data-target="35">0</b><span>projects shipped</span></div>
+          <div class="stat"><b data-target="5">0</b><span>languages</span></div>
+          <div class="stat"><b data-target="2">0</b><span>years building</span></div>
         </div>
       </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── PROJECTS ────────────────────────────────── -->
-<section id="projects" class="section">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="section-tag">My Work</span>
-      <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
-      <p class="section-sub">A selection of my best builds - click any card to launch it live.</p>
-    </div>
-    <div class="projects-grid">
-
-      <div class="project-card reveal" style="--c:#34d399">
-        <div class="pc-top">
-          <span class="pc-emoji">🕹️</span>
-          <span class="pc-badge game">Game</span>
+      <div class="skills">
+        <div class="skill-col">
+          <h3>Languages</h3>
+          <ul><li>JavaScript</li><li>C++</li><li>Python</li><li>PHP</li><li>Java</li><li>SQL</li></ul>
         </div>
-        <h3>Arcade Hub</h3>
-        <p>8 mini-games in one hub - Memory, Snake, Wordle, 2048, Simon Says, Hangman, Tic-Tac-Toe &amp; Quiz.</p>
-        <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
-        <div class="pc-links">
-          <a href="../Arcade Hub/index.html" class="pc-btn pc-live">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live Demo
-          </a>
-          <a href="https://github.com/Abudora-0/Web-Projects/tree/main/Arcade%20Hub" target="_blank" class="pc-btn pc-code">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            Code
-          </a>
+        <div class="skill-col">
+          <h3>Web</h3>
+          <ul><li>HTML</li><li>CSS</li><li>React</li><li>Next.js</li><li>Tailwind</li><li>Node.js</li></ul>
+        </div>
+        <div class="skill-col">
+          <h3>Tools</h3>
+          <ul><li>Git &amp; GitHub</li><li>Vercel</li><li>Figma</li><li>Data structures</li><li>OOP</li></ul>
         </div>
       </div>
+    </section>
 
-      <div class="project-card reveal" style="--c:#22d3ee">
-        <div class="pc-top">
-          <span class="pc-emoji">🎬</span>
-          <span class="pc-badge tool">Tool</span>
-        </div>
-        <h3>Movie Finder</h3>
-        <p>TMDB-powered movie discovery app with trending tabs, genre filter, watchlist, favorites &amp; detail modals.</p>
-        <div class="pc-tags"><span>JS</span><span>TMDB API</span><span>CSS</span></div>
-        <div class="pc-links">
-          <a href="../Movie Recommendation App/index.html" class="pc-btn pc-live">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live Demo
-          </a>
-          <a href="https://github.com/Abudora-0/Web-Projects/tree/main/Movie%20Recommendation%20App" target="_blank" class="pc-btn pc-code">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card reveal" style="--c:#22d3ee">
-        <div class="pc-top">
-          <span class="pc-emoji">💰</span>
-          <span class="pc-badge tool">Tool</span>
-        </div>
-        <h3>Cashbook</h3>
-        <p>A banker's ledger for personal finance - plain-words quick entry, running balances, envelopes &amp; standing orders.</p>
-        <div class="pc-tags"><span>JS</span><span>CSS</span><span>Canvas</span></div>
-        <div class="pc-links">
-          <a href="../Cashbook/index.html" class="pc-btn pc-live">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live Demo
-          </a>
-          <a href="https://github.com/Abudora-0/Web-Projects/tree/main/Cashbook" target="_blank" class="pc-btn pc-code">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card reveal" style="--c:#fbbf24">
-        <div class="pc-top">
-          <span class="pc-emoji">🎵</span>
-          <span class="pc-badge clone">Clone</span>
-        </div>
-        <h3>Spotify Clone</h3>
-        <p>Full Spotify UI clone - sidebar, album grid, track list, seek bar, shuffle/repeat, liked songs &amp; search.</p>
-        <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
-        <div class="pc-links">
-          <a href="../Spotify Clone/index.html" class="pc-btn pc-live">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live Demo
-          </a>
-          <a href="https://github.com/Abudora-0/Web-Projects/tree/main/Spotify%20Clone" target="_blank" class="pc-btn pc-code">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card reveal" style="--c:#fbbf24">
-        <div class="pc-top">
-          <span class="pc-emoji">🖥️</span>
-          <span class="pc-badge clone">Clone</span>
-        </div>
-        <h3>Windows 11 UI Clone</h3>
-        <p>Browser recreation of the Windows 11 desktop with functional taskbar, start menu, and widget panels.</p>
-        <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
-        <div class="pc-links">
-          <a href="../WIndow 11 UI Clone/index.html" class="pc-btn pc-live">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live Demo
-          </a>
-          <a href="https://github.com/Abudora-0/Web-Projects/tree/main/WIndow%2011%20UI%20Clone" target="_blank" class="pc-btn pc-code">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card reveal" style="--c:#34d399">
-        <div class="pc-top">
-          <span class="pc-emoji">🐍</span>
-          <span class="pc-badge game">Game</span>
-        </div>
-        <h3>Snake Game</h3>
-        <p>Classic snake on HTML5 canvas with keyboard and swipe controls, growing snake, and high-score tracking.</p>
-        <div class="pc-tags"><span>HTML</span><span>Canvas</span><span>JS</span></div>
-        <div class="pc-links">
-          <a href="../Snake Game/index.html" class="pc-btn pc-live">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live Demo
-          </a>
-          <a href="https://github.com/Abudora-0/Web-Projects/tree/main/Snake%20Game" target="_blank" class="pc-btn pc-code">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.52 2 12 2z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
-
-    </div>
-    <div class="projects-cta reveal">
-      <a href="https://abudora-0.github.io/Web-Projects/" target="_blank" class="btn btn-primary">
-        View All 27 Projects
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ── EDUCATION ───────────────────────────────── -->
-<section id="education" class="section section-alt">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="section-tag">Background</span>
-      <h2 class="section-title">Education & <span class="gradient-text">Journey</span></h2>
-    </div>
-    <div class="timeline">
-
-      <div class="tl-item reveal">
-        <div class="tl-dot"></div>
-        <div class="tl-line"></div>
-        <div class="tl-card">
-          <div class="tl-header">
-            <div>
-              <h3>BS Computer Science</h3>
-              <p class="tl-org">University &nbsp;·&nbsp; 2025 - Present</p>
-            </div>
-            <span class="tl-badge">Current</span>
-          </div>
-          <p>Pursuing a BS in Computer Science with focus on software development, data structures, algorithms, and system design.</p>
-          <div class="tl-chips">
-            <span>Data Structures</span><span>OOP</span><span>Algorithms</span><span>Web Dev</span><span>Databases</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="tl-item reveal">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-header">
-            <div>
-              <h3>Self-Taught Development</h3>
-              <p class="tl-org">Online Platforms &nbsp;·&nbsp; 2024 - Present</p>
-            </div>
-            <span class="tl-badge ongoing">Active</span>
-          </div>
-          <p>Continuously building skills through 27+ hands-on projects spanning games, tools, full-stack apps, and UI clones.</p>
-          <div class="tl-chips">
-            <span>Full Stack</span><span>React</span><span>Node.js</span><span>Git/GitHub</span><span>APIs</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── CONTACT ────────────────────────────────── -->
-<section id="contact" class="section">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="section-tag">Say Hello</span>
-      <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
-      <p class="section-sub">Have a project in mind or just want to connect? My inbox is open.</p>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-info reveal">
-        <a href="mailto:your.email@example.com" class="contact-card">
-          <div class="cc-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div>
-            <div class="cc-label">Email</div>
-            <div class="cc-value">your.email@example.com</div>
-          </div>
-          <svg class="cc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact">
+      <p class="eyebrow">Contact</p>
+      <h2>Open to internships and freelance work.</h2>
+      <div class="contact-links">
+        <a href="mailto:m.abdullah21306@gmail.com" class="c-link">
+          <span class="c-k">Email</span><span class="c-v">m.abdullah21306@gmail.com</span>
         </a>
-        <div class="contact-card no-link">
-          <div class="cc-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          </div>
-          <div>
-            <div class="cc-label">Location</div>
-            <div class="cc-value">Pakistan 🇵🇰</div>
-          </div>
-        </div>
-      </div>
-      <div class="socials reveal">
-        <a href="https://github.com/Abudora-0" target="_blank" class="social-card">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-          <span>GitHub</span>
-          <span class="sc-handle">@Abudora-0</span>
+        <a href="https://github.com/Abudora-0" target="_blank" rel="noopener" class="c-link">
+          <span class="c-k">GitHub</span><span class="c-v">@Abudora-0</span>
         </a>
-        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="social-card">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-          <span>LinkedIn</span>
-          <span class="sc-handle">Add your URL</span>
-        </a>
-        <a href="https://abudora-0.github.io/Web-Projects/" target="_blank" class="social-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <span>Portfolio</span>
-          <span class="sc-handle">27 Projects</span>
+        <a href="https://www.linkedin.com/in/m-abdullah-94367b3a1/" target="_blank" rel="noopener" class="c-link">
+          <span class="c-k">LinkedIn</span><span class="c-v">m-abdullah</span>
         </a>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ── FOOTER ─────────────────────────────────── -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <div class="brand-icon">A</div>
-      <div>
-        <div class="footer-name">Abdullah Akbar</div>
-        <div class="footer-role">CS Student &amp; Frontend Developer</div>
-      </div>
-    </div>
-    <div class="footer-links">
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <div class="footer-copy">&copy; 2026 Abdullah Akbar</div>
-  </div>
-</footer>
+  </main>
 
-<!-- Back to All Projects -->
-<a id="back-to-all" href="../index.html" style="position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(7,7,14,0.88);color:#c4b5fd;border:1px solid rgba(167,139,250,0.3);border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);font-family:system-ui,sans-serif;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(124,58,237,0.25)';this.style.borderColor='rgba(167,139,250,0.55)'" onmouseout="this.style.background='rgba(7,7,14,0.88)';this.style.borderColor='rgba(167,139,250,0.3)'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>All Projects</a>
+  <footer class="foot">
+    <span class="foot-mark">Abudora</span>
+    <span>Built with HTML, CSS and JavaScript. Deployed on Vercel.</span>
+    <span id="footYear">2026</span>
+  </footer>
 
-<script src="js/script.js"></script>
+  <!-- launch overlay target -->
+  <div class="launch" id="launch" aria-hidden="true"></div>
+
+  <script src="js/script.js" defer></script>
 </body>
 </html>
