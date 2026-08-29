@@ -58,7 +58,6 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | Project | Description | Stack |
 |---|---|---|
 | [Spotify Clone](Spotify%20Clone/) | Web player - queue, playlists, track search, Now Playing panel, karaoke lyrics, resume-on-reload | HTML · CSS · JS |
-| [X / Twitter Clone](X%20%26%20Twitter%20Clone/) | Feed UI in the dark theme | HTML · Tailwind |
 | [Windows 11 UI Clone](WIndow%2011%20UI%20Clone/) | Desktop with taskbar, start menu & apps | HTML · CSS · JS |
 | [Bootstrap Website](BootStrap%20Website/) | Tech-news zine on Bootstrap 5, restyled as an acid dev-zine | Bootstrap 5 |
 | [Ephemeris](Ephemeris%20-%20CheatSheet%20Template/) | Star atlas of programming - 13 constellations, 220 snippets, global search | Prism.js |
@@ -69,6 +68,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | Project | Design identity | Highlights |
 |---|---|---|
 | [Portfolio](Portfolio/) | Editorial ink & ivory studio | Typing hero, numbered sections, project index |
+| [Dispatch](Dispatch/) | Mini social styled as a radio net (multipage) | Transmissions & threaded copies, call-sign stations, the dial, a logbook, QSL cards, scan the band, sign-on onboarding |
 | [Blog Website](Blog%20Website/) | Broadsheet newspaper | 5 pages, search, dark "evening edition" |
 | [Ironclad](Ironclad/) | Brutalist gym poster | AI workout planner, BMI gauge, deal countdown |
 | [Cinder & Salt](Cinder%20%26%20Salt/) | Warm artisan eatery, cooked over fire | Split hero, menu cards with price leaders, map, contact |
@@ -162,7 +162,7 @@ web-projects/
 ├── Thread & Rail/       ├── The Terminal/
 ├── Tic Tac Toe/         ├── To Do List/
 ├── Halcyon/             ├── WIndow 11 UI Clone/
-├── X & Twitter Clone/   └── Xchange/
+├── Dispatch/            └── Xchange/
 ```
 
 Every project folder is self-contained: `index.html` + `style.css` + `script.js`.
