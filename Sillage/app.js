@@ -41,7 +41,7 @@ function icon(n) { return '<span class="ic">' + (I[n] || "") + "</span>"; }
 function wordmarkHTML(size) {
   const letters = "Sillage".split("").map((ch, i) =>
     '<span class="wm-l" data-i="' + i + '">' + ch + '</span>').join("");
-  return '<a class="wordmark" href="./" aria-label="Sillage - home" style="--wm-size:' + (size || "1.5rem") + '">' +
+  return '<a class="wordmark" href="index.html" aria-label="Sillage - home" style="--wm-size:' + (size || "1.5rem") + '">' +
     '<span class="wm-word">' + letters + '</span>' +
     '<svg class="wm-trail" viewBox="0 0 90 40" aria-hidden="true">' +
       '<path class="wm-wisp w1" d="M2 22 C24 14 46 26 88 16" fill="none"/>' +
