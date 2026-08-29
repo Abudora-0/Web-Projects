@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Future of Web Development in 2025 - DeBlog</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='0' fill='%23f7f4ec' stroke='%23191714' stroke-width='2'/%3E%3Cpath d='M8 10h10M8 15h12M8 20h8' stroke='%23a02c2c' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/utils.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Reading progress bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav class="navigation">
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/></svg>
+        </div>
+        <span class="logo-text">DeBlog</span>
+      </a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <form action="search.html" method="get" style="display:flex;gap:0.5rem;align-items:center">
+        <input class="form-input" type="text" name="query" placeholder="Search articles..." style="width:200px" />
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Post header -->
+  <section class="post-header">
+    <div class="post-header-inner">
+      <a href="index.html" class="post-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to Articles
+      </a>
+      <span class="post-tag">Web Dev</span>
+      <h1>The Future of Web Development in 2025</h1>
+      <div class="post-meta">
+        <div class="author-avatar">A</div>
+        <span class="post-meta-author">Abdullah Akbar</span>
+        <span>·</span>
+        <span>15 March 2025</span>
+        <span>·</span>
+        <span>5 min read</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Post image -->
+  <div class="post-img">
+    <img src="img/1.png" alt="The Future of Web Development" />
+  </div>
+
+  <!-- Post content -->
+  <div class="blog-post-content max-width-2 m-auto">
+
+    <!-- Share buttons -->
+    <div class="social-share">
+      <span>Share:</span>
+      <button class="share-btn" title="Share on X">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622z"/></svg>
+      </button>
+      <button class="share-btn" title="Share on LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      </button>
+      <button class="share-btn" title="Copy link" id="copyLink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      </button>
+    </div>
+
+    <p>Web development has always been a field in constant motion. But 2025 feels different: the pace of change has accelerated dramatically, driven by AI tooling, new browser capabilities, and a maturing JavaScript ecosystem that's finally finding its footing after years of framework fatigue.</p>
+
+    <p>In this article, we'll explore the most significant trends shaping the web development landscape right now, and what they mean for developers at every level.</p>
+
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin:1.5rem 0 0.75rem">AI-Powered Development Tools</h2>
+    <p>The rise of GitHub Copilot, Cursor, and similar AI coding assistants has fundamentally changed how developers write code. These tools don't just autocomplete, they understand context, suggest architectural patterns, and can even write entire components from natural language descriptions.</p>
+
+    <p>The key insight here is that AI tools are amplifiers, not replacements. Developers who learn to work with AI effectively are seeing significant productivity gains, particularly in repetitive tasks like writing tests, boilerplate, and documentation.</p>
+
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin:1.5rem 0 0.75rem">The Edge Computing Revolution</h2>
+    <p>Edge functions (serverless code that runs close to the user) have matured from a niche technique into a mainstream approach. Platforms like Vercel, Cloudflare Workers, and Deno Deploy make it trivially easy to run server-side logic at the edge, eliminating cold starts and reducing latency dramatically.</p>
+
+    <p>This shift has major implications for how we think about rendering. The line between client and server is becoming increasingly blurred, and frameworks like Next.js, Remix, and SvelteKit are evolving to take advantage of this new architecture.</p>
+
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin:1.5rem 0 0.75rem">What This Means for You</h2>
+    <p>The developers who thrive in 2025 will be those who embrace change, stay curious, and focus on fundamentals. The tools will keep changing, but HTML, CSS, and JavaScript's core concepts won't. Build on a solid foundation, and you'll be able to adapt to whatever comes next.</p>
+
+    <p>Whether you're just starting out or have been building for years, the most important skill remains the same: the ability to learn quickly and apply new knowledge effectively. The web is yours to shape.</p>
+  </div>
+
+  <!-- More posts -->
+  <section class="more-posts-section">
+    <h2>You Might Also Like</h2>
+    <div class="more-posts-grid">
+
+      <article class="article-card">
+        <img class="article-card-img" loading="lazy" decoding="async" src="img/3.png" alt="article" />
+        <div class="article-card-body">
+          <span class="article-tag">Tools</span>
+          <h3><a href="blogpost.html">Why Every Developer Should Learn Git</a></h3>
+          <div class="article-meta">
+            <div class="meta-author"><div class="author-avatar">A</div><span>Abdullah Akbar</span></div>
+            <span>Feb 2 · 4 min</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <img class="article-card-img" loading="lazy" decoding="async" src="img/2.png" alt="article" />
+        <div class="article-card-body">
+          <span class="article-tag">CSS</span>
+          <h3><a href="blogpost.html">CSS Grid vs Flexbox: When to Use Which</a></h3>
+          <div class="article-meta">
+            <div class="meta-author"><div class="author-avatar">A</div><span>Abdullah Akbar</span></div>
+            <span>Jan 10 · 6 min</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <img class="article-card-img" loading="lazy" decoding="async" src="img/4.png" alt="article" />
+        <div class="article-card-body">
+          <span class="article-tag">Career</span>
+          <h3><a href="blogpost.html">How to Structure a Full-Stack Project</a></h3>
+          <div class="article-meta">
+            <div class="meta-author"><div class="author-avatar">A</div><span>Abdullah Akbar</span></div>
+            <span>Aug 14 · 8 min</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/></svg>
+        </div>
+        DeBlog
+      </div>
+      <p>© 2025 DeBlog. All rights reserved.</p>
+      <div style="display:flex;gap:1rem;font-size:0.82rem">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <button id="backToTop" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <script>
+    // Reading progress
+    window.addEventListener('scroll', () => {
+      const doc = document.documentElement;
+      const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+    });
+
+    // Dark mode
+    const toggle = document.getElementById('darkToggle');
+    const icon   = document.getElementById('themeIcon');
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      icon.innerHTML = isDark
+        ? '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>'
+        : '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+    });
+
+    // Copy link
+    document.getElementById('copyLink').addEventListener('click', function() {
+      navigator.clipboard.writeText(window.location.href);
+      this.style.color = '#22c55e';
+      setTimeout(() => this.style.color = '', 2000);
+    });
+
+    // Back to top
+    const btt = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 300));
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

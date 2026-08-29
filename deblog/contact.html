@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - DeBlog</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='0' fill='%23f7f4ec' stroke='%23191714' stroke-width='2'/%3E%3Cpath d='M8 10h10M8 15h12M8 20h8' stroke='%23a02c2c' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/utils.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <nav class="navigation">
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/></svg>
+        </div>
+        <span class="logo-text">DeBlog</span>
+      </a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <form action="search.html" method="get" style="display:flex;gap:0.5rem;align-items:center">
+        <input class="form-input" type="text" name="query" placeholder="Search articles..." style="width:200px" />
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="contact-hero">
+    <h1>Get In Touch</h1>
+    <p>Have a story to share? A question? We'd love to hear from you.</p>
+  </section>
+
+  <!-- Contact grid -->
+  <div class="contact-grid">
+
+    <!-- Info -->
+    <div class="contact-info">
+      <h3>Contact Information</h3>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:500;color:var(--text);margin-bottom:0.2rem">Email</div>
+          hello@deblog.com
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:500;color:var(--text);margin-bottom:0.2rem">Location</div>
+          Based on the Internet 🌐
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:500;color:var(--text);margin-bottom:0.2rem">Response Time</div>
+          Usually within 24 hours
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;padding:1.25rem;background:rgba(189,100,24,0.07);border:1px solid rgba(189,100,24,0.2);border-radius:12px">
+        <div style="font-weight:600;color:var(--text);margin-bottom:0.4rem">Want to write for us?</div>
+        <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6">We're always looking for new voices. Submit your article idea and we'll get back to you within a week.</p>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="contact-form-card">
+      <h3>Send a Message</h3>
+      <form id="contactForm" onsubmit="handleContact(event)">
+        <div class="form-row">
+          <div class="form-box">
+            <label>Your Name</label>
+            <input type="text" placeholder="John Doe" required />
+          </div>
+          <div class="form-box">
+            <label>Phone (optional)</label>
+            <input type="tel" placeholder="+1 234 567 890" />
+          </div>
+        </div>
+        <div class="form-box">
+          <label>Email Address</label>
+          <input type="email" placeholder="john@example.com" required />
+        </div>
+        <div class="form-box">
+          <label>Subject</label>
+          <input type="text" placeholder="What's this about?" required />
+        </div>
+        <div class="form-box">
+          <label>Message</label>
+          <textarea rows="5" placeholder="Tell us how we can help..." required></textarea>
+        </div>
+        <button class="btn" type="submit" style="width:100%;padding:0.75rem">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/></svg>
+        </div>
+        DeBlog
+      </div>
+      <p>© 2025 DeBlog. All rights reserved.</p>
+      <div style="display:flex;gap:1rem;font-size:0.82rem">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <button id="backToTop" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <script>
+    const toggle = document.getElementById('darkToggle');
+    const icon   = document.getElementById('themeIcon');
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      icon.innerHTML = isDark
+        ? '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>'
+        : '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+    });
+    function handleContact(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.textContent = '✓ Message Sent!';
+      btn.style.background = '#22c55e';
+      setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; e.target.reset(); }, 3000);
+    }
+    const btt = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 300));
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

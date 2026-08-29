@@ -1,0 +1,357 @@
+/* ══════════════════════════════════════════════════════
+   MERIDIAN - Fine Timekeeping
+   Luxury horology aesthetic: dark case, brass details,
+   serif dial typography. Five dial finishes via themes.
+   ══════════════════════════════════════════════════════ */
+
+:root {
+  --font-brand: 'Cinzel', serif;
+  --font-body:  'Jost', system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+}
+
+/* ── Dial finishes ─────────────────────────────────── */
+[data-theme="obsidian"] {
+  --bg:            #0e0d0b;
+  --bg-texture:    radial-gradient(ellipse at 50% -20%, #1d1a14 0%, #0e0d0b 60%);
+  --accent:        #c8a45c;
+  --accent-soft:   rgba(200, 164, 92, 0.35);
+  --face-light:    #24211b;
+  --face-dark:     #131110;
+  --case-dark:     #0a0908;
+  --bezel-hi:      #a5854a;
+  --bezel-lo:      #5c4a28;
+  --hand-hour:     #e8dcc3;
+  --hand-minute:   #e8dcc3;
+  --hand-highlight:#fff8e7;
+  --tick-major:    #c8a45c;
+  --tick-minor:    #6b5c3e;
+  --num-color:     #d9c9a3;
+  --text:          #e5ddc9;
+  --text-dim:      #8a8070;
+  --panel-border:  rgba(200, 164, 92, 0.25);
+}
+
+[data-theme="marine"] {
+  --bg:            #0a0e14;
+  --bg-texture:    radial-gradient(ellipse at 50% -20%, #14202e 0%, #0a0e14 60%);
+  --accent:        #8fb3cc;
+  --accent-soft:   rgba(143, 179, 204, 0.35);
+  --face-light:    #1a2733;
+  --face-dark:     #0e161f;
+  --case-dark:     #070b10;
+  --bezel-hi:      #7e97a8;
+  --bezel-lo:      #3d4d5c;
+  --hand-hour:     #dce8f0;
+  --hand-minute:   #dce8f0;
+  --hand-highlight:#ffffff;
+  --tick-major:    #8fb3cc;
+  --tick-minor:    #46586a;
+  --num-color:     #b9cddb;
+  --text:          #d7e3ec;
+  --text-dim:      #74858f;
+  --panel-border:  rgba(143, 179, 204, 0.25);
+}
+
+[data-theme="bordeaux"] {
+  --bg:            #120b0b;
+  --bg-texture:    radial-gradient(ellipse at 50% -20%, #241213 0%, #120b0b 60%);
+  --accent:        #d4a75a;
+  --accent-soft:   rgba(212, 167, 90, 0.35);
+  --face-light:    #3a1a1c;
+  --face-dark:     #1e0e10;
+  --case-dark:     #120809;
+  --bezel-hi:      #b08d4a;
+  --bezel-lo:      #64502a;
+  --hand-hour:     #ecd9b0;
+  --hand-minute:   #ecd9b0;
+  --hand-highlight:#fff4dd;
+  --tick-major:    #d4a75a;
+  --tick-minor:    #7a5a44;
+  --num-color:     #e3c896;
+  --text:          #ead9c0;
+  --text-dim:      #93796b;
+  --panel-border:  rgba(212, 167, 90, 0.25);
+}
+
+[data-theme="ivory"] {
+  --bg:            #171512;
+  --bg-texture:    radial-gradient(ellipse at 50% -20%, #262320 0%, #171512 60%);
+  --accent:        #9a6a2f;
+  --accent-soft:   rgba(154, 106, 47, 0.35);
+  --face-light:    #f4eddb;
+  --face-dark:     #ddd2b8;
+  --case-dark:     #0f0d0a;
+  --bezel-hi:      #ac8c50;
+  --bezel-lo:      #62501f;
+  --hand-hour:     #2b2418;
+  --hand-minute:   #2b2418;
+  --hand-highlight:#6b5c3e;
+  --tick-major:    #4a3d26;
+  --tick-minor:    #a2946f;
+  --num-color:     #3a3021;
+  --text:          #e8dfc9;
+  --text-dim:      #8d8471;
+  --panel-border:  rgba(172, 140, 80, 0.3);
+}
+
+[data-theme="racing"] {
+  --bg:            #0b100c;
+  --bg-texture:    radial-gradient(ellipse at 50% -20%, #14231a 0%, #0b100c 60%);
+  --accent:        #c9b037;
+  --accent-soft:   rgba(201, 176, 55, 0.35);
+  --face-light:    #1c3325;
+  --face-dark:     #0e1c13;
+  --case-dark:     #080d09;
+  --bezel-hi:      #a08d3a;
+  --bezel-lo:      #574c1e;
+  --hand-hour:     #e9e3bd;
+  --hand-minute:   #e9e3bd;
+  --hand-highlight:#fbf7db;
+  --tick-major:    #c9b037;
+  --tick-minor:    #4f6249;
+  --num-color:     #d4cea0;
+  --text:          #e2ddc2;
+  --text-dim:      #7f8871;
+  --panel-border:  rgba(201, 176, 55, 0.25);
+}
+
+/* ── Base ──────────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-texture), var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+/* Soft vignette over everything */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,0.5) 100%);
+  z-index: 1;
+}
+
+/* ── Header plaque ─────────────────────────────────── */
+header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.1rem 2rem;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+  align-self: center;
+}
+
+.header-title {
+  font-family: var(--font-brand);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.header-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+/* Controls - engraved metal buttons */
+.pill-btn,
+.tz-select {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent-soft);
+  border-radius: 2px;
+  padding: 0.42rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
+}
+
+.pill-btn:hover,
+.tz-select:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.tz-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 1.6rem;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 0.9rem) 55%, calc(100% - 0.65rem) 55%;
+  background-size: 4px 4px, 4px 4px;
+  background-repeat: no-repeat;
+}
+
+.tz-select option { background: #14120e; color: #e5ddc9; }
+
+/* Dial finish dots */
+.theme-switcher {
+  display: flex;
+  gap: 0.55rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 2px;
+}
+
+.theme-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.5);
+  background: var(--c);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.theme-dot:hover { transform: scale(1.2); }
+
+.theme-dot.active {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--c);
+}
+
+/* ── Main ──────────────────────────────────────────── */
+main {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.9rem, 2.5vh, 2rem);
+  padding: clamp(0.8rem, 2vh, 2rem) 1.5rem;
+}
+
+.clock-wrap {
+  position: relative;
+  /* capped against viewport height so the page never scrolls */
+  width: min(66vmin, 52vh, 420px);
+  aspect-ratio: 1;
+}
+
+.bezel-shadow {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.75),
+    0 8px 22px rgba(0, 0, 0, 0.6);
+}
+
+#clockSVG {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Complication panel ────────────────────────────── */
+.info-panel {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.panel-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--accent);
+  font-size: 0.7rem;
+  margin-bottom: 0.4rem;
+}
+
+.panel-rule::before,
+.panel-rule::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 1px;
+}
+
+.panel-rule::before { background: linear-gradient(to right, transparent, var(--accent-soft)); }
+.panel-rule::after  { background: linear-gradient(to left,  transparent, var(--accent-soft)); }
+
+.digital-time {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(1.4rem, 4vh, 2.2rem);
+  letter-spacing: 0.22em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.date-display {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+.tz-label {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 0.2rem;
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 640px) {
+  header {
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+  }
+  .header-sub { display: none; }
+  main { gap: 1.2rem; }
+}
