@@ -78,7 +78,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Kino](Kino/) | Streaming service, near-black + amber | Poster-wall hero, live search, persistent My List, in-modal trailers |
 | [The Perfumer's Atelier](The%20Perfumer's%20Atelier/) | Backlit perfume light table | Scent-note pyramid, glass-bottle illustrations, cart & checkout |
 | [The Terminal](The%20Terminal/) | Dark HUD gadget spec-browser | Exploded-view diagrams, live spec compare, terminal checkout |
-| [DEADSTOCK](The%20Drop/) | Multipage hype-drop streetwear store | Real product photos, live countdown, box-opening reveals, lookbook, wishlist, raffle, full checkout |
+| [DEADSTOCK](DEADSTOCK/) | Multipage hype-drop streetwear store | Real product photos, live countdown, box-opening reveals, lookbook, wishlist, raffle, full checkout |
 | [Umbral](Umbral/) | Astro-tourism expedition company | Starfield parallax, live countdowns, expedition briefs, 3-mode sky simulator (eclipse/meteor/aurora) |
 | [Ember & Anvil](Ember%20%26%20Anvil/) | Artisan blacksmith forge | Scroll-driven metal tempering, spark-burst hammer interaction |
 | [The Locked Room](The%20Locked%20Room/) | Noir escape-room venue | Real solvable 4-dial combination lock, live clock, booking form |
@@ -155,7 +155,7 @@ web-projects/
 ├── Badlands/            ├── SoundRoom/
 ├── Email Validator/     ├── Spotify Clone/
 ├── Ember & Anvil/       ├── Willowcomb/
-├── Cinder & Salt/       ├── The Drop/
+├── Cinder & Salt/       ├── DEADSTOCK/
 ├── Off the Record/      ├── The Locked Room/
 ├── Ironclad/            ├── The Order Window/
 ├── Umbral/              ├── The Perfumer's Atelier/
