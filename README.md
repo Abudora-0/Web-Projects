@@ -50,7 +50,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [The Cellar Door](The%20Cellar%20Door%20-%20Password%20Manager/) | Prohibition-era speakeasy - the password gets you in | AES-256 vault, passphrase mixologist, live 2FA codes, secure notes, breach check, clipboard burn, CSV import |
 | [To Do List](To%20Do%20List/) | Stationery legal pad + clipboard | Priorities, categories, drag & drop, undo |
 | [De Calc](De%20Calc/) | Dieter Rams / Braun hardware | Scientific mode, memory keys, history |
-| [Email Validator](Email%20Validator/) | "The Sorting Office" postal desk | Typo fixes, disposable detection, batch CSV |
+| [The Sorting Office](The%20Sorting%20%20Office%20-%20Email%20Validator/) | Postal-desk email inspector | Live DoH domain lookup, disposable + gibberish detection, batch sorting, inspection-ledger stats, night shift |
 | [Analog Clock](Analog%20Clock/) | "Meridian" luxury horology | SVG watchface, timezones, five dial finishes |
 
 ## 🎭 UI Clones & Templates
@@ -153,7 +153,7 @@ web-projects/
 ├── Ephemeris/            ├── Portfolio/
 ├── De Calc/             ├── Nibble/
 ├── Badlands/            ├── SoundRoom/
-├── Email Validator/     ├── Spotify Clone/
+├── The Sorting Office/  ├── Spotify Clone/
 ├── Ember & Anvil/       ├── Willowcomb/
 ├── Cinder & Salt/       ├── DEADSTOCK/
 ├── Off the Record/      ├── Nine Fifty-Four/

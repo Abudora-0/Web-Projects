@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Sorting Office - Email Validator</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23ede3d0'/%3E%3Cpath d='M0 0h6l-4 4H0zM10 0h6l-4 4h-6zM20 0h6l-4 4h-6zM30 0h2v2zM0 28h2l-2 2zM6 32l4-4h6l-4 4zM16 32l4-4h6l-4 4zM26 32l4-4h2v2l-2 2z' fill='%23b0413e'/%3E%3Cpath d='M4 0h6L6 4H0zM14 0h6l-4 4h-6zM24 0h6l-4 4h-6zM2 32l4-4h6l-4 4zM12 32l4-4h6l-4 4zM22 32l4-4h6l-4 4z' fill='%232f4c7c'/%3E%3Crect x='5' y='10' width='22' height='14' rx='1.5' fill='%23fdfaf3' stroke='%233a3226' stroke-width='1.2'/%3E%3Cpath d='M5 11.5l11 8 11-8' fill='none' stroke='%233a3226' stroke-width='1.2'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="airmail-border" aria-hidden="true"></div>
+  <div class="toast" id="toast"></div>
+
+  <nav>
+    <div class="logo">
+      <i class="fas fa-envelope-circle-check logo-icon"></i>
+      <span>The Sorting Office</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-motto">first-class email inspection</span>
+      <button class="icon-btn" id="shortcutsBtn" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)"><i class="fas fa-keyboard"></i></button>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle night shift" title="Night shift"><i class="fas fa-moon"></i></button>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="hero">
+      <div class="hero-badge"><i class="fas fa-stamp"></i> No API key required</div>
+      <h1>Every address, inspected.</h1>
+      <p>Format, live domain lookup, disposable and role detection, gibberish flags and typo fixes -
+         sorted before it ever leaves the office.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="single"><i class="fas fa-envelope"></i> Single</button>
+      <button class="tab" data-tab="batch"><i class="fas fa-boxes-stacked"></i> Batch</button>
+      <button class="tab" data-tab="history"><i class="fas fa-clock-rotate-left"></i> Ledger <span class="hist-count" id="histCount"></span></button>
+    </div>
+
+    <!-- SINGLE -->
+    <div class="tab-pane active" id="tab-single">
+      <div class="card search-card">
+        <form id="validateForm" autocomplete="off">
+          <div class="input-group">
+            <div class="input-wrapper">
+              <i class="fas fa-envelope input-icon"></i>
+              <input type="text" id="emailInput" placeholder="Address the envelope..." spellcheck="false" />
+              <div class="rt-dot" id="rtDot"></div>
+            </div>
+            <button class="btn" type="submit" id="submitBtn">
+              <i class="fas fa-magnifying-glass"></i> Validate
+            </button>
+          </div>
+          <div class="sugg-hint hidden" id="suggHint"></div>
+        </form>
+
+        <div class="api-toggle-wrap">
+          <button class="api-toggle-btn" id="apiToggle">
+            <i class="fas fa-key"></i> Use API key for live SMTP check
+          </button>
+          <div class="api-key-row hidden" id="apiRow">
+            <input type="text" id="apiKeyInput" placeholder="Paste emailvalidation.io API key..." />
+            <button class="btn-sm" id="saveApiKey"><i class="fas fa-floppy-disk"></i> Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-card hidden" id="resultCard">
+        <div class="results-header" id="resultsHeader"></div>
+        <div class="score-wrap" id="scoreWrap">
+          <span class="score-lbl">Deliverability</span>
+          <div class="score-track"><div class="score-fill" id="scoreFill"></div></div>
+          <span class="score-val" id="scoreVal">0%</span>
+        </div>
+        <div class="results-grid" id="resultCont"></div>
+        <div class="tips-panel hidden" id="tipsPanel"></div>
+        <div class="result-actions">
+          <button class="btn-ghost" id="copyResult"><i class="fas fa-copy"></i> Copy</button>
+          <button class="btn-ghost" id="exportSingle"><i class="fas fa-download"></i> Export</button>
+          <button class="btn-ghost" id="postmarkBtn"><i class="fas fa-stamp"></i> Postmark</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BATCH -->
+    <div class="tab-pane hidden" id="tab-batch">
+      <div class="card">
+        <div class="field-label"><i class="fas fa-list"></i> Paste emails, or drop a .csv / .txt file</div>
+        <div class="dropzone" id="dropzone">
+          <textarea id="batchInput" class="batch-ta" placeholder="user@example.com&#10;another@test.org&#10;bad-email&#10;..."></textarea>
+          <div class="dz-overlay"><i class="fas fa-file-arrow-down"></i> Drop to load the mailbag</div>
+        </div>
+        <div class="batch-bar">
+          <span class="batch-count" id="batchCount">0 emails</span>
+          <div class="batch-actions">
+            <label class="mx-toggle"><input type="checkbox" id="batchMx" /> live domain check</label>
+            <button class="btn-ghost" id="sampleBatch"><i class="fas fa-inbox"></i> Sample mailbag</button>
+            <button class="btn-ghost" id="clearBatch"><i class="fas fa-trash"></i> Clear</button>
+            <button class="btn" id="batchBtn"><i class="fas fa-play"></i> Sort the Mailbag</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="batch-results hidden" id="batchResults">
+        <div class="batch-summary" id="batchSummary"></div>
+        <div class="segment-bar" id="segmentBar"></div>
+        <div class="table-wrap">
+          <table class="btable">
+            <thead><tr><th>Email</th><th>Status</th><th>Score</th><th>Issues</th></tr></thead>
+            <tbody id="batchBody"></tbody>
+          </table>
+        </div>
+        <button class="btn-ghost" id="exportBatch" style="margin-top:.75rem"><i class="fas fa-download"></i> Export full CSV</button>
+      </div>
+    </div>
+
+    <!-- LEDGER -->
+    <div class="tab-pane hidden" id="tab-history">
+      <div class="hist-top">
+        <span class="hist-sub">The inspection ledger</span>
+        <button class="btn-ghost sm" id="clearHist"><i class="fas fa-trash"></i> Clear all</button>
+      </div>
+      <div id="ledgerStats"></div>
+      <div id="histList"></div>
+      <div class="empty-state hidden" id="histEmpty">
+        <i class="fas fa-inbox"></i>
+        <p>The ledger is empty. Inspect some envelopes first.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>The Sorting Office - client-side inspection, live domain lookup via
+       <a href="https://developers.cloudflare.com/1.1.1.1/encryption/dns-over-https/" target="_blank" rel="noopener">DNS-over-HTTPS</a>,
+       optional <a href="https://emailvalidation.io" target="_blank" rel="noopener">EmailValidation.io</a>.
+       Press <kbd>?</kbd> for shortcuts.</p>
+  </footer>
+
+  <!-- Shortcuts sheet -->
+  <div class="sheet-overlay hidden" id="shortcutsSheet">
+    <div class="sheet" role="dialog" aria-label="Keyboard shortcuts">
+      <div class="sheet-head"><span>Keyboard shortcuts</span><button class="icon-btn" id="shortcutsClose" aria-label="Close"><i class="fas fa-xmark"></i></button></div>
+      <ul class="sheet-list">
+        <li><kbd>/</kbd><span>Jump to the address field</span></li>
+        <li><kbd>Enter</kbd><span>Validate the current address</span></li>
+        <li><kbd>Ctrl</kbd> <kbd>Enter</kbd><span>Run the batch (in the batch box)</span></li>
+        <li><kbd>Paste</kbd><span>Paste an email anywhere to inspect it</span></li>
+        <li><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd><span>Switch tabs</span></li>
+        <li><kbd>N</kbd><span>Toggle night shift</span></li>
+        <li><kbd>?</kbd><span>This panel</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
