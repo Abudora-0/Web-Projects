@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nine Fifty-Four - Escape Room Experiences</title>
+<meta name="description" content="Nine Fifty-Four: live escape-room experiences. Crack the combination to get in." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a0908'/%3E%3Cpath d='M21 27 v-5 a11 11 0 0 1 22 0 v5' fill='none' stroke='%23b8863f' stroke-width='5'/%3E%3Crect x='15' y='27' width='34' height='27' rx='4' fill='%23171412' stroke='%23b8863f' stroke-width='2.5'/%3E%3Cpolyline points='20,41 27,41 30,34 34,49 38,41 44,41' fill='none' stroke='%23c94a3f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="atmosphere">
+  <div class="spotlight" id="spotlight"></div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<header class="masthead">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+      <rect width="64" height="64" rx="10" fill="var(--charcoal-2)" stroke="var(--brass-dim)"/>
+      <path class="padlock-shackle" d="M21 27 v-5 a11 11 0 0 1 22 0 v5" fill="none" stroke="var(--brass)" stroke-width="4.5"/>
+      <rect x="15" y="27" width="34" height="26" rx="4" fill="var(--charcoal)" stroke="var(--brass)" stroke-width="2.5"/>
+      <polyline points="20,41 27,41 30,34 34,49 38,41 44,41" fill="none" stroke="var(--blood-bright)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>
+      <span class="brand-name">Nine Fifty-Four</span>
+      <span class="brand-sub">Live Escape Experiences</span>
+    </span>
+  </div>
+
+  <div class="masthead-tools">
+    <button type="button" class="ambient-toggle" id="ambientToggle" aria-pressed="false">
+      <span class="at-dot" aria-hidden="true"></span><span class="at-label">Ambient off</span>
+    </button>
+    <svg class="mini-clock" id="miniClock" viewBox="0 0 44 44" aria-hidden="true">
+      <circle class="face" cx="22" cy="22" r="20"/>
+      <g class="ticks"></g>
+      <line class="hand hand-hour" x1="22" y1="22" x2="22" y2="13" stroke-width="2.5"/>
+      <line class="hand hand-minute" x1="22" y1="22" x2="22" y2="8" stroke-width="1.8"/>
+      <line class="hand hand-second" x1="22" y1="22" x2="22" y2="7"/>
+      <circle class="pin" cx="22" cy="22" r="1.6"/>
+    </svg>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══════════════ HERO / PUZZLE ══════════════ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="eyebrow">Case File No. 1954 - Restricted Access</p>
+    <h1 id="hero-title" class="stencil hero-title">Nine Fifty-Four</h1>
+    <p class="hero-tagline">
+      Somewhere behind this door is a room full of secrets, and sixty minutes
+      to get out of it. But first - you'll have to get in. The old vault
+      dial still works. It always has.
+    </p>
+    <p class="hero-directive">Set the four wheels. Pull the lever. Find out.</p>
+
+    <div class="lock-rig" id="lockRig">
+      <p class="lock-rig-label">Vault Combination Dial</p>
+
+      <div class="dials" id="dials" role="group" aria-label="Four digit combination dial">
+        <!-- dials injected by JS -->
+      </div>
+
+      <div class="lock-actions">
+        <button type="button" class="btn primary" id="tryBtn">Pull the Lever</button>
+        <button type="button" class="btn ghost" id="hintBtn">Request a Hint</button>
+      </div>
+
+      <p class="lock-status" id="lockStatus" role="status" aria-live="polite">Four wheels. One combination. Good luck.</p>
+      <div class="hint-box" id="hintBox" role="note"></div>
+    </div>
+  </section>
+
+  <!-- everything past this point is dimmed until the vault opens -->
+  <div class="vault" id="vault">
+
+    <div class="vault-seal" id="vaultSeal" aria-hidden="true">
+      <svg viewBox="0 0 64 64" class="unlock-icon" id="unlockIcon">
+        <path class="padlock-shackle" d="M18 30 v-6 a14 14 0 0 1 28 0 v6" fill="none" stroke="var(--brass)" stroke-width="5"/>
+        <rect x="12" y="30" width="40" height="30" rx="5" fill="var(--charcoal)" stroke="var(--brass)" stroke-width="2.5"/>
+        <polyline points="17,46 27,46 31,37 36,54 40,46 47,46" fill="none" stroke="var(--blood-bright)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p class="stencil">Sealed</p>
+      <p>The rest of the file stays closed until the dial reads true.</p>
+    </div>
+
+    <div class="vault-body" id="vaultBody">
+
+      <!-- ══════════════ ROOMS ══════════════ -->
+      <section id="rooms" aria-labelledby="rooms-title">
+        <div class="section-head">
+          <p class="eyebrow">Choose Your Case</p>
+          <h2 id="rooms-title" class="stencil section-title">Four Rooms. Four Ways Out.</h2>
+          <p class="section-sub">Every room is built, staffed and reset by hand. No two groups get the same night.</p>
+        </div>
+
+        <div class="rooms-controls">
+          <label class="rc-sort">
+            <span>Sort</span>
+            <select id="roomSort">
+              <option value="difficulty">By difficulty</option>
+              <option value="duration">By length</option>
+              <option value="firsttimers">Best for first-timers</option>
+            </select>
+          </label>
+          <label class="nf-check">
+            <input type="checkbox" id="roomFirstOnly" />
+            <span>First-timer rooms only</span>
+          </label>
+        </div>
+
+        <div class="rooms-grid" id="roomsGrid">
+          <!-- room cards injected by JS -->
+        </div>
+      </section>
+
+      <!-- ══════════════ HALL OF FAME ══════════════ -->
+      <section id="halloffame" aria-labelledby="hof-title">
+        <div class="section-head">
+          <p class="eyebrow">The Record Books</p>
+          <h2 id="hof-title" class="stencil section-title">Hall of Fame</h2>
+          <p class="section-sub">Fastest confirmed escapes, by room. Beat one and log it - your run is kept on this device.</p>
+        </div>
+
+        <div class="hof-grid" id="hofGrid"></div>
+
+        <form class="hof-form" id="hofForm" novalidate>
+          <p class="hof-form-title stencil">Log Your Escape</p>
+          <div class="hof-fields">
+            <div class="field">
+              <label for="logName">Team name</label>
+              <input id="logName" type="text" maxlength="40" required />
+            </div>
+            <div class="field">
+              <label for="logRoom">Room</label>
+              <select id="logRoom" required></select>
+            </div>
+            <div class="field">
+              <label for="logTime">Time (mm:ss)</label>
+              <input id="logTime" type="text" inputmode="numeric" placeholder="42:15" required />
+            </div>
+          </div>
+          <div class="hof-actions">
+            <button type="submit" class="btn primary">Add to the Board</button>
+            <span class="field-error" id="err-log"></span>
+          </div>
+        </form>
+      </section>
+
+      <!-- ══════════════ CLOCK / COUNTDOWN ══════════════ -->
+      <section id="clock" aria-labelledby="clock-title">
+        <div class="clock-panel">
+          <svg class="case-clock" id="caseClock" viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="face" cx="100" cy="100" r="94"/>
+            <g class="ticks"></g>
+            <line class="hand hand-hour" x1="100" y1="100" x2="100" y2="58" stroke-width="7"/>
+            <line class="hand hand-minute" x1="100" y1="100" x2="100" y2="38" stroke-width="5"/>
+            <line class="hand hand-second" x1="100" y1="100" x2="100" y2="30"/>
+            <circle class="pin" cx="100" cy="100" r="5"/>
+          </svg>
+          <div>
+            <p class="eyebrow">The Clock Never Stops</p>
+            <h2 id="clock-title" class="stencil countdown-title">Next Available Slot</h2>
+            <p class="countdown-value" id="countdownValue" aria-live="polite">--:--:--</p>
+            <p class="countdown-caption" id="countdownCaption">Calculating the next opening in our schedule…</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════ BOOKING ══════════════ -->
+      <section id="booking" aria-labelledby="booking-title">
+        <div class="booking-panel">
+          <div class="section-head">
+            <p class="eyebrow">Open an Investigation</p>
+            <h2 id="booking-title" class="stencil section-title" style="color:var(--void); text-shadow:none;">Book Your Session</h2>
+            <p class="section-sub">Fill out the file below. We hold your table for fifteen minutes past the hour.</p>
+          </div>
+
+          <form class="booking-form" id="bookingForm" novalidate>
+            <div class="field">
+              <label for="bkName">Name</label>
+              <input type="text" id="bkName" name="name" autocomplete="name" required />
+              <span class="field-error" id="err-name"></span>
+            </div>
+
+            <div class="field">
+              <label for="bkEmail">Email</label>
+              <input type="email" id="bkEmail" name="email" autocomplete="email" required />
+              <span class="field-error" id="err-email"></span>
+            </div>
+
+            <div class="field">
+              <label for="bkDate">Preferred Date</label>
+              <input type="date" id="bkDate" name="date" required />
+              <span class="field-error" id="err-date"></span>
+            </div>
+
+            <div class="field">
+              <label for="bkRoom">Room Choice</label>
+              <select id="bkRoom" name="room" required>
+                <option value="" disabled selected>Select a room…</option>
+              </select>
+              <span class="field-error" id="err-room"></span>
+            </div>
+
+            <div class="field">
+              <label for="bkParty">Party Size</label>
+              <input type="number" id="bkParty" name="party" min="2" max="8" step="1" value="4" required />
+              <span class="field-error" id="err-party"></span>
+            </div>
+
+            <div class="field">
+              <label for="bkNote">Notes (optional)</label>
+              <input type="text" id="bkNote" name="note" maxlength="140" placeholder="Allergies, accessibility, occasion…" />
+            </div>
+
+            <div class="field full price-line">
+              <span id="priceEstimate">Pick a room to see the price.</span>
+            </div>
+
+            <label class="nf-check full">
+              <input type="checkbox" id="bkGift" />
+              <span>Booking this as a gift - the recipient picks their own night</span>
+            </label>
+
+            <div class="booking-actions">
+              <button type="submit" class="btn primary">File This Booking</button>
+              <button type="button" class="btn ghost" id="viewBookings">Your Case Files (0)</button>
+              <span class="booking-note">Stored on this device only - nothing is sent anywhere.</span>
+            </div>
+
+            <div class="booking-result" id="bookingResult" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ══════════════ BONUS (unlocked) ══════════════ -->
+      <section id="bonus" aria-labelledby="bonus-title">
+        <div class="bonus">
+          <p class="eyebrow">For Those Who Cracked It</p>
+          <h2 id="bonus-title" class="stencil" style="font-size:1.4rem;">You Weren't Supposed to See This</h2>
+          <p class="section-sub">Quote this at the front desk and the house takes 10% off your booking. We won't ask how you got in.</p>
+          <span class="bonus-code" id="bonusCode">VAULT-1954</span>
+
+          <div class="cipher-gate" id="cipherGate">
+            <p class="eyebrow">One More Door</p>
+            <p class="cipher-clue">Numbers for letters, A is 1. Decode it and type the two words:</p>
+            <p class="cipher-text">14-9-14-5 &nbsp;&nbsp; 6-9-6-20-25 &nbsp;&nbsp; 6-15-21-18</p>
+            <div class="cipher-row">
+              <input type="text" id="cipherInput" placeholder="Two words" aria-label="Cipher answer" autocomplete="off" />
+              <button type="button" class="btn" id="cipherBtn">Try It</button>
+            </div>
+            <p class="cipher-msg" id="cipherMsg" role="status" aria-live="polite"></p>
+            <div class="cipher-prize" id="cipherPrize" hidden>
+              <p class="section-sub">The house key. Fifteen percent off any room, any night, no expiry.</p>
+              <span class="bonus-code alt" id="vipCode">NINE-54-ALLACCESS</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4>Nine Fifty-Four</h4>
+      <p>Formerly Hawthorne &amp; Vale Investigations, est. 1954.<br/>Four rooms. One reputation for not letting you out easy.</p>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <p>219 Ashcombe Lane<br/>Riverside Warehouse District<br/>Open Tue-Sun, 10:00-22:00</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>(555) 019-1954<br/>cases@ninefiftyfour.example<br/>Groups, corporate events &amp; private parties welcome.</p>
+    </div>
+    <div>
+      <h4>Before You Come</h4>
+      <p>Arrive 15 minutes early. Not recommended for claustrophobia. Ages 10+ with an adult.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; <span id="year"></span> Nine Fifty-Four Escape Experiences. All rights reserved.</span>
+    <svg class="mini-clock" id="miniClockFooter" viewBox="0 0 44 44" aria-hidden="true">
+      <circle class="face" cx="22" cy="22" r="20"/>
+      <g class="ticks"></g>
+      <line class="hand hand-hour" x1="22" y1="22" x2="22" y2="13" stroke-width="2.5"/>
+      <line class="hand hand-minute" x1="22" y1="22" x2="22" y2="8" stroke-width="1.8"/>
+      <line class="hand hand-second" x1="22" y1="22" x2="22" y2="7"/>
+      <circle class="pin" cx="22" cy="22" r="1.6"/>
+    </svg>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
