@@ -76,7 +76,7 @@ page, a banker's-ledger budget book. The code stays simple; the design does the 
 | [Thread & Rail](Thread%20%26%20Rail/) | Garment-district showroom | Rolling clothing rack, size/color picker, cart & checkout |
 | [Kestrel](Kestrel/) | Small-batch clothing label, editorial | Product + bag pages, localStorage bag, lookbook, filterable range, archive timer |
 | [Kino](Kino/) | Streaming service, near-black + amber | Poster-wall hero, live search, persistent My List, in-modal trailers |
-| [The Perfumer's Atelier](The%20Perfumer's%20Atelier/) | Backlit perfume light table | Scent-note pyramid, glass-bottle illustrations, cart & checkout |
+| [Sillage](The%20Perfumer's%20Atelier/) | Botanical fragrance house (multipage) | Herbarium of specimen plates, scent radar, blending bench, note explorer, scent-finder quiz, journal, wardrobe, engraved-bottle checkout, animated wordmark |
 | [The Terminal](The%20Terminal/) | Dark HUD gadget spec-browser | Exploded-view diagrams, live spec compare, terminal checkout |
 | [DEADSTOCK](DEADSTOCK/) | Multipage hype-drop streetwear store | Real product photos, live countdown, box-opening reveals, lookbook, wishlist, raffle, full checkout |
 | [Umbral](Umbral/) | Astro-tourism expedition company | Starfield parallax, live countdowns, expedition briefs, 3-mode sky simulator (eclipse/meteor/aurora) |
@@ -158,7 +158,7 @@ web-projects/
 ├── Cinder & Salt/       ├── DEADSTOCK/
 ├── Off the Record/      ├── Nine Fifty-Four/
 ├── Ironclad/            ├── The Order Window/
-├── Umbral/              ├── The Perfumer's Atelier/
+├── Umbral/              ├── The Perfumer's Atelier/ (Sillage)
 ├── Thread & Rail/       ├── The Terminal/
 ├── Tic Tac Toe/         ├── To Do List/
 ├── Halcyon/             ├── WIndow 11 UI Clone/
