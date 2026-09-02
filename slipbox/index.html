@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slipbox - A Card-Catalogue Notebook</title>
+  <meta name="description" content="Slipbox - notes as index cards in a card catalogue. Link cards with double brackets, follow the backlinks, filter by tab, and keep the whole box in your browser." />
+
+  <!-- Card drawer favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237a5230'/%3E%3Crect x='5' y='8' width='22' height='17' rx='1.5' fill='%23f2e6cf'/%3E%3Crect x='8' y='5' width='16' height='5' rx='1' fill='%23c9a15f'/%3E%3Cpath d='M9 14h14M9 18h14M9 22h9' stroke='%238a6a3a' stroke-width='1.6'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Bitter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="cabinet">
+
+    <aside class="drawer" id="drawer">
+      <header class="drawer-head">
+        <div class="brand">
+          <svg viewBox="0 0 40 32" class="brand-icon" aria-hidden="true">
+            <rect x="2" y="8" width="36" height="22" rx="2" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" />
+            <rect x="11" y="2" width="18" height="7" rx="1.5" fill="currentColor" fill-opacity=".4" stroke="currentColor" stroke-width="1.4" />
+            <path d="M8 15h24M8 20h24M8 25h14" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+          <div>
+            <span class="brand-name">Slipbox</span>
+            <span class="brand-sub" id="boxCount">0 cards</span>
+          </div>
+        </div>
+        <button class="new-card" id="newCard" type="button">+ New card</button>
+      </header>
+
+      <label class="search">
+        <input type="search" id="search" placeholder="Search the box" autocomplete="off" />
+      </label>
+
+      <div class="drawer-tools">
+        <span class="select-wrap">
+          <select id="sortSel" aria-label="Sort cards">
+            <option value="updated">Recently edited</option>
+            <option value="created">Recently filed</option>
+            <option value="title">By title</option>
+          </select>
+        </span>
+      </div>
+
+      <div class="tabs" id="tagTabs"></div>
+
+      <ul class="card-list" id="cardList"></ul>
+
+      <footer class="drawer-foot">
+        <button class="foot-btn" id="exportMd" type="button">Export .md</button>
+        <button class="foot-btn" id="exportJson" type="button">Export .json</button>
+        <label class="foot-btn">
+          Import
+          <input type="file" id="importFile" accept="application/json,.json" hidden />
+        </label>
+      </footer>
+    </aside>
+
+    <main class="card-stage" id="cardStage">
+      <section class="index-card" id="indexCard" hidden>
+        <div class="card-rule" aria-hidden="true"></div>
+
+        <div class="card-topline">
+          <input type="text" id="titleInput" class="title-input" placeholder="Card title" autocomplete="off" />
+          <div class="card-actions">
+            <button class="c-act" id="pinBtn" type="button" title="Pin to the front">Pin</button>
+            <button class="c-act" id="editToggle" type="button">Edit</button>
+            <button class="c-act danger" id="deleteBtn" type="button">Discard</button>
+          </div>
+        </div>
+
+        <div class="card-meta">
+          <span id="metaFiled">filed --</span>
+          <span id="metaEdited">edited --</span>
+          <span id="metaCount">0 words</span>
+        </div>
+
+        <div class="card-body-view" id="bodyView"></div>
+        <textarea id="bodyEdit" class="card-body-edit" spellcheck="true" hidden
+          placeholder="Write the note. Markdown-lite works: # heading, **bold**, *italic*, `code`, - list, [label](url). Link another card with [[its title]]."></textarea>
+
+        <label class="tag-field">
+          <span>Tabs</span>
+          <input type="text" id="tagInput" placeholder="comma, separated, tabs" autocomplete="off" />
+        </label>
+
+        <div class="backlinks" id="backlinks" hidden>
+          <span class="backlinks-k">Cards that point here</span>
+          <ul id="backlinksList"></ul>
+        </div>
+      </section>
+
+      <div class="empty-state" id="emptyState">
+        <p class="empty-title">The box is open.</p>
+        <p class="empty-sub">Pick a card from the drawer, or file a new one. Link cards by writing <code>[[another card title]]</code> in the body.</p>
+        <button class="new-card" id="newCardEmpty" type="button">+ File the first card</button>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="script.js"></script>
+<!-- Back to All Projects -->
+
+<a id="back-to-all" href="../" aria-label="Back to all projects" style="position:fixed;left:16px;bottom:16px;z-index:2147483000;display:inline-flex;align-items:center;gap:7px;padding:8px 14px 8px 11px;font:600 12px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:.06em;text-decoration:none;color:#fff;background:rgba(17,17,19,.74);border:1px solid rgba(255,255,255,.16);border-radius:999px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,.35);transition:background .15s,transform .15s" onmouseover="this.style.background='rgba(17,17,19,.94)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(17,17,19,.74)';this.style.transform='none'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>PROJECTS</a>
+</body>
+</html>
