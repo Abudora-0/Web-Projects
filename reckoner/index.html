@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ready Reckoner - Convert Anything</title>
+  <meta name="description" content="Ready Reckoner - a pocket conversion book for length, mass, volume, temperature, data, speed and more, plus live currency. Every equivalent on the page." />
+
+  <!-- Thumb-indexed book favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f3d2b'/%3E%3Crect x='6' y='4' width='19' height='24' rx='1.5' fill='%23f3ecd8'/%3E%3Crect x='23' y='9' width='4' height='4' fill='%23a8322a'/%3E%3Crect x='23' y='16' width='4' height='4' fill='%231f3d2b'/%3E%3Cpath d='M10 10h11M10 14h11M10 18h7' stroke='%235a5140' stroke-width='1.5'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;500;700&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="book">
+    <div class="spine" aria-hidden="true"></div>
+
+    <nav class="thumb-index" id="thumbIndex" aria-label="Conversion tables"></nav>
+
+    <main class="page">
+      <header class="page-head">
+        <div class="page-title">
+          <span class="page-kicker">Ready Reckoner</span>
+          <h1 id="catTitle">Length</h1>
+        </div>
+        <p class="page-note" id="catNote">Metric and imperial, side by side.</p>
+      </header>
+
+      <section class="convert">
+        <div class="row from-row">
+          <input type="text" inputmode="decimal" id="fromValue" class="value-field" value="1" aria-label="Value to convert" />
+          <span class="select-wrap">
+            <select id="fromUnit" aria-label="Convert from"></select>
+          </span>
+        </div>
+
+        <button class="swap" id="swap" type="button" aria-label="Swap units">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 4v13M4 14l3 3 3-3M17 20V7M14 10l3-3 3 3" />
+          </svg>
+        </button>
+
+        <div class="row to-row">
+          <output id="toValue" class="value-field result" aria-live="polite">1</output>
+          <span class="select-wrap">
+            <select id="toUnit" aria-label="Convert to"></select>
+          </span>
+        </div>
+      </section>
+
+      <div class="page-tools">
+        <label class="precision">
+          <span>Decimals</span>
+          <span class="stepper" data-stepper="precision">
+            <button type="button" class="step" data-step="-1" aria-label="Fewer decimals">&minus;</button>
+            <span class="step-val" id="precisionVal">4</span>
+            <button type="button" class="step" data-step="1" aria-label="More decimals">+</button>
+          </span>
+        </label>
+        <p class="rate-line" id="rateLine" hidden></p>
+      </div>
+
+      <section class="equiv">
+        <h2 class="equiv-head">Table of equivalents</h2>
+        <p class="equiv-sub" id="equivSub">One <b id="equivUnit">metre</b> is</p>
+        <div class="equiv-grid" id="equivGrid"></div>
+      </section>
+
+      <section class="ledger">
+        <div class="ledger-head">
+          <h2>Worked this session</h2>
+          <button class="ledger-clear" id="ledgerClear" type="button">Clear</button>
+        </div>
+        <ul class="ledger-list" id="ledgerList">
+          <li class="ledger-empty">Conversions you run get noted here.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="script.js"></script>
+<!-- Back to All Projects -->
+
+<a id="back-to-all" href="../" aria-label="Back to all projects" style="position:fixed;left:16px;bottom:16px;z-index:2147483000;display:inline-flex;align-items:center;gap:7px;padding:8px 14px 8px 11px;font:600 12px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:.06em;text-decoration:none;color:#fff;background:rgba(17,17,19,.74);border:1px solid rgba(255,255,255,.16);border-radius:999px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,.35);transition:background .15s,transform .15s" onmouseover="this.style.background='rgba(17,17,19,.94)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(17,17,19,.74)';this.style.transform='none'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>PROJECTS</a>
+</body>
+</html>
