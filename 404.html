@@ -85,13 +85,13 @@
   <main class="e404">
     <p class="code">Error 404</p>
     <h1>This route was never <em>built</em>.</h1>
-    <p>The page you asked for is not one of the thirty-four. Head back to the wall, or jump straight to a project.</p>
+    <p>The page you asked for is not one of the forty. Head back to the wall, or jump straight to a project.</p>
 
     <label class="jump">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
       <input type="text" id="jumpInput" placeholder="Type a project name" autocomplete="off" spellcheck="false" aria-label="Jump to a project" />
     </label>
-    <p class="jump-hint" id="jumpHint">Try <b>terminal</b>, <b>dispatch</b>, <b>halcyon</b>...</p>
+    <p class="jump-hint" id="jumpHint">Try <b>reckoner</b>, <b>deep-six</b>, <b>slipbox</b>...</p>
 
     <div class="hero-cta">
       <a class="btn btn-primary" href="/">Back to the wall</a>
@@ -100,8 +100,8 @@
   </main>
 
   <script>
-    var SLUGS = ["badlands","nibble","tic-tac-toe","arcade-hub","cashbook","the-flatbed","soundroom","halcyon","xchange","the-cellar-door","taskly","vernier","the-sorting-office","meridian","spotify-clone","windows-11-ui-clone","compile","ephemeris","off-the-record","dispatch","deblog","ironclad","cinder-and-salt","the-order-window","thread-and-rail","kestrel","kino","sillage","the-terminal","deadstock","umbral","ember-and-anvil","nine-fifty-four","willowcomb"];
-    var ACCENTS = ["#f0a03c","#9ead86","#f2d47f","#12d0e6","#b5292f","#ff5a1f","#e8933a","#6aa9d8","#ffce2e","#c9a227","#d0913f","#ff6248","#b0413e","#c8a45c","#1db954","#4b6bff","#a4e22e","#e3c27b","#a03c38","#ffb000","#c0392b","#ff6600","#d5622d","#ff3d81","#b81f2c","#8a7355","#e8a33d","#a2564e","#12d0e6","#ccff00","#ff7a33","#ff6a1a","#b8863f","#e9a227"];
+    var SLUGS = ["badlands","nibble","tic-tac-toe","arcade-hub","deep-six","dry-dock","cashbook","the-flatbed","soundroom","halcyon","xchange","the-cellar-door","taskly","vernier","the-sorting-office","meridian","lightbooth","specimen","slipbox","reckoner","spotify-clone","windows-11-ui-clone","compile","ephemeris","off-the-record","dispatch","deblog","ironclad","cinder-and-salt","the-order-window","thread-and-rail","kestrel","kino","sillage","the-terminal","deadstock","umbral","ember-and-anvil","nine-fifty-four","willowcomb"];
+    var ACCENTS = ["#f0a03c","#9ead86","#f2d47f","#12d0e6","#46c98a","#f2a81e","#b5292f","#ff5a1f","#e8933a","#6aa9d8","#ffce2e","#c9a227","#d0913f","#ff6248","#b0413e","#c8a45c","#d94f8c","#e2483d","#a9762f","#297a52","#1db954","#4b6bff","#a4e22e","#e3c27b","#a03c38","#ffb000","#c0392b","#ff6600","#d5622d","#ff3d81","#b81f2c","#8a7355","#e8a33d","#a2564e","#12d0e6","#ccff00","#ff7a33","#ff6a1a","#b8863f","#e9a227"];
 
     var spectrum = document.getElementById("spectrum");
     SLUGS.forEach(function (s, i) {

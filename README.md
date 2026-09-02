@@ -2,7 +2,7 @@
 
 # Web Projects
 
-**34 hand-built web projects - each with its own design identity.**
+**40 hand-built web projects - each with its own design identity.**
 
 Games, tools, UI clones and full websites, written from scratch in
 HTML, CSS and vanilla JavaScript. No frameworks. No bundlers.
@@ -13,7 +13,7 @@ No two projects that look alike.
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Projects](https://img.shields.io/badge/projects-34-2946ff?style=flat-square)
+![Projects](https://img.shields.io/badge/projects-40-2946ff?style=flat-square)
 ![License](https://img.shields.io/github/license/Abudora-0/Web-Projects?style=flat-square&color=2946ff)
 ![Last commit](https://img.shields.io/github/last-commit/Abudora-0/Web-Projects?style=flat-square)
 ![Repo size](https://img.shields.io/github/repo-size/Abudora-0/Web-Projects?style=flat-square)
@@ -47,6 +47,8 @@ one opens it full screen. It is the site's front page.
 | [Nibble](nibble/) | Nokia 3310 olive LCD in a candybar phone | Classic/Wrap/Maze/Daily modes, combo scoring, swappable screen colour, local top-5, ghost run |
 | [Tic Tac Toe](tic-tac-toe/) | Schoolyard chalkboard in a wooden frame | Minimax AI (3 difficulties), confetti, sound |
 | [Arcade Hub](arcade-hub/) | CRT arcade cabinet with scanlines | 8 mini-games: Wordle, 2048, Simon, Memory and more |
+| [Deep Six](deep-six/) | Minesweeper as a submarine sonar console | First-click safe, flood reveal, chording, sonar-sweep pings, 3 hull sizes, custom board, keyboard play, best-dive log |
+| [Dry Dock](dry-dock/) | Tetris as a dockyard gantry crane | Canvas engine, 7-bag randomiser, ghost piece, crane-park hold, lock delay, rising-tide levels, manifest queue, high score |
 
 ## Tools and apps
 
@@ -62,6 +64,10 @@ one opens it full screen. It is the site's front page.
 | [Vernier](vernier/) | Cyanotype blueprint drafting sheet | Six sheets - standard, scientific, programmer, unit converter, date, finance - with a revision record |
 | [The Sorting Office](the-sorting-office/) | Postal-desk email inspector | Live DoH domain lookup, disposable and gibberish detection, batch sorting, inspection-ledger stats, night shift |
 | [Meridian](meridian/) | Luxury horology, five dial finishes | SVG watchface, timezones, brushed and guilloche dials |
+| [Lightbooth](lightbooth/) | Standardised colour-matching viewing booth, neutral grey | Drop an image, loupe eyedropper, palette extraction, HEX / RGB / HSL / OKLCH, WCAG contrast checker, tint and shade ramps, saved shelf, export |
+| [Specimen](specimen/) | Metal-type foundry specimen book | Nearly sixty Google Fonts loaded on scroll, live tester (size, weight, leading, tracking, case), pangram / paragraph / glyph views, category filter, pairing suggestions, favourites, copy embed |
+| [Slipbox](slipbox/) | Oak card-catalogue Zettelkasten | Notes as index cards, markdown-lite, `[[wikilinks]]` with a backlinks panel, tab-divider tags, full-text search, pin, sort, export to Markdown or JSON, import |
+| [Ready Reckoner](reckoner/) | Pocket ready-reckoner reference book | 18 categories from length to illuminance, live currency (open.er-api.com) with an offline fallback, from / to with swap, precision stepper, table of equivalents, session ledger |
 
 ## UI clones and templates
 

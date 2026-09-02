@@ -18,6 +18,12 @@ const PROJECTS = [
   { slug: "arcade-hub", name: "Arcade Hub", cat: "game", accent: "#12d0e6", built: "2026-06",
     tagline: "Eight mini-games in one CRT arcade cabinet.",
     sig: "Eight games in one", tags: ["8 games", "Scanlines", "High scores"] },
+  { slug: "deep-six", name: "Deep Six", cat: "game", accent: "#46c98a", built: "2026-09",
+    tagline: "Minesweeper as a submarine sonar console.",
+    sig: "Sonar-sweep reveals", tags: ["First-click safe", "Chording", "Best-dive log"] },
+  { slug: "dry-dock", name: "Dry Dock", cat: "game", accent: "#f2a81e", built: "2026-09",
+    tagline: "Tetris as a dockyard container crane.",
+    sig: "Clear a tier, ship sails", tags: ["Canvas", "7-bag", "Hold + ghost"] },
 
   // tools
   { slug: "cashbook", name: "Cashbook", cat: "tool", accent: "#b5292f", built: "2026-08",
@@ -50,6 +56,18 @@ const PROJECTS = [
   { slug: "meridian", name: "Meridian", cat: "tool", accent: "#c8a45c", built: "2026-06",
     tagline: "A luxury horology analog clock with five finishes.",
     sig: "Five dial finishes", tags: ["SVG", "Timezones", "Dial finishes"] },
+  { slug: "lightbooth", name: "Lightbooth", cat: "tool", accent: "#d94f8c", built: "2026-09",
+    tagline: "A colour-matching booth with an eyedropper and palette puller.",
+    sig: "Loupe + palette extract", tags: ["Eyedropper", "OKLCH", "WCAG contrast"] },
+  { slug: "specimen", name: "Specimen", cat: "tool", accent: "#e2483d", built: "2026-09",
+    tagline: "A type-foundry specimen book of nearly sixty faces.",
+    sig: "Set in your own words", tags: ["Google Fonts", "Type tester", "Pairings"] },
+  { slug: "slipbox", name: "Slipbox", cat: "tool", accent: "#a9762f", built: "2026-09",
+    tagline: "Notes as index cards in a card catalogue.",
+    sig: "Bracket links + backlinks", tags: ["Markdown-lite", "Wikilinks", "localStorage"] },
+  { slug: "reckoner", name: "Ready Reckoner", cat: "tool", accent: "#297a52", built: "2026-09",
+    tagline: "A pocket conversion book for units and live currency.",
+    sig: "Everything, plus currency", tags: ["18 categories", "Live rates", "Equivalents"] },
 
   // clones
   { slug: "spotify-clone", name: "Spotify", cat: "clone", accent: "#1db954", built: "2026-06",
@@ -208,7 +226,7 @@ $("#heroCount").textContent = PROJECTS.length;
 
 /* ---------- hero rail: latest builds ---------- */
 
-const RAIL_SLUGS = ["the-terminal", "sillage", "thread-and-rail", "dispatch", "soundroom"];
+const RAIL_SLUGS = ["reckoner", "slipbox", "specimen", "lightbooth", "dry-dock"];
 const railList = $("#railList");
 const heroRail = $("#heroRail");
 if (railList && heroRail) {
@@ -236,7 +254,7 @@ if (railList && heroRail) {
 }
 
 /* =========================================================
-   SPECTRUM BAR - 35 accents, doubles as scroll progress
+   SPECTRUM BAR - one accent per project, doubles as scroll progress
    ========================================================= */
 
 const spectrum = $("#spectrum");
