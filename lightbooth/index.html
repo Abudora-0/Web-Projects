@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lightbooth - Colour Sampling Bench</title>
+  <meta name="description" content="Lightbooth - drop an image, sample any pixel with a loupe, pull a palette, and read every colour as HEX, RGB, HSL and OKLCH. Contrast checked to WCAG." />
+
+  <!-- Loupe on a grey card favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23d7d7d5'/%3E%3Crect x='5' y='5' width='22' height='14' rx='2' fill='%23e0457b'/%3E%3Ccircle cx='19' cy='20' r='6' fill='none' stroke='%23222' stroke-width='2.4'/%3E%3Cline x1='23' y1='24' x2='28' y2='29' stroke='%23222' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="booth">
+    <div class="daylight" aria-hidden="true"></div>
+
+    <header class="booth-head">
+      <div class="wordmark">
+        <svg viewBox="0 0 34 34" class="wordmark-icon" aria-hidden="true">
+          <rect x="2" y="4" width="24" height="15" rx="2" fill="currentColor" fill-opacity=".85" />
+          <circle cx="20" cy="22" r="7" fill="none" stroke="currentColor" stroke-width="2.4" />
+          <line x1="25" y1="27" x2="31" y2="33" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+        </svg>
+        <div>
+          <span class="wordmark-name">Lightbooth</span>
+          <span class="wordmark-sub">colour sampling bench &middot; D65</span>
+        </div>
+      </div>
+      <div class="head-actions">
+        <label class="file-btn">
+          <input type="file" id="fileInput" accept="image/*" hidden />
+          Load image
+        </label>
+        <button class="file-btn ghost" id="pasteBtn" type="button" title="Paste from clipboard">Paste</button>
+      </div>
+    </header>
+
+    <main class="bench">
+      <section class="viewer-col">
+        <div class="stage" id="stage">
+          <canvas id="image" aria-label="Loaded image, click to sample a colour"></canvas>
+          <div class="loupe" id="loupe" hidden>
+            <canvas id="loupeCanvas" width="130" height="130"></canvas>
+            <span class="loupe-hex" id="loupeHex">#000000</span>
+          </div>
+          <p class="stage-hint" id="stageHint">Drop an image anywhere, or load one. Sampling the test card for now.</p>
+        </div>
+
+        <div class="extracted">
+          <span class="section-label">Pulled palette</span>
+          <div class="swatch-row" id="paletteRow"></div>
+        </div>
+
+        <div class="shelf">
+          <div class="shelf-head">
+            <span class="section-label">Saved swatches</span>
+            <div class="shelf-tools">
+              <button class="mini-btn" id="exportBtn" type="button">Export</button>
+              <button class="mini-btn" id="clearShelf" type="button">Clear</button>
+            </div>
+          </div>
+          <div class="swatch-row shelf-row" id="shelfRow">
+            <p class="shelf-empty" id="shelfEmpty">Click the image or a palette chip to keep a colour here.</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="detail-col">
+        <div class="chip-big" id="chipBig" style="--c:#3a3a3a">
+          <button class="chip-save" id="chipSave" type="button">Keep</button>
+        </div>
+
+        <div class="readouts">
+          <div class="readout" data-fmt="hex">
+            <span class="readout-k">HEX</span>
+            <span class="readout-v" id="valHex">#3A3A3A</span>
+            <button class="copy" data-copy="hex" type="button" aria-label="Copy hex">copy</button>
+          </div>
+          <div class="readout" data-fmt="rgb">
+            <span class="readout-k">RGB</span>
+            <span class="readout-v" id="valRgb">58, 58, 58</span>
+            <button class="copy" data-copy="rgb" type="button" aria-label="Copy rgb">copy</button>
+          </div>
+          <div class="readout" data-fmt="hsl">
+            <span class="readout-k">HSL</span>
+            <span class="readout-v" id="valHsl">0, 0%, 23%</span>
+            <button class="copy" data-copy="hsl" type="button" aria-label="Copy hsl">copy</button>
+          </div>
+          <div class="readout" data-fmt="oklch">
+            <span class="readout-k">OKLCH</span>
+            <span class="readout-v" id="valOklch">0.36 0.00 0</span>
+            <button class="copy" data-copy="oklch" type="button" aria-label="Copy oklch">copy</button>
+          </div>
+        </div>
+
+        <div class="ramp-block">
+          <span class="section-label">Tints and shades</span>
+          <div class="ramp" id="ramp"></div>
+        </div>
+
+        <div class="contrast-block">
+          <span class="section-label">Contrast</span>
+          <div class="contrast-pair">
+            <label class="cp-side">
+              <span>Text</span>
+              <span class="cp-chip" id="cpText" style="--c:#3a3a3a"></span>
+            </label>
+            <button class="cp-swap" id="cpSwap" type="button" aria-label="Swap text and background">swap</button>
+            <label class="cp-side">
+              <span>Background</span>
+              <span class="cp-chip" id="cpBg" style="--c:#ffffff"></span>
+            </label>
+          </div>
+          <div class="contrast-out">
+            <span class="ratio" id="ratio">4.5</span>
+            <div class="badges" id="badges"></div>
+          </div>
+          <p class="cp-sample" id="cpSample">Vessel at anchor, quiet water.</p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div class="drop-veil" id="dropVeil" hidden><span>Drop to load</span></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="script.js"></script>
+<!-- Back to All Projects -->
+
+<a id="back-to-all" href="../" aria-label="Back to all projects" style="position:fixed;left:16px;bottom:16px;z-index:2147483000;display:inline-flex;align-items:center;gap:7px;padding:8px 14px 8px 11px;font:600 12px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:.06em;text-decoration:none;color:#fff;background:rgba(17,17,19,.74);border:1px solid rgba(255,255,255,.16);border-radius:999px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,.35);transition:background .15s,transform .15s" onmouseover="this.style.background='rgba(17,17,19,.94)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(17,17,19,.74)';this.style.transform='none'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>PROJECTS</a>
+</body>
+</html>
