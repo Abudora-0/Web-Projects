@@ -3,69 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deep Six - Sonar Minesweeper</title>
-  <meta name="description" content="Deep Six - Minesweeper rebuilt as a submarine sonar console. Sweep the grid, mark the mines, surface without a detonation." />
+  <title>Sapper - Minesweeper</title>
+  <meta name="description" content="Sapper - Minesweeper the way Windows 95 shipped it. Silver bevels, an LED mine counter, the smiley reset button, chording, and a best-times table." />
 
-  <!-- Sonar scope favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a1a1f'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2346c98a' stroke-width='1.6'/%3E%3Ccircle cx='16' cy='16' r='5' fill='none' stroke='%2346c98a' stroke-opacity='.5' stroke-width='1.2'/%3E%3Cpath d='M16 16 L16 6 A10 10 0 0 1 24.7 11 Z' fill='%2346c98a' fill-opacity='.35'/%3E%3Ccircle cx='21' cy='12' r='1.6' fill='%23ffd166'/%3E%3C/svg%3E" />
+  <!-- Mine on a silver tile favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23c0c0c0'/%3E%3Cpath d='M2 2h28v2H4v24H2z' fill='%23fff'/%3E%3Cpath d='M30 2v28H2v-2h26V2z' fill='%23808080'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23000'/%3E%3Cpath d='M16 5v22M5 16h22M8 8l16 16M24 8L8 24' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='13.5' cy='13.5' r='2' fill='%23fff'/%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <div class="hull">
-    <div class="rivets" aria-hidden="true"></div>
+  <div class="win" id="win">
+    <div class="titlebar">
+      <span class="title-ico" aria-hidden="true">
+        <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="4" fill="#000"/><path d="M8 2v12M2 8h12M4 4l8 8M12 4l-8 8" stroke="#000" stroke-width="1.4"/><circle cx="6.6" cy="6.6" r="1.1" fill="#fff"/></svg>
+      </span>
+      <span class="title-txt">Sapper</span>
+      <span class="title-btns">
+        <button class="tb" type="button" disabled aria-hidden="true"><i class="g-min"></i></button>
+        <button class="tb" type="button" disabled aria-hidden="true"><i class="g-max"></i></button>
+        <a class="tb tb-x" href="../" aria-label="Close (back to projects)"><i class="g-x"></i></a>
+      </span>
+    </div>
 
-    <header class="console-top">
-      <div class="ident">
-        <svg class="ident-mark" viewBox="0 0 40 40" aria-hidden="true">
-          <circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="2" />
-          <circle cx="20" cy="20" r="9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-opacity=".55" />
-          <path d="M20 20 L20 4 A16 16 0 0 1 33 11 Z" fill="currentColor" fill-opacity=".3" />
-          <line x1="20" y1="20" x2="34" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-        <div class="ident-text">
-          <span class="ident-name">DEEP SIX</span>
-          <span class="ident-sub">SONAR MINE PLOT &middot; STATION SS-6</span>
-        </div>
+    <div class="menubar">
+      <button class="menu-trigger" id="gameBtn" type="button" aria-haspopup="true" aria-expanded="false">Game</button>
+      <button class="menu-trigger" id="helpBtn" type="button" aria-haspopup="true" aria-expanded="false">Help</button>
+
+      <div class="menu" id="gameMenu" role="menu" hidden>
+        <button class="mi" data-act="new" role="menuitem" type="button">New<span class="mi-key">F2</span></button>
+        <hr />
+        <button class="mi depth" data-level="patrol" role="menuitemradio" type="button"><span class="mi-tick">&#10003;</span>Beginner</button>
+        <button class="mi depth" data-level="hunter" role="menuitemradio" type="button"><span class="mi-tick">&#10003;</span>Intermediate</button>
+        <button class="mi depth" data-level="deep" role="menuitemradio" type="button"><span class="mi-tick">&#10003;</span>Expert</button>
+        <button class="mi depth" data-level="custom" role="menuitemradio" type="button"><span class="mi-tick">&#10003;</span>Custom...</button>
+        <hr />
+        <button class="mi" data-act="marks" role="menuitemcheckbox" type="button"><span class="mi-tick">&#10003;</span>Marks (?)</button>
+        <button class="mi" data-act="sound" role="menuitemcheckbox" type="button"><span class="mi-tick">&#10003;</span>Sound</button>
+        <hr />
+        <button class="mi" data-act="best" role="menuitem" type="button">Best Times...</button>
       </div>
 
-      <div class="gauges">
-        <div class="gauge">
-          <span class="gauge-label">Contacts</span>
-          <span class="gauge-val" id="contacts">010</span>
-        </div>
-        <button class="dive-btn" id="diveBtn" title="New dive (R)">
-          <span class="dive-face" id="diveFace">surface</span>
-        </button>
-        <div class="gauge">
-          <span class="gauge-label">Dive time</span>
-          <span class="gauge-val" id="clock">000</span>
+      <div class="menu" id="helpMenu" role="menu" hidden>
+        <button class="mi" data-act="controls" role="menuitem" type="button">Controls...</button>
+        <button class="mi" data-act="about" role="menuitem" type="button">About Sapper...</button>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="hdr">
+        <div class="led" id="contacts" aria-label="Mines remaining">000</div>
+        <button class="smiley" id="diveBtn" type="button" aria-label="New game" data-state="idle"></button>
+        <div class="led" id="clock" aria-label="Seconds elapsed">000</div>
+      </div>
+
+      <div class="well" id="scope">
+        <div class="grid" id="grid" role="grid" aria-label="Minefield"></div>
+        <div class="verdict" id="verdict" hidden>
+          <div class="dlg">
+            <p class="verdict-line" id="verdictLine">You cleared it</p>
+            <p class="verdict-sub" id="verdictSub">000 seconds</p>
+            <button class="dlg-ok" id="verdictBtn" type="button">New game</button>
+          </div>
         </div>
       </div>
-    </header>
+    </div>
 
-    <nav class="depth-select" id="depthSelect" aria-label="Patrol depth">
-      <button class="depth active" data-level="patrol">
-        <span class="depth-no">01</span><span class="depth-name">Patrol</span><span class="depth-spec">9 x 9 &middot; 10</span>
-      </button>
-      <button class="depth" data-level="hunter">
-        <span class="depth-no">02</span><span class="depth-name">Hunter</span><span class="depth-spec">16 x 16 &middot; 40</span>
-      </button>
-      <button class="depth" data-level="deep">
-        <span class="depth-no">03</span><span class="depth-name">Deep</span><span class="depth-spec">30 x 16 &middot; 99</span>
-      </button>
-      <button class="depth depth-custom" data-level="custom">
-        <span class="depth-no">04</span><span class="depth-name">Custom</span><span class="depth-spec" id="customSpec">set below</span>
-      </button>
-    </nav>
+    <div class="statusbar">
+      <span id="readout">Left-click clears a square. Right-click flags a mine. Clear every safe square.</span>
+      <span class="best" id="best">Best Beginner: <span id="bestVal">--</span></span>
+    </div>
+  </div>
 
-    <div class="custom-rig" id="customRig" hidden>
+  <!-- Custom field dialog -->
+  <div class="modal" id="customRig" hidden>
+    <div class="dlg dlg-custom">
+      <p class="dlg-title">Custom Field</p>
       <label class="rig-field">
-        <span>Columns</span>
+        <span>Width</span>
         <span class="stepper" data-stepper="cols">
           <button type="button" class="step" data-step="-1" aria-label="Fewer columns">&minus;</button>
           <span class="step-val" id="colsVal">12</span>
@@ -73,7 +91,7 @@
         </span>
       </label>
       <label class="rig-field">
-        <span>Rows</span>
+        <span>Height</span>
         <span class="stepper" data-stepper="rows">
           <button type="button" class="step" data-step="-1" aria-label="Fewer rows">&minus;</button>
           <span class="step-val" id="rowsVal">12</span>
@@ -88,26 +106,24 @@
           <button type="button" class="step" data-step="1" aria-label="More mines">+</button>
         </span>
       </label>
-      <button class="rig-go" id="rigGo">Begin dive</button>
-    </div>
-
-    <main class="scope-wrap">
-      <div class="scope" id="scope">
-        <div class="sweep" id="sweep" aria-hidden="true"></div>
-        <div class="grid" id="grid" role="grid" aria-label="Sonar grid"></div>
-        <div class="verdict" id="verdict" hidden>
-          <p class="verdict-line" id="verdictLine">All clear</p>
-          <p class="verdict-sub" id="verdictSub">Surfaced in 000 seconds</p>
-          <button class="verdict-btn" id="verdictBtn">Dive again</button>
-        </div>
+      <span class="custom-spec" id="customSpec" hidden>12 x 12</span>
+      <div class="dlg-row">
+        <button class="dlg-ok" id="rigGo" type="button">New game</button>
+        <button class="dlg-cancel" id="rigCancel" type="button">Cancel</button>
       </div>
-    </main>
-
-    <footer class="console-foot">
-      <p class="readout" id="readout">Left-click sweeps a sector. Right-click marks a mine. Clear every safe sector to surface.</p>
-      <p class="best" id="best">Best Patrol dive: <span id="bestVal">--</span></p>
-    </footer>
+    </div>
   </div>
+
+  <!-- Info dialogs (Best Times / Controls / About) -->
+  <div class="modal" id="infoModal" hidden>
+    <div class="dlg dlg-info">
+      <p class="dlg-title" id="infoTitle">Best Times</p>
+      <div class="dlg-body" id="infoBody"></div>
+      <div class="dlg-row"><button class="dlg-ok" id="infoOk" type="button">OK</button></div>
+    </div>
+  </div>
+
+  <span class="depth-holder" id="depthSelect" hidden></span>
 
   <script src="script.js"></script>
 <!-- Back to All Projects -->
