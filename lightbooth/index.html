@@ -75,25 +75,31 @@
           <button class="chip-save" id="chipSave" type="button">Keep</button>
         </div>
 
+        <div class="channels" id="channels">
+          <label><span>R</span><input type="range" id="chR" min="0" max="255" value="58" /><b id="chRv">58</b></label>
+          <label><span>G</span><input type="range" id="chG" min="0" max="255" value="58" /><b id="chGv">58</b></label>
+          <label><span>B</span><input type="range" id="chB" min="0" max="255" value="58" /><b id="chBv">58</b></label>
+        </div>
+
         <div class="readouts">
           <div class="readout" data-fmt="hex">
             <span class="readout-k">HEX</span>
-            <span class="readout-v" id="valHex">#3A3A3A</span>
+            <input class="readout-v" id="valHex" value="#3A3A3A" spellcheck="false" autocomplete="off" aria-label="Hex value" />
             <button class="copy" data-copy="hex" type="button" aria-label="Copy hex">copy</button>
           </div>
           <div class="readout" data-fmt="rgb">
             <span class="readout-k">RGB</span>
-            <span class="readout-v" id="valRgb">58, 58, 58</span>
+            <input class="readout-v" id="valRgb" value="58, 58, 58" spellcheck="false" autocomplete="off" aria-label="RGB value" />
             <button class="copy" data-copy="rgb" type="button" aria-label="Copy rgb">copy</button>
           </div>
           <div class="readout" data-fmt="hsl">
             <span class="readout-k">HSL</span>
-            <span class="readout-v" id="valHsl">0, 0%, 23%</span>
+            <input class="readout-v" id="valHsl" value="0, 0%, 23%" spellcheck="false" autocomplete="off" aria-label="HSL value" />
             <button class="copy" data-copy="hsl" type="button" aria-label="Copy hsl">copy</button>
           </div>
           <div class="readout" data-fmt="oklch">
             <span class="readout-k">OKLCH</span>
-            <span class="readout-v" id="valOklch">0.36 0.00 0</span>
+            <span class="readout-v readout-ro" id="valOklch">0.36 0.00 0</span>
             <button class="copy" data-copy="oklch" type="button" aria-label="Copy oklch">copy</button>
           </div>
         </div>

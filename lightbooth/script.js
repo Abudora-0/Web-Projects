@@ -38,7 +38,11 @@ const el = {
   clearShelf: $("#clearShelf"),
   dropVeil: $("#dropVeil"),
   toast: $("#toast"),
+  channels: $("#channels"),
+  chR: $("#chR"), chG: $("#chG"), chB: $("#chB"),
+  chRv: $("#chRv"), chGv: $("#chGv"), chBv: $("#chBv"),
 };
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let imgData = null;         // ImageData of the drawn image
 let selected = [58, 58, 58];
@@ -95,8 +99,37 @@ function contrastRatio(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 function hexToRgb(hex) {
-  const h = hex.replace("#", "");
+  let h = hex.replace("#", "").trim();
+  if (h.length === 3) h = h.split("").map((c) => c + c).join("");
   return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
+}
+function hslToRgb(h, s, l) {
+  h = ((h % 360) + 360) % 360 / 360; s /= 100; l /= 100;
+  if (s === 0) { const v = Math.round(l * 255); return [v, v, v]; }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  const hue = (t) => {
+    t = (t + 1) % 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  return [hue(h + 1 / 3), hue(h), hue(h - 1 / 3)].map((v) => Math.round(v * 255));
+}
+/* parse "#abc", "12, 34, 56", "rgb(...)", "200 50% 40%", "hsl(...)" */
+function parseColour(str) {
+  const s = str.trim().toLowerCase();
+  if (/^#?[0-9a-f]{3}$|^#?[0-9a-f]{6}$/.test(s)) {
+    const rgb = hexToRgb(s);
+    return rgb.every((v) => v >= 0 && v <= 255) ? rgb : null;
+  }
+  const nums = s.replace(/^(rgb|hsl)a?\(/, "").replace(/[)%]/g, "").split(/[\s,/]+/).filter(Boolean).map(Number);
+  if (nums.length >= 3 && nums.every((n) => isFinite(n))) {
+    if (s.startsWith("hsl") || (/%/.test(str) && nums.length === 3)) return hslToRgb(nums[0], nums[1], nums[2]);
+    return nums.slice(0, 3).map((v) => clamp(Math.round(v), 0, 255));
+  }
+  return null;
 }
 function mix(a, b, t) {
   return a.map((v, i) => v + (b[i] - v) * t);
@@ -133,6 +166,11 @@ function fitImage(source, w, h) {
 }
 
 function loadFromImg(image) {
+  if (!reduceMotion) {
+    el.stage.classList.remove("analysing");
+    void el.stage.offsetWidth;
+    el.stage.classList.add("analysing");
+  }
   fitImage(image, image.naturalWidth, image.naturalHeight);
   el.stageHint.textContent = "Move over the image for the loupe. Click to keep a colour.";
 }
@@ -207,7 +245,15 @@ function extractPalette() {
   while (picked.length < Math.min(6, list.length)) picked.push(list[picked.length].rgb);
 
   el.paletteRow.innerHTML = "";
-  picked.forEach((rgb) => el.paletteRow.appendChild(makeChip(rgb.map(Math.round))));
+  picked.forEach((rgb, i) => {
+    const chip = makeChip(rgb.map(Math.round));
+    if (!reduceMotion) {
+      chip.classList.add("chip-enter");
+      chip.style.animationDelay = i * 45 + "ms";
+    }
+    el.paletteRow.appendChild(chip);
+  });
+  el.stage.classList.remove("analysing");
   if (picked[0]) select(picked[0].map(Math.round));
 }
 function dist(a, b) {
@@ -236,18 +282,46 @@ function makeChip(rgb, onShelf) {
 }
 
 /* ============ selection + readouts ============ */
+let editingField = null;
 function select(rgb) {
   selected = rgb.map(to255);
   const f = fmts(selected);
   el.chipBig.style.setProperty("--c", f.hex);
-  el.valHex.textContent = f.hex;
-  el.valRgb.textContent = f.rgb;
-  el.valHsl.textContent = f.hsl;
+  if (editingField !== "hex") el.valHex.value = f.hex;
+  if (editingField !== "rgb") el.valRgb.value = f.rgb;
+  if (editingField !== "hsl") el.valHsl.value = f.hsl;
   el.valOklch.textContent = f.oklch;
+  el.chR.value = selected[0]; el.chG.value = selected[1]; el.chB.value = selected[2];
+  el.chRv.textContent = selected[0]; el.chGv.textContent = selected[1]; el.chBv.textContent = selected[2];
   buildRamp();
   el.cpText.style.setProperty("--c", f.hex);
   updateContrast();
 }
+
+/* editable HEX / RGB / HSL fields */
+[["hex", el.valHex], ["rgb", el.valRgb], ["hsl", el.valHsl]].forEach(([fmt, input]) => {
+  input.addEventListener("input", () => {
+    editingField = fmt;
+    const rgb = parseColour(input.value);
+    if (rgb) { input.classList.remove("bad"); select(rgb); }
+  });
+  input.addEventListener("blur", () => {
+    const rgb = parseColour(input.value);
+    if (rgb) select(rgb);
+    else { input.classList.add("bad"); setTimeout(() => input.classList.remove("bad"), 500); select(selected); }
+    editingField = null;
+  });
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") input.blur(); });
+});
+
+/* R / G / B channel sliders */
+["R", "G", "B"].forEach((ch, i) => {
+  el["ch" + ch].addEventListener("input", () => {
+    const next = selected.slice();
+    next[i] = +el["ch" + ch].value;
+    select(next);
+  });
+});
 
 function buildRamp() {
   const white = [255, 255, 255], black = [0, 0, 0];
@@ -275,10 +349,25 @@ function buildRamp() {
 function chipRgb(node) {
   return hexToRgb(node.style.getPropertyValue("--c").trim() || "#000000");
 }
+let ratioRaf = 0;
+function rollRatio(to) {
+  if (reduceMotion) { el.ratio.textContent = to.toFixed(2); return; }
+  const from = parseFloat(el.ratio.textContent) || 0;
+  if (Math.abs(from - to) < 0.05) { el.ratio.textContent = to.toFixed(2); return; }
+  cancelAnimationFrame(ratioRaf);
+  const t0 = performance.now(), dur = 300;
+  const tick = (now) => {
+    const p = Math.min((now - t0) / dur, 1);
+    const v = from + (to - from) * (1 - Math.pow(1 - p, 3));
+    el.ratio.textContent = v.toFixed(2);
+    if (p < 1) ratioRaf = requestAnimationFrame(tick);
+  };
+  ratioRaf = requestAnimationFrame(tick);
+}
 function updateContrast() {
   const t = chipRgb(el.cpText), b = chipRgb(el.cpBg);
   const ratio = contrastRatio(t, b);
-  el.ratio.textContent = ratio.toFixed(2);
+  rollRatio(ratio);
   const tests = [
     ["AA text", ratio >= 4.5],
     ["AA large", ratio >= 3],
