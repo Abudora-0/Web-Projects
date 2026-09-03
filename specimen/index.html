@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Specimen - A Type Foundry Book</title>
-  <meta name="description" content="Specimen - a foundry-style catalogue of nearly sixty typefaces. Set your own text, run the size waterfall, adjust weight, leading and tracking, and copy the embed." />
+  <meta name="description" content="Specimen - a foundry-style catalogue of nearly sixty typefaces. Set your own text, run the waterfall, adjust weight, leading, tracking and OpenType features, compare two faces, and copy the embed." />
 
   <!-- Letterpress A favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Cpath d='M16 5 L26 27 H21 L19 22 H13 L11 27 H6 Z M14.2 18 H17.8 L16 12.5 Z' fill='%231a1a1a'/%3E%3C/svg%3E" />
@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body data-ground="paper" data-density="comfortable">
 
   <header class="masthead">
     <div class="mast-title">
@@ -28,88 +28,134 @@
     </div>
   </header>
 
-  <div class="control-rail" id="rail">
-    <div class="rail-inner">
-      <label class="ctl ctl-text">
-        <span class="ctl-k">Setting copy</span>
-        <input type="text" id="sampleText" value="The quick brown fox jumps over the lazy dog" autocomplete="off" spellcheck="false" />
-      </label>
+  <div class="frame">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-scroll">
+        <label class="ctl ctl-text">
+          <span class="ctl-k">Setting copy</span>
+          <input type="text" id="sampleText" value="The quick brown fox jumps over the lazy dog" autocomplete="off" spellcheck="false" />
+        </label>
 
-      <label class="ctl">
-        <span class="ctl-k">Size <b id="sizeVal">64</b> px</span>
-        <input type="range" id="sizeRange" min="12" max="160" value="64" step="1" />
-      </label>
+        <label class="ctl">
+          <span class="ctl-k">Size <b id="sizeVal">64</b> px</span>
+          <input type="range" id="sizeRange" min="12" max="160" value="64" step="1" />
+        </label>
+        <label class="ctl">
+          <span class="ctl-k">Weight <b id="weightVal">400</b></span>
+          <input type="range" id="weightRange" min="100" max="900" value="400" step="100" />
+        </label>
+        <label class="ctl">
+          <span class="ctl-k">Leading <b id="leadingVal">1.15</b></span>
+          <input type="range" id="leadingRange" min="0.8" max="2" value="1.15" step="0.05" />
+        </label>
+        <label class="ctl">
+          <span class="ctl-k">Tracking <b id="trackingVal">0</b> em</span>
+          <input type="range" id="trackingRange" min="-0.05" max="0.3" value="0" step="0.005" />
+        </label>
 
-      <label class="ctl">
-        <span class="ctl-k">Weight <b id="weightVal">400</b></span>
-        <input type="range" id="weightRange" min="100" max="900" value="400" step="100" />
-      </label>
-
-      <label class="ctl">
-        <span class="ctl-k">Leading <b id="leadingVal">1.15</b></span>
-        <input type="range" id="leadingRange" min="0.8" max="2" value="1.15" step="0.05" />
-      </label>
-
-      <label class="ctl">
-        <span class="ctl-k">Tracking <b id="trackingVal">0</b> em</span>
-        <input type="range" id="trackingRange" min="-0.05" max="0.3" value="0" step="0.005" />
-      </label>
-
-      <label class="ctl ctl-select">
-        <span class="ctl-k">Alignment</span>
-        <span class="select-wrap">
-          <select id="alignSel">
+        <label class="ctl">
+          <span class="ctl-k">Alignment</span>
+          <select id="alignSel" class="sel-enhance" aria-label="Alignment">
             <option value="left">Flush left</option>
             <option value="center">Centred</option>
             <option value="right">Flush right</option>
             <option value="justify">Justified</option>
           </select>
-        </span>
-      </label>
-
-      <label class="ctl ctl-select">
-        <span class="ctl-k">Case</span>
-        <span class="select-wrap">
-          <select id="caseSel">
+        </label>
+        <label class="ctl">
+          <span class="ctl-k">Case</span>
+          <select id="caseSel" class="sel-enhance" aria-label="Letter case">
             <option value="none">As typed</option>
             <option value="uppercase">Upper</option>
             <option value="lowercase">Lower</option>
             <option value="capitalize">Title</option>
           </select>
-        </span>
-      </label>
+        </label>
+        <label class="ctl">
+          <span class="ctl-k">Ground</span>
+          <select id="groundSel" class="sel-enhance" aria-label="Background">
+            <option value="paper">Warm paper</option>
+            <option value="white">Bright white</option>
+            <option value="grey">Neutral grey</option>
+            <option value="black">Ink black</option>
+          </select>
+        </label>
+        <label class="ctl">
+          <span class="ctl-k">Density</span>
+          <select id="densitySel" class="sel-enhance" aria-label="Card density">
+            <option value="comfortable">Comfortable</option>
+            <option value="compact">Compact</option>
+          </select>
+        </label>
 
-      <div class="ctl ctl-toggle">
-        <span class="ctl-k">Show</span>
-        <div class="seg" id="viewSeg" role="group" aria-label="Card body">
-          <button data-view="pangram" class="on" type="button">Pangram</button>
-          <button data-view="paragraph" type="button">Paragraph</button>
-          <button data-view="glyphs" type="button">Glyphs</button>
+        <div class="ctl">
+          <span class="ctl-k">Show</span>
+          <div class="seg" id="viewSeg" role="group" aria-label="Card body">
+            <button data-view="pangram" class="on" type="button">Pangram</button>
+            <button data-view="paragraph" type="button">Para</button>
+            <button data-view="glyphs" type="button">Glyphs</button>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="filter-bar" id="filterBar">
-      <button class="fchip on" data-cat="all" type="button">All</button>
-      <button class="fchip" data-cat="serif" type="button">Serif</button>
-      <button class="fchip" data-cat="sans" type="button">Sans</button>
-      <button class="fchip" data-cat="slab" type="button">Slab</button>
-      <button class="fchip" data-cat="mono" type="button">Mono</button>
-      <button class="fchip" data-cat="display" type="button">Display</button>
-      <button class="fchip" data-cat="hand" type="button">Hand</button>
-      <button class="fchip fchip-fav" data-cat="fav" type="button">Kept</button>
-      <label class="fsearch">
-        <input type="search" id="fontSearch" placeholder="Find a face" autocomplete="off" />
-      </label>
+        <div class="ctl">
+          <span class="ctl-k">OpenType</span>
+          <div class="ot-grid" id="otGrid">
+            <label><input type="checkbox" data-ot="liga" /> Ligatures</label>
+            <label><input type="checkbox" data-ot="onum" /> Old-style figures</label>
+            <label><input type="checkbox" data-ot="smcp" /> Small caps</label>
+            <label><input type="checkbox" data-ot="zero" /> Slashed zero</label>
+            <label><input type="checkbox" data-ot="calt" checked /> Contextual alternates</label>
+          </div>
+        </div>
+
+        <button class="side-btn" id="shuffleBtn" type="button">Surprise me</button>
+      </div>
+    </aside>
+
+    <main class="stack">
+      <div class="filter-bar" id="filterBar">
+        <button class="fchip on" data-cat="all" type="button">All</button>
+        <button class="fchip" data-cat="serif" type="button">Serif</button>
+        <button class="fchip" data-cat="sans" type="button">Sans</button>
+        <button class="fchip" data-cat="slab" type="button">Slab</button>
+        <button class="fchip" data-cat="mono" type="button">Mono</button>
+        <button class="fchip" data-cat="display" type="button">Display</button>
+        <button class="fchip" data-cat="hand" type="button">Hand</button>
+        <button class="fchip fchip-fav" data-cat="fav" type="button">Kept</button>
+        <label class="fsearch">
+          <input type="search" id="fontSearch" placeholder="Find a face" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="book" id="book"></div>
+
+      <p class="colophon">
+        Faces served by Google Fonts and loaded as each card comes into view. Set in Fraunces and Spline Sans Mono.
+      </p>
+    </main>
+  </div>
+
+  <!-- Compare tray -->
+  <div class="compare-tray" id="compareTray" hidden>
+    <div class="ct-inner">
+      <span class="ct-label">Compare</span>
+      <span class="ct-slot" id="ctSlot0">--</span>
+      <span class="ct-vs">vs</span>
+      <span class="ct-slot" id="ctSlot1">--</span>
+      <button class="ct-go" id="ctGo" type="button" disabled>Open</button>
+      <button class="ct-clear" id="ctClear" type="button">Clear</button>
     </div>
   </div>
 
-  <main class="book" id="book"></main>
+  <!-- Compare view -->
+  <div class="compare-view" id="compareView" hidden>
+    <div class="cv-box">
+      <button class="cv-close" id="cvClose" type="button" aria-label="Close">x</button>
+      <div class="cv-cols" id="cvCols"></div>
+    </div>
+  </div>
 
-  <p class="colophon">
-    Faces served by Google Fonts and loaded as each card comes into view. Set in Fraunces and Spline Sans Mono.
-  </p>
-
+  <!-- Pairing modal -->
   <div class="pairing" id="pairing" hidden>
     <div class="pairing-box">
       <button class="pairing-close" id="pairingClose" aria-label="Close">x</button>
@@ -121,6 +167,7 @@
 
   <div class="toast" id="toast" role="status" hidden></div>
 
+  <script src="select.js"></script>
   <script src="script.js"></script>
 <!-- Back to All Projects -->
 
