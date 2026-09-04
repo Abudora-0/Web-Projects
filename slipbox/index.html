@@ -39,13 +39,12 @@
       </label>
 
       <div class="drawer-tools">
-        <span class="select-wrap">
-          <select id="sortSel" aria-label="Sort cards">
-            <option value="updated">Recently edited</option>
-            <option value="created">Recently filed</option>
-            <option value="title">By title</option>
-          </select>
-        </span>
+        <select id="sortSel" class="sel-enhance" aria-label="Sort cards">
+          <option value="updated">Recently edited</option>
+          <option value="created">Recently filed</option>
+          <option value="title">By title</option>
+        </select>
+        <button class="jump-btn" id="jumpBtn" type="button" title="Jump to a card (Ctrl+K)">&#8984;K</button>
       </div>
 
       <div class="tabs" id="tagTabs"></div>
@@ -106,6 +105,14 @@
 
   <div class="toast" id="toast" role="status" hidden></div>
 
+  <div class="quickopen" id="quickOpen" hidden>
+    <div class="qo-box" role="dialog" aria-label="Jump to a card">
+      <input type="text" id="qoInput" placeholder="Jump to a card" autocomplete="off" spellcheck="false" />
+      <ul class="qo-list" id="qoList"></ul>
+    </div>
+  </div>
+
+  <script src="select.js"></script>
   <script src="script.js"></script>
 <!-- Back to All Projects -->
 

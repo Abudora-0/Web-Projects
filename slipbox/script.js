@@ -6,6 +6,7 @@
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const STORE = "slipbox.cards";
 const uid = () => "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -61,18 +62,32 @@ function renderMarkdown(src) {
   let inList = false;
   const closeList = () => { if (inList) { html += "</ul>"; inList = false; } };
 
+  let taskIndex = 0;
   for (let raw of lines) {
     const line = raw.trimEnd();
+    if (/^\s*(---|\*\*\*|___)\s*$/.test(line)) { closeList(); html += "<hr />"; continue; }
     const h = line.match(/^(#{1,3})\s+(.*)$/);
     if (h) {
       closeList();
-      const lvl = h[1].length;
-      html += `<h${lvl}>${inline(h[2])}</h${lvl}>`;
+      html += `<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`;
+      continue;
+    }
+    const task = line.match(/^\s*[-*]\s+\[([ xX])\]\s+(.*)$/);
+    if (task) {
+      if (!inList) { html += '<ul class="task-list">'; inList = true; }
+      const done = task[1].toLowerCase() === "x";
+      html += `<li class="task ${done ? "done" : ""}"><button class="task-box" data-task="${taskIndex}" aria-pressed="${done}">${done ? "x" : ""}</button><span>${inline(task[2])}</span></li>`;
+      taskIndex++;
       continue;
     }
     if (/^\s*[-*]\s+/.test(line)) {
       if (!inList) { html += "<ul>"; inList = true; }
       html += `<li>${inline(line.replace(/^\s*[-*]\s+/, ""))}</li>`;
+      continue;
+    }
+    if (/^\s*>\s?/.test(line)) {
+      closeList();
+      html += `<blockquote>${inline(line.replace(/^\s*>\s?/, ""))}</blockquote>`;
       continue;
     }
     if (!line.trim()) { closeList(); continue; }
@@ -153,24 +168,39 @@ function renderList() {
     ul.innerHTML = `<li style="cursor:default;background:transparent;border:0;color:var(--ink-faint);font-family:var(--font-type);font-size:.8rem">Nothing filed under that.</li>`;
     return;
   }
-  ul.innerHTML = list.map((c) => {
+  const q = query.toLowerCase();
+  const hl = (s) => {
+    const e = escapeHtml(s);
+    if (!q) return e;
+    return e.replace(new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig"), "<mark>$1</mark>");
+  };
+  ul.innerHTML = list.map((c, i) => {
     const snip = c.body.replace(/[#*`\[\]]/g, "").replace(/\s+/g, " ").trim().slice(0, 80);
-    return `<li data-id="${c.id}" class="${c.id === activeId ? "active" : ""} ${c.pinned ? "pinned" : ""}">
-      <div class="cl-title">${c.pinned ? '<span class="pin-dot">*</span>' : ""}${escapeHtml(c.title || "Untitled")}</div>
-      <div class="cl-snip">${escapeHtml(snip) || "empty card"}</div>
+    return `<li data-id="${c.id}" style="--i:${Math.min(i, 16)}" class="cl-item ${c.id === activeId ? "active" : ""} ${c.pinned ? "pinned" : ""}">
+      <div class="cl-title">${c.pinned ? '<span class="pin-dot">*</span>' : ""}${hl(c.title || "Untitled")}</div>
+      <div class="cl-snip">${hl(snip) || "empty card"}</div>
       ${(c.tags || []).length ? `<div class="cl-tags">${c.tags.map((t) => `<span>#${escapeHtml(t)}</span>`).join("")}</div>` : ""}
     </li>`;
   }).join("");
+  if (!reduceMotion) requestAnimationFrame(() => ul.querySelectorAll(".cl-item").forEach((li) => li.classList.add("cl-in")));
+  else ul.querySelectorAll(".cl-item").forEach((li) => li.classList.add("cl-in"));
 }
 
 /* ---------- render: the open card ---------- */
 function openCard(id, { edit = false } = {}) {
   const card = cards.find((c) => c.id === id);
   if (!card) return;
+  const switching = activeId && activeId !== id;
   activeId = id;
   editing = edit;
   $("#emptyState").hidden = true;
-  $("#indexCard").hidden = false;
+  const ic = $("#indexCard");
+  ic.hidden = false;
+  if (switching && !reduceMotion) {
+    ic.classList.remove("swap-in");
+    void ic.offsetWidth;
+    ic.classList.add("swap-in");
+  }
 
   $("#titleInput").value = card.title;
   $("#tagInput").value = (card.tags || []).join(", ");
@@ -302,8 +332,22 @@ $("#deleteBtn").addEventListener("click", () => {
   toast("Card discarded");
 });
 
-/* wikilinks + backlinks navigation */
+/* wikilinks + backlinks navigation + task toggles */
 $("#bodyView").addEventListener("click", (e) => {
+  const box = e.target.closest(".task-box");
+  if (box) {
+    const card = currentCard();
+    if (!card) return;
+    let n = +box.dataset.task;
+    card.body = card.body.replace(/^(\s*[-*]\s+)\[([ xX])\](\s+.*)$/gm, (m, pre, mark, rest) => {
+      if (n-- !== 0) return m;
+      return pre + "[" + (mark.toLowerCase() === "x" ? " " : "x") + "]" + rest;
+    });
+    card.updated = now();
+    save();
+    $("#bodyView").innerHTML = renderMarkdown(card.body);
+    return;
+  }
   const link = e.target.closest(".wikilink");
   if (!link) return;
   e.preventDefault();
@@ -386,10 +430,73 @@ function toast(msg) {
   toastT = setTimeout(() => { t.hidden = true; }, 1600);
 }
 
+/* ---------- quick-open palette ---------- */
+const qo = $("#quickOpen");
+const qoInput = $("#qoInput");
+const qoList = $("#qoList");
+let qoIndex = 0, qoMatches = [];
+
+function openQuick() {
+  qo.hidden = false;
+  qoInput.value = "";
+  renderQuick();
+  qoInput.focus();
+}
+function closeQuick() { qo.hidden = true; }
+function renderQuick() {
+  const q = qoInput.value.trim().toLowerCase();
+  qoMatches = cards
+    .map((c) => ({ c, score: q ? c.title.toLowerCase().indexOf(q) : 0 }))
+    .filter((m) => !q || m.score >= 0 || m.c.body.toLowerCase().includes(q))
+    .sort((a, b) => (a.score < 0) - (b.score < 0) || a.score - b.score || b.c.updated - a.c.updated)
+    .slice(0, 8)
+    .map((m) => m.c);
+  qoIndex = 0;
+  qoList.innerHTML = qoMatches.length
+    ? qoMatches.map((c, i) => `<li data-id="${c.id}" class="${i === 0 ? "on" : ""}">${escapeHtml(c.title || "Untitled")}<span>${(c.tags || []).map((t) => "#" + t).join(" ")}</span></li>`).join("")
+    : `<li class="qo-empty">No card matches "${escapeHtml(qoInput.value)}"</li>`;
+}
+qoInput.addEventListener("input", renderQuick);
+qoInput.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowDown") { e.preventDefault(); qoIndex = Math.min(qoIndex + 1, qoMatches.length - 1); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); qoIndex = Math.max(qoIndex - 1, 0); }
+  else if (e.key === "Enter") {
+    e.preventDefault();
+    const c = qoMatches[qoIndex];
+    if (c) { openCard(c.id); closeQuick(); }
+    return;
+  } else if (e.key === "Escape") { closeQuick(); return; }
+  else return;
+  [...qoList.children].forEach((li, i) => li.classList.toggle("on", i === qoIndex));
+});
+qoList.addEventListener("click", (e) => {
+  const li = e.target.closest("li[data-id]");
+  if (li) { openCard(li.dataset.id); closeQuick(); }
+});
+qo.addEventListener("click", (e) => { if (e.target === qo) closeQuick(); });
+$("#jumpBtn").addEventListener("click", openQuick);
+
+/* ---------- keyboard ---------- */
 document.addEventListener("keydown", (e) => {
-  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") { e.preventDefault(); persistFromInputs(); toast("Saved"); }
+  const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); qo.hidden ? openQuick() : closeQuick(); return; }
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") { e.preventDefault(); persistFromInputs(); toast("Saved"); return; }
+  if (!qo.hidden) return;
   if ((e.metaKey || e.ctrlKey) && e.key === "Enter" && activeId) {
     editing = !editing; reflectEditing(); if (!editing) { persistFromInputs(); openCard(activeId); }
+    return;
+  }
+  if (typing) return;
+  const k = e.key.toLowerCase();
+  if (k === "n") { e.preventDefault(); newCard(); }
+  else if (k === "/") { e.preventDefault(); $("#search").focus(); }
+  else if (k === "e" && activeId) { e.preventDefault(); $("#editToggle").click(); }
+  else if ((k === "[" || k === "]") && activeId) {
+    e.preventDefault();
+    const list = visibleCards();
+    const idx = list.findIndex((c) => c.id === activeId);
+    const next = list[idx + (k === "]" ? 1 : -1)];
+    if (next) openCard(next.id);
   }
 });
 
