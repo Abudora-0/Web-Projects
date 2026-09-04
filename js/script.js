@@ -672,17 +672,24 @@ function launch(card) {
 
   requestAnimationFrame(() => requestAnimationFrame(() => launchEl.classList.add("go")));
   setTimeout(() => launchEl.classList.add("go"), 30);
-  setTimeout(() => { location.href = href; }, 430);
+  // let the grow + sweep settle into a clean full-bleed frame before the
+  // browser snapshots it for the cross-document view-transition crossfade
+  setTimeout(() => { location.href = href; }, 480);
 }
 
 function resetLaunch() {
   launchEl.classList.remove("go");
   launchEl.innerHTML = "";
+  launchEl.removeAttribute("style");   // drop the leftover top/left/width/height
   launchEl.setAttribute("aria-hidden", "true");
   document.body.classList.remove("launching");
   grid.classList.remove("scatter");
   $$(".exhibit.is-launching").forEach((el) => el.classList.remove("is-launching"));
+  resetAccent();
 }
+// a bfcache restore (browser Back/Forward) resumes the DOM exactly as it was
+// mid-launch - without this the overlay is left stuck at the clicked card's
+// old position and size
 window.addEventListener("pageshow", (e) => { if (e.persisted) resetLaunch(); });
 
 /* =========================================================
