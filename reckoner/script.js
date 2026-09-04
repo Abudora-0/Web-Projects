@@ -5,6 +5,7 @@
    ========================================================== */
 
 const $ = (s, r = document) => r.querySelector(s);
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* unit spec: { id, name, k } linear (value * k = base), OR
               { id, name, to(v), from(b) } for non-linear */
@@ -273,6 +274,12 @@ function selectCat(id) {
   if (id === "currency") updateRateLine();
   fillUnitSelects(false);
   run();
+  const page = $(".page");
+  if (page && !reduceMotion) {
+    page.classList.remove("turning");
+    void page.offsetWidth;
+    page.classList.add("turning");
+  }
 }
 
 /* ---------- run a conversion ---------- */
@@ -281,13 +288,34 @@ function parseValue() {
   const n = parseFloat(raw);
   return isFinite(n) ? n : 0;
 }
+let rollRaf = 0, rollTarget = 0;
+function showResult(out) {
+  const str = fmt(out);
+  if (reduceMotion || !isFinite(out)) { el.toValue.textContent = str; return; }
+  const prev = parseFloat(el.toValue.textContent.replace(/,/g, ""));
+  if (!isFinite(prev) || prev === out || Math.abs(out) >= 1e10) { el.toValue.textContent = str; return; }
+  cancelAnimationFrame(rollRaf);
+  rollTarget = out;
+  const from = prev, t0 = performance.now(), dur = 340;
+  el.toValue.classList.add("rolling");
+  const tick = (now) => {
+    const p = Math.min((now - t0) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const v = from + (out - from) * eased;
+    el.toValue.textContent = p < 1 ? fmt(v) : str;
+    if (p < 1) rollRaf = requestAnimationFrame(tick);
+    else el.toValue.classList.remove("rolling");
+  };
+  rollRaf = requestAnimationFrame(tick);
+}
+
 function run(note) {
   const value = parseValue();
   const from = findUnit(el.fromUnit.value);
   const to = findUnit(el.toUnit.value);
   if (!from || !to) return;
   const out = convert(value, from, to);
-  el.toValue.textContent = fmt(out);
+  showResult(out);
   buildEquiv(from);
   if (note) addLedger(value, from, to, out);
 }
@@ -300,6 +328,9 @@ function buildEquiv(from) {
     const v = convert(1, from, u);
     return `<div class="equiv-cell"><b>${fmt(v)}</b><span>${u[1]}</span></div>`;
   }).join("");
+  const cells = el.equivGrid.querySelectorAll(".equiv-cell");
+  if (reduceMotion) { cells.forEach((c) => c.classList.add("in")); return; }
+  cells.forEach((c, i) => setTimeout(() => c.classList.add("in"), Math.min(i, 12) * 22));
 }
 
 /* ---------- ledger ---------- */
@@ -379,13 +410,23 @@ el.fromValue.addEventListener("input", () => run());
 el.fromValue.addEventListener("change", () => run(true));
 el.fromUnit.addEventListener("change", () => run(true));
 el.toUnit.addEventListener("change", () => run(true));
+let swapToggle = false;
 el.swap.addEventListener("click", () => {
   const f = el.fromUnit.value;
   el.fromUnit.value = el.toUnit.value;
   el.toUnit.value = f;
-  // carry the result back into the input so a swap reads naturally
   const cur = parseFloat(el.toValue.textContent.replace(/,/g, ""));
   if (isFinite(cur)) el.fromValue.value = cur;
+  if (!reduceMotion) {
+    swapToggle = !swapToggle;
+    el.swap.classList.toggle("spun", swapToggle);
+    el.swap.classList.toggle("spun2", !swapToggle);
+    document.querySelectorAll(".row").forEach((r) => {
+      r.classList.remove("swapping");
+      void r.offsetWidth;
+      r.classList.add("swapping");
+    });
+  }
   run(true);
 });
 

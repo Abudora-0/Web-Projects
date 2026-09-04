@@ -33,9 +33,7 @@
       <section class="convert">
         <div class="row from-row">
           <input type="text" inputmode="decimal" id="fromValue" class="value-field" value="1" aria-label="Value to convert" />
-          <span class="select-wrap">
-            <select id="fromUnit" aria-label="Convert from"></select>
-          </span>
+          <select id="fromUnit" class="sel-enhance" data-sel-search aria-label="Convert from"></select>
         </div>
 
         <button class="swap" id="swap" type="button" aria-label="Swap units">
@@ -46,9 +44,7 @@
 
         <div class="row to-row">
           <output id="toValue" class="value-field result" aria-live="polite">1</output>
-          <span class="select-wrap">
-            <select id="toUnit" aria-label="Convert to"></select>
-          </span>
+          <select id="toUnit" class="sel-enhance" data-sel-search aria-label="Convert to"></select>
         </div>
       </section>
 
@@ -84,6 +80,7 @@
 
   <div class="toast" id="toast" role="status" hidden></div>
 
+  <script src="select.js"></script>
   <script src="script.js"></script>
 <!-- Back to All Projects -->
 
