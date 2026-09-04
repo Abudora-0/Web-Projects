@@ -47,8 +47,8 @@ one opens it full screen. It is the site's front page.
 | [Nibble](nibble/) | Nokia 3310 olive LCD in a candybar phone | Classic/Wrap/Maze/Daily modes, combo scoring, swappable screen colour, local top-5, ghost run |
 | [Tic Tac Toe](tic-tac-toe/) | Schoolyard chalkboard in a wooden frame | Minimax AI (3 difficulties), confetti, sound |
 | [Arcade Hub](arcade-hub/) | CRT arcade cabinet with scanlines | 8 mini-games: Wordle, 2048, Simon, Memory and more |
-| [Deep Six](deep-six/) | Minesweeper as a submarine sonar console | First-click safe, flood reveal, chording, sonar-sweep pings, 3 hull sizes, custom board, keyboard play, best-dive log |
-| [Dry Dock](dry-dock/) | Tetris as a dockyard gantry crane | Canvas engine, 7-bag randomiser, ghost piece, crane-park hold, lock delay, rising-tide levels, manifest queue, high score |
+| [Sapper](deep-six/) | Minesweeper the way Windows 95 shipped it | Silver bevels, LED mine and timer counters, the smiley reset button, classic digit colours, first-click safe, flood reveal, chording, question marks, custom field, keyboard play, best times, optional sound |
+| [Tetrograd](dry-dock/) | Tetris on a Soviet Elektronika 60 terminal, 1984 | Amber phosphor, scanlines, pieces drawn as bracket pairs, boot sequence, 7-bag, ghost piece, hold, lock delay, level gravity, square-wave beeps, screen shake, high score |
 
 ## Tools and apps
 
@@ -64,10 +64,10 @@ one opens it full screen. It is the site's front page.
 | [Vernier](vernier/) | Cyanotype blueprint drafting sheet | Six sheets - standard, scientific, programmer, unit converter, date, finance - with a revision record |
 | [The Sorting Office](the-sorting-office/) | Postal-desk email inspector | Live DoH domain lookup, disposable and gibberish detection, batch sorting, inspection-ledger stats, night shift |
 | [Meridian](meridian/) | Luxury horology, five dial finishes | SVG watchface, timezones, brushed and guilloche dials |
-| [Lightbooth](lightbooth/) | Standardised colour-matching viewing booth, neutral grey | Drop an image, loupe eyedropper, palette extraction, HEX / RGB / HSL / OKLCH, WCAG contrast checker, tint and shade ramps, saved shelf, export |
-| [Specimen](specimen/) | Metal-type foundry specimen book | Nearly sixty Google Fonts loaded on scroll, live tester (size, weight, leading, tracking, case), pangram / paragraph / glyph views, category filter, pairing suggestions, favourites, copy embed |
-| [Slipbox](slipbox/) | Oak card-catalogue Zettelkasten | Notes as index cards, markdown-lite, `[[wikilinks]]` with a backlinks panel, tab-divider tags, full-text search, pin, sort, export to Markdown or JSON, import |
-| [Ready Reckoner](reckoner/) | Pocket ready-reckoner reference book | 18 categories from length to illuminance, live currency (open.er-api.com) with an offline fallback, from / to with swap, precision stepper, table of equivalents, session ledger |
+| [Lightbooth](lightbooth/) | Standardised colour-matching viewing booth, neutral grey | Drop an image, loupe eyedropper, palette extraction, editable HEX / RGB / HSL fields and R/G/B sliders, OKLCH readout, WCAG contrast checker, tint and shade ramps, saved shelf, export |
+| [Specimen](specimen/) | Metal-type foundry specimen book | Nearly sixty Google Fonts loaded on scroll, control sidebar, live tester (size, weight, leading, tracking, case), ground and density toggles, OpenType feature switches, compare two faces, pairing suggestions, animated selects, favourites |
+| [Slipbox](slipbox/) | Oak card-catalogue Zettelkasten | Notes as index cards, markdown-lite with task checkboxes, blockquotes and rules, `[[wikilinks]]` with a backlinks panel, quick-open palette, keyboard shortcuts, tab-divider tags, search highlight, export and import |
+| [Ready Reckoner](reckoner/) | Pocket ready-reckoner reference book | 18 categories from length to illuminance, live currency (open.er-api.com) with an offline fallback, animated unit pickers with a filter box, result count-up, page turns between categories, table of equivalents, session ledger |
 
 ## UI clones and templates
 
