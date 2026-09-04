@@ -16,16 +16,20 @@
   --phos-faint:#5c400a;
   --scan:      rgba(0, 0, 0, 0.32);
   --font: "VT323", "Consolas", ui-monospace, monospace;
+
+  /* the well is 10x20; height drives everything, width follows at 1:2.
+     the subtrahend reserves room for the casing, masthead and body pad. */
+  --board-h: clamp(360px, min(100svh - 290px, 116vw), 600px);
 }
 
 html { min-height: 100%; }
 
 body {
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(10px, 3vw, 40px);
+  padding: clamp(8px, 2vw, 28px);
   font-family: var(--font);
   color: var(--phos);
   background:
@@ -45,7 +49,8 @@ body {
 /* -- CRT casing + screen ------------------------------- */
 .crt {
   width: min(760px, 100%);
-  padding: clamp(12px, 3vw, 26px);
+  max-height: calc(100svh - 16px);
+  padding: clamp(10px, 2.4vw, 22px);
   background: linear-gradient(160deg, #241d12, #0f0c07 70%);
   border-radius: 18px / 22px;
   border: 1px solid #3a2f1a;
@@ -55,7 +60,7 @@ body {
 }
 .screen {
   position: relative;
-  padding: clamp(16px, 3.5vw, 34px) clamp(14px, 3vw, 28px);
+  padding: clamp(12px, 2.6vw, 26px) clamp(12px, 2.6vw, 24px);
   background: var(--bg);
   border-radius: 40px / 26px;
   overflow: hidden;
@@ -98,9 +103,9 @@ body {
 @keyframes blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
 
-.masthead { margin: 6px 0 16px; }
+.masthead { margin: 4px 0 clamp(8px, 2vh, 16px); }
 .masthead h1 {
-  font-size: clamp(2rem, 7vw, 3.4rem);
+  font-size: clamp(1.6rem, 4.5vw + 1vh, 3.2rem);
   font-weight: 400;
   letter-spacing: 0.18em;
   line-height: 1;
@@ -108,7 +113,7 @@ body {
   text-shadow: 0 0 12px rgba(255, 176, 0, 0.5), 0 0 30px rgba(255, 176, 0, 0.2);
 }
 .masthead-sub {
-  font-size: 0.95rem;
+  font-size: clamp(0.78rem, 1.6vw, 0.95rem);
   letter-spacing: 0.04em;
   color: var(--phos-dim);
   margin-top: 2px;
@@ -117,19 +122,20 @@ body {
 /* -- deck layout ------------------------------------- */
 .deck {
   display: flex;
-  gap: clamp(12px, 3vw, 24px);
+  gap: clamp(8px, 2vw, 22px);
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-wrap: nowrap;
 }
 
 .playfield-wrap {
   position: relative;
-  padding: 4px 16px 10px;
+  padding: 4px 12px 10px;
 }
 .wall {
   position: absolute;
   top: 4px; bottom: 14px;
-  width: 12px;
+  width: 10px;
   border-top: 2px solid var(--phos-dim);
   border-bottom: 2px solid var(--phos-dim);
   background: repeating-linear-gradient(180deg,
@@ -140,7 +146,7 @@ body {
 .wall-r { right: 0; border-left: 2px solid var(--phos-dim); }
 .floor {
   display: block;
-  margin: 0 16px;
+  margin: 0 14px;
   height: 4px;
   background: repeating-linear-gradient(90deg,
     var(--phos-dim) 0 8px, transparent 8px 12px);
@@ -149,31 +155,40 @@ body {
 
 #board {
   display: block;
-  width: 300px; height: 600px;
-  max-width: 58vw; max-height: 116vw;
+  height: var(--board-h);
+  width: auto;
+  max-width: 52vw;
+  aspect-ratio: 1 / 2;
   image-rendering: pixelated;
+}
+/* on a phone the height cap would make the board too wide to sit
+   beside the readout, so let width lead there */
+@media (max-width: 560px) {
+  #board { height: auto; width: min(52vw, calc(var(--board-h) / 2)); }
+  .readout { width: clamp(96px, 30vw, 130px); }
 }
 
 .overlay {
   position: absolute;
-  inset: 4px 14px 12px;
+  inset: 4px 12px 12px;
   z-index: 40;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 18px;
+  gap: clamp(6px, 1.6vh, 10px);
+  padding: 16px 14px;
   text-align: center;
+  overflow-y: auto;
   background: rgba(13, 11, 6, 0.93);
 }
 .overlay-title {
-  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  font-size: clamp(1.4rem, 5vw, 2.4rem);
   letter-spacing: 0.14em;
   color: var(--phos-hi);
   text-shadow: 0 0 14px rgba(255, 176, 0, 0.5);
 }
-.overlay-text { font-size: 1.05rem; color: var(--phos-dim); max-width: 22ch; }
+.overlay-text { font-size: clamp(0.9rem, 2vw, 1.05rem); color: var(--phos-dim); max-width: 22ch; }
 .overlay-btn, .term-btn {
   font-family: var(--font);
   font-size: 1.15rem;
@@ -191,25 +206,26 @@ body {
 
 .key-help {
   list-style: none;
-  margin-top: 10px;
+  margin-top: 8px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px 18px;
-  font-size: 0.95rem;
+  font-size: clamp(0.8rem, 1.8vw, 0.95rem);
   color: var(--phos-faint);
 }
 .key-help b { color: var(--phos-dim); }
+@media (max-height: 640px) { .key-help { display: none; } }
 
 /* -- readout column --------------------------------- */
 .readout {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 148px;
+  gap: clamp(5px, 1.2vh, 10px);
+  width: clamp(118px, 20vw, 148px);
 }
 .panel {
   border: 1px solid var(--phos-faint);
-  padding: 6px 9px 8px;
+  padding: 5px 9px 7px;
 }
 .panel-label {
   display: block;
@@ -218,7 +234,7 @@ body {
   color: var(--phos-dim);
 }
 .panel b {
-  font-size: 1.5rem;
+  font-size: clamp(1.15rem, 2.6vh, 1.5rem);
   font-weight: 400;
   color: var(--phos-hi);
   text-shadow: 0 0 8px rgba(255, 176, 0, 0.35);
@@ -229,13 +245,29 @@ body {
 @media (prefers-reduced-motion: reduce) { .panel b.bump { animation: none; } }
 .row3 { display: flex; justify-content: space-between; gap: 8px; }
 .row3 span { display: block; }
-.row3 b { font-size: 1.25rem; }
-#next, #hold { display: block; margin-top: 4px; }
+.row3 b { font-size: clamp(1rem, 2.2vh, 1.25rem); }
+#next, #hold {
+  display: block;
+  margin: 4px auto 0;
+  width: auto;
+  max-width: 100%;
+}
+#next { height: clamp(96px, 17vh, 180px); }
+#hold { height: clamp(40px, 7vh, 72px); }
 
-.term-btn { text-align: left; padding: 4px 2px; font-size: 1.05rem; }
+.term-btn { text-align: left; padding: 3px 2px; font-size: 1rem; }
 
 @media (max-width: 680px) {
-  .readout { width: 128px; }
   .key-help { grid-template-columns: 1fr; }
-  .masthead-sub { font-size: 0.82rem; }
+}
+/* short viewports: trim the masthead so the board never needs a scroll */
+@media (max-height: 820px) {
+  .masthead { margin-bottom: 6px; }
+  .boot { font-size: 0.92rem; min-height: 1.05em; }
+  .masthead-sub { font-size: 0.78rem; }
+  .screen { padding: 12px 16px; }
+}
+@media (max-height: 640px) {
+  .masthead-sub { display: none; }
+  .boot { display: none; }
 }
