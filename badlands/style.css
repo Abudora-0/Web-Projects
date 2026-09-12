@@ -177,17 +177,18 @@ canvas {
 
 /* ── Mobile: the canvas is capped by viewport width, which leaves a very
    short letterboxed strip (fixed 800:290 internal ratio) with huge empty
-   sky above/below. Zoom the canvas ~25% taller, pinned to the left edge
-   (where the dino sits) so only the right-hand obstacle-approach margin
-   gets cropped by canvas-box's overflow:hidden - the dino is never clipped. */
+   sky above/below. An earlier version cropped+zoomed the canvas, but the
+   game draws its title/game-over text centered on the full 800px-wide
+   logical canvas (CW/2) - cropping the sides shifts that text off the
+   middle of the visible window. Stretch the canvas to fill a taller box
+   instead (no crop, so nothing the game draws can end up off-center) -
+   the ~25% vertical stretch is mild enough that the pixel art still
+   reads fine. */
 @media (max-width: 640px) {
   body { min-height: 100svh; }
   .canvas-box { aspect-ratio: 2.2 / 1; padding: 10px; }
   canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: auto;
+    width: 100%;
     height: 100%;
     max-width: none;
   }
