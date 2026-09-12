@@ -1515,7 +1515,11 @@ footer {
 
 /* ── responsive additions ───────────────────────────────────── */
 @media (max-width: 720px) {
-  .masthead { flex-wrap: wrap; }
+  /* .brand and .masthead-tools each land on their own wrapped line -
+     center them instead of the space-between spread meant for the
+     unwrapped two-column desktop row, which left .brand hugging the
+     left edge and split the ambient toggle/clock far apart. */
+  .masthead { flex-wrap: wrap; justify-content: center; }
   .rooms-controls { gap: 1rem; }
   .rc-sort { width: 100%; }
   .rc-sort .nf-sel { flex: 1; }
