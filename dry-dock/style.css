@@ -161,11 +161,13 @@ body {
   aspect-ratio: 1 / 2;
   image-rendering: pixelated;
 }
-/* on a phone the height cap would make the board too wide to sit
-   beside the readout, so let width lead there */
+/* on a phone the side-by-side layout caps the board at 52vw to leave room
+   for the readout column, which makes for a tiny well. Stack instead:
+   the board goes near-full-width on top, the readout condenses into a
+   row below it. */
 @media (max-width: 560px) {
-  #board { height: auto; width: min(52vw, calc(var(--board-h) / 2)); }
-  .readout { width: clamp(96px, 30vw, 130px); }
+  .deck { flex-direction: column; align-items: center; }
+  #board { height: auto; width: min(78vw, calc(var(--board-h) * 0.9)); max-width: none; }
 }
 
 .overlay {
@@ -260,6 +262,63 @@ body {
 @media (max-width: 680px) {
   .key-help { grid-template-columns: 1fr; }
 }
+
+/* condense the readout into a compact 2-column grid below the stacked
+   board (see the .deck/#board override above) instead of a column of
+   full-width panels. Placed after the base .readout/.panel rules so it
+   actually wins the cascade at equal specificity. */
+@media (max-width: 560px) {
+  .readout {
+    width: 100%;
+    max-width: 420px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .panel { padding: 4px 8px 6px; }
+  #next { height: clamp(64px, 14vh, 110px); }
+  #hold { height: clamp(34px, 6vh, 52px); }
+  .term-btn { text-align: center; }
+}
+
+/* -- touch controls: move/soft-drop on the left, rotate/hold/hard-drop
+   on the right - wired straight to the same move/tryRotate/softDrop/
+   hardDrop/hold functions the keyboard uses. -------------------------- */
+.touch-controls {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(8px, 3vw, 18px);
+  margin-top: clamp(10px, 2.4vh, 16px);
+}
+.tc-group { display: grid; gap: 8px; }
+.tc-move { grid-template-columns: repeat(3, 1fr); align-items: center; }
+.tc-actions { grid-template-columns: 1fr 1fr; }
+.tc-btn {
+  font-family: var(--font);
+  font-size: 1.25rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-2);
+  border: 1px solid var(--phos-faint);
+  border-radius: 6px;
+  color: var(--phos);
+  text-shadow: 0 0 6px rgba(255, 176, 0, 0.35);
+  transition: transform 0.08s, color 0.1s, border-color 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.tc-btn:active { transform: translateY(2px); color: var(--phos-hi); border-color: var(--phos-dim); }
+.tc-btn-drop {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  border-color: var(--phos-dim);
+  color: var(--phos-hi);
+}
+@media (pointer: coarse) { .touch-controls { display: flex; } }
 /* short viewports: trim the masthead so the board never needs a scroll */
 @media (max-height: 820px) {
   .masthead { margin-bottom: 6px; }

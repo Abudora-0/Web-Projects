@@ -492,6 +492,45 @@ el.overlayBtn.addEventListener("click", () => {
   if (paused) { togglePause(); return; }
   startGame();
 });
+
+/* ============ touch controls ============ */
+const TC_REPEAT_ACTIONS = { left: () => move(-1), right: () => move(1), soft: () => softDrop() };
+const TC_ONESHOT_ACTIONS = {
+  "rotate-cw": () => tryRotate(1),
+  "rotate-ccw": () => tryRotate(-1),
+  hold: () => hold(),
+  hard: () => hardDrop(),
+};
+document.querySelectorAll(".tc-btn").forEach((btn) => {
+  const action = btn.dataset.action;
+  let repeatTimer = null;
+
+  const fire = () => {
+    if (!running || paused || gameOver) {
+      if (!el.overlay.hidden) el.overlayBtn.click();
+      return;
+    }
+    (TC_REPEAT_ACTIONS[action] || TC_ONESHOT_ACTIONS[action])();
+    draw();
+  };
+
+  const start = (e) => {
+    e.preventDefault();
+    fire();
+    if (TC_REPEAT_ACTIONS[action]) {
+      clearInterval(repeatTimer);
+      repeatTimer = setInterval(fire, 130);
+    }
+  };
+  const stop = () => { clearInterval(repeatTimer); repeatTimer = null; };
+
+  btn.addEventListener("touchstart", start, { passive: false });
+  btn.addEventListener("touchend", stop);
+  btn.addEventListener("touchcancel", stop);
+  btn.addEventListener("mousedown", start);
+  btn.addEventListener("mouseup", stop);
+  btn.addEventListener("mouseleave", stop);
+});
 el.pauseBtn.addEventListener("click", togglePause);
 el.restartBtn.addEventListener("click", startGame);
 
