@@ -62,6 +62,11 @@ body {
 }
 @media (max-width: 820px) {
   .cabinet { grid-template-columns: 1fr; }
+  /* as grid items, .drawer/.card-stage default to min-width:auto (their
+     content's min-content size), which was forcing the single 1fr track
+     - and the whole page - wider than the viewport instead of letting
+     their own contents wrap/scroll. */
+  .drawer, .card-stage { min-width: 0; }
 }
 
 /* -- drawer ----------------------------------------- */
@@ -328,6 +333,8 @@ body {
   font-size: 1rem;
   line-height: 1.75;
   min-height: 120px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .card-body-view h1, .card-body-view h2, .card-body-view h3 {
   font-family: var(--font-type);
@@ -372,6 +379,8 @@ body {
   padding: 1px 5px;
   border-radius: 3px;
   font-size: 0.88em;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .card-body-view a { color: var(--blue); text-underline-offset: 2px; }
 .card-body-view a.wikilink {
@@ -382,6 +391,19 @@ body {
   cursor: pointer;
 }
 .card-body-view a.wikilink.missing { color: var(--ink-faint); border-color: var(--ink-faint); }
+
+/* only one breakpoint (820px, .cabinet) existed for the whole file - the
+   card's fixed 56px left gutter (for .card-rule) and several undersized
+   tap targets get cramped well before a real phone width. */
+@media (max-width: 480px) {
+  .index-card { padding: 18px 16px 24px 34px; }
+  .card-rule { left: 18px; }
+  .jump-btn { padding: 8px 10px; min-height: 40px; }
+  .tab { padding: 7px 10px; min-height: 32px; display: inline-flex; align-items: center; }
+  .foot-btn { padding: 10px 4px; min-height: 40px; }
+  .c-act { padding: 8px 10px; min-height: 40px; }
+  .title-input { flex-basis: 100%; min-width: 0; }
+}
 
 .card-body-edit {
   width: 100%;
