@@ -37,7 +37,8 @@
         width: 70vw;
     }
 
-    .form-input{
+    .form-input,
+    .nav-right .form-input{
         width: 50%;
     }
 

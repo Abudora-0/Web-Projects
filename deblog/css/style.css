@@ -90,6 +90,7 @@
   align-items: center;
   gap: 0.75rem;
 }
+.nav-right .form-input { width: 200px; }
 
 .nav-right form {
   display: flex;
