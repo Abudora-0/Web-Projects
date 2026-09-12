@@ -525,3 +525,11 @@ document.addEventListener('keydown', e=>{
 
 /* ══ Welcome ══════════════════════════════════════ */
 setTimeout(()=>showToast('👋','Welcome back!','Windows is up to date. Have a great day!'), 1000);
+
+/* ══ Small screen notice ══════════════════════════ */
+const rnContinue = document.getElementById('rnContinue');
+if (rnContinue) {
+  rnContinue.addEventListener('click', () => {
+    document.getElementById('rotateNotice').classList.add('dismissed');
+  });
+}
