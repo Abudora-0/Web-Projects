@@ -35,14 +35,20 @@ html{ scroll-behavior:smooth; }
   *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
 }
 
+html{ overflow-x:hidden; }
 body{
   margin:0;
   background:var(--black);
   color:var(--white);
   font-family:var(--body);
   min-height:100vh;
-  overflow-x:hidden;
 }
+/* #chrome is just a JS injection point for .tape + .site-header - as a
+   normal block it becomes their containing block, and since it's only
+   as tall as the tape+header stack itself, .site-header has almost no
+   room left to actually stay stuck once you scroll past the tape. Take
+   #chrome out of layout so its children stick against the real page. */
+#chrome{ display:contents; }
 img,svg{ display:block; max-width:100%; }
 button,input,select,textarea{ font-family:inherit; }
 button{ cursor:pointer; }
