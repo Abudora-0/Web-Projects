@@ -511,3 +511,10 @@ body[data-density="compact"] .face { padding: clamp(12px, 2.5vw, 24px) clamp(16p
   .face.in { animation: none; }
   .sel-caret, .sel-panel, .sel-opt, .seg button, .fchip { transition: none; }
 }
+
+/* the full-width compare tray slides up from the bottom and sits right
+   under the back-to-all pill (both fixed, both bottom:16px) - lift the
+   pill above it while a comparison is active. */
+.compare-tray:not([hidden]) ~ #back-to-all {
+  bottom: calc(80px + 16px) !important;
+}
