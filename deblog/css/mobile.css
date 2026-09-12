@@ -1,6 +1,8 @@
 @media screen and (max-width: 1200px ) {
     .navigation{
         flex-direction: column;
+        height: auto;
+        padding: 0.75rem 1.5rem;
         margin-bottom: 23px;
     }
 
@@ -65,5 +67,44 @@
         display: flex;
         justify-content: flex-end;
         width: 100%;
+    }
+}
+
+/* the links list used to just vanish below 768px with nothing to
+   reach it by - turn .nav-left back into a row (logo + toggle) with
+   the list as a collapsible full-width panel underneath. Placed after
+   the 1200px block above so it wins the cascade at this narrower
+   width (mobile.css loads after style.css on every page). */
+@media screen and (max-width: 768px) {
+    .nav-left {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+    }
+
+    .nav-left ul {
+        display: none;
+        flex-basis: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.15rem;
+        margin-top: 0.5rem;
+    }
+
+    .nav-left ul.open {
+        display: flex;
+    }
+
+    .nav-left ul li a {
+        display: block;
+        text-align: center;
     }
 }
