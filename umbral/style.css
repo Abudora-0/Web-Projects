@@ -717,7 +717,12 @@ section { padding: 6.5rem 1.5rem; }
   section { padding: 4.5rem 1.1rem; }
   .countdown { gap: 0.7rem; }
   .countdown-unit { min-width: 2.6em; }
+  /* #emailInput's flex:1 1 240px sizes its WIDTH in the default row
+     layout - once .signup-field switches to a column, that same
+     240px flex-basis applies to its HEIGHT instead, ballooning the
+     input. Pin it back to a normal single-line box here. */
   .signup-field { flex-direction: column; }
+  #emailInput { flex: none; width: 100%; }
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 1.8rem; }
   .exp-modal { padding: 4rem 0.8rem 0.8rem; }
   .exp-modal-body { padding: 1.2rem; }
