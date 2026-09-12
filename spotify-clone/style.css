@@ -50,6 +50,7 @@ img { display: block; }
   grid-template-columns: var(--sidebar-w) 1fr;
   grid-template-rows: 1fr;
   height: calc(100vh - var(--np-h) - 8px);
+  height: calc(100dvh - var(--np-h) - env(safe-area-inset-bottom, 0px) - 8px);
   gap: 8px;
   padding: 8px 8px 0;
   transition: grid-template-columns .22s ease;
@@ -124,7 +125,10 @@ img { display: block; }
 .lib-filters {
   display: flex; gap: 8px; padding: 0 8px 8px;
   flex-shrink: 0;
+  overflow-x: auto; scrollbar-width: none;
 }
+.lib-filters::-webkit-scrollbar { display: none; }
+.lib-filters > * { flex-shrink: 0; }
 .filter-chip {
   padding: 6px 12px; border-radius: 16px;
   font-size: .78rem; font-weight: 500;
@@ -487,13 +491,16 @@ img { display: block; }
 /* ══ NOW PLAYING BAR ══════════════════════════════ */
 .now-playing-bar {
   position: fixed; bottom: 0; left: 0; right: 0;
-  height: var(--np-h);
+  height: calc(var(--np-h) + env(safe-area-inset-bottom, 0px));
   background: #181818;
   border-top: 1px solid rgba(255,255,255,.1);
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
   padding: 0 16px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
   z-index: 100;
 }
 
@@ -618,7 +625,9 @@ img { display: block; }
 
 /* ══ TOAST ════════════════════════════════════════ */
 #toastContainer {
-  position: fixed; bottom: calc(var(--np-h) + 16px); right: 16px;
+  position: fixed;
+  bottom: calc(var(--np-h) + env(safe-area-inset-bottom, 0px) + 16px);
+  right: max(16px, env(safe-area-inset-right, 0px));
   display: flex; flex-direction: column-reverse; gap: 8px; z-index: 999;
 }
 .toast {
@@ -640,7 +649,9 @@ img { display: block; }
 .sidebar-overlay.hidden { display: none; }
 
 .mobile-menu-btn {
-  display: none; position: fixed; top: 14px; left: 14px;
+  display: none; position: fixed;
+  top: max(14px, env(safe-area-inset-top, 0px));
+  left: max(14px, env(safe-area-inset-left, 0px));
   z-index: 300; background: rgba(0,0,0,.6);
   color: white; width: 36px; height: 36px;
   border-radius: 50%; font-size: .9rem;
@@ -682,14 +693,38 @@ img { display: block; }
     width: auto; z-index: 260;
   }
   .search-top-row { grid-template-columns: 1fr; }
+
+  /* 32px circular controls are under the ~44px touch-target guideline -
+     grow them on touch-range widths without touching desktop density. */
+  .ctrl-btn, .np-like-btn, .np-extra-btn, .topbar-btn, .topbar-pill,
+  .rp-close, .lib-icon-btn {
+    width: 40px; height: 40px;
+  }
+  .ctrl-play { width: 44px; height: 44px; }
 }
 
 @media (max-width: 480px) {
+  :root { --np-h: 128px; }
   .greeting-grid { grid-template-columns: 1fr; }
   .album-title { font-size: 1.4rem; }
   .np-left .np-title, .np-left .np-artist { max-width: 120px; }
   .card-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .np-center .np-controls { gap: 12px; }
+
+  /* the fixed 3-column grid crammed cover+title, transport and a volume
+     slider into one 90px bar - stack info/like on row 1 and the
+     transport + seek on row 2, and drop the volume control (mobile
+     has hardware volume, same as real Spotify). */
+  .now-playing-bar {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    row-gap: 4px;
+    padding-top: 8px;
+  }
+  .np-left { grid-column: 1; grid-row: 1; }
+  .np-right { grid-column: 2; grid-row: 1; }
+  .np-center { grid-column: 1 / -1; grid-row: 2; }
+  .volume-row { display: none; }
 }
 
 /* ══════════════════════════════════════════════
