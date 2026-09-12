@@ -163,6 +163,7 @@ body {
   border-right: 1px solid var(--line-soft);
   color: var(--ink-dim);
   cursor: pointer;
+  overflow: hidden;
   transition: background 0.15s, color 0.15s;
 }
 .tab:last-child { border-right: none; }
@@ -175,6 +176,10 @@ body {
   transition: color 0.15s;
 }
 .tab-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -970,6 +975,13 @@ select option { background: var(--paper-deep); color: var(--ink); }
   .brand-mark { width: 31px; height: 34px; }
   .tab { min-width: 84px; }
   .tab-name { font-size: 0.68rem; letter-spacing: 0.12em; }
+  /* the tab bar hides its own scrollbar, so with 6 sheets at this width
+     it silently scrolls with no hint - fade the right edge to signal
+     there's more to scroll to. */
+  .sheet-tabs {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 30px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 30px), transparent 100%);
+  }
   .instrument { padding: 1rem 0.8rem 1.4rem; }
   .title-block { grid-template-columns: 1fr 1fr 1fr; }
   .tb-cell:nth-child(n+7) { display: none; }
@@ -979,4 +991,8 @@ select option { background: var(--paper-deep); color: var(--ink); }
   .bit-idx { display: none; }
   .ro-result { font-size: 2.1rem; }
   .key { min-height: 48px; }
+}
+
+@media (max-width: 420px) {
+  .tab { min-width: 72px; }
 }
