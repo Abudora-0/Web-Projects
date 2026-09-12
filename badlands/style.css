@@ -174,3 +174,25 @@ canvas {
   color: var(--gold);
 }
 @media (pointer:coarse) { .mob-row { display:flex; } }
+
+/* ── Mobile: the canvas is capped by viewport width, which leaves a very
+   short letterboxed strip (fixed 800:290 internal ratio) with huge empty
+   sky above/below. Zoom the canvas ~25% taller, pinned to the left edge
+   (where the dino sits) so only the right-hand obstacle-approach margin
+   gets cropped by canvas-box's overflow:hidden - the dino is never clipped. */
+@media (max-width: 640px) {
+  body { min-height: 100svh; }
+  .canvas-box { aspect-ratio: 2.2 / 1; padding: 10px; }
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+    max-width: none;
+  }
+  .hud { min-height: 50px; }
+  .scores { font-size: clamp(.52rem, 1.7vw, .7rem); }
+  .mob-row { margin-top: 18px; gap: 18px; }
+  .mbtn { padding: 14px 26px; font-size: .6rem; }
+}
