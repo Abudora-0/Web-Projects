@@ -11,6 +11,20 @@
         text-align: center;
     }
 
+    /* .navigation's align-items:center (meant for the single-row
+       desktop layout) shrinks each stacked row to its content width
+       and centers it once .navigation becomes a column - .nav-left
+       gets width:100% further down for the row layout below 768px,
+       but .nav-right never did, so it floated as a small centered
+       island (search box + dark toggle) instead of lining up with
+       .nav-left's full-width row above it. */
+    .nav-right{
+        width: 100%;
+    }
+    .nav-right form{
+        flex: 1;
+    }
+
     .content-right{
         display: none;
     }
