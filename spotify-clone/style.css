@@ -736,6 +736,7 @@ img { display: block; }
   display: flex; flex-direction: column;
   overflow: hidden; min-height: 0;
 }
+.right-panel[hidden] { display: none; }
 .rp-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 16px 10px; flex-shrink: 0;
@@ -930,6 +931,7 @@ img { display: block; }
   display: flex; align-items: center; justify-content: center;
   transition: color .15s;
 }
+.search-clear[hidden] { display: none; }
 .search-clear:hover { color: var(--text); }
 #searchResults { padding-top: 28px; }
 .search-top-row {
