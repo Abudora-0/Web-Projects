@@ -1176,6 +1176,49 @@ code[class*="language-"], pre[class*="language-"] {
   .head-sky { width: 140px; height: 90px; }
 }
 
+/* the topbar packs back-btn + breadcrumb + a chart filter + the
+   palette search trigger + the theme toggle into one non-wrapping
+   row - fine at desktop widths, but nothing here ever shrank or
+   wrapped, so on a phone all five groups just overlapped each other. */
+@media (max-width: 640px) {
+  .topbar {
+    height: auto;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    padding: 0.6rem 1rem;
+  }
+  .crumb {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .crumb > span:first-child,
+  .crumb .sep,
+  .crumb-call {
+    display: none;
+  }
+  .crumb .here {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .topbar-right {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+  .sheet-filter {
+    flex: 1;
+    min-width: 0;
+  }
+  .sheet-filter input {
+    width: 100%;
+  }
+  .palette-btn kbd {
+    display: none;
+  }
+  .theme-btn #themeLabel {
+    display: none;
+  }
+}
+
 /* ── Back-to-all-projects pill ──────────────────────────── */
 #back-to-all {
   position: fixed;
