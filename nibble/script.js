@@ -82,7 +82,7 @@ let walls = [];                // maze cells: [{x,y}]
 let wallSet = new Set();
 let combo = 0, comboUntil = 0, lastEat = 0;
 let particles = [], eatFlash = 0;
-let lastTick = 0, rafId = null;
+let lastTick = 0, rafId = null, runId = 0;
 let snakeColors = [];
 let runPath = [];              // this run's head path (for ghost)
 let ghostPath = null, ghostIdx = 0;
@@ -323,9 +323,10 @@ function die() {
   maybeSubmitScore();
 
   startLoop();  // let particles finish
+  const dyingRun = runId;
   setTimeout(() => {
     goScreen.classList.remove('hidden');
-    setTimeout(stopLoop, 800);
+    setTimeout(() => { if (runId === dyingRun) stopLoop(); }, 800);
   }, 480);
 }
 
@@ -679,6 +680,7 @@ document.querySelectorAll('.dp-btn[data-dir]').forEach(btn => {
 
 // ── Game flow ─────────────────────────────────
 function startGame() {
+  runId++;
   closeSettings();
   init();
   bestNow = topBestForMode(mode);
