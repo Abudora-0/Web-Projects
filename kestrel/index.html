@@ -29,6 +29,7 @@
   <!-- ── NAVBAR ─────────────────────────────────────────── -->
   <header id="navbar">
     <div class="nav-wrap">
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navCats"><i class="fas fa-bars"></i></button>
       <a href="#" class="logo" aria-label="Kestrel home">
         <svg class="logo-mark" viewBox="0 0 32 34" aria-hidden="true">
           <path d="M16 4 C25 4 25 15 16 15 C7 15 7 26 16 26 C21 26 24 23.5 24 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
@@ -38,7 +39,7 @@
         <span class="logo-text">Kestrel</span>
       </a>
 
-      <nav class="nav-cats" aria-label="Primary">
+      <nav class="nav-cats" id="navCats" aria-label="Primary">
         <a href="#products" class="cat-link">New In</a>
         <a href="#products" class="cat-link">Shop</a>
         <a href="#categories" class="cat-link">Collections</a>

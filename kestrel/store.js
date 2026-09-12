@@ -34,13 +34,13 @@ const PRODUCTS = [
     blurb: 'The one you reach for. A roomy but not boxy body, a collar with the right amount of roll.' },
   { id: 8,  name: 'Heavyweight Tee',             cat: 'shirts',      img: U('photo-1521572163474-6864f9cf17ab'),  price: 3200,  was: 0,     colour: 'Bone',
     fabric: '240 gsm combed cotton, tubular knit', care: 'Machine wash cold. Tumble low.',
-    blurb: 'A tee with structure. Ribbed collar that won’t stretch out, a hem that sits where it should.' },
+    blurb: 'A tee with structure. Ribbed collar that won\'t stretch out, a hem that sits where it should.' },
   { id: 9,  name: 'Pleated Wide Trouser',        cat: 'trousers',    img: U('photo-1594633312681-425c7b97ccd1'),  price: 8500,  was: 0,     colour: 'Charcoal',
     fabric: 'Wool-blend flannel, 320 gsm', care: 'Dry clean or cold hand wash.',
     blurb: 'A single forward pleat, a wide straight leg, and a proper waistband. Cut to break just once on the shoe.' },
   { id: 10, name: 'Twill Chino',                 cat: 'trousers',    img: U('photo-1473966968600-fa801b869a1a'),  price: 6500,  was: 8500,  colour: 'Stone',
     fabric: '10 oz cotton twill, garment dyed', care: 'Machine wash cold. Hang to dry.',
-    blurb: 'A slim-straight chino with a slightly cropped leg. Softened and dyed after it’s made.' },
+    blurb: 'A slim-straight chino with a slightly cropped leg. Softened and dyed after it\'s made.' },
   { id: 11, name: 'Selvedge Straight Jean',      cat: 'denim',       img: U('photo-1542272604-787c3835535d'),     price: 9800,  was: 0,     colour: 'Raw Indigo',
     fabric: '14 oz unwashed selvedge denim', care: 'First wash after six months, cold, inside out.',
     blurb: 'A true straight leg with a mid rise. Rigid indigo that fades to your own map.' },
@@ -157,4 +157,19 @@ function miniCardHTML(p) {
   </a>`;
 }
 
-document.addEventListener('DOMContentLoaded', updateNavBadges);
+/* ── Mobile category menu ──────────────────────────── */
+function initNavToggle() {
+  const toggle = document.getElementById('navToggle');
+  const cats = document.getElementById('navCats');
+  if (!toggle || !cats) return;
+  const setOpen = (open) => {
+    cats.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.querySelector('i').className = open ? 'fas fa-xmark' : 'fas fa-bars';
+  };
+  toggle.addEventListener('click', () => setOpen(!cats.classList.contains('open')));
+  cats.querySelectorAll('.cat-link').forEach(a => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+}
+
+document.addEventListener('DOMContentLoaded', () => { updateNavBadges(); initNavToggle(); });
