@@ -1407,6 +1407,7 @@ input[type="range"]::-moz-range-thumb {
 /* ═══ RESPONSIVE ════════════════════════════════════ */
 @media (max-width: 860px) {
   #topbar { flex-wrap: wrap; gap: 0.7rem 0.8rem; }
+  .brand { width: 100%; justify-content: center; text-align: center; }
   .top-search { order: 3; max-width: none; width: 100%; }
   .member-count { display: none; }
   .ledger-bar { align-items: flex-start; }
