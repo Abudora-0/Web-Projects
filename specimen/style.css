@@ -96,6 +96,15 @@ body {
 }
 .mast-count span { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); }
 
+/* once the title and count wrap onto separate lines, the count's box is
+   only as wide as its content, so text-align:right (meant for the
+   shared desktop row) has nothing to align against and it just sits
+   wherever flex placed it - make the stacked case explicit instead. */
+@media (max-width: 660px) {
+  .masthead { align-items: flex-start; }
+  .mast-count { text-align: left; margin-top: 8px; }
+}
+
 /* -- frame: sidebar + stack ------------------------- */
 .frame {
   display: grid;
